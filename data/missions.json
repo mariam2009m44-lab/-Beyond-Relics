@@ -1,0 +1,6 @@
+[
+  {"name":"Apollo 11","year":1969,"destination":"Moon","status":"Completed"},
+  {"name":"Voyager 1","year":1977,"destination":"Deep Space","status":"Operating"},
+  {"name":"Curiosity","year":2012,"destination":"Mars","status":"Operating"},
+  {"name":"Perseverance","year":2021,"destination":"Mars","status":"Operating"}
+]
