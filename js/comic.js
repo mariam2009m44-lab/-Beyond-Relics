@@ -85,6 +85,7 @@
     document.title=item.title+" — The Story · Beyond Relics";
     window.dispatchEvent(new CustomEvent("beyondrelics:chapter",{detail:{id:item.id}}));
     $("c-title").textContent=item.title;$("c-meta").textContent=item.region+" · "+item.years;
+    var introTitle=$("story-intro-title");if(introTitle)introTitle.textContent=item.title;
     $("c-quote").textContent=item.story_hook;$("c-chap").textContent="Chapter "+String(chapter+1).padStart(2,"0")+" / "+String(records.length).padStart(2,"0");
     $("c-thumb").dataset.tone=item.tone;
     drawStory(item);drawThumbs(item);drawInfo(item);
@@ -93,6 +94,11 @@
   }
   function goPage(next){var max=pages(records[chapter]).length-1;if(next<0||next>max)return;page=next;drawStory(records[chapter]);drawThumbs(records[chapter]);tab("story");}
   function goChapter(next){chapter=(next+records.length)%records.length;page=0;activeTab="story";render();tab("story");}
+  var enterButton=$("story-enter"),intro=$("story-intro");
+  if(enterButton)enterButton.addEventListener("click",function(){
+    if(window.BeyondRelicsAudio)window.BeyondRelicsAudio.playStory();
+    if(intro){intro.classList.add("leaving");window.setTimeout(function(){intro.hidden=true;},850);}
+  });
   $("prev").addEventListener("click",function(){goPage(page-1);});
   $("next").addEventListener("click",function(){goPage(page+1);});
   $("nextch").addEventListener("click",function(){goChapter(chapter+1);});
