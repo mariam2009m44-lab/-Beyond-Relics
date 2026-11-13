@@ -83,6 +83,7 @@
   function render(){
     var item=records[chapter];if(!item)return;
     document.title=item.title+" — The Story · Beyond Relics";
+    window.dispatchEvent(new CustomEvent("beyondrelics:chapter",{detail:{id:item.id}}));
     $("c-title").textContent=item.title;$("c-meta").textContent=item.region+" · "+item.years;
     $("c-quote").textContent=item.story_hook;$("c-chap").textContent="Chapter "+String(chapter+1).padStart(2,"0")+" / "+String(records.length).padStart(2,"0");
     $("c-thumb").dataset.tone=item.tone;
