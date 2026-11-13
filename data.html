@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/responsive.css">
 <script src="js/main.js" defer></script>
 <script src="js/data-lab.js" defer></script>
+<script src="js/alsep-explorer.js" defer></script>
 </head>
 <body>
 <div id="stars" class="bg-stars" aria-hidden="true"></div>
@@ -53,6 +54,15 @@
     <p class="data-note">Research note: a data release is not automatically a newly discovered artifact. This page distinguishes mission hardware history from later archive releases, so the evidence stays accurate.</p>
   </section>
 
+  <section class="data-section" aria-labelledby="alsep-title">
+    <div class="data-section-head"><div><p class="eyebrow">Explore real mission metadata</p><h2 id="alsep-title">The Moon’s listening network</h2><p>Four Apollo passive-seismic stations turned separate landing sites into a scientific network. Select a station to explore its published location and the instrument that recorded the Moon’s vibrations.</p></div></div>
+    <div class="alsep-explorer" id="alsep-explorer">
+      <div class="alsep-map-wrap"><svg data-alsep-map viewBox="0 0 600 360" role="group" aria-label="Simplified locator map of four Apollo passive seismic stations"></svg><p class="alsep-map-note">Station positions use published coordinates. This simplified locator is not a lunar terrain map.</p></div>
+      <div class="alsep-explorer-side"><div class="alsep-station-controls" data-alsep-controls aria-label="Choose an Apollo seismic station"></div><div class="alsep-detail" data-alsep-detail></div></div>
+      <p class="data-status" data-alsep-status role="status" aria-live="polite">Loading NASA instrument metadata…</p>
+      <div data-alsep-sources></div>
+    </div>
+  </section>
   <section class="data-section" aria-labelledby="image-search-title">
     <div class="data-section-head"><div><p class="eyebrow">Live NASA image archive</p><h2 id="image-search-title">Search mission imagery</h2><p>Search NASA’s public Image and Video Library. Results are retrieved live from NASA’s API when you submit a search.</p></div></div>
     <form class="search-console" id="nasa-search"><label class="sr" for="nasa-query">Search NASA images</label><input id="nasa-query" type="search" value="Voyager spacecraft" placeholder="Try Voyager, Apollo 11, Curiosity…"><button type="submit">Search archive</button></form>
