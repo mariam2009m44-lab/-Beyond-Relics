@@ -926,3 +926,61 @@ body {
 .nasa-result a:focus-visible,.release-card a:focus-visible,.evidence-event a:focus-visible{outline:2px solid var(--rust);outline-offset:4px}
 @media(max-width:760px){.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.research-method{grid-template-columns:1fr}.evidence-track{grid-template-columns:1fr}}
 @media(max-width:420px){.evidence-metric{padding:.85rem}.evidence-metric span{font-size:.65rem}}
+
+/* Challenge-aligned artifact explorer */
+.filter-group{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.5rem 0}
+.filter-label{margin-right:.35rem;color:var(--mute);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase}
+.artifact-stamp,.status-stamp{display:block}
+.status-stamp{max-width:90%;margin-top:.55rem;padding:.3rem .5rem;border:1px solid rgba(233,220,198,.24);background:rgba(5,6,10,.55);color:#f0d8bb;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.artifact-content{min-width:0}
+.mission-state{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;margin:1.2rem 0;padding:1rem 1.1rem;border-left:3px solid var(--rust);background:rgba(217,85,43,.07)}
+.state-label{color:var(--mute);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase}
+.mission-state strong{font-size:1rem;color:var(--bone)}
+.insight-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.5rem 0}
+.insight-card{padding:1rem 1.1rem;border:1px solid var(--line);background:rgba(12,14,20,.72)}
+.insight-card h2{margin:0 0 .45rem;color:var(--rust);font-size:.9rem;letter-spacing:.13em;text-transform:uppercase}
+.insight-card p{margin:0;color:#d0c4b1;line-height:1.55}
+.duration-panel{margin:1.5rem 0;padding:1.2rem;border:1px solid var(--line);background:linear-gradient(120deg,rgba(35,41,58,.65),rgba(8,9,14,.8))}
+.duration-panel h2,.artifact-gallery h2{margin:0 0 .8rem;font-size:1.2rem;text-transform:uppercase;letter-spacing:.1em}
+.duration-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.duration-columns div{padding:.8rem;border:1px solid var(--line);color:#d0c4b1;line-height:1.45}
+.artifact-gallery{margin:2rem 0}
+.gallery-heading{margin-bottom:.9rem}
+.nasa-artifact-images{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}
+.nasa-evidence-image{display:block;min-width:0;border:1px solid var(--line);background:#0a0b10;overflow:hidden}
+.nasa-evidence-image img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.nasa-evidence-image span{display:block;padding:.55rem;color:#d0c4b1;font-size:.72rem;line-height:1.35}
+.gallery-loading{grid-column:1/-1;color:var(--mute);font-size:.9rem}
+.detail{align-items:start}
+@media(max-width:760px){.insight-grid{grid-template-columns:1fr}.nasa-artifact-images{grid-template-columns:repeat(2,minmax(0,1fr))}.duration-columns{grid-template-columns:1fr}}
+
+/* Judge-facing challenge brief */
+.judge-hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(200px,.7fr);gap:2rem;align-items:center;margin:2rem 0 3rem;padding:clamp(1.3rem,4vw,2.5rem);border:1px solid rgba(217,85,43,.38);background:radial-gradient(80% 120% at 100% 0,rgba(69,78,113,.24),transparent 65%),rgba(10,11,16,.8)}
+.judge-hero h2{margin:0;font-size:clamp(1.8rem,4vw,3rem);line-height:1;text-transform:uppercase}
+.judge-hero p:not(.eyebrow){max-width:60ch;color:#d0c4b1;line-height:1.6}
+.judge-stamp{text-align:right;color:var(--rust);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase}
+.judge-stamp strong{display:block;color:var(--bone);font-size:5rem;line-height:1}
+.judge-section{margin:3.5rem 0}
+.judge-section>h2{margin:0 0 1.2rem;font-size:clamp(1.7rem,4vw,2.6rem);text-transform:uppercase;letter-spacing:.04em}
+.judge-pillars,.winner-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.judge-pillars article,.winner-grid article{padding:1.2rem;border:1px solid var(--line);background:rgba(10,11,16,.75)}
+.judge-pillars article>span{color:var(--rust);font-size:.8rem;letter-spacing:.16em}
+.judge-pillars h3,.winner-grid h3{margin:.4rem 0;font-size:1.35rem;text-transform:uppercase}
+.judge-pillars p,.winner-grid p{margin:0;color:#cfc3ae;line-height:1.55}
+.winner-grid article>span{color:var(--rust);font-size:.68rem;letter-spacing:.12em}
+.judge-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem}
+.judge-flow div{padding:1rem;border-top:2px solid var(--rust);background:rgba(16,18,26,.8)}
+.judge-flow b,.judge-flow span{display:block}
+.judge-flow b{color:var(--rust);font-size:.7rem;letter-spacing:.13em}
+.judge-flow span{margin-top:.6rem;color:var(--bone);font-size:1.05rem}
+.judge-note,.judge-source{color:var(--mute);font-size:.88rem;line-height:1.55;margin-top:1rem}
+.judge-intro{max-width:68ch;color:#cfc3ae;line-height:1.6}
+.criteria-list{border-top:1px solid var(--line)}
+.criteria-list>div{display:grid;grid-template-columns:180px 1fr;gap:.25rem 1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.criteria-list b{grid-row:span 2;color:var(--rust);font-size:1.1rem;text-transform:uppercase;letter-spacing:.08em}
+.criteria-list p{margin:0;color:var(--bone);line-height:1.45}
+.criteria-list span{color:var(--mute);font-size:.85rem}
+.demo-section ol{padding-left:1.3rem;color:#d0c4b1;line-height:1.9}
+.text-link{display:inline-block;margin-top:.8rem;color:var(--rust);text-decoration:underline;text-underline-offset:.2em}
+@media(max-width:760px){.judge-hero{grid-template-columns:1fr}.judge-stamp{text-align:left}.judge-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.criteria-list>div{grid-template-columns:1fr}.criteria-list b{grid-row:auto}}
+@media(max-width:480px){.judge-pillars,.winner-grid{grid-template-columns:1fr}.judge-flow{grid-template-columns:1fr}}
