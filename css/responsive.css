@@ -71,3 +71,6 @@
 
 @media(max-width:900px){.mission-brief{grid-template-columns:1fr;gap:2.4rem;padding:4rem clamp(1.2rem,6vw,3rem)}.brief-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;padding:1.4rem 0 0;border-left:0;border-top:1px solid var(--line)}.brief-orbit{width:90vw;right:-40%}}
 @media(max-width:600px){.card-meta{font-size:.55rem;letter-spacing:.14em}.mission-brief{padding-top:3.4rem;padding-bottom:3.4rem}.brief-copy h2{font-size:clamp(2.35rem,11vw,3.6rem)}.brief-actions{flex-direction:column;align-items:stretch}.brief-actions .btn{justify-content:center}.brief-stats{gap:.65rem}.brief-stats strong{font-size:1.8rem}.brief-stats span{font-size:.58rem;letter-spacing:.1em}}
+
+@media(max-width:760px){.data-hero{grid-template-columns:1fr}.data-stamp{justify-self:start;text-align:left}.release-grid{grid-template-columns:1fr}.nasa-results{grid-template-columns:repeat(2,minmax(0,1fr))}.data-section-head{display:block}.benchmark{display:block;overflow-x:auto;white-space:normal}}
+@media(max-width:480px){.nasa-results{grid-template-columns:1fr}.search-console{grid-template-columns:1fr}.search-console button{min-height:2.8rem}.benchmark th,.benchmark td{min-width:150px;padding:.8rem .6rem}}
