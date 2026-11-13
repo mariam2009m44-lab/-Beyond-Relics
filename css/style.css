@@ -85,3 +85,9 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+/* Ambient sound control state */
+.tools button#sound{position:relative;transition:color .25s,background .25s,box-shadow .25s}
+.tools button#sound[aria-pressed="true"]{color:var(--rust);background:rgba(217,85,43,.1);box-shadow:0 0 0 1px rgba(217,85,43,.3),0 0 22px rgba(217,85,43,.12)}
+.tools button#sound[aria-pressed="true"] svg{filter:drop-shadow(0 0 5px rgba(217,85,43,.45))}
+.tools button#sound[aria-pressed="true"]::after{content:"";position:absolute;right:3px;bottom:3px;width:5px;height:5px;border-radius:50%;background:var(--rust);box-shadow:0 0 8px var(--rust)}
+.tools button#sound:focus-visible{outline:2px solid var(--rust);outline-offset:4px}
