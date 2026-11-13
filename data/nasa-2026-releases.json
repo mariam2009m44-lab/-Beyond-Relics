@@ -28,23 +28,25 @@
     "published": "2026-10-07",
     "type": "PDS data release",
     "mission": "Artemis II / Orion",
-    "dataset": "Camera imagery and video, mission audio/transcripts, environmental records, documents, SPICE kernels",
+    "dataset": "Artemis II archive bundles",
     "observation_period": "1–11 April 2026 (UTC)",
     "summary": "PDS announced the Artemis II mission archive release containing raw, processed, derived, browse, and documentation products.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
     "archive": "https://pds-geosciences.wustl.edu/missions/artemis2/index.htm",
-    "archive_label": "Open Artemis II archive ↗"
+    "archive_label": "Open Artemis II archive ↗",
+    "data_products": "Crew and Orion camera imagery/video; mission audio and transcripts; storage temperature and humidity; mission documents; SPICE bundle announced as delayed on the PDS page."
   },
   {
     "id": "swift-archive-2026",
     "published": "2026-10",
     "type": "Mission archive preservation",
     "mission": "Neil Gehrels Swift Observatory",
-    "dataset": "Nearly 22 years of observations; over 1.5 million UVOT images",
+    "dataset": "Mission science archive",
     "observation_period": "Nearly 22-year mission archive",
     "summary": "After retirement, Swift's scientific archive remains publicly available, preserving brightness measurements, spectra, and imagery.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
     "archive": "https://swift.gsfc.nasa.gov/archive/",
-    "archive_label": "Open Swift data archive ↗"
+    "archive_label": "Open Swift data archive ↗",
+    "archive_scale": "Nearly 22 years of observations; more than 1.5 million UVOT images."
   }
 ]
