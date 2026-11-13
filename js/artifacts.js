@@ -102,23 +102,18 @@
     loadNASAImages(item,gallery.querySelector(".nasa-artifact-images"));
   }
   function loadNASAImages(item,target){
-    if(!target)return;
-    var url="https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query||item.title)+"&media_type=image&page_size=8";
-    fetch(url).then(function(r){if(!r.ok)throw new Error("NASA image API unavailable");return r.json();})
-    .then(function(payload){
-      var items=payload&&payload.collection&&Array.isArray(payload.collection.items)?payload.collection.items:[];
-      items.sort(function(x,y){return imageScore(y,item.image_query)-imageScore(x,item.image_query);});
-      var fragment=document.createDocumentFragment(),seen=Object.create(null),count=0;
-      items.forEach(function(record){
-        if(count>=4)return;
-        var data=record.data&&record.data[0]||{},image=(record.links||[]).find(function(x){return x.render==="image"&&/^https:\/\//i.test(x.href||"");});
-        if(!image||!data.nasa_id||seen[data.nasa_id])return;seen[data.nasa_id]=true;
-        var card=el("a","nasa-evidence-image");card.href="https://images.nasa.gov/details/"+encodeURIComponent(data.nasa_id);card.target="_blank";card.rel="noopener noreferrer";
-        var img=el("img","");img.src=image.href;img.alt=data.title||item.title;img.loading="lazy";img.decoding="async";
-        card.append(img,el("span","",data.title||"Open NASA image record ↗"));fragment.appendChild(card);count++;
+    if(!target||!window.BeyondRelicsImages)return;
+    window.BeyondRelicsImages.search(item.image_query||item.title,16).then(function(images){
+      var fragment=document.createDocumentFragment();
+      images.slice(0,4).forEach(function(record){
+        var card=el("a","nasa-evidence-image");card.href=record.detail;card.target="_blank";card.rel="noopener noreferrer";
+        var img=el("img","");img.alt=record.title||item.title;img.loading="lazy";img.decoding="async";img.referrerPolicy="no-referrer";
+        img.addEventListener("nasaimageerror",function(){card.remove();},{once:true});
+        window.BeyondRelicsImages.mount(img,[record]);
+        card.append(img,el("span","",record.title||"Open NASA image record ↗"));fragment.appendChild(card);
       });
       target.replaceChildren(fragment);
-      if(!count)target.append(el("p","gallery-loading","No matching NASA images were returned. Open the primary mission sources for verified records."));
+      if(!images.length)target.append(el("p","gallery-loading","No matching NASA images were returned. Open the primary mission sources for verified records."));
     }).catch(function(){target.replaceChildren(el("p","gallery-loading","NASA’s image service is temporarily unavailable. The primary mission sources remain available below."));});
   }
   loadData();
