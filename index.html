@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07080c">
-<meta name="description" content="An interactive archive exploring NASA spacecraft, abandoned equipment, and the discoveries they made possible.">
+<meta name="description" content="Beyond Relics is an interactive archive preserving the stories, science, and legacy of human-made space exploration hardware.">
 <link rel="icon" href="assets/logos/favicon.png">
+<meta property="og:title" content="Beyond Relics — Abandoned, But Not Forgotten">
+<meta property="og:description" content="Explore the machines that reached beyond Earth — and the stories they left behind.">
+<meta property="og:type" content="website">
 <title>Beyond Relics — Abandoned, But Not Forgotten</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +19,7 @@
 <script src="js/main.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#home">Skip to content</a>
 <main class="hero" id="home">
   <div id="stars" aria-hidden="true"></div>
   <div class="earth" aria-hidden="true"></div>
@@ -37,7 +41,7 @@
 
   <header class="nav">
     <a class="brand" href="index.html" aria-label="Beyond Relics home">Beyond<br><b>Relics</b></a>
-    <nav aria-label="Main">
+    <nav aria-label="Main navigation">
       <ul class="links">
         <li><a href="index.html" aria-current="page">Home</a></li>
         <li><a href="artifacts.html">Artifacts</a></li>
@@ -65,35 +69,57 @@
     </div>
   </section>
 
-  <section class="cards" id="cards" aria-label="Archive stories">
+  <section class="cards" id="cards" aria-label="Featured archive stories">
     <a class="card c1" href="artifact-details.html?id=lunar-module" style="--i:0">
       <div class="art"><svg viewBox="0 0 200 150"><path class="nf" d="M70 100L40 140M130 100l30 40M100 104v36M30 142h22M148 142h22M90 142h20"/><path d="M68 62l20-16h28l16 16v38H68z"/><circle cx="100" cy="46" r="14"/><rect x="58" y="70" width="12" height="20"/><rect x="130" y="70" width="12" height="20"/></svg></div>
-      <div class="label"><h2>The Lunar<br>Module</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="label"><div><span class="card-meta">THE MOON · 1969</span><h2>The Lunar<br>Module</h2></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card c2" href="artifact-details.html?id=curiosity" style="--i:1">
       <div class="art"><svg viewBox="0 0 200 150"><path class="nf" d="M100 60V28"/><rect x="82" y="14" width="34" height="18"/><rect x="60" y="60" width="86" height="30"/><path class="nf" d="M50 100h100"/><circle cx="56" cy="112" r="16"/><circle cx="100" cy="116" r="15"/><circle cx="146" cy="112" r="16"/></svg></div>
-      <div class="label"><h2>The Mars<br>Rover</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="label"><div><span class="card-meta">MARS · 2012–PRESENT</span><h2>The Mars<br>Rover</h2></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card c3" href="artifact-details.html?id=voyager" style="--i:2">
       <div class="art"><svg viewBox="0 0 200 150"><path d="M60 40q30-30 80 0-20 40-80 0z"/><path class="nf" d="M100 36l-10 62M100 36l16 60"/><rect x="72" y="92" width="52" height="30"/><path class="nf" d="M72 110l-34 14M124 104l40 16"/></svg></div>
-      <div class="label"><h2>The Deep Space<br>Probe</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="label"><div><span class="card-meta">INTERSTELLAR · 1977</span><h2>The Deep Space<br>Probe</h2></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card c4" href="artifact-details.html?id=space-telescope" style="--i:3">
       <div class="art"><svg viewBox="0 0 200 150"><g transform="rotate(-18 100 75)"><rect x="38" y="52" width="110" height="38"/><rect x="148" y="46" width="16" height="50"/><path class="nf" d="M70 52v38M104 52v38"/><rect x="62" y="20" width="26" height="30"/><rect x="62" y="92" width="26" height="30"/></g></svg></div>
-      <div class="label"><h2>The Space<br>Telescope</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="label"><div><span class="card-meta">INFRARED · 2003–2020</span><h2>The Space<br>Telescope</h2></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
     <a class="card c5" href="artifact-details.html?id=return-capsule" style="--i:4">
       <div class="art"><svg viewBox="0 0 200 150"><path d="M82 38h36l32 62q-50 22-100 0z"/><path class="nf" d="M70 100q30 14 60 0M96 38v-8h8v8"/><circle cx="100" cy="64" r="7"/></svg></div>
-      <div class="label"><h2>The Return<br>Capsule</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="label"><div><span class="card-meta">COMET SAMPLE · 2006</span><h2>The Return<br>Capsule</h2></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
   </section>
 
-  <a class="scroll" href="artifacts.html">
+  <a class="scroll" href="#mission-brief">
     <span class="ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>Explore the archive
   </a>
   <div class="spark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></div>
   <div class="tag">Real missions. Lasting legacies.<i></i><i></i><i></i></div>
 </main>
 
+<section class="mission-brief" id="mission-brief" aria-labelledby="brief-title">
+  <div class="brief-orbit" aria-hidden="true"></div>
+  <div class="brief-copy">
+    <p class="eyebrow">Beyond the mission</p>
+    <h2 id="brief-title">Every machine leaves<br><em>a story behind.</em></h2>
+    <p>Some hardware rests on distant worlds. Some spacecraft continue into the darkness. Every artifact is a chapter in the story of how humanity learned to explore.</p>
+    <div class="brief-actions">
+      <a class="btn" href="artifacts.html">Explore the collection <span aria-hidden="true">↗</span></a>
+      <a class="btn ghost" href="timeline.html">Travel through time</a>
+    </div>
+  </div>
+  <div class="brief-stats" aria-label="Archive overview">
+    <div><strong>05</strong><span>Featured artifacts</span></div>
+    <div><strong>03</strong><span>Worlds and frontiers</span></div>
+    <div><strong>NASA</strong><span>Mission references</span></div>
+  </div>
+</section>
+<footer class="footer">
+  <a class="brand" href="index.html">Beyond<br><b>Relics</b></a>
+  <p>Real missions. Lasting legacies.</p>
+  <span>© <span data-year></span> Beyond Relics · Educational project</span>
+</footer>
 </body>
 </html>
