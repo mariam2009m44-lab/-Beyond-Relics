@@ -1,0 +1,63 @@
+{
+  "title": "Apollo passive seismic network",
+  "note": "Station locations are plotted from published lunar coordinates using a simplified near-side locator. This is not a terrain map or a raw seismic waveform.",
+  "instrument": {
+    "name": "Passive Seismic Experiment (PSE)",
+    "description": "A long-period, three-axis seismometer plus a vertical-axis short-period seismometer at each station.",
+    "longPeriodSampleRateHz": 6.6252,
+    "shortPeriodSampleRateHz": 15,
+    "source": "https://pds.nasa.gov/ds-view/pds/viewContext.jsp?identifier=urn%3Anasa%3Apds%3Acontext%3Ainstrument%3Apse.a12a&version=1.0"
+  },
+  "stations": [
+    {
+      "id": "apollo12",
+      "mission": "Apollo 12",
+      "site": "Oceanus Procellarum",
+      "latitude": -3,
+      "longitude": -23.5,
+      "deployed": "19 November 1969",
+      "note": "First full ALSEP station. Its passive seismometer helped turn the Moon into a place scientists could monitor after the crew returned to Earth."
+    },
+    {
+      "id": "apollo14",
+      "mission": "Apollo 14",
+      "site": "Fra Mauro",
+      "latitude": -3.7,
+      "longitude": -17.5,
+      "deployed": "5 February 1971",
+      "note": "Added another listening point to the lunar seismic network, helping scientists compare signals recorded at separated landing sites."
+    },
+    {
+      "id": "apollo15",
+      "mission": "Apollo 15",
+      "site": "Hadley–Apennine",
+      "latitude": 26.1,
+      "longitude": 3.7,
+      "deployed": "31 July 1971",
+      "note": "Extended the network northward, giving researchers a wider geographic spread across the lunar near side."
+    },
+    {
+      "id": "apollo16",
+      "mission": "Apollo 16",
+      "site": "Descartes",
+      "latitude": -9,
+      "longitude": 15,
+      "deployed": "21 April 1972",
+      "note": "Added an eastern station to the network. The four passive seismic stations operated until 1977."
+    }
+  ],
+  "sources": [
+    {
+      "label": "NASA Planetary Data System — Apollo 12 PSE instrument metadata",
+      "url": "https://pds.nasa.gov/ds-view/pds/viewContext.jsp?identifier=urn%3Anasa%3Apds%3Acontext%3Ainstrument%3Apse.a12a&version=1.0"
+    },
+    {
+      "label": "NASA RP-1036 — ALSEP Termination Report (station coordinates and operations)",
+      "url": "https://www.lpi.usra.edu/lunar/documents/NASA%20RP-1036.pdf"
+    },
+    {
+      "label": "NASA NTRS — Restoration and archiving of ALSEP data",
+      "url": "https://ntrs.nasa.gov/citations/20190032593"
+    }
+  ]
+}
