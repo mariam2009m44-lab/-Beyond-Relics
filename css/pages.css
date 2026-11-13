@@ -812,3 +812,42 @@ body {
         scale: .96
     }
 }
+
+.source-list {
+  margin: 1.6rem 0;
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.source-list h2 {
+  margin: 0 0 .45rem;
+  color: var(--bone);
+  font-size: 1.1rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.source-list p {
+  margin: 0 0 .8rem;
+  color: var(--mute);
+  font-family: var(--f-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+}
+.source-list ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.source-list a {
+  color: var(--rust);
+  font-size: .9rem;
+  letter-spacing: .08em;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: .25em;
+}
+.source-list a:hover { text-decoration-color: currentColor; }
+.abody .eyebrow { margin-bottom: .4rem; font-size: .68rem; letter-spacing: .14em; }
