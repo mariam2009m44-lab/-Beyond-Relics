@@ -1072,3 +1072,15 @@ body {
 .archive-photo-credit{pointer-events:none}
 .page .abody h3{line-height:1.08;letter-spacing:.055em}
 .page .abody .eyebrow{color:#d6a28a;letter-spacing:.16em}
+
+.artifact-illustration{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 70% 20%,rgba(115,137,177,.28),transparent 38%),linear-gradient(155deg,#1c2938,#080b12 72%);z-index:0}
+.artifact-illustration svg{width:100%;height:100%;opacity:1;overflow:visible}
+.artifact-illustration .illustration-planet{fill:rgba(198,188,164,.1);stroke:rgba(231,220,197,.35);stroke-width:2}
+.artifact-illustration .illustration-ground{fill:rgba(170,105,74,.28)}
+.artifact-illustration .illustration-ridge,.artifact-illustration .illustration-line{fill:none;stroke:#d7c7ad;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.artifact-illustration .illustration-object{fill:rgba(190,177,151,.22);stroke:#e5d6bc;stroke-width:4}
+.artifact-illustration .illustration-wheel{fill:#111923;stroke:#d9c7a8;stroke-width:5}
+.artifact-illustration .illustration-lens{fill:#9eb5c7;stroke:#e8ddc9;stroke-width:4}
+.illustration-caption{position:absolute;left:.8rem;bottom:.8rem;padding:.3rem .45rem;background:rgba(4,6,10,.76);color:rgba(238,227,207,.72);font-size:.54rem;letter-spacing:.12em}
+.acard .artifact-illustration,.dart .artifact-illustration{z-index:0}
+.acard .artifact-stamp,.dart .artifact-stamp{position:relative;z-index:3;background:rgba(4,6,10,.76);padding:.35rem .5rem}
