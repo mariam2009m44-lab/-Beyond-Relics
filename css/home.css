@@ -484,3 +484,14 @@ h1 {
 .cards .card .art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:saturate(.92) contrast(1.06)}
 .cards .card .art>svg{position:relative;z-index:1;opacity:.18}
 .cards .card .art .nasa-image-credit{position:absolute;z-index:2;right:.5rem;bottom:.5rem;padding:.28rem .42rem;background:rgba(4,6,10,.78);color:#f4ead8;font-size:.58rem;text-decoration:none;letter-spacing:.08em}
+
+/* Mission-specific vector fallback remains visible when NASA image search is offline */
+.artifact-illustration{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 70% 20%,rgba(115,137,177,.28),transparent 38%),linear-gradient(155deg,#1c2938,#080b12 72%);z-index:0}
+.artifact-illustration svg{width:100%;height:100%;opacity:1;overflow:visible}
+.artifact-illustration .illustration-planet{fill:rgba(198,188,164,.1);stroke:rgba(231,220,197,.35);stroke-width:2}
+.artifact-illustration .illustration-ground{fill:rgba(170,105,74,.28)}
+.artifact-illustration .illustration-ridge,.artifact-illustration .illustration-line{fill:none;stroke:#d7c7ad;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.artifact-illustration .illustration-object{fill:rgba(190,177,151,.22);stroke:#e5d6bc;stroke-width:4}
+.artifact-illustration .illustration-wheel{fill:#111923;stroke:#d9c7a8;stroke-width:5}
+.artifact-illustration .illustration-lens{fill:#9eb5c7;stroke:#e8ddc9;stroke-width:4}
+.illustration-caption{position:absolute;left:.8rem;bottom:.8rem;padding:.3rem .45rem;background:rgba(4,6,10,.76);color:rgba(238,227,207,.72);font-size:.54rem;letter-spacing:.12em}
