@@ -27,9 +27,10 @@
         if(record){
           var img=el("img","scene-image");img.alt=record.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
           img.addEventListener("nasaimageerror",function(){img.remove();panel.classList.add("scene-no-image");},{once:true});
+          var credit=el("a","scene-credit","NASA · "+record.id+" ↗");credit.href=record.detail;credit.target="_blank";credit.rel="noopener noreferrer";
+          img.addEventListener("nasaimageload",function(event){credit.href=event.detail.detail;credit.textContent="NASA · "+event.detail.id+" ↗";});
           window.BeyondRelicsImages.mount(img,images);
-          panel.appendChild(img);
-          var credit=el("a","scene-credit","NASA · "+record.id+" ↗");credit.href=record.detail;credit.target="_blank";credit.rel="noopener noreferrer";panel.appendChild(credit);
+          panel.appendChild(img);panel.appendChild(credit);
         }else panel.classList.add("scene-no-image");
         panel.appendChild(el("span","scene-number","SCENE "+String(beat+1).padStart(2,"0")));
         panel.appendChild(el("span","cap tl",text));root.appendChild(panel);
