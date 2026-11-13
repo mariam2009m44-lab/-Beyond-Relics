@@ -10,9 +10,42 @@
     .catch(function(){ $("c-title").textContent="Story archive unavailable";$("c-quote").textContent="Please refresh the page or return to the artifact archive.";});
   }
   function pages(item){var beats=item.story_beats||[item.short,item.body,item.science_legacy,item.why_it_matters];return [beats.slice(0,2),beats.slice(2,4)];}
+  function fetchStoryImages(item){
+    if(item.__storyImages) return item.__storyImages;
+    item.__storyImages=fetch("https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query||item.title)+"&media_type=image&page_size=24")
+      .then(function(r){if(!r.ok)throw new Error("NASA image search unavailable");return r.json();})
+      .then(function(payload){
+        var rows=payload&&payload.collection&&Array.isArray(payload.collection.items)?payload.collection.items:[];
+        var seen=Object.create(null);
+        return rows.map(function(record){
+          var d=record.data&&record.data[0]||{};
+          var im=(record.links||[]).find(function(x){return x.render==="image"&&/^https:\/\//i.test(x.href||"");});
+          if(!im||!d.nasa_id||seen[d.nasa_id])return null;
+          seen[d.nasa_id]=true;
+          return {id:d.nasa_id,title:d.title||item.title,image:im.href,detail:"https://images.nasa.gov/details/"+encodeURIComponent(d.nasa_id)};
+        }).filter(Boolean);
+      }).catch(function(){item.__storyImages=[];return [];});
+    return item.__storyImages;
+  }
   function drawStory(item){
-    var pageBeats=pages(item)[page]||[],root=$("c-page");root.className="comic l2";root.replaceChildren();
-    pageBeats.forEach(function(text,index){var panel=el("article","cp");panel.dataset.tone=item.tone;panel.dataset.n=String(page*2+index+1);panel.appendChild(el("span","cap tl",text));root.appendChild(panel);});
+    var beats=pages(item)[page]||[],root=$("c-page");
+    root.className="comic l2";root.replaceChildren(el("div","scene-loading","Retrieving NASA mission imagery…"));
+    fetchStoryImages(item).then(function(images){
+      if(records[chapter]!==item)return;
+      root.replaceChildren();
+      beats.forEach(function(text,index){
+        var beat=page*2+index,record=images.length?images[beat%images.length]:null;
+        var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);
+        if(record){
+          var img=el("img","scene-image");img.src=record.image;img.alt=record.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
+          img.addEventListener("error",function(){img.remove();panel.classList.add("scene-no-image");});
+          panel.appendChild(img);
+          var credit=el("a","scene-credit","NASA · "+record.id+" ↗");credit.href=record.detail;credit.target="_blank";credit.rel="noopener noreferrer";panel.appendChild(credit);
+        }else panel.classList.add("scene-no-image");
+        panel.appendChild(el("span","scene-number","SCENE "+String(beat+1).padStart(2,"0")));
+        panel.appendChild(el("span","cap tl",text));root.appendChild(panel);
+      });
+    });
     $("c-closing").textContent=page===1?item.story_hook:item.short;
   }
   function drawThumbs(item){
