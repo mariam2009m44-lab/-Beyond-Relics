@@ -1,0 +1,69 @@
+{
+  "title": "Mars Pathfinder & Sojourner — mission explorer",
+  "note": "A guided exploration of the 1997 technology demonstration. Mission statistics are sourced from NASA; the rover path is a simplified explanatory illustration, not reconstructed telemetry.",
+  "phases": [
+    {
+      "id": "landing",
+      "label": "01 · LANDING",
+      "title": "A new way to touch down",
+      "question": "How could a small spacecraft land safely without a traditional powered landing?",
+      "body": "Pathfinder used an aeroshell, parachute, retrorockets and a large airbag system. The lander bounced across the surface before coming to rest in Ares Vallis on 4 July 1997.",
+      "factLabel": "Landing date",
+      "fact": "4 July 1997",
+      "detail": "The landing system demonstrated a lower-cost approach that influenced later Mars missions.",
+      "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+    },
+    {
+      "id": "deployment",
+      "label": "02 · DEPLOYMENT",
+      "title": "A rover rolls onto another world",
+      "question": "Could a small wheeled robot explore beyond its lander?",
+      "body": "Sojourner was deployed down a ramp the following Martian day. The lander acted as its communication relay and photographed the rover and surrounding terrain so operators could plan its next moves.",
+      "factLabel": "Rover mass",
+      "fact": "About 10.5 kg",
+      "detail": "Sojourner was the first wheeled vehicle to operate on another planet.",
+      "source": "https://www.jpl.nasa.gov/missions/mars-pathfinder-sojourner-rover/"
+    },
+    {
+      "id": "science",
+      "label": "03 · SCIENCE",
+      "title": "Rocks became evidence",
+      "question": "What could nearby rocks and soil reveal about Mars?",
+      "body": "Sojourner used its Alpha Proton X-ray Spectrometer (APXS) to study the composition of rocks and soil. The lander also measured atmospheric conditions and returned thousands of images.",
+      "factLabel": "Rover operating time",
+      "fact": "83 sols · planned 7",
+      "detail": "The rover performed more than 15 chemical analyses and returned 550 images; the lander returned more than 16,500 images.",
+      "source": "https://science.nasa.gov/photojournal/pathfinder-on-mars/"
+    },
+    {
+      "id": "legacy",
+      "label": "04 · LEGACY",
+      "title": "A short mission, a long influence",
+      "question": "What remained after communication stopped?",
+      "body": "The final data transmission arrived on 27 September 1997. The mission was later formally terminated in March 1998. The lander and rover remained on Mars, while their engineering lessons shaped later rover missions.",
+      "factLabel": "Final data transmission",
+      "fact": "27 September 1997",
+      "detail": "The lander and rover are physical hardware left on Mars; the images and measurements are preserved evidence on Earth.",
+      "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+    }
+  ],
+  "sources": [
+    {
+      "label": "NASA Science — Mars Pathfinder",
+      "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+    },
+    {
+      "label": "NASA JPL — Pathfinder / Sojourner Rover",
+      "url": "https://www.jpl.nasa.gov/missions/mars-pathfinder-sojourner-rover/"
+    },
+    {
+      "label": "NASA Photojournal — Pathfinder on Mars",
+      "url": "https://science.nasa.gov/photojournal/pathfinder-on-mars/"
+    },
+    {
+      "label": "NASA — Sojourner & Terrain image record",
+      "url": "https://science.nasa.gov/resource/sojourner-terrain/"
+    }
+  ],
+  "imageQuery": "Mars Pathfinder Sojourner rover on Mars NASA"
+}
