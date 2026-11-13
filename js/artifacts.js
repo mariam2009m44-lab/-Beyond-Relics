@@ -10,10 +10,39 @@
     .then(function(rows){if(!Array.isArray(rows)||!rows.length)throw new Error("Empty archive");DATA=rows;renderArchive();renderDetails();})
     .catch(function(){var grid=$("grid"),detail=$("detail");if(grid)grid.textContent="The archive could not load. Please refresh the page.";if(detail)detail.textContent="Artifact records are temporarily unavailable.";});
   }
+  function fallbackIllustration(item){
+    var wrap=el("div","artifact-illustration");
+    var svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    svg.setAttribute("viewBox","0 0 640 420");svg.setAttribute("aria-hidden","true");
+    function shape(tag,attrs){var n=document.createElementNS("http://www.w3.org/2000/svg",tag);Object.keys(attrs).forEach(function(k){n.setAttribute(k,attrs[k]);});svg.appendChild(n);return n;}
+    shape("circle",{cx:470,cy:95,r:55,class:"illustration-planet"});
+    shape("path",{d:"M0 315 Q150 250 310 310 T640 290 V420 H0Z",class:"illustration-ground"});
+    shape("path",{d:"M0 355 Q150 320 300 350 T640 340",class:"illustration-ridge"});
+    if(item.id==="apollo-12-alsep"){
+      shape("path",{d:"M320 125V280 M320 160L210 220 M320 160L430 220",class:"illustration-line"});
+      shape("rect",{x:280,y:210,width:80,height:55,rx:4,class:"illustration-object"});
+      shape("circle",{cx:210,cy:220,r:26,class:"illustration-object"});
+      shape("circle",{cx:430,cy:220,r:26,class:"illustration-object"});
+      shape("path",{d:"M305 125L320 95L335 125Z",class:"illustration-object"});
+    }else if(/rover|pathfinder|sojourner/i.test(item.type||"")||item.id==="spirit"||item.id==="opportunity"||item.id==="curiosity"){
+      shape("rect",{x:220,y:205,width:190,height:72,rx:16,class:"illustration-object"});
+      shape("rect",{x:270,y:145,width:92,height:65,rx:12,class:"illustration-object"});
+      shape("path",{d:"M315 145L355 95L390 115",class:"illustration-line"});
+      [250,320,390].forEach(function(x){shape("circle",{cx:x,cy:292,r:24,class:"illustration-wheel"});});
+      shape("circle",{cx:315,cy:175,r:12,class:"illustration-lens"});
+    }else{
+      shape("path",{d:"M275 145L320 105L365 145V245H275Z",class:"illustration-object"});
+      shape("path",{d:"M285 235L235 315M355 235L405 315M320 245V315",class:"illustration-line"});
+      shape("path",{d:"M255 315H215M385 315H425",class:"illustration-line"});
+      shape("circle",{cx:320,cy:170,r:18,class:"illustration-lens"});
+    }
+    wrap.append(svg,el("span","illustration-caption","MISSION SCHEMATIC · NOT A NASA PHOTOGRAPH"));
+    return wrap;
+  }
   function renderArchive(){
     var grid=$("grid");if(!grid)return;
     var chips=$("chips"),query=$("q"),empty=$("empty");
-    var region="All",status="All",term="";
+    var region="All",status="left-behind",term="";
     var regions=["All"].concat(Array.from(new Set(DATA.map(function(x){return x.region;}))));
     var statuses=[["All","All"],["left-behind","Left on a world"],["active","Still operating"],["retired","Retired / archived"]];
     function chip(label,value,group,selected){var b=el("button","chip",label);b.type="button";b.dataset[group]=value;b.setAttribute("aria-pressed",String(selected));return b;}
@@ -34,6 +63,7 @@
       rows.forEach(function(item){
         var a=el("a","acard");a.href="artifact-details.html?id="+encodeURIComponent(item.id);
         var art=el("div","aart");art.dataset.tone=item.tone;
+        art.appendChild(fallbackIllustration(item));
         art.append(el("span","artifact-stamp",item.region+" · "+item.years));
         art.append(el("span","status-stamp",item.classification));
         loadArchiveImage(item,art);
@@ -77,7 +107,7 @@
     var id=new URLSearchParams(location.search).get("id"),index=DATA.findIndex(function(x){return x.id===id;});
     if(index<0){root.textContent="Artifact not found. Return to the archive and choose a record.";return;}
     var item=DATA[index];document.title=item.title+" — Beyond Relics";
-    var visual=el("div","dart");visual.dataset.tone=item.tone;visual.append(el("span","",item.region+" · "+item.years));
+    var visual=el("div","dart");visual.dataset.tone=item.tone;visual.appendChild(fallbackIllustration(item));visual.append(el("span","artifact-stamp",item.region+" · "+item.years));
     var content=el("div","artifact-content");
     content.append(el("p","eyebrow",item.type+" · "+item.classification),el("h1","page-title",item.title),el("p","body",item.body));
     var state=el("div","mission-state");state.append(el("span","state-label","Mission status"),el("strong","",item.status));content.appendChild(state);
