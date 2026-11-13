@@ -91,3 +91,19 @@ body::after {
 .tools button#sound[aria-pressed="true"] svg{filter:drop-shadow(0 0 5px rgba(217,85,43,.45))}
 .tools button#sound[aria-pressed="true"]::after{content:"";position:absolute;right:3px;bottom:3px;width:5px;height:5px;border-radius:50%;background:var(--rust);box-shadow:0 0 8px var(--rust)}
 .tools button#sound:focus-visible{outline:2px solid var(--rust);outline-offset:4px}
+
+/* Cinematic soundtrack control */
+.tools button#sound { position:relative; transition:color .25s,background .25s,box-shadow .25s,transform .25s; }
+.tools button#sound[aria-pressed="true"] {
+  color:var(--rust); background:rgba(217,85,43,.13);
+  box-shadow:0 0 0 1px rgba(217,85,43,.38),0 0 26px rgba(217,85,43,.2);
+  transform:scale(1.04);
+}
+.tools button#sound[aria-pressed="true"] svg { filter:drop-shadow(0 0 7px rgba(217,85,43,.7)); }
+.tools button#sound[aria-pressed="true"]::after {
+  content:""; position:absolute; right:2px; bottom:2px; width:6px; height:6px;
+  border-radius:50%; background:var(--rust); box-shadow:0 0 10px var(--rust);
+  animation:relic-audio-pulse 1.8s ease-in-out infinite;
+}
+@keyframes relic-audio-pulse { 0%,100% { opacity:.55; transform:scale(.8); } 50% { opacity:1; transform:scale(1.25); } }
+.tools button#sound:focus-visible { outline:2px solid var(--rust); outline-offset:4px; }
