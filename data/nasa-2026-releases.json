@@ -8,7 +8,8 @@
     "observation_period": "1985–1988",
     "summary": "PDS added a Voyager 2 Planetary Radio Astronomy data bundle from the Uranus flyby, covering 70 instrument channels.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-august-2026",
-    "archive": "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=Voyager%202%20Uranus"
+    "archive": "https://pds.nasa.gov/services/search/index.jsp",
+    "archive_label": "Search the PDS archive ↗"
   },
   {
     "id": "new-horizons-kem2-k7-2026",
@@ -19,7 +20,8 @@
     "observation_period": "Data through April 2024",
     "summary": "Additional Kuiper Belt extended mission observations, including the 2019 Arrokoth encounter and continuing cruise observations.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-june-2026",
-    "archive": "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=New%20Horizons%20KEM2"
+    "archive": "https://pds-smallbodies.astro.umd.edu/data_sb/missions/nh-kem/index.shtml",
+    "archive_label": "Open New Horizons data ↗"
   },
   {
     "id": "artemis-ii-pds-2026",
@@ -27,10 +29,11 @@
     "type": "PDS data release",
     "mission": "Artemis II / Orion",
     "dataset": "Camera imagery and video, mission audio/transcripts, environmental records, documents, SPICE kernels",
-    "observation_period": "2026-04-01 to 2026-04-10 mission",
+    "observation_period": "1–11 April 2026 (UTC)",
     "summary": "PDS announced the Artemis II mission archive release containing raw, processed, derived, browse, and documentation products.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
-    "archive": "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=Artemis%20II"
+    "archive": "https://pds-geosciences.wustl.edu/missions/artemis2/index.htm",
+    "archive_label": "Open Artemis II archive ↗"
   },
   {
     "id": "swift-archive-2026",
@@ -41,6 +44,7 @@
     "observation_period": "Nearly 22-year mission archive",
     "summary": "After retirement, Swift's scientific archive remains publicly available, preserving brightness measurements, spectra, and imagery.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
-    "archive": "https://www.swift.ac.uk/"
+    "archive": "https://swift.gsfc.nasa.gov/archive/",
+    "archive_label": "Open Swift data archive ↗"
   }
 ]
