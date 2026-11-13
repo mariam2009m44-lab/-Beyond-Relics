@@ -1,30 +1,46 @@
 [
   {
     "id": "lunar-module",
-    "title": "The Lunar Module",
+    "title": "Apollo 11 Lunar Module — Descent Stage",
     "region": "Moon",
     "years": "1969",
     "tone": "moon",
     "type": "Crewed lunar lander",
-    "status": "Historic lunar artifact",
-    "short": "The spacecraft that carried Apollo astronauts from lunar orbit to the Moon’s surface and back.",
-    "body": "The Apollo Lunar Module was built for operations near and on the Moon. Its descent stage lowered the crew to the surface and remained there when the ascent stage lifted off. The Apollo 11 landing site has since been imaged from lunar orbit, showing the descent stage and surface tracks.",
+    "status": "Descent stage remains on the Moon",
+    "status_group": "left-behind",
+    "classification": "Left on the lunar surface",
+    "short": "The lower half of Eagle carried two astronauts down to the Moon, then stayed behind when the ascent stage lifted off.",
+    "body": "Apollo 11’s Lunar Module, Eagle, had two parts. The descent stage slowed the spacecraft and supported the landing. After the astronauts completed their surface activities, the ascent stage lifted them back to lunar orbit; the descent stage remained at the Tranquility Base site. Orbital images later documented the landing site and surface tracks.",
+    "story_hook": "One half of a spacecraft became a permanent landmark on another world.",
+    "mission_goal": "Land two astronauts safely on the Moon and return them to lunar orbit.",
+    "what_stayed": "The descent stage, landing legs, and surface equipment. The ascent stage returned to orbit.",
+    "science_legacy": "Apollo surface work and deployed experiments helped establish the Moon as a place that could be explored, measured, and revisited scientifically.",
+    "why_it_matters": "It shows that a spacecraft can be designed as a system whose parts have different jobs—and different endings.",
+    "design_life": "A short crewed surface expedition",
+    "actual_life": "The descent stage has remained at the landing site since July 1969.",
+    "story_beats": [
+      "In July 1969, Eagle carried two astronauts from lunar orbit toward an unknown plain.",
+      "Its descent engine slowed the craft until four legs touched the lunar surface.",
+      "The crew later left in the upper ascent stage. The lower stage stayed where it landed.",
+      "The landing site became a real place in human history—and a record of engineering left on another world."
+    ],
+    "image_query": "Apollo 11 Lunar Module descent stage Tranquility Base NASA",
     "facts": [
       [
-        "Program",
-        "Apollo"
+        "Mission",
+        "Apollo 11"
       ],
       [
-        "Apollo 11 landing",
+        "Landing",
         "20 July 1969"
       ],
       [
-        "What remains",
-        "The descent stage and surface experiments"
+        "Landing site",
+        "Tranquility Base · Sea of Tranquility"
       ],
       [
-        "Location",
-        "Sea of Tranquility"
+        "What remains",
+        "Descent stage and surface equipment"
       ]
     ],
     "sources": [
@@ -39,31 +55,397 @@
     ]
   },
   {
+    "id": "apollo-12-alsep",
+    "title": "Apollo Lunar Surface Experiments Package",
+    "region": "Moon",
+    "years": "1969–1977",
+    "tone": "moon",
+    "type": "Lunar science instrument network",
+    "status": "Instruments deactivated; stations remain on the Moon",
+    "status_group": "left-behind",
+    "classification": "Scientific equipment left in place",
+    "short": "A network of instruments that measured moonquakes and the lunar environment long after astronauts returned home.",
+    "body": "Apollo 12 deployed the first full Apollo Lunar Surface Experiments Package (ALSEP), a set of instruments designed to operate on the Moon and transmit measurements to Earth. Similar packages were deployed by Apollo 14, 15, 16, and 17. NASA ended ALSEP operations on 30 September 1977; the instruments were left at their lunar sites.",
+    "story_hook": "The astronauts went home, but the Moon kept sending scientific measurements for years.",
+    "mission_goal": "Turn Apollo landing sites into long-running robotic science stations.",
+    "what_stayed": "Instrument packages and associated hardware deployed at five Apollo landing sites (Apollo 12, 14, 15, 16, and 17).",
+    "science_legacy": "ALSEP produced long-running measurements of lunar seismic activity, heat flow, magnetic fields, and other properties; the archived records still support research.",
+    "why_it_matters": "It is an early example of a distributed science network operating on another world.",
+    "design_life": "Apollo 12 ALSEP was designed for a one-year mission; later packages had differing design lives.",
+    "actual_life": "The ALSEP network operated until NASA shut it down on 30 September 1977.",
+    "story_beats": [
+      "After the Apollo 12 crew landed, they unpacked more than cameras and tools.",
+      "They set up a small robotic science station: instruments that could keep working after the astronauts left.",
+      "The station sent measurements back to Earth for years, helping scientists listen to the Moon and study its environment.",
+      "NASA switched off the network in 1977. The instruments stayed, while their data continued to teach us."
+    ],
+    "image_query": "Apollo 12 ALSEP lunar surface experiments package NASA",
+    "facts": [
+      [
+        "First deployment",
+        "Apollo 12 · November 1969"
+      ],
+      [
+        "Later stations",
+        "Apollo 14, 15, 16, and 17"
+      ],
+      [
+        "Operations ended",
+        "30 September 1977"
+      ],
+      [
+        "What remains",
+        "Instrument packages at lunar sites"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Apollo 12 mission objectives",
+        "url": "https://www.nasa.gov/missions/apollo/apollo-12-the-pinpoint-mission/"
+      },
+      {
+        "label": "NASA — ALSEP data restoration and archive",
+        "url": "https://ntrs.nasa.gov/citations/20190032593"
+      },
+      {
+        "label": "NASA — Apollo 17 post-mission activities",
+        "url": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities/"
+      }
+    ]
+  },
+  {
+    "id": "pathfinder-sojourner",
+    "title": "Mars Pathfinder & Sojourner",
+    "region": "Mars",
+    "years": "1997",
+    "tone": "mars",
+    "type": "Mars lander and first rover",
+    "status": "Mission ended; lander and rover remain on Mars",
+    "status_group": "left-behind",
+    "classification": "First-generation Mars surface hardware",
+    "short": "A lander and a tiny rover proved that NASA could deliver a mobile robot to Mars at a much lower cost.",
+    "body": "Mars Pathfinder landed in Ares Vallis on 4 July 1997 and delivered Sojourner, the first rover to operate on Mars. The lander acted as a communications relay and photographed the rover and nearby terrain. The mission’s final data transmission arrived on 27 September 1997; both the lander and rover remained on Mars.",
+    "story_hook": "A small rover changed how we explore a whole planet.",
+    "mission_goal": "Demonstrate a new, lower-cost way to land safely on Mars and deploy a mobile rover.",
+    "what_stayed": "The Pathfinder lander and Sojourner rover at Ares Vallis.",
+    "science_legacy": "The mission returned engineering and science observations of Martian rocks, soil, atmosphere, and landing technology.",
+    "why_it_matters": "It helped establish the approach that made later generations of Mars rovers possible.",
+    "design_life": "A technology demonstration planned for a short surface mission.",
+    "actual_life": "The mission operated from July to September 1997.",
+    "story_beats": [
+      "On 4 July 1997, a spacecraft reached Mars and opened like a set of petals.",
+      "A tiny rover named Sojourner rolled down a ramp and began exploring nearby rocks.",
+      "The lander served as a radio bridge, sending the rover’s discoveries back to Earth.",
+      "The mission ended after its final transmission—but its design helped shape the future of Mars exploration."
+    ],
+    "image_query": "NASA Mars Pathfinder Sojourner rover on Mars 1997",
+    "facts": [
+      [
+        "Launch",
+        "4 December 1996"
+      ],
+      [
+        "Landing",
+        "4 July 1997"
+      ],
+      [
+        "Landing site",
+        "Ares Vallis · Mars"
+      ],
+      [
+        "Final transmission",
+        "27 September 1997"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Mars Pathfinder mission",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      },
+      {
+        "label": "NASA JPL — Pathfinder robotics",
+        "url": "https://www-robotics.jpl.nasa.gov/what-we-do/flight-projects/pathfinder/"
+      }
+    ]
+  },
+  {
+    "id": "spirit",
+    "title": "Spirit Mars Exploration Rover",
+    "region": "Mars",
+    "years": "2004–2011",
+    "tone": "mars",
+    "type": "Robotic Mars rover",
+    "status": "Mission ended; rover remains on Mars",
+    "status_group": "left-behind",
+    "classification": "Rover marooned on the Martian surface",
+    "short": "Spirit became stuck in soft soil after years of exploring—and still delivered discoveries far beyond its planned lifetime.",
+    "body": "Spirit landed in Gusev Crater in January 2004. It found strong evidence that Mars was once much wetter. In 2009 it became stuck in soft soil near a feature called Home Plate. NASA could not regain contact after March 2010 and ended recovery efforts on 25 May 2011.",
+    "story_hook": "A rover that got stuck still changed what we know about Mars.",
+    "mission_goal": "Search for geological evidence of past water and environments that might once have been habitable.",
+    "what_stayed": "The Spirit rover at its final location near Home Plate in Gusev Crater.",
+    "science_legacy": "Spirit uncovered evidence of ancient water and operated for more than six years—far beyond its original 90-sol plan.",
+    "why_it_matters": "It demonstrates how mission teams adapt when a machine can no longer travel but can still do useful science.",
+    "design_life": "90 Martian days (sols).",
+    "actual_life": "6 years, 2 months, and 19 days of operations.",
+    "story_beats": [
+      "Spirit landed on Mars with a simple plan: explore for about 90 Martian days.",
+      "The rover kept going through dust, cold, and difficult terrain—years longer than expected.",
+      "In 2009, its wheels became trapped in soft soil. The team tried many ways to free it.",
+      "Spirit stopped communicating, but its evidence of ancient water became part of Mars exploration history."
+    ],
+    "image_query": "NASA Mars Spirit rover stuck Home Plate Mars",
+    "facts": [
+      [
+        "Landing",
+        "3 January 2004 (UTC)"
+      ],
+      [
+        "Location",
+        "Gusev Crater · Mars"
+      ],
+      [
+        "Last communication",
+        "22 March 2010"
+      ],
+      [
+        "Mission declared complete",
+        "25 May 2011"
+      ],
+      [
+        "Distance traveled",
+        "About 7.73 km"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Spirit mission",
+        "url": "https://science.nasa.gov/mission/mer-spirit/"
+      },
+      {
+        "label": "NASA — Spirit’s triumphs",
+        "url": "https://science.nasa.gov/resource/spirits-triumphs-on-mars/"
+      }
+    ]
+  },
+  {
+    "id": "opportunity",
+    "title": "Opportunity Mars Exploration Rover",
+    "region": "Mars",
+    "years": "2004–2019",
+    "tone": "mars",
+    "type": "Robotic Mars rover",
+    "status": "Mission ended; rover remains on Mars",
+    "status_group": "left-behind",
+    "classification": "Long-lived rover at its final resting place",
+    "short": "Designed for 90 sols, Opportunity explored for nearly 15 years and drove more than 45 kilometres.",
+    "body": "Opportunity landed in Meridiani Planum in January 2004. It found strong evidence that liquid water had altered Martian rocks. A planet-wide dust storm reduced sunlight reaching its solar panels in 2018; its final communication arrived on 10 June 2018. NASA declared the mission complete on 13 February 2019.",
+    "story_hook": "A 90-day mission became a 15-year journey.",
+    "mission_goal": "Study rocks and soils for evidence of ancient water and past habitable environments.",
+    "what_stayed": "The Opportunity rover in Perseverance Valley, Meridiani Planum.",
+    "science_legacy": "Opportunity found evidence of ancient water and returned more than 217,000 images during its mission.",
+    "why_it_matters": "It shows how durable engineering, careful operations, and scientific curiosity can multiply a mission’s value.",
+    "design_life": "90 Martian days (sols) and a planned drive of about 1 kilometre.",
+    "actual_life": "Almost 15 years; 45.16 kilometres traveled.",
+    "story_beats": [
+      "Opportunity arrived on Mars in 2004 with a mission designed to last just 90 sols.",
+      "It kept moving, examining rocks and finding clues that liquid water once changed the landscape.",
+      "In 2018, a huge dust storm covered the rover’s region and blocked sunlight from its solar panels.",
+      "After nearly 15 years, the mission ended. Its tracks and discoveries remain on Mars and in NASA’s archives."
+    ],
+    "image_query": "NASA Opportunity rover Mars Perseverance Valley final resting place",
+    "facts": [
+      [
+        "Landing",
+        "24 January 2004 (PST)"
+      ],
+      [
+        "Location",
+        "Meridiani Planum · Mars"
+      ],
+      [
+        "Last communication",
+        "10 June 2018"
+      ],
+      [
+        "Mission declared complete",
+        "13 February 2019"
+      ],
+      [
+        "Distance traveled",
+        "45.16 km"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Opportunity mission",
+        "url": "https://science.nasa.gov/mission/mer-opportunity/"
+      },
+      {
+        "label": "NASA — Opportunity mission ends",
+        "url": "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/"
+      }
+    ]
+  },
+  {
+    "id": "phoenix",
+    "title": "Phoenix Mars Lander",
+    "region": "Mars",
+    "years": "2008",
+    "tone": "mars",
+    "type": "Robotic polar lander",
+    "status": "Mission ended; lander remains on Mars",
+    "status_group": "left-behind",
+    "classification": "Polar lander preserved in the Martian landscape",
+    "short": "Phoenix dug into Martian soil near the north pole and confirmed water ice beneath the surface.",
+    "body": "Phoenix landed in the northern plains of Mars on 25 May 2008. Its robotic arm dug into the soil and delivered samples to onboard instruments. The mission studied water ice, soil chemistry, and the polar environment. Communications ended in November 2008 as the Martian winter reduced available sunlight.",
+    "story_hook": "A robotic arm dug into Mars and found water ice.",
+    "mission_goal": "Study the history of water and search for conditions relevant to past or present microbial life in the Martian arctic.",
+    "what_stayed": "The Phoenix lander, its robotic arm, solar arrays, and other surface hardware at Vastitas Borealis.",
+    "science_legacy": "Phoenix verified water ice in the Martian subsurface and detected perchlorate in the soil.",
+    "why_it_matters": "It showed how a stationary lander can use a robotic arm as a laboratory on another world.",
+    "design_life": "A planned three-month primary mission.",
+    "actual_life": "The lander worked for about five months before communications ended.",
+    "story_beats": [
+      "Phoenix landed in the far north of Mars, where scientists suspected water ice might hide below the soil.",
+      "Its robotic arm scooped and delivered samples to tiny onboard laboratories.",
+      "The instruments confirmed water ice and revealed surprising chemistry in the soil.",
+      "As winter darkness arrived, the solar-powered lander fell silent. Its discoveries remained."
+    ],
+    "image_query": "NASA Phoenix Mars lander robotic arm ice trench Mars",
+    "facts": [
+      [
+        "Landing",
+        "25 May 2008"
+      ],
+      [
+        "Location",
+        "Vastitas Borealis · Martian north"
+      ],
+      [
+        "Primary mission",
+        "About 3 months"
+      ],
+      [
+        "End of communications",
+        "November 2008"
+      ],
+      [
+        "Key finding",
+        "Water ice beneath the surface"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Phoenix mission",
+        "url": "https://science.nasa.gov/mission/mars-phoenix/"
+      },
+      {
+        "label": "NASA — Phoenix lander after Martian winter",
+        "url": "https://science.nasa.gov/resource/phoenix-lander-after-second-martian-winter/"
+      }
+    ]
+  },
+  {
+    "id": "insight",
+    "title": "InSight Mars Lander",
+    "region": "Mars",
+    "years": "2018–2022",
+    "tone": "mars",
+    "type": "Robotic geophysical lander",
+    "status": "Mission ended; lander remains on Mars",
+    "status_group": "left-behind",
+    "classification": "Retired science station on Mars",
+    "short": "InSight listened for marsquakes and measured the planet’s interior, turning Mars into a world scientists could study from the inside.",
+    "body": "InSight landed on Elysium Planitia on 26 November 2018. It deployed a seismometer and heat-flow probe to study Mars’ interior. NASA ended the mission in December 2022 after repeated attempts to contact the lander failed as dust reduced power from its solar arrays.",
+    "story_hook": "Instead of driving across Mars, InSight listened to the planet’s heartbeat.",
+    "mission_goal": "Study the internal structure, heat flow, and seismic activity of Mars.",
+    "what_stayed": "The InSight lander and its deployed surface instruments at Elysium Planitia.",
+    "science_legacy": "InSight detected marsquakes and provided measurements that improved scientists’ understanding of Mars’ crust, mantle, and core.",
+    "why_it_matters": "It proves exploration is not only about moving farther; sometimes the most important instrument stays still and listens.",
+    "design_life": "Two Earth years (one Mars year) for the primary mission.",
+    "actual_life": "More than four Earth years of science operations.",
+    "story_beats": [
+      "InSight arrived on Mars in 2018 with a different kind of mission: stay still and listen.",
+      "A robotic arm placed a seismometer on the ground to detect tiny vibrations called marsquakes.",
+      "The measurements helped scientists investigate the planet’s deep interior.",
+      "Dust eventually reduced the lander’s power. NASA ended the mission, but the seismic record continues to be studied."
+    ],
+    "image_query": "NASA InSight Mars lander seismometer on surface",
+    "facts": [
+      [
+        "Landing",
+        "26 November 2018"
+      ],
+      [
+        "Location",
+        "Elysium Planitia · Mars"
+      ],
+      [
+        "Mission ended",
+        "15 December 2022"
+      ],
+      [
+        "Science tools",
+        "Seismometer and heat-flow probe"
+      ],
+      [
+        "Key contribution",
+        "Mars interior and marsquake data"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — InSight mission",
+        "url": "https://science.nasa.gov/mission/insight/"
+      },
+      {
+        "label": "NASA — InSight mission retirement",
+        "url": "https://www.nasa.gov/missions/insight/nasa-retires-insight-mars-lander-mission-after-years-of-science/"
+      }
+    ]
+  },
+  {
     "id": "curiosity",
-    "title": "Curiosity Rover",
+    "title": "Curiosity Mars Rover",
     "region": "Mars",
     "years": "2012–Present",
     "tone": "mars",
     "type": "Robotic Mars rover",
-    "status": "Active mission",
-    "short": "A mobile science laboratory studying the geology and ancient habitability of Gale Crater.",
-    "body": "NASA’s Curiosity rover landed in Gale Crater on 6 August 2012 (UTC). Its instruments examine rocks, soil, and the Martian environment to understand whether ancient Mars had conditions that could support microbial life. The rover continues to explore the planet.",
+    "status": "Still operating — included as a comparison, not an abandoned artifact",
+    "status_group": "active",
+    "classification": "Active mission comparison",
+    "short": "A working rover helps visitors compare a living mission with machines whose missions have ended.",
+    "body": "Curiosity landed in Gale Crater on 6 August 2012 UTC. It studies rocks, soil, and the Martian environment to understand whether ancient Mars had conditions that could support microbial life. It remains an active mission, so it is deliberately labelled as a comparison rather than abandoned equipment.",
+    "story_hook": "Not every machine on another world is abandoned—some are still exploring.",
+    "mission_goal": "Investigate whether ancient Mars had environmental conditions that could support microbial life.",
+    "what_stayed": "The rover is still operating on Mars; it is not a retired artifact.",
+    "science_legacy": "Curiosity has studied ancient environments, geology, and the history of water in Gale Crater.",
+    "why_it_matters": "A clear active/retired distinction prevents the archive from treating every surface machine as abandoned.",
+    "design_life": "One Martian year (about 687 Earth days) for the primary mission.",
+    "actual_life": "Still operating as of the 2026 project research update.",
+    "story_beats": [
+      "Curiosity landed in Gale Crater in August 2012.",
+      "Its cameras and instruments study rocks, soil, and the Martian environment.",
+      "Unlike the retired rovers in this archive, Curiosity is still operating.",
+      "It is our comparison case: the story of a machine that has not finished its work."
+    ],
+    "image_query": "NASA Curiosity rover Gale Crater Mars selfie",
     "facts": [
-      [
-        "Launch",
-        "26 November 2011"
-      ],
       [
         "Landing",
         "6 August 2012 (UTC)"
       ],
       [
         "Location",
-        "Gale Crater, Mars"
+        "Gale Crater · Mars"
+      ],
+      [
+        "Status",
+        "Active mission"
       ],
       [
         "Science goal",
-        "Investigate ancient habitability"
+        "Study ancient habitability"
       ]
     ],
     "sources": [
@@ -79,30 +461,46 @@
   },
   {
     "id": "voyager",
-    "title": "Voyager Probes",
+    "title": "Voyager 1 & 2",
     "region": "Deep Space",
     "years": "1977–Present",
     "tone": "deep",
     "type": "Interstellar space probes",
-    "status": "Extended missions",
-    "short": "Twin spacecraft that explored the outer planets and continued their journeys into interstellar space.",
-    "body": "Voyager 1 and Voyager 2 launched in 1977 to explore the outer planets. Both spacecraft later crossed into interstellar space and carry a Golden Record containing sounds and images chosen to represent life and culture on Earth.",
+    "status": "Extended missions — still communicating",
+    "status_group": "active",
+    "classification": "Deep-space comparison: still traveling",
+    "short": "Twin probes crossed into interstellar space and continue carrying measurements—and a message from Earth.",
+    "body": "Voyager 1 and Voyager 2 launched in 1977 to explore the outer planets. Both later entered interstellar space and continue their extended missions. They are not abandoned: NASA continues to receive data from the spacecraft as power and instrument capabilities decline.",
+    "story_hook": "A spacecraft launched in the 1970s is still sending messages from beyond the planets.",
+    "mission_goal": "Explore the outer planets and the environment beyond the heliosphere.",
+    "what_stayed": "The spacecraft are still traveling through interstellar space; they have not been switched off as abandoned artifacts.",
+    "science_legacy": "Voyager transformed our knowledge of the giant planets and provided the first direct observations from interstellar space.",
+    "why_it_matters": "It expands the archive beyond surface relics and demonstrates that mission status can change over time.",
+    "design_life": "A planetary flyby mission designed around the 1970s outer-planet alignment.",
+    "actual_life": "Both spacecraft remain in extended operations decades after launch.",
+    "story_beats": [
+      "Voyager 1 and Voyager 2 launched in 1977, carrying instruments and a message from Earth.",
+      "They flew past the giant planets and sent home close-up views that changed planetary science.",
+      "Both spacecraft later crossed the heliosphere into interstellar space.",
+      "They are still communicating: not abandoned, but becoming humanity’s farthest-running explorers."
+    ],
+    "image_query": "NASA Voyager spacecraft Golden Record deep space",
     "facts": [
       [
         "Launches",
-        "20 August and 5 September 1977"
+        "August and September 1977"
       ],
       [
         "Voyager 1",
-        "Entered interstellar space in August 2012"
+        "Entered interstellar space in 2012"
       ],
       [
         "Voyager 2",
-        "Entered interstellar space in November 2018"
+        "Entered interstellar space in 2018"
       ],
       [
-        "Legacy",
-        "Both carry a Golden Record"
+        "Status",
+        "Extended missions"
       ]
     ],
     "sources": [
@@ -122,10 +520,26 @@
     "region": "Deep Space",
     "years": "2003–2020",
     "tone": "tele",
-    "type": "Infrared space telescope",
-    "status": "Mission completed",
-    "short": "An infrared observatory that revealed stars, galaxies, and planets beyond what visible-light telescopes can see.",
-    "body": "Launched in 2003, NASA’s Spitzer Space Telescope studied the universe in infrared light for more than 16 years. It observed targets ranging from objects in our solar system to distant galaxies. NASA decommissioned the spacecraft on 30 January 2020, while its archived observations continue to support research.",
+    "type": "Infrared space observatory",
+    "status": "Decommissioned — deep-space legacy",
+    "status_group": "retired",
+    "classification": "Retired observatory; data still active",
+    "short": "Spitzer’s infrared telescope stopped operating in 2020, but its archived observations continue to support astronomy.",
+    "body": "Launched in 2003, NASA’s Spitzer Space Telescope observed the universe in infrared light for more than 16 years. NASA decommissioned the spacecraft on 30 January 2020. Its observations remain available in public archives, so the scientific record continues even though the observatory no longer operates.",
+    "story_hook": "The telescope went quiet, but its data still helps astronomers discover.",
+    "mission_goal": "Observe the universe in infrared light, revealing objects and phenomena hidden from visible-light telescopes.",
+    "what_stayed": "The decommissioned observatory remains in a heliocentric orbit; its data archive is available on Earth.",
+    "science_legacy": "Spitzer observations continue to support studies of stars, galaxies, exoplanets, and the evolution of the universe.",
+    "why_it_matters": "It demonstrates that the scientific life of a mission can continue long after the hardware is decommissioned.",
+    "design_life": "A planned 2.5-year primary mission.",
+    "actual_life": "More than 16 years of science operations.",
+    "story_beats": [
+      "Spitzer launched in 2003 with a special way of seeing: infrared light.",
+      "It revealed cool objects, dusty regions, distant galaxies, and planets beyond our solar system.",
+      "NASA ended the mission in 2020 after more than 16 years of observations.",
+      "The telescope stopped working, but researchers can still explore its archived data."
+    ],
+    "image_query": "NASA Spitzer Space Telescope infrared observatory illustration",
     "facts": [
       [
         "Launch",
@@ -136,12 +550,12 @@
         "30 January 2020"
       ],
       [
-        "Observatory type",
-        "Infrared"
+        "Observatory",
+        "Infrared space telescope"
       ],
       [
-        "Legacy",
-        "Science data remains available to researchers"
+        "Science operations",
+        "More than 16 years"
       ]
     ],
     "sources": [
@@ -150,47 +564,8 @@
         "url": "https://science.nasa.gov/mission/spitzer/"
       },
       {
-        "label": "NASA — End of mission",
+        "label": "NASA — Spitzer ends mission",
         "url": "https://science.nasa.gov/missions/spitzer/nasas-spitzer-space-telescope-ends-mission-of-astronomical-discovery/"
-      }
-    ]
-  },
-  {
-    "id": "return-capsule",
-    "title": "The Stardust Capsule",
-    "region": "Deep Space",
-    "years": "1999–2011",
-    "tone": "cap",
-    "type": "Comet sample-return capsule",
-    "status": "Mission completed",
-    "short": "A small return capsule that brought the first samples from a comet back to Earth.",
-    "body": "Stardust collected dust from Comet Wild 2 using aerogel and returned the samples to Earth in January 2006. The capsule landed in Utah, while the main spacecraft continued as the Stardust-NExT mission and later flew past Comet Tempel 1 in 2011.",
-    "facts": [
-      [
-        "Launch",
-        "7 February 1999"
-      ],
-      [
-        "Comet encounter",
-        "Comet Wild 2 · January 2004"
-      ],
-      [
-        "Capsule return",
-        "15 January 2006"
-      ],
-      [
-        "Extended mission",
-        "Stardust-NExT · 2011"
-      ]
-    ],
-    "sources": [
-      {
-        "label": "NASA — Stardust mission",
-        "url": "https://science.nasa.gov/mission/stardust/"
-      },
-      {
-        "label": "NASA JPL — Stardust",
-        "url": "https://www.jpl.nasa.gov/missions/stardust/"
       }
     ]
   }
