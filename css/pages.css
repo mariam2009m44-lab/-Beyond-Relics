@@ -1024,3 +1024,23 @@ body {
 @media(max-width:900px){.comic.l2{display:grid;grid-template-columns:1fr;grid-template-rows:auto;aspect-ratio:auto}.scene-panel{min-height:clamp(260px,66vw,480px)}}
 @media(max-width:600px){.scene-panel{min-height:68svh}.scene-panel .cap{font-size:1.12rem;padding:1rem}.scene-credit{font-size:.58rem}}
 @media(prefers-reduced-motion:reduce){.scene-image{animation:none}}
+
+
+/* Cinematic story gateway */
+.stage{isolation:isolate}
+.story-intro{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;overflow:hidden;padding:clamp(1.5rem,5vw,4rem);text-align:center;border:1px solid rgba(233,220,198,.22);background:radial-gradient(ellipse at 50% 42%,rgba(55,72,105,.55),rgba(7,8,14,.96) 68%),#07080c;transition:opacity .8s ease,transform .8s ease}
+.story-intro[hidden]{display:none}
+.story-intro:before,.story-intro:after{content:"";position:absolute;left:50%;top:50%;width:min(72vw,680px);aspect-ratio:1;border:1px solid rgba(233,220,198,.12);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 45px rgba(233,220,198,.025),0 0 0 90px rgba(233,220,198,.018),0 0 100px rgba(120,155,210,.12);pointer-events:none}
+.story-intro:after{width:min(46vw,430px);border-style:dashed;animation:gatewayOrbit 38s linear infinite}
+.story-intro>*{position:relative;z-index:2}
+.story-intro .eyebrow{margin:0}
+.story-intro-overline{margin:1rem 0 0;color:#e7d9c3;font-size:.72rem;letter-spacing:.38em}
+.story-intro h2{max-width:15ch;margin:0;color:#f3eadb;font-size:clamp(2rem,5.6vw,4.8rem);line-height:.98;text-transform:uppercase;text-shadow:0 8px 36px #000}
+.story-intro-copy{max-width:42ch;margin:0;color:#c7bba8;font:italic 500 clamp(1rem,1.8vw,1.3rem)/1.5 var(--f-serif)}
+.story-enter{margin-top:.8rem;min-width:220px;justify-content:center;box-shadow:0 0 35px rgba(217,85,43,.22)}
+.story-enter span{font-size:1.3rem}
+.story-intro-audio{margin:.25rem 0 0;color:var(--mute);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase}
+.story-intro.leaving{opacity:0;transform:scale(1.045);pointer-events:none}
+@keyframes gatewayOrbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media(max-width:900px){.story-intro{min-height:55svh}.story-intro:before{width:90vw}.story-intro:after{width:65vw}}
+@media(prefers-reduced-motion:reduce){.story-intro:after{animation:none}.story-intro{transition:none}}
