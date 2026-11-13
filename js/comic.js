@@ -1,104 +1,75 @@
-(function(){
-  /* ---- DATA: replace with fetch('data/comic-chapters.json') later ----
-     Panel keys: t = tone (moon|mars|deep|earth), c = caption text,
-                 p = caption position (tl|tr|bl|br), i = image path (optional)
-     To use real art:  {t:'moon', c:'…', p:'tl', i:'assets/images/comics/lunar-1.jpg'}
-     Layouts: l5 = 5 panels, l3 = 3 panels, l2 = 2 panels */
-  var COMICS=[
-    {id:'lunar-module',title:'The Lunar Module',meta:'Apollo 11 • 1969',
-     quote:'A small step… for a man, a giant leap for humanity.',
-     closing:'The Lunar Module’s journey ended on the Moon… but its story lives on.',
-     facts:[['Mission','Apollo 11'],['Landing','July 20, 1969'],['Site','Sea of Tranquility'],['Left behind','Descent stage']],
-     pages:[
-      {layout:'l5',panels:[{t:'moon',c:'July 20, 1969… A new chapter in human history begins.',p:'tl'},{t:'deep',c:'One small step…',p:'tr'},{t:'earth',c:'…for a man…',p:'bl'},{t:'moon',c:'…a giant leap for humanity.',p:'br'},{t:'moon',c:'And then… silence.',p:'tl'}]},
-      {layout:'l3',panels:[{t:'moon',c:'Eagle rests on the plain.',p:'tl'},{t:'deep',c:'The crew returns to orbit…',p:'bl'},{t:'moon',c:'The descent stage stays behind.',p:'br'}]},
-      {layout:'l2',panels:[{t:'moon',c:'Silent. Waiting.',p:'bl'},{t:'earth',c:'Earth hangs overhead.',p:'tr'}]}
-     ]},
-    {id:'curiosity',title:'Curiosity Rover',meta:'Mars • 2012',
-     quote:'A robot geologist on a distant world.',
-     closing:'Built for two years… still asking questions.',
-     facts:[['Landing','August 2012'],['Site','Gale Crater'],['Goal','Past habitability of Mars']],
-     pages:[
-      {layout:'l3',panels:[{t:'mars',c:'August 2012. Minutes of terror.',p:'tl'},{t:'mars',c:'Touchdown in Gale Crater.',p:'bl'},{t:'deep',c:'Signals travel home.',p:'tr'}]},
-      {layout:'l2',panels:[{t:'mars',c:'A rover that outlived its plan.',p:'tl'},{t:'mars',c:'Every rock tells a story.',p:'br'}]}
-     ]},
-    {id:'voyager',title:'Voyager Probes',meta:'Deep Space • 1977',
-     quote:'Two messages in bottles, cast into the cosmic ocean.',
-     closing:'Still traveling… still carrying a message from Earth.',
-     facts:[['Launch','1977'],['Interstellar space','Voyager 1 (2012) · Voyager 2 (2018)'],['Carries','The Golden Record']],
-     pages:[
-      {layout:'l3',panels:[{t:'deep',c:'September 1977. Two probes depart.',p:'tl'},{t:'deep',c:'The giant planets pass by…',p:'bl'},{t:'earth',c:'A pale blue dot.',p:'tr'}]},
-      {layout:'l2',panels:[{t:'deep',c:'Past the edge of the Sun’s influence…',p:'tl'},{t:'deep',c:'A message still traveling.',p:'br'}]}
-     ]}
-    ,
-    {id:'space-telescope',title:'Spitzer Space Telescope',meta:'Infrared observatory • 2003–2020',
-     quote:'The universe has more to show than our eyes can see.',
-     closing:'The spacecraft went quiet in 2020. Its infrared discoveries remain alive in the archive.',
-     facts:[['Launch','August 25, 2003'],['Mission ended','January 30, 2020'],['Observatory','Infrared space telescope'],['Legacy','Archived data continues to support research']],
-     pages:[
-      {layout:'l3',panels:[{t:'deep',c:'A new window on the invisible universe.',p:'tl'},{t:'tele',c:'Spitzer observes in infrared light.',p:'br'},{t:'deep',c:'Stars, planets, and distant galaxies revealed.',p:'tl'}]},
-      {layout:'l2',panels:[{t:'tele',c:'More than sixteen years of discovery.',p:'tl'},{t:'deep',c:'The mission ends. The data keeps speaking.',p:'br'}]}
-     ]},
-    {id:'return-capsule',title:'The Stardust Capsule',meta:'Comet sample return • 1999–2011',
-     quote:'A tiny capsule brought pieces of a comet home.',
-     closing:'The capsule returned to Earth in 2006. The spacecraft continued its journey as Stardust-NExT.',
-     facts:[['Launch','February 7, 1999'],['Comet encounter','Wild 2 · January 2004'],['Capsule return','January 15, 2006'],['Extended mission','Stardust-NExT · 2011']],
-     pages:[
-      {layout:'l3',panels:[{t:'deep',c:'A spacecraft heads toward Comet Wild 2.',p:'tl'},{t:'cap',c:'Dust is captured in delicate aerogel.',p:'br'},{t:'earth',c:'A sample capsule returns to Earth.',p:'tl'}]},
-      {layout:'l2',panels:[{t:'cap',c:'A small capsule. An extraordinary cargo.',p:'tl'},{t:'deep',c:'The spacecraft continues as Stardust-NExT.',p:'br'}]}
-     ]}
-
-  ];
-
-  var $=function(id){return document.getElementById(id)};
-  var want=new URLSearchParams(location.search).get('chapter'),ci=0,pi=0;
-  COMICS.forEach(function(c,i){if(c.id===want)ci=i});
-  var bg=function(p){return p&&p.i?'background-image:url(\''+p.i+'\');':''};
-
-  function panel(p,k){
-    var cap=p.c?'<span class="cap '+(p.p||'tl').split('').join(' ')+'">'+p.c+'</span>':'';
-    return '<div class="cp" data-tone="'+p.t+'" data-n="'+(k+1)+'" style="grid-area:'+'abcde'.charAt(k)+';'+bg(p)+'">'+cap+'</div>';
+(function () {
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  var records=[],chapter=0,page=0,activeTab="story",imageController=null;
+  function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+  function external(url,label){var a=el("a","",label);a.href=url;a.target="_blank";a.rel="noopener noreferrer";return a;}
+  function load(){
+    fetch("data/artifacts.json").then(function(r){if(!r.ok)throw new Error("Archive unavailable");return r.json();})
+    .then(function(data){records=data;var wanted=new URLSearchParams(location.search).get("chapter");var found=records.findIndex(function(x){return x.id===wanted;});chapter=found<0?0:found;render();})
+    .catch(function(){ $("c-title").textContent="Story archive unavailable";$("c-quote").textContent="Please refresh the page or return to the artifact archive.";});
   }
-  function thumb(pg,i,big){
-    var p=pg.panels[0];
-    return '<button class="th" type="button" data-i="'+i+'" data-tone="'+p.t+'" style="'+bg(p)+'" aria-label="Page '+(i+1)+'" aria-current="'+(i===pi)+'"></button>';
+  function pages(item){var beats=item.story_beats||[item.short,item.body,item.science_legacy,item.why_it_matters];return [beats.slice(0,2),beats.slice(2,4)];}
+  function drawStory(item){
+    var pageBeats=pages(item)[page]||[],root=$("c-page");root.className="comic l2";root.replaceChildren();
+    pageBeats.forEach(function(text,index){var panel=el("article","cp");panel.dataset.tone=item.tone;panel.dataset.n=String(page*2+index+1);panel.appendChild(el("span","cap tl",text));root.appendChild(panel);});
+    $("c-closing").textContent=page===1?item.story_hook:item.short;
+  }
+  function drawThumbs(item){
+    var root=$("c-thumbs");root.replaceChildren();
+    pages(item).forEach(function(beats,index){var b=el("button","th");b.type="button";b.dataset.i=String(index);b.dataset.tone=item.tone;b.setAttribute("aria-label","Story page "+(index+1));b.setAttribute("aria-current",String(index===page));b.appendChild(el("span","",String(index+1)));root.appendChild(b);});
+    $("c-count").textContent=(page+1)+" / "+pages(item).length;
+    $("prev").disabled=page===0;$("next").disabled=page===pages(item).length-1;
+  }
+  function drawInfo(item){
+    var root=$("v-info");root.replaceChildren();
+    var panel=el("div","panel");panel.append(el("h2","","Mission information"),el("p","",item.status));
+    var dl=el("dl","facts");(item.facts||[]).forEach(function(pair){dl.append(el("dt","",pair[0]),el("dd","",pair[1]));});panel.appendChild(dl);
+    panel.append(el("h3","","Primary sources"));var ul=el("ul","source-list-links");
+    (item.sources||[]).forEach(function(s){var li=el("li","");li.appendChild(external(s.url,s.label+" ↗"));ul.appendChild(li);});panel.appendChild(ul);
+    var a=el("a","btn ghost","Open artifact record →");a.href="artifact-details.html?id="+encodeURIComponent(item.id);panel.appendChild(a);root.appendChild(panel);
+  }
+  function drawGallery(item){
+    var root=$("v-gallery");root.replaceChildren(el("p","gallery-loading","Loading NASA image records…"));
+    if(imageController)imageController.abort();imageController=new AbortController();
+    var url="https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query||item.title)+"&media_type=image&page_size=8";
+    fetch(url,{signal:imageController.signal}).then(function(r){if(!r.ok)throw new Error("NASA image API unavailable");return r.json();})
+    .then(function(payload){
+      var items=payload&&payload.collection&&Array.isArray(payload.collection.items)?payload.collection.items:[],fragment=document.createDocumentFragment(),seen=Object.create(null),count=0;
+      items.forEach(function(record){if(count>=6)return;var d=record.data&&record.data[0]||{},im=(record.links||[]).find(function(x){return x.render==="image"&&/^https:\/\//i.test(x.href||"");});if(!im||!d.nasa_id||seen[d.nasa_id])return;seen[d.nasa_id]=true;
+        var a=el("a","nasa-evidence-image");a.href="https://images.nasa.gov/details/"+encodeURIComponent(d.nasa_id);a.target="_blank";a.rel="noopener noreferrer";
+        var img=el("img","");img.src=im.href;img.alt=d.title||item.title;img.loading="lazy";img.decoding="async";a.append(img,el("span","",d.title||"Open NASA image ↗"));fragment.appendChild(a);count++;});
+      root.replaceChildren(fragment);if(!count)root.append(el("p","gallery-loading","No matching images were returned. Use the primary NASA sources in Mission Info."));
+    }).catch(function(error){if(error.name!=="AbortError")root.replaceChildren(el("p","gallery-loading","NASA image search is temporarily unavailable. The story and primary sources still work."));});
+  }
+  function tab(name){
+    activeTab=name;["story","gallery","info"].forEach(function(key){$("v-"+key).hidden=key!==name;});
+    document.querySelectorAll(".tabs button").forEach(function(b){var on=b.dataset.tab===name;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on));});
+    if(name==="gallery")drawGallery(records[chapter]);
   }
   function render(){
-    var c=COMICS[ci],pg=c.pages[pi],last=c.pages.length-1;
-    document.title=c.title+' — Beyond Relics';
-    $('c-title').textContent=c.title;
-    $('c-meta').textContent=c.meta;
-    $('c-quote').textContent=c.quote;
-    $('c-chap').textContent='Chapter 0'+(ci+1)+' / 0'+COMICS.length;
-    var t=$('c-thumb');t.setAttribute('data-tone',c.pages[0].panels[0].t);t.setAttribute('style',bg(c.pages[0].panels[0]));
-    $('c-page').className='comic '+pg.layout;
-    $('c-page').innerHTML=pg.panels.map(panel).join('');
-    $('c-closing').textContent=c.closing;
-    $('c-thumbs').innerHTML=c.pages.map(thumb).join('');
-    $('v-gallery').innerHTML=c.pages.map(thumb).join('');
-    $('v-info').innerHTML='<div class="panel"><h2>Mission info</h2><dl class="facts">'+c.facts.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+x[1]+'</dd>'}).join('')+'</dl><a class="btn ghost" href="artifact-details.html?id='+c.id+'">Artifact details ↗</a></div>';
-    $('c-count').textContent=(pi+1)+' / '+c.pages.length;
-    $('prev').disabled=pi===0;$('next').disabled=pi===last;
+    var item=records[chapter];if(!item)return;
+    document.title=item.title+" — The Story · Beyond Relics";
+    $("c-title").textContent=item.title;$("c-meta").textContent=item.region+" · "+item.years;
+    $("c-quote").textContent=item.story_hook;$("c-chap").textContent="Chapter "+String(chapter+1).padStart(2,"0")+" / "+String(records.length).padStart(2,"0");
+    $("c-thumb").dataset.tone=item.tone;
+    drawStory(item);drawThumbs(item);drawInfo(item);
+    if(activeTab==="gallery")drawGallery(item);
+    try{history.replaceState(null,"","?chapter="+encodeURIComponent(item.id));}catch(e){}
   }
-  function go(i){pi=i;render();tab('story')}
-  function tab(n){
-    ['story','gallery','info'].forEach(function(k){$('v-'+k).hidden=k!==n});
-    document.querySelectorAll('.tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===n)});
-  }
-  function chapter(i){
-    ci=i;pi=0;render();tab('story');
-    try{history.replaceState(null,'','?chapter='+COMICS[ci].id)}catch(e){}
-  }
-  $('prev').onclick=function(){if(pi>0)go(pi-1)};
-  $('next').onclick=function(){if(pi<COMICS[ci].pages.length-1)go(pi+1)};
-  $('nextch').onclick=function(){chapter((ci+1)%COMICS.length)};
-  document.addEventListener('click',function(e){
-    var th=e.target.closest('.th');if(th)go(+th.dataset.i);
-    var tb=e.target.closest('.tabs button');if(tb)tab(tb.dataset.tab);
+  function goPage(next){var max=pages(records[chapter]).length-1;if(next<0||next>max)return;page=next;drawStory(records[chapter]);drawThumbs(records[chapter]);tab("story");}
+  function goChapter(next){chapter=(next+records.length)%records.length;page=0;activeTab="story";render();tab("story");}
+  $("prev").addEventListener("click",function(){goPage(page-1);});
+  $("next").addEventListener("click",function(){goPage(page+1);});
+  $("nextch").addEventListener("click",function(){goChapter(chapter+1);});
+  document.addEventListener("click",function(event){
+    var thumb=event.target.closest(".th");if(thumb){goPage(Number(thumb.dataset.i));return;}
+    var button=event.target.closest("[data-tab]");if(button)tab(button.dataset.tab);
   });
-  document.addEventListener('keydown',function(e){
-    if(e.key==='ArrowLeft')$('prev').click();
-    if(e.key==='ArrowRight')$('next').click();
+  document.addEventListener("keydown",function(event){
+    if(event.target.closest("input,textarea,button,a"))return;
+    if(event.key==="ArrowLeft")goPage(page-1);
+    if(event.key==="ArrowRight")goPage(page+1);
   });
-  render();
+  load();
 })();
