@@ -1,24 +1,28 @@
-(function(){
-  // ---- DATA: replace with fetch('data/timeline.json') later ----
-  var EVENTS=[
-    {year:'1969',title:'Apollo 11 — First crewed Moon landing',place:'The Moon',text:'The Apollo 11 Lunar Module carried Neil Armstrong and Buzz Aldrin to the lunar surface. Its descent stage remains there.',id:'lunar-module'},
-    {year:'1971',title:'Apollo 15 — Lunar rover exploration',place:'The Moon',text:'The Lunar Roving Vehicle extended astronauts’ range across the lunar surface and was left behind after the mission.'},
-    {year:'1977',title:'Voyager 1 and Voyager 2 launch',place:'Deep Space',text:'The twin spacecraft began journeys that transformed planetary science and later took them into interstellar space.',id:'voyager'},
-    {year:'2006',title:'Stardust capsule returns',place:'Earth',text:'A capsule carrying comet dust parachuted into the Utah desert while the spacecraft stayed in space.',id:'return-capsule'},
-    {year:'2012',title:'Curiosity lands on Mars',place:'Mars',text:'NASA’s rover began exploring Gale Crater, investigating the planet’s ancient environments.',id:'curiosity'},
-    {year:'2020',title:'Spitzer Space Telescope retires',place:'Deep Space',text:'After years of infrared discoveries, the telescope was switched off and left drifting in its orbit around the Sun.',id:'space-telescope'},
-    {year:'2021',title:'Perseverance lands on Mars',place:'Mars',text:'The rover began searching for signs of ancient microbial life and collecting samples for possible future return.'}
+(function () {
+  "use strict";
+  var events = [
+    {year:"1969",date:"20 JUL",title:"Apollo 11 reaches the Moon",place:"Moon",text:"The Lunar Module lands in the Sea of Tranquility. Its descent stage remains on the lunar surface.",id:"lunar-module",kind:"Human exploration"},
+    {year:"1971",date:"30 JUL",title:"Apollo 15 explores with a lunar rover",place:"Moon",text:"The Lunar Roving Vehicle extends the astronauts’ range and is left behind after the mission.",kind:"Human exploration"},
+    {year:"1977",date:"AUG–SEP",title:"Voyager 1 and 2 begin their journeys",place:"Deep Space",text:"Twin probes launch on a grand tour of the outer planets, carrying the Golden Record.",id:"voyager",kind:"Robotic exploration"},
+    {year:"1999",date:"07 FEB",title:"Stardust launches",place:"Deep Space",text:"NASA sends a spacecraft to collect samples from Comet Wild 2 and return them to Earth.",id:"return-capsule",kind:"Sample return"},
+    {year:"2003",date:"25 AUG",title:"Spitzer Space Telescope launches",place:"Solar orbit",text:"An infrared observatory begins revealing stars, galaxies, and planetary systems.",id:"space-telescope",kind:"Space science"},
+    {year:"2006",date:"15 JAN",title:"Stardust capsule returns to Earth",place:"Earth",text:"The sample-return capsule lands in Utah carrying material collected from a comet.",id:"return-capsule",kind:"Sample return"},
+    {year:"2012",date:"06 AUG",title:"Curiosity lands on Mars",place:"Mars",text:"The rover begins its exploration of Gale Crater and the planet’s ancient environments.",id:"curiosity",kind:"Robotic exploration"},
+    {year:"2020",date:"30 JAN",title:"Spitzer completes its mission",place:"Solar orbit",text:"NASA sends the final command to the infrared telescope after more than sixteen years of discovery.",id:"space-telescope",kind:"Mission legacy"},
+    {year:"2021",date:"18 FEB",title:"Perseverance lands on Mars",place:"Mars",text:"A new rover begins exploring Jezero Crater and preparing samples for possible future return.",kind:"Robotic exploration"}
   ];
-  var tl=document.getElementById('tl');
-  tl.innerHTML=EVENTS.map(function(e){
-    return '<li class="tl-item panel"><span class="tl-year">'+e.year+'</span><h3>'+e.title+'</h3><span class="place">'+e.place+'</span><p>'+e.text+'</p>'+
-      (e.id?'<a class="more" href="artifact-details.html?id='+e.id+'">View artifact ↗</a>':'')+'</li>';
-  }).join('');
-  var items=tl.querySelectorAll('.tl-item');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){
-      es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}});
-    },{threshold:.15});
-    items.forEach(function(i){io.observe(i)});
-  }else items.forEach(function(i){i.classList.add('in')});
+  var target=document.getElementById("tl");
+  if(!target)return;
+  function escapeHTML(value){return String(value).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];});}
+  target.innerHTML=events.map(function(event){
+    var link=event.id?'<a class="more" href="artifact-details.html?id='+encodeURIComponent(event.id)+'">Explore related artifact ↗</a>':'';
+    return '<li class="tl-item panel"><div class="tl-top"><span class="tl-year">'+escapeHTML(event.year)+'</span><span class="tl-date">'+escapeHTML(event.date)+'</span></div><span class="tl-kind">'+escapeHTML(event.kind)+'</span><h3>'+escapeHTML(event.title)+'</h3><span class="place">'+escapeHTML(event.place)+'</span><p>'+escapeHTML(event.text)+'</p>'+link+'</li>';
+  }).join("");
+  var items=target.querySelectorAll(".tl-item");
+  if("IntersectionObserver" in window){
+    var observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("in");observer.unobserve(entry.target);}});
+    },{threshold:.12});
+    items.forEach(function(item){observer.observe(item);});
+  }else items.forEach(function(item){item.classList.add("in");});
 })();
