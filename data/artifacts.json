@@ -1,5 +1,197 @@
 [
-  {"id":"lunar-module","name":"The Lunar Module","location":"Moon","year":"1969–1972","type":"Lunar lander"},
-  {"id":"curiosity","name":"Curiosity Rover","location":"Mars","year":"2012–Present","type":"Mars rover"},
-  {"id":"voyager","name":"Voyager Probes","location":"Deep Space","year":"1977–Present","type":"Space probes"}
+  {
+    "id": "lunar-module",
+    "title": "The Lunar Module",
+    "region": "Moon",
+    "years": "1969",
+    "tone": "moon",
+    "type": "Crewed lunar lander",
+    "status": "Historic lunar artifact",
+    "short": "The spacecraft that carried Apollo astronauts from lunar orbit to the Moon’s surface and back.",
+    "body": "The Apollo Lunar Module was built for operations near and on the Moon. Its descent stage lowered the crew to the surface and remained there when the ascent stage lifted off. The Apollo 11 landing site has since been imaged from lunar orbit, showing the descent stage and surface tracks.",
+    "facts": [
+      [
+        "Program",
+        "Apollo"
+      ],
+      [
+        "Apollo 11 landing",
+        "20 July 1969"
+      ],
+      [
+        "What remains",
+        "The descent stage and surface experiments"
+      ],
+      [
+        "Location",
+        "Sea of Tranquility"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Apollo 11 landing site",
+        "url": "https://science.nasa.gov/resource/apollo-11-landing-site/"
+      },
+      {
+        "label": "NASA — Human artifacts on the Moon",
+        "url": "https://www.nasa.gov/wp-content/uploads/static/history/humanartifacts.html"
+      }
+    ]
+  },
+  {
+    "id": "curiosity",
+    "title": "Curiosity Rover",
+    "region": "Mars",
+    "years": "2012–Present",
+    "tone": "mars",
+    "type": "Robotic Mars rover",
+    "status": "Active mission",
+    "short": "A mobile science laboratory studying the geology and ancient habitability of Gale Crater.",
+    "body": "NASA’s Curiosity rover landed in Gale Crater on 6 August 2012 (UTC). Its instruments examine rocks, soil, and the Martian environment to understand whether ancient Mars had conditions that could support microbial life. The rover continues to explore the planet.",
+    "facts": [
+      [
+        "Launch",
+        "26 November 2011"
+      ],
+      [
+        "Landing",
+        "6 August 2012 (UTC)"
+      ],
+      [
+        "Location",
+        "Gale Crater, Mars"
+      ],
+      [
+        "Science goal",
+        "Investigate ancient habitability"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Curiosity mission",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/"
+      },
+      {
+        "label": "NASA — Curiosity location map",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/location-map/"
+      }
+    ]
+  },
+  {
+    "id": "voyager",
+    "title": "Voyager Probes",
+    "region": "Deep Space",
+    "years": "1977–Present",
+    "tone": "deep",
+    "type": "Interstellar space probes",
+    "status": "Extended missions",
+    "short": "Twin spacecraft that explored the outer planets and continued their journeys into interstellar space.",
+    "body": "Voyager 1 and Voyager 2 launched in 1977 to explore the outer planets. Both spacecraft later crossed into interstellar space and carry a Golden Record containing sounds and images chosen to represent life and culture on Earth.",
+    "facts": [
+      [
+        "Launches",
+        "20 August and 5 September 1977"
+      ],
+      [
+        "Voyager 1",
+        "Entered interstellar space in August 2012"
+      ],
+      [
+        "Voyager 2",
+        "Entered interstellar space in November 2018"
+      ],
+      [
+        "Legacy",
+        "Both carry a Golden Record"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Voyager fast facts",
+        "url": "https://science.nasa.gov/mission/voyager/fast-facts/"
+      },
+      {
+        "label": "NASA — Voyager 1",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/"
+      }
+    ]
+  },
+  {
+    "id": "space-telescope",
+    "title": "Spitzer Space Telescope",
+    "region": "Deep Space",
+    "years": "2003–2020",
+    "tone": "tele",
+    "type": "Infrared space telescope",
+    "status": "Mission completed",
+    "short": "An infrared observatory that revealed stars, galaxies, and planets beyond what visible-light telescopes can see.",
+    "body": "Launched in 2003, NASA’s Spitzer Space Telescope studied the universe in infrared light for more than 16 years. It observed targets ranging from objects in our solar system to distant galaxies. NASA decommissioned the spacecraft on 30 January 2020, while its archived observations continue to support research.",
+    "facts": [
+      [
+        "Launch",
+        "25 August 2003"
+      ],
+      [
+        "Mission ended",
+        "30 January 2020"
+      ],
+      [
+        "Observatory type",
+        "Infrared"
+      ],
+      [
+        "Legacy",
+        "Science data remains available to researchers"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Spitzer mission",
+        "url": "https://science.nasa.gov/mission/spitzer/"
+      },
+      {
+        "label": "NASA — End of mission",
+        "url": "https://science.nasa.gov/missions/spitzer/nasas-spitzer-space-telescope-ends-mission-of-astronomical-discovery/"
+      }
+    ]
+  },
+  {
+    "id": "return-capsule",
+    "title": "The Stardust Capsule",
+    "region": "Deep Space",
+    "years": "1999–2011",
+    "tone": "cap",
+    "type": "Comet sample-return capsule",
+    "status": "Mission completed",
+    "short": "A small return capsule that brought the first samples from a comet back to Earth.",
+    "body": "Stardust collected dust from Comet Wild 2 using aerogel and returned the samples to Earth in January 2006. The capsule landed in Utah, while the main spacecraft continued as the Stardust-NExT mission and later flew past Comet Tempel 1 in 2011.",
+    "facts": [
+      [
+        "Launch",
+        "7 February 1999"
+      ],
+      [
+        "Comet encounter",
+        "Comet Wild 2 · January 2004"
+      ],
+      [
+        "Capsule return",
+        "15 January 2006"
+      ],
+      [
+        "Extended mission",
+        "Stardust-NExT · 2011"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Stardust mission",
+        "url": "https://science.nasa.gov/mission/stardust/"
+      },
+      {
+        "label": "NASA JPL — Stardust",
+        "url": "https://www.jpl.nasa.gov/missions/stardust/"
+      }
+    ]
+  }
 ]
