@@ -19,6 +19,7 @@
 <script src="js/data-lab.js" defer></script>
 <script src="js/alsep-explorer.js" defer></script>
 <script src="js/insight-explorer.js" defer></script>
+<script src="js/pathfinder-explorer.js" defer></script>
 </head>
 <body>
 <div id="stars" class="bg-stars" aria-hidden="true"></div>
@@ -71,6 +72,20 @@
       <div class="insight-content"><div class="insight-tabs" data-insight-tabs role="group" aria-label="Choose an InSight science instrument"></div><div class="insight-detail" data-insight-detail></div></div>
       <p class="data-status" data-insight-status role="status" aria-live="polite">Loading InSight instrument records…</p>
       <div class="insight-sources" data-insight-sources></div>
+    </div>
+  </section>
+  <section class="data-section" aria-labelledby="pathfinder-title">
+    <div class="data-section-head"><div><p class="eyebrow">Mars · Pathfinder mission</p><h2 id="pathfinder-title">The first rover. A whole new world.</h2><p>Follow the landing, Sojourner’s deployment, its science work, and the evidence it left behind. Choose each chapter to explore what actually happened.</p></div></div>
+    <div class="pathfinder-explorer" id="pathfinder-explorer">
+      <div class="pathfinder-visual" data-pathfinder-visual></div>
+      <div class="pathfinder-content">
+        <div class="pathfinder-nav" data-pathfinder-nav role="group" aria-label="Explore Pathfinder mission chapters"></div>
+        <div class="pathfinder-detail" data-pathfinder-detail></div>
+        <div class="pathfinder-controls"><button type="button" data-pathfinder-prev>Previous</button><span class="pathfinder-count" data-pathfinder-count>1 / 4</span><button type="button" data-pathfinder-next>Next</button></div>
+      </div>
+      <div class="pathfinder-gallery" data-pathfinder-gallery aria-label="NASA Pathfinder mission photograph"></div>
+      <p class="data-status" data-pathfinder-status role="status" aria-live="polite">Loading Pathfinder mission record…</p>
+      <div class="pathfinder-sources" data-pathfinder-sources></div>
     </div>
   </section>
   <section class="data-section" aria-labelledby="image-search-title">
