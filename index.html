@@ -1,54 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090b10">
-  <meta name="description" content="An interactive archive exploring NASA spacecraft, abandoned equipment, and the discoveries they made possible.">
-  <title>Beyond Relics — Abandoned, But Not Forgotten</title>
-  <link rel="icon" href="assets/logos/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/home.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  <script src="js/main.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080c">
+<meta name="description" content="An interactive archive exploring NASA spacecraft, abandoned equipment, and the discoveries they made possible.">
+<link rel="icon" href="assets/logos/favicon.png">
+<title>Beyond Relics — Abandoned, But Not Forgotten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script src="js/main.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Beyond Relics home"><span class="brand-mark">✧</span><span>BEYOND <b>RELICS</b></span></a>
-    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a class="active" href="index.html">Home</a><a href="artifacts.html">Artifacts</a><a href="timeline.html">Timeline</a><a href="comic.html">The Story</a><a href="about.html">About</a>
+<main class="hero" id="home">
+  <div id="stars" aria-hidden="true"></div>
+  <div class="earth" aria-hidden="true"></div>
+  <div class="ground" aria-hidden="true"></div>
+
+  <div class="astro" aria-hidden="true">
+    <svg viewBox="0 0 220 300" fill="currentColor">
+      <rect x="6" y="70" width="86" height="120" rx="10" fill="#8a8172"/>
+      <rect x="14" y="80" width="30" height="40" fill="#6f675a"/>
+      <path d="M80 200c-6-50 6-92 44-100 36-6 60 22 62 70l16 70-28 30H70z" fill="#a89d8a"/>
+      <path d="M150 150c10 30 4 62-8 92" fill="none" stroke="#5c5448" stroke-width="3"/>
+      <circle cx="120" cy="52" r="46" fill="#cfc4b0"/>
+      <ellipse cx="132" cy="54" rx="26" ry="30" fill="#14110f"/>
+      <ellipse cx="124" cy="44" rx="8" ry="12" fill="#3a3a44" opacity=".8"/>
+      <circle cx="104" cy="170" r="10" fill="#5b5346"/>
+      <path d="M50 258c30-10 90-10 150 8l-6 30H30z" fill="#7a7164"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="index.html" aria-label="Beyond Relics home">Beyond<br><b>Relics</b></a>
+    <nav aria-label="Main">
+      <ul class="links">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="artifacts.html">Artifacts</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+        <li><a href="comic.html">The Story</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
     </nav>
+    <div class="tools">
+      <button id="sound" type="button" aria-pressed="false" aria-label="Toggle sound">
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="off" d="M17 9l4 6M21 9l-4 6"/><path class="on" d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg>
+      </button>
+      <button id="theme" class="round" type="button" aria-pressed="false" aria-label="Toggle dim mode">
+        <svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg>
+      </button>
+    </div>
   </header>
-  <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">A SPACE HERITAGE ARCHIVE</p>
-        <h1>ABANDONED,<br><em>BUT NOT FORGOTTEN.</em></h1>
-        <p class="hero-lead">Real machines. Real missions. A lasting legacy in the cosmos.</p>
-        <p class="hero-text">Explore the spacecraft and scientific equipment left behind across the Moon, Mars, and deep space — and discover the science they made possible.</p>
-        <a class="button button-primary" href="artifacts.html">Explore the archive <span>↗</span></a>
-      </div>
-      <div class="hero-visual" role="img" aria-label="Illustration placeholder showing a lunar lander beneath a distant planet">
-        <div class="planet planet-large"></div><div class="planet planet-small"></div>
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="lander-art"><span class="lander-top"></span><span class="lander-body"></span><span class="lander-leg leg-a"></span><span class="lander-leg leg-b"></span><span class="lander-leg leg-c"></span></div>
-        <span class="visual-caption">THE LEGACY OF EXPLORATION · 1969—PRESENT</span>
-      </div>
-    </section>
-    <section class="section-block" id="featured">
-      <div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Artifacts of exploration</h2></div><a class="text-link" href="artifacts.html">View all artifacts ↗</a></div>
-      <div class="artifact-grid">
-        <a class="artifact-card" href="artifact-details.html?id=lunar-module"><div class="artifact-image image-moon"><span>01 / THE MOON</span></div><div class="artifact-info"><h3>The Lunar Module</h3><p>Humanity's first steps on another world.</p><span class="card-link">Discover artifact ↗</span></div></a>
-        <a class="artifact-card" href="artifact-details.html?id=curiosity"><div class="artifact-image image-mars"><span>02 / MARS</span></div><div class="artifact-info"><h3>The Mars Rover</h3><p>Robotic explorers built to outlast expectations.</p><span class="card-link">Discover artifact ↗</span></div></a>
-        <a class="artifact-card" href="artifact-details.html?id=voyager"><div class="artifact-image image-deep"><span>03 / DEEP SPACE</span></div><div class="artifact-info"><h3>Voyager Probes</h3><p>Messages from Earth traveling beyond the planets.</p><span class="card-link">Discover artifact ↗</span></div></a>
-      </div>
-    </section>
-    <section class="quote-band"><p class="eyebrow">A DIFFERENT KIND OF MUSEUM</p><blockquote>Some missions end.<br><em>Their stories keep traveling.</em></blockquote><a class="text-link" href="about.html">Our mission ↗</a></section>
-    <section class="section-block timeline-preview"><div class="section-heading"><div><p class="eyebrow">THROUGH TIME & SPACE</p><h2>One journey. Many worlds.</h2></div><a class="text-link" href="timeline.html">Explore timeline ↗</a></div><div class="mini-timeline"><div><span class="timeline-dot"></span><b>1969</b><small>The Moon</small></div><div><span class="timeline-dot"></span><b>1977</b><small>Deep Space</small></div><div><span class="timeline-dot"></span><b>2012</b><small>Mars</small></div><div><span class="timeline-dot"></span><b>Today</b><small>Beyond</small></div></div></section>
-  </main>
-  <footer class="site-footer"><a class="brand" href="index.html"><span class="brand-mark">✧</span><span>BEYOND <b>RELICS</b></span></a><p>Remembering the machines that helped us understand the universe.</p><span>© <span data-year></span> Beyond Relics · Educational project</span></footer>
-</body></html>
+
+  <section class="copy">
+    <p class="kicker">A digital archive of space exploration</p>
+    <h1><span>Abandoned</span><span>But <em>Not</em> Forgotten</span></h1>
+    <p class="sub">Explore the stories of space equipment that reached beyond Earth… and stayed behind.</p>
+    <div class="divider" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(-24 12 12)"/></svg>
+    </div>
+  </section>
+
+  <section class="cards" id="cards" aria-label="Archive stories">
+    <a class="card c1" href="artifact-details.html?id=lunar-module" style="--i:0">
+      <div class="art"><svg viewBox="0 0 200 150"><path class="nf" d="M70 100L40 140M130 100l30 40M100 104v36M30 142h22M148 142h22M90 142h20"/><path d="M68 62l20-16h28l16 16v38H68z"/><circle cx="100" cy="46" r="14"/><rect x="58" y="70" width="12" height="20"/><rect x="130" y="70" width="12" height="20"/></svg></div>
+      <div class="label"><h2>The Lunar<br>Module</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card c2" href="artifact-details.html?id=curiosity" style="--i:1">
+      <div class="art"><svg viewBox="0 0 200 150"><path class="nf" d="M100 60V28"/><rect x="82" y="14" width="34" height="18"/><rect x="60" y="60" width="86" height="30"/><path class="nf" d="M50 100h100"/><circle cx="56" cy="112" r="16"/><circle cx="100" cy="116" r="15"/><circle cx="146" cy="112" r="16"/></svg></div>
+      <div class="label"><h2>The Mars<br>Rover</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card c3" href="artifact-details.html?id=voyager" style="--i:2">
+      <div class="art"><svg viewBox="0 0 200 150"><path d="M60 40q30-30 80 0-20 40-80 0z"/><path class="nf" d="M100 36l-10 62M100 36l16 60"/><rect x="72" y="92" width="52" height="30"/><path class="nf" d="M72 110l-34 14M124 104l40 16"/></svg></div>
+      <div class="label"><h2>The Deep Space<br>Probe</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card c4" href="artifact-details.html?id=space-telescope" style="--i:3">
+      <div class="art"><svg viewBox="0 0 200 150"><g transform="rotate(-18 100 75)"><rect x="38" y="52" width="110" height="38"/><rect x="148" y="46" width="16" height="50"/><path class="nf" d="M70 52v38M104 52v38"/><rect x="62" y="20" width="26" height="30"/><rect x="62" y="92" width="26" height="30"/></g></svg></div>
+      <div class="label"><h2>The Space<br>Telescope</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="card c5" href="artifact-details.html?id=return-capsule" style="--i:4">
+      <div class="art"><svg viewBox="0 0 200 150"><path d="M82 38h36l32 62q-50 22-100 0z"/><path class="nf" d="M70 100q30 14 60 0M96 38v-8h8v8"/><circle cx="100" cy="64" r="7"/></svg></div>
+      <div class="label"><h2>The Return<br>Capsule</h2><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+  </section>
+
+  <a class="scroll" href="artifacts.html">
+    <span class="ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>Explore the archive
+  </a>
+  <div class="spark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></div>
+  <div class="tag">Real missions. Lasting legacies.<i></i><i></i><i></i></div>
+</main>
+
+</body>
+</html>
