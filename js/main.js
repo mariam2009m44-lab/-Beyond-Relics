@@ -147,40 +147,54 @@
       if (soundButton) soundButton.setAttribute("aria-label", "Audio is not supported in this browser");
       return false;
     }
+    function activate() {
+      if (soundEnabled || !audioContext || audioContext.state !== "running") return;
+      try {
+        master = keep(audioContext.createGain());
+        var compressor = keep(audioContext.createDynamicsCompressor());
+        compressor.threshold.value = -20;
+        compressor.knee.value = 18;
+        compressor.ratio.value = 3.5;
+        compressor.attack.value = .012;
+        compressor.release.value = .28;
+        master.gain.setValueAtTime(.0001, audioContext.currentTime);
+        master.gain.linearRampToValueAtTime(.38, audioContext.currentTime + 2.8);
+        master.connect(compressor);
+        compressor.connect(audioContext.destination);
+
+        var low = tone(43.65, "sine", master, .12, 0);
+        var lowLfo = keep(audioContext.createOscillator());
+        var lowDepth = keep(audioContext.createGain());
+        lowLfo.frequency.value = .055;
+        lowDepth.gain.value = 5;
+        lowLfo.connect(lowDepth);
+        lowDepth.connect(low.osc.frequency);
+        lowLfo.start();
+
+        var shimmer = tone(587.33, "sine", master, .012, 7);
+        shimmer.filter.frequency.value = 1150;
+
+        soundEnabled = true;
+        step = 0;
+        scheduleMusic();
+        musicTimer = window.setInterval(scheduleMusic, 720);
+        try { localStorage.setItem("br-music-enabled", "1"); } catch (error) {}
+        updateSoundButton();
+      } catch (error) {
+        stopMusic(true);
+        if (soundButton) soundButton.setAttribute("aria-label", "Could not start the music");
+      }
+    }
     try {
       audioContext = audioContext || new AudioEngine();
-      if (audioContext.state === "suspended") audioContext.resume();
-      if (soundEnabled) return true;
-
-      master = keep(audioContext.createGain());
-      var compressor = keep(audioContext.createDynamicsCompressor());
-      compressor.threshold.value = -20;
-      compressor.knee.value = 18;
-      compressor.ratio.value = 3.5;
-      compressor.attack.value = .012;
-      compressor.release.value = .28;
-      master.gain.setValueAtTime(.0001, audioContext.currentTime);
-      master.gain.linearRampToValueAtTime(.38, audioContext.currentTime + 2.8);
-      master.connect(compressor);
-      compressor.connect(audioContext.destination);
-
-      var low = tone(43.65, "sine", master, .12, 0);
-      var lowLfo = keep(audioContext.createOscillator());
-      var lowDepth = keep(audioContext.createGain());
-      lowLfo.frequency.value = .055;
-      lowDepth.gain.value = 5;
-      lowLfo.connect(lowDepth);
-      lowDepth.connect(low.osc.frequency);
-      lowLfo.start();
-
-      var shimmer = tone(587.33, "sine", master, .012, 7);
-      shimmer.filter.frequency.value = 1150;
-
-      soundEnabled = true;
-      step = 0;
-      scheduleMusic();
-      musicTimer = window.setInterval(scheduleMusic, 720);
-      try { localStorage.setItem("br-music-enabled", "1"); } catch (error) {}
+      if (audioContext.state === "running") {
+        activate();
+      } else {
+        audioContext.resume().then(activate).catch(function () {
+          soundEnabled = false;
+          updateSoundButton();
+        });
+      }
       return true;
     } catch (error) {
       stopMusic(true);
