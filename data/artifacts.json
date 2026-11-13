@@ -96,6 +96,10 @@
       [
         "What remains",
         "Instrument packages at lunar sites"
+      ],
+      [
+        "Passive seismic network",
+        "Four stations · Apollo 12, 14, 15, and 16"
       ]
     ],
     "sources": [
@@ -110,6 +114,14 @@
       {
         "label": "NASA — Apollo 17 post-mission activities",
         "url": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities/"
+      },
+      {
+        "label": "NASA Planetary Data System — Apollo 12 Passive Seismic Experiment metadata",
+        "url": "https://pds.nasa.gov/ds-view/pds/viewContext.jsp?identifier=urn%3Anasa%3Apds%3Acontext%3Ainstrument%3Apse.a12a&version=1.0"
+      },
+      {
+        "label": "NASA RP-1036 — ALSEP Termination Report",
+        "url": "https://www.lpi.usra.edu/lunar/documents/NASA%20RP-1036.pdf"
       }
     ]
   },
