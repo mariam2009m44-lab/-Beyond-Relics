@@ -99,6 +99,7 @@
       target.prepend(img);
       window.BeyondRelicsImages.mount(img,images);
       var credit=el("span","archive-photo-credit","NASA · "+images[0].id);
+      img.addEventListener("nasaimageload",function(event){credit.textContent="NASA · "+event.detail.id;});
       target.append(credit);
     }).catch(function(){state.textContent="NASA image service temporarily unavailable";state.classList.add("is-fallback");});
   }
