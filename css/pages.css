@@ -1060,3 +1060,15 @@ body {
 .acard .aart,.detail .dart{position:relative;overflow:hidden}
 .acard .aart>img,.detail .dart>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .acard .aart>svg,.detail .dart>svg{position:relative;z-index:1;opacity:.22}
+
+/* Archive polish: consistent editorial cards and clear image-loading states */
+.page .acard,.page .acard:nth-child(3n+1),.page .acard:nth-child(3n+2),.page .acard:nth-child(3n){--r:0deg;transform:none;border:1px solid rgba(233,220,198,.28);border-radius:2px;box-shadow:0 14px 34px rgba(0,0,0,.42)}
+.page .acard:hover,.page .acard:focus-visible{transform:translateY(-5px);border-color:var(--rust);box-shadow:0 22px 44px rgba(0,0,0,.58)}
+.page .aart{isolation:isolate;align-items:flex-end;background-color:#101722}
+.page .aart:after{content:"";position:absolute;inset:35% 0 0;z-index:1;background:linear-gradient(180deg,transparent,rgba(4,6,10,.72));pointer-events:none}
+.page .aart .artifact-stamp,.page .aart .status-stamp{z-index:2;position:relative;line-height:1.4}
+.archive-image-state{position:absolute;z-index:2;left:1rem;top:2.8rem;max-width:calc(100% - 2rem);padding:.32rem .48rem;background:rgba(5,7,12,.76);border:1px solid rgba(233,220,198,.2);color:rgba(239,230,214,.76);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase}
+.archive-image-state.is-fallback{color:#e0b49d;border-color:rgba(217,85,43,.45)}
+.archive-photo-credit{pointer-events:none}
+.page .abody h3{line-height:1.08;letter-spacing:.055em}
+.page .abody .eyebrow{color:#d6a28a;letter-spacing:.16em}
