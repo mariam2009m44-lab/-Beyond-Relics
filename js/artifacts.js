@@ -52,27 +52,30 @@
     if(query)query.addEventListener("input",function(){term=query.value.trim().toLowerCase();draw();});
     drawChips();draw();
   }
+  function imageScore(record,query){
+    var data=record&&record.data&&record.data[0]||{},hay=((data.title||"")+" "+(data.description||"")).toLowerCase();
+    var words=String(query||"").toLowerCase().split(/[^a-z0-9]+/).filter(function(w){return w.length>3&&w!=="nasa"&&w!=="mission"&&w!=="mars"&&w!=="moon";});
+    return words.reduce(function(total,word){return total+(hay.indexOf(word)!==-1?1:0);},0);
+  }
   function loadArchiveImage(item,target){
     if(!item.image_query||!target)return;
-    var endpoint="https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query)+"&media_type=image&page_size=6";
+    var endpoint="https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query)+"&media_type=image&page_size=12";
     fetch(endpoint).then(function(response){
       if(!response.ok)throw new Error("NASA image search unavailable");
       return response.json();
     }).then(function(payload){
       var records=payload&&payload.collection&&payload.collection.items||[];
+      records.sort(function(x,y){return imageScore(y,item.image_query)-imageScore(x,item.image_query);});
       for(var i=0;i<records.length;i++){
         var record=records[i],data=record.data&&record.data[0];
-        var image=(record.links||[]).find(function(link){
-          return link.render==="image"&&/^https:\/\//i.test(link.href||"");
-        });
-        if(!data||!image)continue;
-        var img=el("img","archive-photo");
-        img.src=image.href;img.alt=data.title||item.title;img.loading="lazy";img.decoding="async";
+        var image=(record.links||[]).find(function(link){return link.render==="image"&&/^https:\/\//i.test(link.href||"");});
+        if(!data||!data.nasa_id||!image)continue;
+        var img=el("img","archive-photo");img.src=image.href;img.alt=data.title||item.title;img.loading="lazy";img.decoding="async";img.referrerPolicy="no-referrer";
         img.addEventListener("load",function(){target.classList.add("has-nasa-image");},{once:true});
         img.addEventListener("error",function(){img.remove();target.classList.remove("has-nasa-image");},{once:true});
         target.prepend(img);
-        target.append(el("span","archive-photo-credit","NASA IMAGE LIBRARY"));
-        return;
+        var credit=el("a","archive-photo-credit","NASA · "+data.nasa_id+" ↗");credit.href="https://images.nasa.gov/details/"+encodeURIComponent(data.nasa_id);credit.target="_blank";credit.rel="noopener noreferrer";
+        target.append(credit);return;
       }
     }).catch(function(){/* Keep the original mission-colour card if NASA search is unavailable. */});
   }
