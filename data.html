@@ -21,6 +21,7 @@
 <script src="js/alsep-explorer.js" defer></script>
 <script src="js/insight-explorer.js" defer></script>
 <script src="js/pathfinder-explorer.js" defer></script>
+<script src="js/mission-detective.js" defer></script>
 </head>
 <body>
 <div id="stars" class="bg-stars" aria-hidden="true"></div>
@@ -87,6 +88,14 @@
       <div class="pathfinder-gallery" data-pathfinder-gallery aria-label="NASA Pathfinder mission photograph"></div>
       <p class="data-status" data-pathfinder-status role="status" aria-live="polite">Loading Pathfinder mission record…</p>
       <div class="pathfinder-sources" data-pathfinder-sources></div>
+    </div>
+  </section>
+  <section class="data-section" aria-labelledby="detective-title">
+    <div class="data-section-head"><div><p class="eyebrow">Interactive evidence challenge</p><h2 id="detective-title">Mission detective</h2><p>Three short cases. Read the clue, choose an answer, then open the NASA source behind the evidence.</p></div></div>
+    <div class="mission-detective" id="mission-detective">
+      <div class="detective-top"><span data-quiz-eyebrow>CASE 01</span><span data-quiz-progress>CASE 1 OF 3</span></div>
+      <div class="detective-main"><p class="detective-kicker">FIELD QUESTION</p><h3 data-quiz-title>Loading the first case…</h3><p data-quiz-prompt></p><div class="detective-options" data-quiz-options></div><div class="detective-feedback" data-quiz-feedback role="status" aria-live="polite" hidden></div></div>
+      <div class="detective-bottom"><span data-quiz-score>SCORE 0/3</span><button type="button" data-quiz-next hidden>Next case</button></div>
     </div>
   </section>
   <section class="data-section" aria-labelledby="image-search-title">
