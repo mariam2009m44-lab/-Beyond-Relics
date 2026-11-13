@@ -1084,3 +1084,35 @@ body {
 .illustration-caption{position:absolute;left:.8rem;bottom:.8rem;padding:.3rem .45rem;background:rgba(4,6,10,.76);color:rgba(238,227,207,.72);font-size:.54rem;letter-spacing:.12em}
 .acard .artifact-illustration,.dart .artifact-illustration{z-index:0}
 .acard .artifact-stamp,.dart .artifact-stamp{position:relative;z-index:3;background:rgba(4,6,10,.76);padding:.35rem .5rem}
+
+/* ALSEP interactive evidence explorer */
+.alsep-explorer{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:1.2rem;align-items:start;padding:clamp(1rem,3vw,1.6rem);border:1px solid rgba(218,199,169,.25);background:linear-gradient(145deg,rgba(18,25,36,.94),rgba(7,9,14,.96));}
+.alsep-map-wrap{min-width:0;padding:.5rem;background:radial-gradient(ellipse at 50% 45%,rgba(112,130,157,.13),transparent 68%)}
+.alsep-map-wrap svg{display:block;width:100%;height:auto;max-height:390px}
+.alsep-moon-disc{fill:#77756f;fill-opacity:.15;stroke:rgba(221,213,194,.52);stroke-width:1.5}
+.alsep-grid-line{fill:none;stroke:rgba(224,214,192,.18);stroke-width:1;stroke-dasharray:4 7}
+.alsep-map-label{fill:#e7ddc9;font:11px 'Barlow Condensed',sans-serif;letter-spacing:1.5px}
+.alsep-map-point{cursor:pointer;outline:none}
+.alsep-map-dot{fill:#cf7957;stroke:#f3d8bd;stroke-width:2;transition:r .2s,fill .2s}
+.alsep-map-point:hover .alsep-map-dot,.alsep-map-point:focus .alsep-map-dot,.alsep-map-point.is-active .alsep-map-dot{r:13;fill:#f0b58f;stroke:#fff2df}
+.alsep-map-note,.alsep-caveat{font-size:.82rem;line-height:1.5;color:rgba(232,222,205,.65)}
+.alsep-explorer-side{display:grid;gap:.9rem}
+.alsep-station-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}
+.alsep-station-button{min-height:48px;padding:.65rem .7rem;text-align:left;color:#e8dece;background:#101722;border:1px solid rgba(230,214,189,.25);font:600 .92rem 'Barlow Condensed',sans-serif;cursor:pointer}
+.alsep-station-button[aria-pressed="true"]{border-color:#d97854;background:rgba(163,76,48,.2);color:#fff0df}
+.alsep-detail,.alsep-instrument-card{padding:1rem;border:1px solid rgba(225,207,180,.2);background:rgba(5,8,13,.62)}
+.alsep-detail h3,.alsep-instrument-card h3{margin:.15rem 0 .55rem;font-size:1.45rem}
+.alsep-site{color:#d89b7c;font-size:.9rem;letter-spacing:.04em}
+.alsep-facts{display:grid;gap:.45rem;margin-top:.8rem}
+.alsep-fact{display:flex;justify-content:space-between;gap:1rem;padding-top:.45rem;border-top:1px solid rgba(220,210,190,.13);font-size:.85rem}
+.alsep-fact span{color:rgba(232,222,205,.6)}
+.alsep-fact strong{text-align:right}
+.alsep-rate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin-top:.8rem}
+.alsep-rate{display:grid;gap:.25rem;padding:.8rem;background:rgba(201,116,82,.1);border:1px solid rgba(201,116,82,.3)}
+.alsep-rate strong{font-size:1.3rem;color:#efb08e;font-variant-numeric:tabular-nums}
+.alsep-rate span{font-size:.78rem;color:rgba(232,222,205,.72)}
+.alsep-sources{display:grid;gap:.45rem;margin-top:.7rem}
+.alsep-sources a{color:#e5ae91;text-decoration:underline;text-underline-offset:3px;font-size:.88rem}
+.alsep-explorer>[data-alsep-status]{grid-column:1/-1;margin:0}
+.alsep-explorer>[data-alsep-sources]{grid-column:1/-1}
+@media(max-width:760px){.alsep-explorer{grid-template-columns:1fr}.alsep-map-wrap svg{max-height:300px}.alsep-fact{align-items:flex-start}.alsep-explorer>[data-alsep-status],.alsep-explorer>[data-alsep-sources]{grid-column:auto}}
