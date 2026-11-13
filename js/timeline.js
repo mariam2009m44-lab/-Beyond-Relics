@@ -19,11 +19,28 @@
   function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
   events.forEach(function(item){
     var li=el("li","tl-item panel"),top=el("div","tl-top");
+    if(item.id)li.dataset.artifactId=item.id;
     top.append(el("span","tl-year",item.year),el("span","tl-date",item.date));
     li.append(top,el("span","tl-kind",item.kind),el("h3","",item.title),el("span","place",item.place),el("p","",item.text));
+    if(item.id){var photo=el("div","timeline-photo");photo.setAttribute("aria-label","NASA mission photograph");li.appendChild(photo);}
     if(item.id){var a=el("a","more","Explore related artifact ↗");a.href="artifact-details.html?id="+encodeURIComponent(item.id);li.appendChild(a);}
     root.appendChild(li);
   });
+  fetch("data/artifacts.json").then(function(r){if(!r.ok)throw new Error("Archive unavailable");return r.json();}).then(function(records){
+    var byId=Object.create(null),cache=Object.create(null);records.forEach(function(record){byId[record.id]=record;});
+    root.querySelectorAll(".tl-item[data-artifact-id]").forEach(function(card){
+      var id=card.dataset.artifactId,item=byId[id],target=card.querySelector(".timeline-photo");
+      if(!item||!item.image_query||!target)return;
+      if(!cache[id])cache[id]=fetch("https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query)+"&media_type=image&page_size=10")
+        .then(function(r){if(!r.ok)throw new Error("NASA image API unavailable");return r.json();})
+        .then(function(payload){var list=payload&&payload.collection&&payload.collection.items||[];return list.find(function(record){var data=record.data&&record.data[0]||{};return data.nasa_id&&(record.links||[]).some(function(link){return link.render==="image"&&/^https:\/\//i.test(link.href||"");});})||null;}).catch(function(){return null;});
+      cache[id].then(function(record){if(!record)return;var data=record.data[0],image=record.links.find(function(link){return link.render==="image"&&/^https:\/\//i.test(link.href||"");});
+        var link=el("a","timeline-photo-link");link.href="https://images.nasa.gov/details/"+encodeURIComponent(data.nasa_id);link.target="_blank";link.rel="noopener noreferrer";
+        var img=el("img","");img.src=image.href;img.alt=data.title||item.title;img.loading="lazy";img.decoding="async";img.referrerPolicy="no-referrer";
+        link.appendChild(img);link.appendChild(el("span","timeline-photo-credit","NASA IMAGE · "+data.nasa_id));target.replaceChildren(link);
+      });
+    });
+  }).catch(function(){/* Timeline remains readable if the NASA archive is offline. */});
   var items=root.querySelectorAll(".tl-item");
   if("IntersectionObserver" in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("in");observer.unobserve(entry.target);}});},{threshold:.12});items.forEach(function(item){observer.observe(item);});}
   else items.forEach(function(item){item.classList.add("in");});
