@@ -899,3 +899,30 @@ body {
 .benchmark td:first-child{color:var(--bone);font-weight:600}
 .data-footer-links{display:flex;flex-wrap:wrap;gap:.8rem 1.4rem;margin-top:1rem}
 .data-footer-links a{color:var(--rust);text-decoration:underline;text-underline-offset:.2em}
+
+/* Evidence-first research dashboard */
+.evidence-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin:1.5rem 0 2rem}
+.evidence-metric{padding:1.1rem 1.2rem;border:1px solid var(--line);background:linear-gradient(145deg,rgba(25,29,42,.75),rgba(8,9,14,.86))}
+.evidence-metric strong{display:block;color:var(--rust);font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.1}
+.evidence-metric span{display:block;margin-top:.45rem;color:var(--mute);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
+.research-method{display:grid;grid-template-columns:minmax(200px,.65fr) minmax(0,1.35fr);gap:2rem;align-items:start;margin:2.5rem 0;padding:1.5rem 0;border-block:1px solid var(--line)}
+.research-method h3{margin:0;font-size:1.45rem;text-transform:uppercase;letter-spacing:.08em}
+.research-method p:not(.eyebrow){color:var(--mute);line-height:1.55}
+.evidence-track{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.evidence-event{position:relative;padding:1rem;border:1px solid var(--line);background:rgba(10,11,16,.7);min-width:0}
+.evidence-event-date{color:var(--rust);font-size:.72rem;letter-spacing:.16em}
+.evidence-event h4{margin:.45rem 0;font-size:1.1rem}
+.evidence-event p{margin:0;color:var(--mute);font-size:.85rem}
+.evidence-event a,.release-actions a{display:inline-block;margin-top:.7rem;color:var(--rust);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.2em}
+.release-details{margin-top:.9rem;padding-top:.75rem;border-top:1px solid var(--line);color:var(--mute)}
+.release-details summary{color:var(--bone);cursor:pointer;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
+.release-details p{font-size:.9rem}
+.identifier-list{margin:.5rem 0;padding-left:1.2rem}
+.identifier-list li{margin:.35rem 0;font-size:.82rem}
+.identifier-list a{color:var(--rust)}
+.release-actions{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.3rem}
+.release-actions a{margin-top:.4rem}
+.nasa-result img{min-height:120px}
+.nasa-result a:focus-visible,.release-card a:focus-visible,.evidence-event a:focus-visible{outline:2px solid var(--rust);outline-offset:4px}
+@media(max-width:760px){.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.research-method{grid-template-columns:1fr}.evidence-track{grid-template-columns:1fr}}
+@media(max-width:420px){.evidence-metric{padding:.85rem}.evidence-metric span{font-size:.65rem}}
