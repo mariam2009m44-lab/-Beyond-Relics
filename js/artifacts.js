@@ -107,6 +107,7 @@
     fetch(url).then(function(r){if(!r.ok)throw new Error("NASA image API unavailable");return r.json();})
     .then(function(payload){
       var items=payload&&payload.collection&&Array.isArray(payload.collection.items)?payload.collection.items:[];
+      items.sort(function(x,y){return imageScore(y,item.image_query)-imageScore(x,item.image_query);});
       var fragment=document.createDocumentFragment(),seen=Object.create(null),count=0;
       items.forEach(function(record){
         if(count>=4)return;
