@@ -59,10 +59,17 @@
     "voyager": { chords:[[110,164.81,220,329.63],[123.47,185,246.94,369.99],[98,146.83,196,293.66],[110,164.81,246.94,369.99]], notes:[329.63,392,493.88,587.33,493.88,440,392,329.63] },
     "space-telescope": { chords:[[155.56,196,233.08,311.13],[138.59,174.61,207.65,277.18],[164.81,207.65,246.94,329.63],[146.83,185,220,293.66]], notes:[311.13,369.99,466.16,554.37,466.16,415.3,369.99,311.13] }
   };
-  if (storyScores[chapterId]) {
-    progression = storyScores[chapterId].chords;
-    melody = storyScores[chapterId].notes;
+  function applyStoryScore(id) {
+    var score = storyScores[id];
+    if (!score) return;
+    progression = score.chords;
+    melody = score.notes;
+    step = 0;
   }
+  applyStoryScore(chapterId);
+  window.addEventListener("beyondrelics:chapter", function(event) {
+    if (event.detail && event.detail.id) applyStoryScore(event.detail.id);
+  });
 
 
   function keep(node) {
