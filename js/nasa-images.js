@@ -72,9 +72,15 @@
         img.dispatchEvent(new CustomEvent("nasaimageerror"));
         return;
       }
-      img.src = candidates[index++].src;
+      var candidate = candidates[index++];
+      img.dataset.nasaRecordId = candidate.id;
+      img.src = candidate.src;
     }
     img.addEventListener("error", next);
+    img.addEventListener("load", function () {
+      var chosen = candidates.find(function (item) { return item.id === img.dataset.nasaRecordId; });
+      if (chosen) img.dispatchEvent(new CustomEvent("nasaimageload", { detail: chosen }));
+    });
     if (candidates.length) next();
     else img.dispatchEvent(new CustomEvent("nasaimageerror"));
   }
