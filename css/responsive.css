@@ -74,3 +74,6 @@
 
 @media(max-width:760px){.data-hero{grid-template-columns:1fr}.data-stamp{justify-self:start;text-align:left}.release-grid{grid-template-columns:1fr}.nasa-results{grid-template-columns:repeat(2,minmax(0,1fr))}.data-section-head{display:block}.benchmark{display:block;overflow-x:auto;white-space:normal}}
 @media(max-width:480px){.nasa-results{grid-template-columns:1fr}.search-console{grid-template-columns:1fr}.search-console button{min-height:2.8rem}.benchmark th,.benchmark td{min-width:150px;padding:.8rem .6rem}}
+
+@media(max-width:760px){.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.research-method{grid-template-columns:1fr}.evidence-track{grid-template-columns:1fr}}
+@media(max-width:420px){.evidence-metric{padding:.85rem}.evidence-metric span{font-size:.65rem}}
