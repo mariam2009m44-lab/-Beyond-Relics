@@ -1,43 +1,47 @@
 (function () {
   "use strict";
-  var releases = [
-    {
-      date: "13 AUG 2026 · PDS DATA RELEASE",
-      title: "Voyager 2: Uranus radio science returns to the archive",
-      meta: "Voyager 2 · Planetary Radio Astronomy instrument · 1985–1988 observations",
-      text: "NASA’s Planetary Data System added a Voyager 2 Planetary Radio Astronomy data bundle from its Uranus flyby. The archive covers 70 instrument channels and preserves measurements made decades ago—an especially strong fit for Beyond Relics’ story of hardware whose scientific legacy keeps travelling.",
-      source: "https://science.data.nasa.gov/features-events/data-software-highlights-august-2026",
-      sourceLabel: "NASA Science Data update · August 2026",
-      pds: "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=Voyager%202%20Uranus"
-    },
-    {
-      date: "26 JUN 2026 · PDS DATA RELEASE",
-      title: "New Horizons: extended Kuiper Belt mission data",
-      meta: "New Horizons · KEM2 K7 dataset · observations through April 2024",
-      text: "The PDS Small Bodies Node released additional New Horizons observations, including data around the 2019 Arrokoth encounter and the spacecraft’s continuing cruise through the Kuiper Belt. It shows how an active spacecraft keeps creating a record long after its headline encounter.",
-      source: "https://science.data.nasa.gov/features-events/data-software-highlights-june-2026",
-      sourceLabel: "NASA Science Data update · June 2026",
-      pds: "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=New%20Horizons%20KEM2"
-    },
-    {
-      date: "07 OCT 2026 · PDS DATA RELEASE",
-      title: "Artemis II: Orion mission archive",
-      meta: "Orion spacecraft · imagery, video, mission audio, environmental records, SPICE kernels",
-      text: "NASA’s PDS announced the Artemis II archive release. Its products include crew and vehicle camera imagery, video, mission audio with transcripts, locker temperature and humidity records, documents, and SPICE kernels. This is a modern example of how spacecraft operations become a long-term public record.",
-      source: "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
-      sourceLabel: "NASA Science Data update · October 2026",
-      pds: "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=Artemis%20II"
-    },
-    {
-      date: "OCT 2026 · ARCHIVE PRESERVATION",
-      title: "Swift Observatory: decades of data remain available",
-      meta: "Neil Gehrels Swift Observatory · nearly 22 years of observations",
-      text: "Following the observatory’s retirement, its archive remains open. NASA reports nearly 22 years of brightness measurements, multiwavelength spectra, and more than 1.5 million ultraviolet/optical images. The instrument’s operations ended, but its scientific record remains useful.",
-      source: "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
-      sourceLabel: "NASA Science Data update · October 2026",
-      pds: "https://www.swift.ac.uk/"
-    }
-  ];
+  function renderReleases(releases) {
+    var grid = document.getElementById("release-grid");
+    if (!grid) return;
+    grid.replaceChildren();
+    releases.forEach(function (item) {
+      var card = document.createElement("article");
+      card.className = "release-card";
+      var date = document.createElement("p");
+      date.className = "release-date";
+      date.textContent = (item.published || "").toUpperCase() + " · " + (item.type || "NASA archive update").toUpperCase();
+      var title = document.createElement("h3");
+      title.textContent = item.mission + ": " + (item.dataset || item.instrument || "mission archive");
+      var meta = document.createElement("p");
+      meta.className = "release-meta";
+      meta.textContent = [item.mission, item.instrument, item.dataset, item.observation_period].filter(Boolean).join(" · ");
+      var body = document.createElement("p");
+      body.textContent = item.summary;
+      var source = document.createElement("a");
+      source.href = item.source;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = "NASA source ↗";
+      var archive = document.createElement("a");
+      archive.href = item.archive;
+      archive.target = "_blank";
+      archive.rel = "noopener noreferrer";
+      archive.textContent = "Explore archive ↗";
+      card.append(date, title, meta, body, source, document.createTextNode(" "), archive);
+      grid.appendChild(card);
+    });
+  }
+
+  fetch("data/nasa-2026-releases.json")
+    .then(function (response) {
+      if (!response.ok) throw new Error("Could not load the NASA research index");
+      return response.json();
+    })
+    .then(renderReleases)
+    .catch(function () {
+      var grid = document.getElementById("release-grid");
+      if (grid) grid.textContent = "The research index could not be loaded. Please refresh the page.";
+    });
 
   var grid = document.getElementById("release-grid");
   if (grid) {
