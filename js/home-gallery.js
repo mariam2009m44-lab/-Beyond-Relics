@@ -22,6 +22,7 @@
         image.decoding = "async";
         image.referrerPolicy = "no-referrer";
         image.addEventListener("nasaimageerror", function () { image.remove(); }, { once: true });
+        image.addEventListener("nasaimageload", function (event) { var loaded = event.detail; credit.href = loaded.detail; credit.textContent = "NASA · " + loaded.id; });
         window.BeyondRelicsImages.mount(image, images);
         art.prepend(image);
         var credit = document.createElement("a");
