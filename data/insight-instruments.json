@@ -1,0 +1,112 @@
+{
+  "title": "NASA InSight — instruments and evidence",
+  "note": "This explorer summarizes published mission and instrument facts. The diagram is an original schematic, not a photograph or a reconstruction of telemetry.",
+  "instruments": [
+    {
+      "id": "seis",
+      "name": "SEIS",
+      "fullName": "Seismic Experiment for Interior Structure",
+      "role": "Listen to the inside of Mars",
+      "question": "What can marsquakes and impacts reveal about the planet’s interior?",
+      "description": "A seismometer placed directly on the Martian surface measured vibrations from marsquakes, meteorite impacts, and environmental activity. A wind and thermal shield helped protect it.",
+      "facts": [
+        [
+          "Main job",
+          "Measure seismic waves"
+        ],
+        [
+          "Location",
+          "On the Martian surface"
+        ],
+        [
+          "Power",
+          "Up to 8.5 watts"
+        ],
+        [
+          "Data return",
+          "Up to 38 megabits per day"
+        ]
+      ],
+      "outcome": "SEIS returned seismic observations that helped scientists investigate the crust, mantle, and core of Mars.",
+      "status": "Science measurements returned",
+      "source": "https://science.nasa.gov/mission/insight/science-instruments/"
+    },
+    {
+      "id": "hp3",
+      "name": "HP³",
+      "fullName": "Heat Flow and Physical Properties Package",
+      "role": "Investigate heat beneath the surface",
+      "question": "How much heat escapes from the inside of Mars?",
+      "description": "HP³ was designed to use a self-hammering probe nicknamed the mole to travel into the ground and measure heat flow. Unexpected soil properties prevented it from reaching its planned depth.",
+      "facts": [
+        [
+          "Target depth",
+          "Almost 5 metres"
+        ],
+        [
+          "Power while hammering",
+          "Up to 2 watts"
+        ],
+        [
+          "Data returned",
+          "About 350 megabits over the mission"
+        ],
+        [
+          "Outcome",
+          "Did not reach planned depth"
+        ]
+      ],
+      "outcome": "The mole did not reach its intended depth. That engineering difficulty also taught researchers about the unexpected properties of Martian soil.",
+      "status": "Goal not fully achieved",
+      "source": "https://science.nasa.gov/mission/insight/science-instruments/"
+    },
+    {
+      "id": "rise",
+      "name": "RISE",
+      "fullName": "Rotation and Interior Structure Experiment",
+      "role": "Track the planet’s subtle motion",
+      "question": "What does Mars’ tiny wobble tell us about its core?",
+      "description": "RISE used radio tracking between Earth and the lander to measure tiny changes in the position of Mars’ rotation axis. Those measurements help scientists infer the size and composition of the planet’s core.",
+      "facts": [
+        [
+          "Main job",
+          "Track Mars’ rotation and wobble"
+        ],
+        [
+          "Method",
+          "Radio tracking"
+        ],
+        [
+          "Power",
+          "78 watts"
+        ],
+        [
+          "Operating schedule",
+          "Up to one hour per day"
+        ]
+      ],
+      "outcome": "Radio-tracking measurements helped refine estimates of Mars’ interior, including information about its core.",
+      "status": "Radio-science observations returned",
+      "source": "https://science.nasa.gov/mission/insight/science-instruments/"
+    }
+  ],
+  "mission": {
+    "landing": "26 November 2018",
+    "finalCommunication": "15 December 2022",
+    "source": "https://science.nasa.gov/mission/insight/"
+  },
+  "sources": [
+    {
+      "label": "NASA Science — InSight Science Instruments",
+      "url": "https://science.nasa.gov/mission/insight/science-instruments/"
+    },
+    {
+      "label": "NASA Science — InSight Science",
+      "url": "https://science.nasa.gov/mission/insight/science/"
+    },
+    {
+      "label": "NASA Science — InSight Spacecraft",
+      "url": "https://science.nasa.gov/mission/insight/spacecraft/"
+    }
+  ]
+}
