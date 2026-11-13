@@ -68,3 +68,6 @@
   .links { gap: 1rem; }
   .links a { font-size: .76rem; }
 }
+
+@media(max-width:900px){.mission-brief{grid-template-columns:1fr;gap:2.4rem;padding:4rem clamp(1.2rem,6vw,3rem)}.brief-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;padding:1.4rem 0 0;border-left:0;border-top:1px solid var(--line)}.brief-orbit{width:90vw;right:-40%}}
+@media(max-width:600px){.card-meta{font-size:.55rem;letter-spacing:.14em}.mission-brief{padding-top:3.4rem;padding-bottom:3.4rem}.brief-copy h2{font-size:clamp(2.35rem,11vw,3.6rem)}.brief-actions{flex-direction:column;align-items:stretch}.brief-actions .btn{justify-content:center}.brief-stats{gap:.65rem}.brief-stats strong{font-size:1.8rem}.brief-stats span{font-size:.58rem;letter-spacing:.1em}}
