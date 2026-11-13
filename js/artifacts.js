@@ -36,6 +36,7 @@
         var art=el("div","aart");art.dataset.tone=item.tone;
         art.append(el("span","artifact-stamp",item.region+" · "+item.years));
         art.append(el("span","status-stamp",item.classification));
+        loadArchiveImage(item,art);
         var body=el("div","abody");body.append(el("p","eyebrow",item.type),el("h3","",item.title),el("p","",item.short),el("span","more","Explore evidence ↗"));
         a.append(art,body);grid.appendChild(a);
       });
@@ -50,6 +51,30 @@
     });
     if(query)query.addEventListener("input",function(){term=query.value.trim().toLowerCase();draw();});
     drawChips();draw();
+  }
+  function loadArchiveImage(item,target){
+    if(!item.image_query||!target)return;
+    var endpoint="https://images-api.nasa.gov/search?q="+encodeURIComponent(item.image_query)+"&media_type=image&page_size=6";
+    fetch(endpoint).then(function(response){
+      if(!response.ok)throw new Error("NASA image search unavailable");
+      return response.json();
+    }).then(function(payload){
+      var records=payload&&payload.collection&&payload.collection.items||[];
+      for(var i=0;i<records.length;i++){
+        var record=records[i],data=record.data&&record.data[0];
+        var image=(record.links||[]).find(function(link){
+          return link.render==="image"&&/^https:\/\//i.test(link.href||"");
+        });
+        if(!data||!image)continue;
+        var img=el("img","archive-photo");
+        img.src=image.href;img.alt=data.title||item.title;img.loading="lazy";img.decoding="async";
+        img.addEventListener("load",function(){target.classList.add("has-nasa-image");},{once:true});
+        img.addEventListener("error",function(){img.remove();target.classList.remove("has-nasa-image");},{once:true});
+        target.prepend(img);
+        target.append(el("span","archive-photo-credit","NASA IMAGE LIBRARY"));
+        return;
+      }
+    }).catch(function(){/* Keep the original mission-colour card if NASA search is unavailable. */});
   }
   function renderDetails(){
     var root=$("detail");if(!root)return;
