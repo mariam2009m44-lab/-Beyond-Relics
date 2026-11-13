@@ -1,0 +1,46 @@
+[
+  {
+    "id": "voyager2-uranus-pra-2026",
+    "published": "2026-08-13",
+    "type": "PDS data release",
+    "mission": "Voyager 2",
+    "instrument": "Planetary Radio Astronomy",
+    "observation_period": "1985–1988",
+    "summary": "PDS added a Voyager 2 Planetary Radio Astronomy data bundle from the Uranus flyby, covering 70 instrument channels.",
+    "source": "https://science.data.nasa.gov/features-events/data-software-highlights-august-2026",
+    "archive": "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=Voyager%202%20Uranus"
+  },
+  {
+    "id": "new-horizons-kem2-k7-2026",
+    "published": "2026-06-26",
+    "type": "PDS data release",
+    "mission": "New Horizons",
+    "dataset": "KEM2 K7",
+    "observation_period": "Data through April 2024",
+    "summary": "Additional Kuiper Belt extended mission observations, including the 2019 Arrokoth encounter and continuing cruise observations.",
+    "source": "https://science.data.nasa.gov/features-events/data-software-highlights-june-2026",
+    "archive": "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=New%20Horizons%20KEM2"
+  },
+  {
+    "id": "artemis-ii-pds-2026",
+    "published": "2026-10-07",
+    "type": "PDS data release",
+    "mission": "Artemis II / Orion",
+    "dataset": "Camera imagery and video, mission audio/transcripts, environmental records, documents, SPICE kernels",
+    "observation_period": "2026-04-01 to 2026-04-10 mission",
+    "summary": "PDS announced the Artemis II mission archive release containing raw, processed, derived, browse, and documentation products.",
+    "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
+    "archive": "https://pds.nasa.gov/services/search/index.jsp?IDENTIFIER=Artemis%20II"
+  },
+  {
+    "id": "swift-archive-2026",
+    "published": "2026-10",
+    "type": "Mission archive preservation",
+    "mission": "Neil Gehrels Swift Observatory",
+    "dataset": "Nearly 22 years of observations; over 1.5 million UVOT images",
+    "observation_period": "Nearly 22-year mission archive",
+    "summary": "After retirement, Swift's scientific archive remains publicly available, preserving brightness measurements, spectra, and imagery.",
+    "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
+    "archive": "https://www.swift.ac.uk/"
+  }
+]
