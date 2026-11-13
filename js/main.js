@@ -65,6 +65,12 @@
     progression = score.chords;
     melody = score.notes;
     step = 0;
+    if (soundEnabled && audioContext && master) {
+      var transitionAt = audioContext.currentTime + .12;
+      [melody[0] * .5, melody[2] * .5, melody[4]].forEach(function (frequency, index) {
+        makePluck(frequency, transitionAt + index * .2, .065);
+      });
+    }
   }
   applyStoryScore(chapterId);
   window.addEventListener("beyondrelics:chapter", function(event) {
