@@ -10,13 +10,13 @@ Space hardware has a second story. When a lander stops transmitting or a rover c
 
 ## Explore the experience
 
-- **Home:** featured mission stories with NASA Image and Video Library photographs when the service returns a matching image; original vector illustrations remain as a fallback.
-- **Artifacts:** searchable and filterable archive by destination and mission status.
+- **Home:** featured mission stories with NASA Image and Video Library photographs selected by mission relevance; original vector illustrations remain as a fallback.
+- **Artifacts:** searchable and filterable archive by destination and mission status, with NASA photographs and linked image-record IDs.
 - **Artifact details:** mission purpose, what remained, science legacy, design life versus actual outcome, NASA imagery, and primary source links.
 - **Challenge Brief:** solution overview, judging alignment, research integrity, demo route, and AI-use disclosure.
 - **NASA Data Lab:** selected research context and live search of NASA’s public image library.
-- **Timeline:** key mission milestones.
-- **The Story:** short visual chapters generated from the archive records.
+- **Timeline:** key mission milestones with NASA mission photographs and source-record links.
+- **The Story:** immersive, large-format photographic chapters, a user-initiated cinematic opening score, and distinct original musical motifs for each mission.
 - **About:** project purpose and research approach.
 
 ## Research integrity
@@ -26,7 +26,8 @@ Space hardware has a second story. When a lander stops transmitting or a rover c
 3. **Physical remains versus data archive:** the project distinguishes hardware left on another world from scientific records preserved on Earth.
 4. **No invented telemetry:** the site does not pretend to track or reconstruct live spacecraft data.
 5. **Audience-first storytelling:** each artifact answers four questions in plain language: purpose, remains, discovery, and legacy.
-6. **Image provenance:** live photographs are retrieved from NASA’s public Image and Video Library and link to their NASA record. If the service is unavailable, the site keeps its original vector artwork rather than showing a broken image.
+6. **Image provenance:** photographs are retrieved live from NASA’s public Image and Video Library, selected using mission-specific queries, and labeled with NASA record IDs. If the service is unavailable, the site keeps its original artwork rather than showing broken images.
+7. **Original soundtrack:** the cinematic score is synthesized by the project with the Web Audio API. It is not a recording from the Moon or Mars. Visitors explicitly start the story audio; it does not autoplay.
 
 ## Technology
 
