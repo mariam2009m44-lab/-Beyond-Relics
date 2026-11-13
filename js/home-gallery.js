@@ -13,6 +13,12 @@
       })
       .then(function (payload) {
         var records = payload && payload.collection && payload.collection.items || [];
+        function score(record){
+          var d=record&&record.data&&record.data[0]||{},text=((d.title||"")+" "+(d.description||"")).toLowerCase();
+          var words=String(query).toLowerCase().split(/[^a-z0-9]+/).filter(function(w){return w.length>3&&w!=="nasa"&&w!=="mission"&&w!=="mars"&&w!=="moon";});
+          return words.reduce(function(total,w){return total+(text.indexOf(w)!==-1?1:0);},0);
+        }
+        records.sort(function(a,b){return score(b)-score(a);});
         for (var i = 0; i < records.length; i++) {
           var record = records[i];
           var data = record.data && record.data[0];
@@ -20,7 +26,7 @@
             return link.render === "image" && /^https:\/\//i.test(link.href || "");
           });
           if (data && image && image.href) {
-            return { src: image.href, alt: data.title || query, nasaId: data.nasa_id };
+            return { src: image.href, alt: data.title || query, nasaId: data.nasa_id, detail: "https://images.nasa.gov/details/" + encodeURIComponent(data.nasa_id) };
           }
         }
         throw new Error("No NASA image result");
@@ -59,7 +65,8 @@
           art.prepend(image);
           var credit = document.createElement("span");
           credit.className = "nasa-image-credit";
-          credit.textContent = "NASA IMAGE LIBRARY";
+          credit.textContent = "NASA · " + result.nasaId;
+          credit.title = "NASA image record: " + result.nasaId;
           art.append(credit);
         }).catch(function () {
           /* Keep the original illustrated card as a reliable offline fallback. */
