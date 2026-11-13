@@ -26,7 +26,7 @@
       archive.href = item.archive;
       archive.target = "_blank";
       archive.rel = "noopener noreferrer";
-      archive.textContent = "Explore archive ↗";
+      archive.textContent = item.archive_label || "Explore archive ↗";
       card.append(date, title, meta, body, source, document.createTextNode(" "), archive);
       grid.appendChild(card);
     });
@@ -42,37 +42,6 @@
       var grid = document.getElementById("release-grid");
       if (grid) grid.textContent = "The research index could not be loaded. Please refresh the page.";
     });
-
-  var grid = document.getElementById("release-grid");
-  if (grid) {
-    grid.replaceChildren();
-    releases.forEach(function (item) {
-      var card = document.createElement("article");
-      card.className = "release-card";
-      var date = document.createElement("p");
-      date.className = "release-date";
-      date.textContent = item.date;
-      var title = document.createElement("h3");
-      title.textContent = item.title;
-      var meta = document.createElement("p");
-      meta.className = "release-meta";
-      meta.textContent = item.meta;
-      var body = document.createElement("p");
-      body.textContent = item.text;
-      var source = document.createElement("a");
-      source.href = item.source;
-      source.target = "_blank";
-      source.rel = "noopener noreferrer";
-      source.textContent = item.sourceLabel + " ↗";
-      var archive = document.createElement("a");
-      archive.href = item.pds;
-      archive.target = "_blank";
-      archive.rel = "noopener noreferrer";
-      archive.textContent = "Explore related archive ↗";
-      card.append(date, title, meta, body, source, document.createTextNode(" "), archive);
-      grid.appendChild(card);
-    });
-  }
 
   var form = document.getElementById("nasa-search");
   var input = document.getElementById("nasa-query");
