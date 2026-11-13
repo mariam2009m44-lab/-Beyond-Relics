@@ -1,7 +1,7 @@
 (function () {
   "use strict";
   var $=function(id){return document.getElementById(id);};
-  var records=[],chapter=0,page=0,activeTab="story",imageController=null;
+  var records=[],chapter=0,page=0,activeTab="story",imageController=null,storyRender=0;
   function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
   function external(url,label){var a=el("a","",label);a.href=url;a.target="_blank";a.rel="noopener noreferrer";return a;}
   function load(){
@@ -28,10 +28,10 @@
     return item.__storyImages;
   }
   function drawStory(item){
-    var beats=pages(item)[page]||[],root=$("c-page");
+    var beats=pages(item)[page]||[],root=$("c-page"),token=++storyRender;
     root.className="comic l2";root.replaceChildren(el("div","scene-loading","Retrieving NASA mission imagery…"));
     fetchStoryImages(item).then(function(images){
-      if(records[chapter]!==item)return;
+      if(records[chapter]!==item||token!==storyRender)return;
       root.replaceChildren();
       beats.forEach(function(text,index){
         var beat=page*2+index,record=images.length?images[beat%images.length]:null;
