@@ -9,7 +9,10 @@
     "summary": "PDS added a Voyager 2 Planetary Radio Astronomy data bundle from the Uranus flyby, covering 70 instrument channels.",
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-august-2026",
     "archive": "https://pds.nasa.gov/services/search/index.jsp",
-    "archive_label": "Search the PDS archive ↗"
+    "archive_label": "Search the PDS archive ↗",
+    "channel_count": 70,
+    "frequency_range": "1326.0 to 1.2 kHz",
+    "data_products": "70 channels spanning 1326.0 to 1.2 kHz. The archive release covers radio observations collected during the Uranus encounter period."
   },
   {
     "id": "new-horizons-kem2-k7-2026",
@@ -34,7 +37,29 @@
     "source": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026",
     "archive": "https://pds-geosciences.wustl.edu/missions/artemis2/index.htm",
     "archive_label": "Open Artemis II archive ↗",
-    "data_products": "Crew and Orion camera imagery/video; mission audio and transcripts; storage temperature and humidity; mission documents; SPICE bundle announced as delayed on the PDS page."
+    "data_products": "Crew and Orion camera imagery/video; mission audio and transcripts; storage temperature and humidity; mission documents; SPICE bundle announced as delayed on the PDS page.",
+    "identifiers": [
+      {
+        "label": "Crew Camera Bundle",
+        "doi": "10.17189/x52v-tb80",
+        "url": "https://doi.org/10.17189/x52v-tb80"
+      },
+      {
+        "label": "Orion Camera Bundle",
+        "doi": "10.17189/hzev-nq50",
+        "url": "https://doi.org/10.17189/hzev-nq50"
+      },
+      {
+        "label": "Mission Audio Bundle",
+        "doi": "10.17189/4a29-dz64",
+        "url": "https://doi.org/10.17189/4a29-dz64"
+      },
+      {
+        "label": "Mission Bundle",
+        "doi": "10.17189/36fx-pd80",
+        "url": "https://doi.org/10.17189/36fx-pd80"
+      }
+    ]
   },
   {
     "id": "swift-archive-2026",
