@@ -59,16 +59,18 @@
   }
   function loadArchiveImage(item,target){
     if(!item.image_query||!target||!window.BeyondRelicsImages)return;
-    window.BeyondRelicsImages.search(item.image_query,16).then(function(images){
-      if(!images.length)return;
+    var state=el("span","archive-image-state","Locating verified NASA imagery…");
+    target.append(state);
+    window.BeyondRelicsImages.search(item.image_query,20).then(function(images){
+      if(!images.length){state.textContent="NASA image record unavailable · Open evidence";state.classList.add("is-fallback");return;}
       var img=el("img","archive-photo");img.alt=images[0].title||item.title;img.loading="lazy";img.decoding="async";img.referrerPolicy="no-referrer";
-      img.addEventListener("load",function(){target.classList.add("has-nasa-image");},{once:true});
-      img.addEventListener("nasaimageerror",function(){img.remove();target.classList.remove("has-nasa-image");},{once:true});
-      window.BeyondRelicsImages.mount(img,images);
+      img.addEventListener("load",function(){target.classList.add("has-nasa-image");state.remove();},{once:true});
+      img.addEventListener("nasaimageerror",function(){img.remove();target.classList.remove("has-nasa-image");state.textContent="NASA image record unavailable · Open evidence";state.classList.add("is-fallback");},{once:true});
       target.prepend(img);
-      var credit=el("a","archive-photo-credit","NASA · "+images[0].id+" ↗");credit.href=images[0].detail;credit.target="_blank";credit.rel="noopener noreferrer";
+      window.BeyondRelicsImages.mount(img,images);
+      var credit=el("span","archive-photo-credit","NASA · "+images[0].id);
       target.append(credit);
-    }).catch(function(){});
+    }).catch(function(){state.textContent="NASA image service temporarily unavailable";state.classList.add("is-fallback");});
   }
   function renderDetails(){
     var root=$("detail");if(!root)return;
