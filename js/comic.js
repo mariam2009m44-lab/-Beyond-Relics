@@ -30,6 +30,24 @@
       {layout:'l3',panels:[{t:'deep',c:'September 1977. Two probes depart.',p:'tl'},{t:'deep',c:'The giant planets pass by…',p:'bl'},{t:'earth',c:'A pale blue dot.',p:'tr'}]},
       {layout:'l2',panels:[{t:'deep',c:'Past the edge of the Sun’s influence…',p:'tl'},{t:'deep',c:'A message still traveling.',p:'br'}]}
      ]}
+    ,
+    {id:'space-telescope',title:'Spitzer Space Telescope',meta:'Infrared observatory • 2003–2020',
+     quote:'The universe has more to show than our eyes can see.',
+     closing:'The spacecraft went quiet in 2020. Its infrared discoveries remain alive in the archive.',
+     facts:[['Launch','August 25, 2003'],['Mission ended','January 30, 2020'],['Observatory','Infrared space telescope'],['Legacy','Archived data continues to support research']],
+     pages:[
+      {layout:'l3',panels:[{t:'deep',c:'A new window on the invisible universe.',p:'tl'},{t:'tele',c:'Spitzer observes in infrared light.',p:'br'},{t:'deep',c:'Stars, planets, and distant galaxies revealed.',p:'tl'}]},
+      {layout:'l2',panels:[{t:'tele',c:'More than sixteen years of discovery.',p:'tl'},{t:'deep',c:'The mission ends. The data keeps speaking.',p:'br'}]}
+     ]},
+    {id:'return-capsule',title:'The Stardust Capsule',meta:'Comet sample return • 1999–2011',
+     quote:'A tiny capsule brought pieces of a comet home.',
+     closing:'The capsule returned to Earth in 2006. The spacecraft continued its journey as Stardust-NExT.',
+     facts:[['Launch','February 7, 1999'],['Comet encounter','Wild 2 · January 2004'],['Capsule return','January 15, 2006'],['Extended mission','Stardust-NExT · 2011']],
+     pages:[
+      {layout:'l3',panels:[{t:'deep',c:'A spacecraft heads toward Comet Wild 2.',p:'tl'},{t:'cap',c:'Dust is captured in delicate aerogel.',p:'br'},{t:'earth',c:'A sample capsule returns to Earth.',p:'tl'}]},
+      {layout:'l2',panels:[{t:'cap',c:'A small capsule. An extraordinary cargo.',p:'tl'},{t:'deep',c:'The spacecraft continues as Stardust-NExT.',p:'br'}]}
+     ]}
+
   ];
 
   var $=function(id){return document.getElementById(id)};
