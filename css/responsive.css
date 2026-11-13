@@ -1,27 +1,70 @@
-@media (max-width:900px){
-  .nav{flex-wrap:wrap;gap:.8rem 1rem;justify-content:space-between}
-  .links{order:3;width:100%;justify-content:space-between;gap:1rem;margin:0}
-  .links a{font-size:.8rem;letter-spacing:.14em}
-  .brand{font-size:1rem}
-  .earth{width:90vw;right:-35vw;top:12vh;opacity:.75}
-  .astro{display:none}
-  .cards{justify-content:flex-start;gap:.9rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-top:2.4rem;padding-bottom:6.4rem}
-  .card{flex:0 0 62%;max-width:300px;scroll-snap-align:center}
-  .tag,.spark{display:none}
-  .links{flex-wrap:wrap;row-gap:.2rem}
+/* Navigation and layout refinements */
+@media (max-width: 1100px) {
+  .nav { gap: 1rem; }
+  .links { gap: 1.15rem; }
+  .links a { font-size: .84rem; letter-spacing: .12em; }
 }
-
-@media (max-width:900px){
-  .about-grid,.detail{grid-template-columns:1fr}
-  .tl::before{left:.5rem}
-  .tl-item{width:calc(100% - 2rem);margin-left:2rem!important}
-  .tl-item::after{left:calc(-1.5rem - 7px)!important;right:auto!important}
-  .reader{grid-template-columns:1fr;grid-template-areas:"side" "stage" "strip"}
-  .sthumb,.q,.chap{display:none}
-  .tabs{grid-template-columns:repeat(2,1fr)}
-  .comic{display:flex;flex-direction:column;aspect-ratio:auto}
-  .cp{min-height:190px}
-  .strip{flex-wrap:wrap}
-  .thumbs{order:5;flex-basis:100%}
-  .count{border:0}
+@media (max-width: 900px) {
+  .nav { min-height: 0; flex-wrap: wrap; justify-content: space-between; gap: .8rem 1rem; padding: 1rem clamp(1rem, 4vw, 2rem); }
+  .nav > nav { order: 3; flex: 1 0 100%; min-width: 0; }
+  .links {
+    width: 100%; justify-content: flex-start; gap: clamp(1.1rem, 4vw, 2rem);
+    overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+    padding: .25rem 0 .45rem;
+  }
+  .links::-webkit-scrollbar { display: none; }
+  .links a { font-size: .82rem; }
+  .brand { font-size: 1rem; }
+  .tools { padding-left: .75rem; }
+  .earth { width: 90vw; right: -35vw; top: 12vh; opacity: .75; }
+  .astro { display: none; }
+  .cards {
+    justify-content: flex-start; gap: .9rem; overflow-x: auto; overflow-y: visible;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 1rem;
+    padding: 2.4rem 1rem 6.4rem; margin-inline: 0;
+    scrollbar-width: thin; scrollbar-color: var(--rust) transparent;
+  }
+  .card { flex: 0 0 62%; max-width: 300px; scroll-snap-align: center; }
+  .tag, .spark { display: none; }
+  .about-grid, .detail { grid-template-columns: 1fr; }
+  .tl::before { left: .5rem; }
+  .tl-item { width: calc(100% - 2rem); margin-left: 2rem !important; }
+  .tl-item::after { left: calc(-1.5rem - 7px) !important; right: auto !important; }
+  .reader { grid-template-columns: 1fr; grid-template-areas: "side" "stage" "strip"; }
+  .sthumb, .q, .chap { display: none; }
+  .tabs { grid-template-columns: repeat(2, 1fr); }
+  .comic { display: flex; flex-direction: column; aspect-ratio: auto; }
+  .cp { min-height: 190px; }
+  .strip { flex-wrap: wrap; }
+  .thumbs { order: 5; flex-basis: 100%; }
+  .count { border: 0; }
+}
+@media (max-width: 600px) {
+  .hero { min-height: 100svh; }
+  .copy { padding: 2.2rem 1rem 0; }
+  .kicker { font-size: .68rem; letter-spacing: .2em; }
+  .kicker::before, .kicker::after { width: .8rem; margin-inline: .35rem; }
+  .copy h1 { font-size: clamp(2.35rem, 10vw, 3.6rem); line-height: .98; }
+  .sub { max-width: 30ch; font-size: 1.08rem; }
+  .cards { padding-top: 2rem; padding-bottom: 6rem; }
+  .card { flex-basis: min(72vw, 290px); aspect-ratio: 1 / 1.08; }
+  .label { padding: .75rem; }
+  .label h2 { font-size: 1rem; }
+  .scroll { left: 1rem; bottom: max(1rem, env(safe-area-inset-bottom, 0px)); gap: .65rem; font-size: .68rem; letter-spacing: .16em; }
+  .scroll span.ring { width: 2.2rem; height: 2.2rem; }
+  .toolbar { align-items: stretch; }
+  .search, .search input { width: 100%; }
+  .chips { overflow-x: auto; flex-wrap: nowrap; padding-bottom: .4rem; }
+  .chip { flex: none; }
+  .facts { grid-template-columns: 1fr; gap: .2rem; }
+  .facts dd { margin-bottom: .65rem; }
+  .pn { flex-direction: column; }
+  .footer { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 360px) {
+  .brand { font-size: .9rem; }
+  .tools { gap: .25rem; }
+  .tools button { width: 2.25rem; height: 2.25rem; }
+  .links { gap: 1rem; }
+  .links a { font-size: .76rem; }
 }
