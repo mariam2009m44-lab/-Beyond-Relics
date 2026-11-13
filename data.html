@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080c">
+<meta name="description" content="Explore verified NASA mission data releases from 2026 and search the NASA image archive through Beyond Relics.">
+<meta property="og:title" content="NASA Data Lab — Beyond Relics">
+<meta property="og:description" content="Explore the data that keeps space missions alive long after launch.">
+<title>NASA Data Lab — Beyond Relics</title>
+<link rel="icon" href="assets/logos/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script src="js/main.js" defer></script>
+<script src="js/data-lab.js" defer></script>
+</head>
+<body>
+<div id="stars" class="bg-stars" aria-hidden="true"></div>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Beyond Relics home">Beyond<br><b>Relics</b></a>
+  <nav aria-label="Main"><ul class="links">
+    <li><a href="index.html">Home</a></li><li><a href="artifacts.html">Artifacts</a></li>
+    <li><a href="data.html" aria-current="page">NASA Data Lab</a></li><li><a href="timeline.html">Timeline</a></li>
+    <li><a href="comic.html">The Story</a></li><li><a href="about.html">About</a></li>
+  </ul></nav>
+  <div class="tools">
+    <button id="sound" type="button" aria-pressed="false" aria-label="Toggle sound"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="off" d="M17 9l4 6M21 9l-4 6"/><path class="on" d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg></button>
+    <button id="theme" class="round" type="button" aria-pressed="false" aria-label="Toggle dim mode"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg></button>
+  </div>
+</header>
+<main class="page">
+  <p class="eyebrow">NASA open science · Mission intelligence</p>
+  <h1 class="page-title">The data <em>observatory.</em></h1>
+  <p class="lead">A mission does not end when its spacecraft goes quiet. Its images, measurements, engineering records, and discoveries remain available for the next generation to explore.</p>
+
+  <section class="data-hero" aria-labelledby="data-hero-title">
+    <div><p class="eyebrow">Beyond Relics · Research desk</p><h2 id="data-hero-title">The mission ends.<br><em>Its evidence stays.</em></h2>
+    <p>Explore verified NASA data releases published in 2026, then search the agency’s public image archive. Every research card links to its original NASA source.</p></div>
+    <div class="data-stamp"><strong>2026</strong>Research update<br>Verified source trail</div>
+  </section>
+
+  <section class="data-section" aria-labelledby="releases-title">
+    <div class="data-section-head"><div><p class="eyebrow">New archive releases</p><h2 id="releases-title">2026 mission data</h2><p>Selected updates with a direct connection to spacecraft, instruments, mission history, or the long life of scientific data.</p></div></div>
+    <div class="release-grid" id="release-grid">
+      <article class="release-card"><p class="release-date">Loading NASA archive notes</p><h3>Preparing the research desk</h3><p>Verified source records are loading.</p></article>
+    </div>
+    <p class="data-note">Research note: a data release is not automatically a newly discovered artifact. This page distinguishes mission hardware history from later archive releases, so the evidence stays accurate.</p>
+  </section>
+
+  <section class="data-section" aria-labelledby="image-search-title">
+    <div class="data-section-head"><div><p class="eyebrow">Live NASA image archive</p><h2 id="image-search-title">Search mission imagery</h2><p>Search NASA’s public Image and Video Library. Results are retrieved live from NASA’s API when you submit a search.</p></div></div>
+    <form class="search-console" id="nasa-search"><label class="sr" for="nasa-query">Search NASA images</label><input id="nasa-query" type="search" value="Voyager spacecraft" placeholder="Try Voyager, Apollo 11, Curiosity…"><button type="submit">Search archive</button></form>
+    <p class="data-status" id="nasa-status" role="status" aria-live="polite">Ready to search NASA’s public image archive.</p>
+    <div class="nasa-results" id="nasa-results"></div>
+  </section>
+
+  <section class="data-section" aria-labelledby="benchmark-title">
+    <div class="data-section-head"><div><p class="eyebrow">Competition strategy · 2025 global examples</p><h2 id="benchmark-title">What strong projects do</h2><p>We use the public award-winning projects as product benchmarks—not templates to copy.</p></div></div>
+    <table class="benchmark">
+      <thead><tr><th>NASA Space Apps example</th><th>What made it stand out</th><th>Beyond Relics response</th></tr></thead>
+      <tbody>
+        <tr><td>Resonant Exoplanets<br><small>Best Use of Data</small></td><td>Automated analysis across large telescope and satellite datasets.</td><td>Move beyond a static catalogue: make mission evidence searchable, traceable, and explorable through NASA archives.</td></tr>
+        <tr><td>Astro Sweepers<br><small>Galactic Impact</small></td><td>An end-to-end intelligence workflow built around public orbital data.</td><td>Build a clear evidence trail for each relic: mission, instrument, date, archive record, and what remains.</td></tr>
+        <tr><td>HerCode Space<br><small>Best Use of Storytelling</small></td><td>NASA science explained through an accessible visual narrative.</td><td>Connect every artifact to its human story, mission timeline, and primary-source imagery.</td></tr>
+        <tr><td>Zumorroda-X · Egypt<br><small>Art & Technology</small></td><td>Interactive learning experiences built around NASA data.</td><td>Make the archive approachable through guided discovery and visual exploration without changing its historical focus.</td></tr>
+      </tbody>
+    </table>
+    <div class="data-footer-links"><a href="https://www.spaceappschallenge.org/2025/awards/global-winners/" target="_blank" rel="noopener noreferrer">Official 2025 global winners ↗</a><a href="https://www.spaceappschallenge.org/2025/awards/" target="_blank" rel="noopener noreferrer">Official award descriptions ↗</a><a href="https://data.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA Open Data Portal ↗</a></div>
+  </section>
+
+  <section class="data-section" aria-labelledby="method-title">
+    <div class="data-section-head"><div><p class="eyebrow">Research integrity</p><h2 id="method-title">How this archive is built</h2></div></div>
+    <div class="panel"><h3>Primary sources first</h3><p>NASA mission pages and NASA science archives are used as source records. Curated summaries are written for clarity; they are not presented as raw telemetry or original NASA datasets. Live image results are labeled as NASA Library results and link back to their individual records.</p><p>For deeper research, use the <a href="https://pds.nasa.gov/services/search/index.jsp" target="_blank" rel="noopener noreferrer">Planetary Data System search</a> and the <a href="https://science.data.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA Science Data Portal</a>.</p></div>
+  </section>
+</main>
+<footer class="footer"><a class="brand" href="index.html">Beyond<br><b>Relics</b></a><p>Real missions. Lasting legacies.</p><span>© <span data-year></span> Beyond Relics · Educational project</span></footer>
+</body>
+</html>
