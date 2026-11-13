@@ -77,3 +77,6 @@
 
 @media(max-width:760px){.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.research-method{grid-template-columns:1fr}.evidence-track{grid-template-columns:1fr}}
 @media(max-width:420px){.evidence-metric{padding:.85rem}.evidence-metric span{font-size:.65rem}}
+
+@media(max-width:760px){.insight-grid{grid-template-columns:1fr}.nasa-artifact-images{grid-template-columns:repeat(2,minmax(0,1fr))}.duration-columns{grid-template-columns:1fr}}
+@media(max-width:420px){.filter-group{align-items:flex-start}.filter-label{flex-basis:100%}.nasa-evidence-image span{font-size:.66rem}}
