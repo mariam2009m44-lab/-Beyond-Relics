@@ -97,10 +97,10 @@
       img.addEventListener("load",function(){target.classList.add("has-nasa-image");state.remove();},{once:true});
       img.addEventListener("nasaimageerror",function(){img.remove();target.classList.remove("has-nasa-image");state.textContent="NASA image record unavailable · Open evidence";state.classList.add("is-fallback");},{once:true});
       target.prepend(img);
-      window.BeyondRelicsImages.mount(img,images);
       var credit=el("span","archive-photo-credit","NASA · "+images[0].id);
       img.addEventListener("nasaimageload",function(event){credit.textContent="NASA · "+event.detail.id;});
       target.append(credit);
+      window.BeyondRelicsImages.mount(img,images);
     }).catch(function(){state.textContent="NASA image service temporarily unavailable";state.classList.add("is-fallback");});
   }
   function renderDetails(){
