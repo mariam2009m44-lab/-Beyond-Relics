@@ -83,3 +83,12 @@
 
 @media(max-width:900px){.comic.l2{display:grid;grid-template-columns:1fr;grid-template-rows:auto;aspect-ratio:auto}.comic .cp{min-height:220px}}
 @media(max-width:600px){.comic .cp{min-height:190px}.comic .cap{font-size:1rem;padding:.8rem}}
+
+/* Mobile-first archive composition: stop squeezing mission cards into desktop columns */
+@media(max-width:1100px){.page .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}.page .acard{transform:none}.page .aart{aspect-ratio:16/10;min-height:170px}}
+@media(max-width:600px){.page .grid{grid-template-columns:1fr;gap:1rem}.page .aart{aspect-ratio:16/9;min-height:190px}.page .abody{padding:1rem}.page .abody h3{font-size:1.5rem}.page .abody p{font-size:1rem;line-height:1.55}.page .toolbar{gap:.8rem}.page .chips{max-width:100%;overflow-x:auto;flex-wrap:nowrap}.page .filter-group{flex-wrap:nowrap}.page .filter-label{flex-basis:auto;white-space:nowrap}}
+/* A deliberate loading/fallback surface instead of an empty flat colour block */
+.acard .aart{position:relative;overflow:hidden;background-image:radial-gradient(ellipse at 50% 30%,rgba(109,128,160,.28),transparent 60%),linear-gradient(145deg,#182333,#080b12)}
+.acard .aart:before{content:"NASA MISSION ARCHIVE";position:absolute;left:1rem;top:1rem;color:rgba(238,229,211,.58);font-size:.58rem;letter-spacing:.2em;z-index:1}
+.acard .aart>img{z-index:0;display:block}
+.acard .aart .artifact-stamp,.acard .aart .status-stamp{position:relative;z-index:2;text-shadow:0 2px 10px #000;background:rgba(5,7,12,.76);padding:.35rem .5rem}
