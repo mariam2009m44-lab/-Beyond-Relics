@@ -14,9 +14,9 @@
       title.textContent = item.mission + ": " + (item.dataset || item.instrument || "mission archive");
       var meta = document.createElement("p");
       meta.className = "release-meta";
-      meta.textContent = [item.mission, item.instrument, item.dataset, item.observation_period].filter(Boolean).join(" · ");
+      meta.textContent = [item.mission, item.instrument, item.dataset, item.observation_period, item.archive_scale].filter(Boolean).join(" · ");
       var body = document.createElement("p");
-      body.textContent = item.summary;
+      body.textContent = item.summary + (item.data_products ? " Data products: " + item.data_products : "");
       var source = document.createElement("a");
       source.href = item.source;
       source.target = "_blank";
