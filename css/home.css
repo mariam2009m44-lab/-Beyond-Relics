@@ -478,3 +478,9 @@ h1 {
 @media(prefers-reduced-motion:reduce) {
   .card .art img { transition:none; }
 }
+
+/* Live NASA photographs layered into the featured mission cards */
+.cards .card .art{position:relative;overflow:hidden}
+.cards .card .art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:saturate(.92) contrast(1.06)}
+.cards .card .art>svg{position:relative;z-index:1;opacity:.18}
+.cards .card .art .nasa-image-credit{position:absolute;z-index:2;right:.5rem;bottom:.5rem;padding:.28rem .42rem;background:rgba(4,6,10,.78);color:#f4ead8;font-size:.58rem;text-decoration:none;letter-spacing:.08em}
