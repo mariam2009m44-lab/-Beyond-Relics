@@ -74,14 +74,14 @@
     var oldGain = masterGain;
     oldGain.gain.cancelScheduledValues(audioContext.currentTime);
     oldGain.gain.setTargetAtTime(0, audioContext.currentTime, .12);
+    oscillators.forEach(function (oscillator) {
+      try { oscillator.stop(audioContext.currentTime + .7); } catch (error) {}
+    });
+    oscillators = [];
+    masterGain = null;
     window.setTimeout(function () {
-      oscillators.forEach(function (oscillator) {
-        try { oscillator.stop(); } catch (error) {}
-      });
-      oscillators = [];
       try { oldGain.disconnect(); } catch (error) {}
-      masterGain = null;
-    }, 650);
+    }, 750);
   }
   if (soundButton) {
     soundButton.addEventListener("click", function () {
