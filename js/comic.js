@@ -25,7 +25,7 @@
         var beat=page*2+index,record=images.length?images[beat%images.length]:null;
         var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);
         if(record){
-          var img=el("img","scene-image");img.src=record.image;img.alt=record.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
+          var img=el("img","scene-image");img.alt=record.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
           img.addEventListener("nasaimageerror",function(){img.remove();panel.classList.add("scene-no-image");},{once:true});
           window.BeyondRelicsImages.mount(img,images);
           panel.appendChild(img);
