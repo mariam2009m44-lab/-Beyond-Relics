@@ -37,8 +37,9 @@
         var link=el("a","timeline-photo-link");link.href=images[0].detail;link.target="_blank";link.rel="noopener noreferrer";
         var img=el("img","");img.alt=images[0].title||item.title;img.loading="lazy";img.decoding="async";img.referrerPolicy="no-referrer";
         img.addEventListener("nasaimageerror",function(){link.remove();},{once:true});
-        window.BeyondRelicsImages.mount(img,images);
-        link.appendChild(img);link.appendChild(el("span","timeline-photo-credit","NASA IMAGE · "+images[0].id));target.replaceChildren(link);
+        var credit=el("span","timeline-photo-credit","NASA IMAGE · "+images[0].id);
+        img.addEventListener("nasaimageload",function(event){link.href=event.detail.detail;credit.textContent="NASA IMAGE · "+event.detail.id;});
+        link.appendChild(img);link.appendChild(credit);window.BeyondRelicsImages.mount(img,images);target.replaceChildren(link);
       });
     });
   }).catch(function(){});
