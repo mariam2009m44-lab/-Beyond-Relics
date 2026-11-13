@@ -269,13 +269,12 @@
     });
   }
 
-  /* Remember the visitor's choice between archive pages; never force sound on without prior consent. */
-  try {
-    if (localStorage.getItem("br-music-enabled") === "1") {
-      startMusic();
-      updateSoundButton();
-    }
-  } catch (error) {}
+  /* Audio starts only after an explicit visitor action. */
+  window.BeyondRelicsAudio = {
+    playStory: function () { return startMusic(); },
+    stop: function () { stopMusic(false); updateSoundButton(); },
+    isPlaying: function () { return soundEnabled; }
+  };
 
   document.querySelectorAll("[data-year]").forEach(function (element) {
     element.textContent = new Date().getFullYear();
