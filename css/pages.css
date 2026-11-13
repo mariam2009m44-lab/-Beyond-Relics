@@ -984,3 +984,17 @@ body {
 .text-link{display:inline-block;margin-top:.8rem;color:var(--rust);text-decoration:underline;text-underline-offset:.2em}
 @media(max-width:760px){.judge-hero{grid-template-columns:1fr}.judge-stamp{text-align:left}.judge-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.criteria-list>div{grid-template-columns:1fr}.criteria-list b{grid-row:auto}}
 @media(max-width:480px){.judge-pillars,.winner-grid{grid-template-columns:1fr}.judge-flow{grid-template-columns:1fr}}
+
+/* Dynamic story chapters */
+.comic.l2{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(250px,1fr);grid-template-areas:none;aspect-ratio:auto}
+.comic .cp{display:flex;align-items:flex-end;min-height:320px;padding:1rem;background-image:radial-gradient(circle at 75% 20%,rgba(220,181,131,.2),transparent 30%),linear-gradient(145deg,rgba(30,35,51,.92),rgba(9,10,16,.96))}
+.comic .cp[data-tone="mars"]{background-image:radial-gradient(circle at 70% 18%,rgba(224,112,72,.28),transparent 32%),linear-gradient(145deg,#4c261e,#151015)}
+.comic .cp[data-tone="moon"]{background-image:radial-gradient(circle at 70% 18%,rgba(220,220,210,.22),transparent 30%),linear-gradient(145deg,#3a3b42,#101116)}
+.comic .cp[data-tone="deep"]{background-image:radial-gradient(circle at 70% 18%,rgba(105,132,202,.3),transparent 32%),linear-gradient(145deg,#1b2441,#090b14)}
+.comic .cp[data-tone="tele"]{background-image:radial-gradient(circle at 70% 18%,rgba(175,116,218,.3),transparent 32%),linear-gradient(145deg,#2b2042,#090b14)}
+.comic .cp::after{content:attr(data-n);inset:auto 1rem 1rem auto;color:rgba(244,229,206,.2);font-size:5rem}
+.comic .cap{position:relative;z-index:2;display:block;max-width:none;padding:1rem;background:rgba(7,8,12,.82);color:var(--bone);font:500 clamp(1rem,1.7vw,1.35rem)/1.35 var(--f-head);rotate:none}
+.th span{display:grid;place-items:center;width:100%;height:100%;color:var(--bone);font-size:1.2rem;background:rgba(8,9,14,.65)}
+.source-list-links{display:grid;gap:.5rem;padding-left:1.2rem}
+.source-list-links a{color:var(--rust)}
+.result-count{margin:.5rem 0;color:var(--mute);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
