@@ -199,6 +199,14 @@
         var shimmer = tone(587.33, "sine", master, .012, 7);
         shimmer.filter.frequency.value = 1150;
 
+        /* A rising five-note entrance cue gives each story an unmistakable beginning. */
+        var opening = [melody[0] * .5, melody[2] * .5, melody[4] * .5, melody[6] * .5, melody[7]];
+        var entranceAt = audioContext.currentTime + .16;
+        opening.forEach(function (frequency, index) {
+          makePluck(frequency, entranceAt + index * .24, .075 + index * .012);
+        });
+        makePulse(entranceAt + .58);
+
         soundEnabled = true;
         step = 0;
         scheduleMusic();
