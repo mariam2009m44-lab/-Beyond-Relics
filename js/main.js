@@ -132,7 +132,7 @@
     osc.frequency.setValueAtTime(78, when);
     osc.frequency.exponentialRampToValueAtTime(42, when + .42);
     gain.gain.setValueAtTime(.0001, when);
-    gain.gain.exponentialRampToValueAtTime(.12, when + .025);
+    gain.gain.exponentialRampToValueAtTime(.15, when + .025);
     gain.gain.exponentialRampToValueAtTime(.0001, when + .55);
     osc.connect(gain);
     gain.connect(master);
@@ -150,8 +150,8 @@
     var chord = progression[chordIndex];
     var note = melody[step % melody.length];
 
-    makePluck(note, now, .095);
-    if (step % 4 === 0) makePluck(chord[1] * 2, now + .12, .035);
+    makePluck(note, now, .125);
+    if (step % 4 === 0) makePluck(chord[1] * 2, now + .12, .052);
     if (step % 8 === 0) makePulse(now);
     if (step % 8 === 4) makePulse(now + .08);
 
@@ -189,7 +189,7 @@
         compressor.attack.value = .012;
         compressor.release.value = .28;
         master.gain.setValueAtTime(.0001, audioContext.currentTime);
-        master.gain.linearRampToValueAtTime(.38, audioContext.currentTime + 2.8);
+        master.gain.linearRampToValueAtTime(.46, audioContext.currentTime + 3.4);
         master.connect(compressor);
         compressor.connect(audioContext.destination);
 
@@ -209,7 +209,7 @@
         var opening = [melody[0] * .5, melody[2] * .5, melody[4] * .5, melody[6] * .5, melody[7]];
         var entranceAt = audioContext.currentTime + .16;
         opening.forEach(function (frequency, index) {
-          makePluck(frequency, entranceAt + index * .24, .075 + index * .012);
+          makePluck(frequency, entranceAt + index * .24, .09 + index * .014);
         });
         makePulse(entranceAt + .58);
 
