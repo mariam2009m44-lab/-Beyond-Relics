@@ -5,6 +5,7 @@
   var map=root.querySelector("[data-alsep-map]");
   var controls=root.querySelector("[data-alsep-controls]");
   var detail=root.querySelector("[data-alsep-detail]");
+  var instrumentPanel=root.querySelector("[data-alsep-instrument]");
   var status=root.querySelector("[data-alsep-status]");
   function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
   function external(url,label){var a=el("a","",label);a.href=url;a.target="_blank";a.rel="noopener noreferrer";return a;}
@@ -45,7 +46,7 @@
       var item=el("div","alsep-rate");item.append(el("strong","",pair[0]+" Hz"),el("span","",pair[1]));rates.append(item);
     });
     instrument.append(rates,el("p","alsep-caveat","These are instrument metadata and sampling rates, not a replay of a lunar earthquake. The chart compares the documented sampling rates only."));
-    detail.append(instrument);
+    instrumentPanel.replaceChildren(instrument);
     var sourceList=el("div","alsep-sources");sourceList.append(el("p","eyebrow","FOLLOW THE ORIGINAL EVIDENCE"));
     data.sources.forEach(function(source){sourceList.append(external(source.url,source.label+" ↗"));});
     root.querySelector("[data-alsep-sources]").replaceChildren(sourceList);
