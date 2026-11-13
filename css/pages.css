@@ -1044,3 +1044,14 @@ body {
 @keyframes gatewayOrbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
 @media(max-width:900px){.story-intro{min-height:55svh}.story-intro:before{width:90vw}.story-intro:after{width:65vw}}
 @media(prefers-reduced-motion:reduce){.story-intro:after{animation:none}.story-intro{transition:none}}
+
+
+/* NASA evidence photographs across the archive and mission timeline */
+.archive-photo-credit{position:relative;z-index:3;display:inline-block;margin:.35rem;padding:.3rem .45rem;background:rgba(5,7,12,.78);border:1px solid rgba(233,220,198,.25);color:#f0e7d8;font-size:.58rem;letter-spacing:.1em;text-decoration:none}
+.archive-photo-credit:hover{color:var(--rust)}
+.timeline-photo{margin:.9rem 0 .75rem;overflow:hidden;border:1px solid rgba(233,220,198,.18);background:#080a10}
+.timeline-photo-link{position:relative;display:block;min-height:130px}
+.timeline-photo img{display:block;width:100%;max-height:245px;aspect-ratio:16/7;object-fit:cover;filter:saturate(.88) contrast(1.04);transition:transform .5s ease}
+.timeline-photo-link:hover img{transform:scale(1.035)}
+.timeline-photo-credit{position:absolute;right:.5rem;bottom:.5rem;padding:.25rem .4rem;background:rgba(4,6,10,.78);color:#f1e8d8;font-size:.56rem;letter-spacing:.12em}
+@media(prefers-reduced-motion:reduce){.timeline-photo img{transition:none}}
