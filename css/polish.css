@@ -1075,3 +1075,108 @@ body {
     transition:none !important;
   }
 }
+
+
+/* ==========================================================
+   MOTION PASS II — a little more life, still calm and readable
+   ========================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  #stars i:nth-child(7n) {
+    animation: vr-star-twinkle 4.8s ease-in-out infinite alternate;
+  }
+  #stars i:nth-child(7n + 2) {
+    animation: vr-star-twinkle 6.2s 1.1s ease-in-out infinite alternate;
+  }
+  #stars i:nth-child(11n + 4) {
+    animation: vr-star-twinkle 5.4s .6s ease-in-out infinite alternate;
+  }
+  .astro {
+    transform-origin:50% 70%;
+    animation:vr-astronaut-float 7.5s ease-in-out infinite;
+  }
+  .chronicle-visual img,.timeline-photo img,.pathfinder-photo {
+    animation:vr-photo-drift 24s ease-in-out infinite alternate;
+    transform-origin:center;
+  }
+  .science-card:hover,.release-card:hover,.panel:hover {
+    transform:translateY(-4px);
+  }
+  .reader .cp {
+    transition:transform .55s cubic-bezier(.2,.75,.25,1),box-shadow .4s ease,border-color .4s ease;
+  }
+  .reader .cp:hover {
+    transform:translateY(-5px) scale(1.008);
+    border-color:rgba(0,229,255,.85);
+    box-shadow:0 22px 48px rgba(0,0,0,.48),0 0 32px rgba(0,229,255,.16);
+  }
+  .reader .scene-image {
+    transform:scale(1.035);
+    animation:vr-comic-camera 26s ease-in-out infinite alternate;
+    will-change:transform;
+  }
+  .reader .scene-panel:nth-child(even) .scene-image {
+    animation-delay:-8s;
+  }
+  .reader .scene-credit {
+    transition:transform .3s ease,background .3s ease,border-color .3s ease;
+  }
+  .reader .scene-credit:hover {
+    transform:translateY(-2px);
+    border-color:#00e5ff;
+    background:rgba(0,229,255,.14);
+  }
+  .alsep-map-point .alsep-map-dot {
+    transform-box:fill-box;
+    transform-origin:center;
+    animation:vr-map-pulse 3.8s ease-in-out infinite;
+  }
+  .insight-visual [data-instrument].is-active,
+  .pathfinder-visual [data-phase].is-active {
+    animation:vr-instrument-glow 2.8s ease-in-out infinite alternate;
+  }
+  .story-intro .story-enter {
+    animation:vr-button-breathe 4.5s ease-in-out infinite;
+  }
+}
+@keyframes vr-star-twinkle {
+  0%,100% { opacity:.22; transform:scale(.78); }
+  50% { opacity:.95; transform:scale(1.5); }
+}
+@keyframes vr-astronaut-float {
+  0%,100% { translate:0 0; rotate:-.5deg; }
+  50% { translate:0 -11px; rotate:.7deg; }
+}
+@keyframes vr-photo-drift {
+  from { transform:scale(1.015) translate3d(0,0,0); }
+  to { transform:scale(1.075) translate3d(-.5%,.3%,0); }
+}
+@keyframes vr-comic-camera {
+  from { transform:scale(1.035) translate3d(0,0,0); }
+  to { transform:scale(1.12) translate3d(-1.2%,.6%,0); }
+}
+@keyframes vr-map-pulse {
+  0%,100% { filter:drop-shadow(0 0 0 rgba(0,229,255,0)); }
+  50% { filter:drop-shadow(0 0 7px rgba(0,229,255,.38)); }
+}
+@keyframes vr-instrument-glow {
+  from { filter:drop-shadow(0 0 4px rgba(0,229,255,.28)); }
+  to { filter:drop-shadow(0 0 12px rgba(139,92,246,.62)); }
+}
+@keyframes vr-button-breathe {
+  0%,100% { box-shadow:0 0 0 0 rgba(0,229,255,0),0 8px 28px rgba(0,229,255,.12); }
+  50% { box-shadow:0 0 0 5px rgba(0,229,255,.045),0 10px 36px rgba(0,229,255,.24); }
+}
+@media (prefers-reduced-motion:reduce) {
+  #stars i,.astro,.chronicle-visual img,.timeline-photo img,.pathfinder-photo,
+  .reader .scene-image,.alsep-map-point .alsep-map-dot,
+  .insight-visual [data-instrument],.pathfinder-visual [data-phase],
+  .story-intro .story-enter {
+    animation:none !important;
+    transform:none !important;
+    translate:none !important;
+  }
+}
+@media (max-width:760px) and (prefers-reduced-motion:no-preference) {
+  .reader .scene-image { animation-duration:34s; }
+  .astro { animation-duration:10s; }
+}
