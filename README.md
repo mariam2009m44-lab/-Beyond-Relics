@@ -39,6 +39,11 @@ Beyond Relics currently links the NASA PDS Apollo Seismic Data Bundle and InSigh
 
 For a strong data demonstration, the final experience should identify the qualifying resource, show the exact data fields/products used, explain any processing, and connect the resulting observation to a story about the hardware. Keep all derived visuals labelled as processed data, and never label an illustrative schematic as telemetry.
 
+
+## Final submission checklist
+
+Before submitting, use [`docs/FINAL-SUBMISSION.md`](docs/FINAL-SUBMISSION.md). It records the official Global Judging gates, the unresolved Challenge 01 Resources match, the current data limitations, AI/asset disclosure requirements, and a 30-second demo outline. Do not claim Global Award data eligibility until the qualifying Challenge 01 NASA resource is identified and its actual use is demonstrated.
+
 ## Technology
 
 - Semantic HTML5 and responsive CSS
