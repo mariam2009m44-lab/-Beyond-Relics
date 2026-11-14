@@ -178,6 +178,12 @@
         "label": "NASA JPL — Pathfinder robotics",
         "url": "https://www-robotics.jpl.nasa.gov/what-we-do/flight-projects/pathfinder/"
       }
+    ],
+    "story_artwork": [
+      {
+        "file": "IMG-20261114-WA0543(1).jpg",
+        "caption": "Sojourner: a small rover with a giant legacy."
+      }
     ]
   },
   {
@@ -578,6 +584,171 @@
       {
         "label": "NASA — Spitzer ends mission",
         "url": "https://science.nasa.gov/missions/spitzer/nasas-spitzer-space-telescope-ends-mission-of-astronomical-discovery/"
+      }
+    ]
+  },
+  {
+    "id": "pioneer-10-11",
+    "title": "Pioneer 10 & 11 — Messages Beyond the Planets",
+    "region": "Deep Space",
+    "years": "1972–2003",
+    "tone": "deep",
+    "type": "Deep-space planetary flyby probes",
+    "status": "Both missions ended; last communications were received in 2003 (Pioneer 10) and 1995 (Pioneer 11).",
+    "status_group": "retired",
+    "classification": "Retired deep-space spacecraft — not lunar or Martian surface artifacts",
+    "short": "Two spacecraft crossed the realm of the giant planets, carrying humanity's first plaques into deep space.",
+    "body": "Pioneer 10 launched in March 1972 and became the first spacecraft to travel through the asteroid belt and make a close flyby of Jupiter. Pioneer 11 launched in April 1973, flew past Jupiter, and continued to Saturn. Both carried engraved plaques designed to communicate basic information about Earth and its makers. Their final signals were received in 2003 and 1995 respectively.",
+    "story_hook": "Their signals faded. The message they carried still speaks for the curiosity that launched them.",
+    "mission_goal": "Explore the outer Solar System, test deep-space navigation and return close-up observations of the giant planets.",
+    "what_stayed": "The spacecraft continue on outbound trajectories through space; they are not objects left on the Moon or Mars.",
+    "science_legacy": "Pioneer 10 and 11 helped open the outer Solar System to spacecraft exploration and informed later planetary missions.",
+    "why_it_matters": "Their plaques turned spacecraft into time capsules: engineering, science and a greeting from Earth traveling together.",
+    "design_life": "Designed for the Jupiter flyby missions, with Pioneer 11 later extended to Saturn.",
+    "actual_life": "Pioneer 10's last signal was received in January 2003; Pioneer 11's final contact was in September 1995.",
+    "story_beats": [
+      "Meet Pioneer 10: the spacecraft built to explore the giant planets.",
+      "March 1972: Pioneer 10 begins its journey from Earth.",
+      "Pioneer 11 follows, carrying the same spirit of discovery.",
+      "Beyond Jupiter: the mission reaches a world of storms and giant distances.",
+      "The asteroid belt: a challenging passage through deep space.",
+      "Pioneer 11 sets out on a second journey toward Jupiter.",
+      "A close encounter with Jupiter changes the spacecraft's path.",
+      "Jupiter fills the view as Pioneer 10 studies the giant planet.",
+      "Pioneer 11 reaches Saturn, the ringed giant.",
+      "A daring path through Saturn's rings brings new observations.",
+      "The Golden Record: a message designed to represent Earth.",
+      "A closer look at the message carried into the unknown.",
+      "The plaque carries a greeting from humanity.",
+      "The spacecraft outlive their planned missions by decades.",
+      "The last messages: signals travel across an immense distance.",
+      "Pioneer 11 grows quieter as its systems reach their limits.",
+      "Where are they going? Their paths lead beyond the giant planets.",
+      "The message remains, even when the spacecraft can no longer reply.",
+      "The circle closes: a final thought sent into the stars.",
+      "Two spacecraft left a blue world behind. Their story still travels."
+    ],
+    "story_artwork": [
+      {
+        "file": "IMG-20261114-WA0644.jpg",
+        "caption": "Meet Pioneer 10: the spacecraft built to explore the giant planets."
+      },
+      {
+        "file": "IMG-20261114-WA0642.jpg",
+        "caption": "March 1972: Pioneer 10 begins its journey from Earth."
+      },
+      {
+        "file": "IMG-20261114-WA0647.jpg",
+        "caption": "Pioneer 11 follows, carrying the same spirit of discovery."
+      },
+      {
+        "file": "IMG-20261114-WA0638.jpg",
+        "caption": "Beyond Jupiter: the mission reaches a world of storms and giant distances."
+      },
+      {
+        "file": "IMG-20261114-WA0640.jpg",
+        "caption": "The asteroid belt: a challenging passage through deep space."
+      },
+      {
+        "file": "IMG-20261114-WA0643.jpg",
+        "caption": "Pioneer 11 sets out on a second journey toward Jupiter."
+      },
+      {
+        "file": "IMG-20261114-WA0639.jpg",
+        "caption": "A close encounter with Jupiter changes the spacecraft's path."
+      },
+      {
+        "file": "IMG-20261114-WA0653.jpg",
+        "caption": "Jupiter fills the view as Pioneer 10 studies the giant planet."
+      },
+      {
+        "file": "IMG-20261114-WA0654.jpg",
+        "caption": "Pioneer 11 reaches Saturn, the ringed giant."
+      },
+      {
+        "file": "IMG-20261114-WA0649.jpg",
+        "caption": "A daring path through Saturn's rings brings new observations."
+      },
+      {
+        "file": "IMG-20261114-WA0648.jpg",
+        "caption": "The Golden Record: a message designed to represent Earth."
+      },
+      {
+        "file": "IMG-20261114-WA0650.jpg",
+        "caption": "A closer look at the message carried into the unknown."
+      },
+      {
+        "file": "IMG-20261114-WA0646.jpg",
+        "caption": "The plaque carries a greeting from humanity."
+      },
+      {
+        "file": "IMG-20261114-WA0641.jpg",
+        "caption": "The spacecraft outlive their planned missions by decades."
+      },
+      {
+        "file": "IMG-20261114-WA0651.jpg",
+        "caption": "The last messages: signals travel across an immense distance."
+      },
+      {
+        "file": "IMG-20261114-WA0652.jpg",
+        "caption": "Pioneer 11 grows quieter as its systems reach their limits."
+      },
+      {
+        "file": "IMG-20261114-WA0637.jpg",
+        "caption": "Where are they going? Their paths lead beyond the giant planets."
+      },
+      {
+        "file": "IMG-20261114-WA0636.jpg",
+        "caption": "The message remains, even when the spacecraft can no longer reply."
+      },
+      {
+        "file": "IMG-20261114-WA0645.jpg",
+        "caption": "The circle closes: a final thought sent into the stars."
+      },
+      {
+        "file": "IMG-20261114-WA0635.jpg",
+        "caption": "Two spacecraft left a blue world behind. Their story still travels."
+      }
+    ],
+    "image_query": "NASA Pioneer 10 Pioneer 11 spacecraft Jupiter Saturn",
+    "facts": [
+      [
+        "Pioneer 10 launch",
+        "2 March 1972"
+      ],
+      [
+        "Pioneer 10 milestone",
+        "First spacecraft to fly past Jupiter (December 1973)"
+      ],
+      [
+        "Pioneer 11 launch",
+        "5 April 1973"
+      ],
+      [
+        "Pioneer 11 milestone",
+        "Jupiter flyby in 1974; Saturn flyby in 1979"
+      ],
+      [
+        "Last signal — Pioneer 11",
+        "September 1995"
+      ],
+      [
+        "Last signal — Pioneer 10",
+        "January 2003"
+      ],
+      [
+        "What they carried",
+        "Pioneer plaques depicting humanity and the Solar System"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA — Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      },
+      {
+        "label": "NASA — Pioneer 11",
+        "url": "https://science.nasa.gov/mission/pioneer-11/"
       }
     ]
   }
