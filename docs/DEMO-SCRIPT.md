@@ -13,8 +13,11 @@ Use this as a recording script only after the deployed site and the Apollo GeoCS
 **11–21 sec — The evidence**  
 “Its observations were preserved in NASA’s Planetary Data System. Here, we load an original Apollo 12 GeoCSV file and plot the values with transparent descriptive statistics.”
 
-**21–30 sec — The legacy**  
-“The instrument is no longer operating, but its evidence remains. Beyond Relics turns mission hardware, archived science, and discovery into one story for the next generation.”
+**21–26 sec — The learning experience**  
+“Then young explorers test what they discovered in a source-linked mission investigation.”
+
+**26–30 sec — The legacy**  
+“The hardware remains. The evidence teaches. The next generation investigates.”
 
 ## Screen sequence
 
@@ -22,7 +25,8 @@ Use this as a recording script only after the deployed site and the Apollo GeoCS
 2. Open **NASA Data Lab → Apollo waveform lab**.
 3. Load the NASA PDS sample. If remote loading fails, use the original NASA CSV download and the local-file import. Do not switch to fabricated or illustrative values.
 4. Point to the chart and at least one statistic. State that these are descriptive statistics, not an event classification.
-5. End on the project story or home page.
+5. Open the Mission Investigator quiz and answer one question, showing its NASA evidence link.
+6. End on the project home page and state the learning outcome.
 
 ## If the data import fails during recording
 
@@ -37,7 +41,7 @@ Do not fake a successful live load. Either:
 3. **Artifact:** Apollo 12 passive seismic station — purpose and physical legacy.
 4. **NASA evidence:** Apollo PSE dataset citation, exact file name, archive source, and fields actually used.
 5. **Investigation:** verified waveform plot and descriptive statistics; include a plain-language method note.
-6. **Learning impact:** connect hardware, preserved observations, and a question that invites young explorers to investigate.
+6. **Learning impact:** show the source-linked Mission Investigator activity and how it checks understanding of the mission evidence.
 7. **Sources & disclosures:** NASA references, tools/assets, AI-use disclosure, and public project URL.
 
 ## Accuracy and eligibility gates
