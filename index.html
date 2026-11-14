@@ -149,6 +149,31 @@
     </article>
   </div>
 </section>
+
+<section class="mission-detective" id="mission-detective" aria-labelledby="detective-title">
+  <div class="detective-heading">
+    <p class="eyebrow">Interactive learning · Mission investigation</p>
+    <h2 id="detective-title">Can you read the clues <em>left behind?</em></h2>
+    <p>Become a mission investigator. Use what you learned from the archive to connect each machine with the science it made possible.</p>
+  </div>
+  <div class="detective-console" data-mission-quiz>
+    <div class="detective-topline"><span data-quiz-step>CASE FILE 01 / 04</span><span data-quiz-score>0 correct</span></div>
+    <div class="detective-progress" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><span data-quiz-progress></span></div>
+    <div class="detective-question" data-quiz-question aria-live="polite">
+      <p class="detective-kicker">FIELD QUESTION</p>
+      <h3>What part of Apollo 11’s Lunar Module remained on the Moon?</h3>
+      <div class="detective-options" data-quiz-options>
+        <button type="button" data-answer="0">The ascent stage</button>
+        <button type="button" data-answer="1">The descent stage</button>
+        <button type="button" data-answer="2">The entire spacecraft</button>
+      </div>
+    </div>
+    <div class="detective-feedback" data-quiz-feedback role="status" aria-live="polite" hidden></div>
+    <div class="detective-controls"><a class="text-link" data-quiz-source href="https://science.nasa.gov/resource/apollo-11-landing-site/" target="_blank" rel="noopener noreferrer">Open NASA evidence ↗</a><button type="button" data-quiz-next disabled>Next case <span aria-hidden="true">→</span></button></div>
+    <p class="detective-footnote">Learning activity based on the mission records in this archive. Each answer includes a NASA source so you can verify the evidence.</p>
+  </div>
+</section>
+
 <section class="science-panels" aria-labelledby="science-panels-title">
   <div class="section-heading">
     <p class="eyebrow">Deep dive · Science data &amp; evidence</p>
@@ -169,5 +194,6 @@
 </footer>
 <script src="js/immersive-motion.js"></script>
 <script src="js/cinematic-motion.js"></script>
+<script src="js/mission-quiz.js"></script>
 </body>
 </html>
