@@ -1240,3 +1240,11 @@ body {
 .original-comic .original-scene-image{position:relative;display:block;width:100%;height:auto;max-height:76vh;object-fit:contain;filter:none;animation:none}
 .original-comic .cp .cap{z-index:2;max-width:min(86%,38rem);margin:.8rem;align-self:flex-end}
 @media(max-width:760px){.original-comic .original-scene-image{max-height:62vh}.original-comic .cp .cap{max-width:94%;font-size:.9rem}}
+
+/* Chapter-specific cinematic gateway using each story's own cover art */
+.story-intro{background-image:linear-gradient(180deg,rgba(4,8,18,.56),rgba(4,8,18,.84)),var(--story-cover,none),radial-gradient(ellipse at 50% 42%,rgba(55,72,105,.55),rgba(7,8,14,.96) 68%);background-position:center;background-size:cover;background-repeat:no-repeat}
+.story-intro[data-tone="mars"]{--gateway-glow:rgba(245,125,77,.28)}
+.story-intro[data-tone="deep"]{--gateway-glow:rgba(110,165,255,.28)}
+.story-intro:before{border-color:var(--gateway-glow,rgba(233,220,198,.12));box-shadow:0 0 0 45px rgba(233,220,198,.025),0 0 0 90px rgba(233,220,198,.018),0 0 100px var(--gateway-glow,rgba(120,155,210,.12))}
+.story-intro h2{max-width:17ch}
+.story-intro .story-enter{background:linear-gradient(110deg,#d36c46,#e7a75b);border:1px solid rgba(255,255,255,.5);color:#100d0b;font-weight:800;box-shadow:0 0 38px rgba(232,139,81,.3)}
