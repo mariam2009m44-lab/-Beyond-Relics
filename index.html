@@ -76,18 +76,7 @@
     </div>
   </section>
 
-  <section class="cards story-launches" id="cards" aria-label="Featured immersive mission stories">
-    <a class="card story-launch-card mars-launch" href="comic.html?chapter=pathfinder-sojourner" style="--i:0">
-      <img src="IMG-20261114-WA0559(1).jpg" alt="Sojourner rover in its illustrated Martian exploration story" fetchpriority="high">
-      <span class="launch-index">01 / MARS FIELD JOURNAL</span>
-      <span class="launch-copy"><span class="card-meta">MARS · 1996—1998</span><strong>Pathfinder <em>&amp;</em><br>Sojourner</strong><span class="launch-description">A tiny rover. A new world. The first steps of a new era in Mars exploration.</span><span class="launch-cta">ENTER THE MISSION <b>↗</b></span></span>
-    </a>
-    <a class="card story-launch-card deep-launch" href="comic.html?chapter=pioneer-10-11" style="--i:1">
-      <img src="IMG-20261114-WA0644.jpg" alt="Pioneer spacecraft deep-space illustrated mission story" loading="eager">
-      <span class="launch-index">02 / DEEP SPACE LOG</span>
-      <span class="launch-copy"><span class="card-meta">OUTER SOLAR SYSTEM · 1972—2003</span><strong>Pioneer <em>10</em><br>&amp; Pioneer 11</strong><span class="launch-description">Two explorers carry a message from Earth beyond the giant planets.</span><span class="launch-cta">ENTER THE MISSION <b>↗</b></span></span>
-    </a>
-  </section>
+
 
   <a class="scroll" href="#mission-brief">
     <span class="ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>Explore the archive
@@ -95,6 +84,54 @@
   <div class="spark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></div>
   <div class="tag">Real missions. Lasting legacies.<i></i><i></i><i></i></div>
 </main>
+
+<section class="story-deck" id="mission-stories" aria-labelledby="story-deck-title">
+  <div class="story-deck-heading">
+    <div>
+      <p class="eyebrow">THE HUMAN SIDE OF SPACE EXPLORATION · ORIGINAL ILLUSTRATED STORIES</p>
+      <h2 id="story-deck-title">Every mission leaves <em>a story.</em></h2>
+      <p>Step into the mission, follow the journey, and discover the science behind every frame.</p>
+    </div>
+    <div class="story-deck-controls" aria-label="Story navigation">
+      <button type="button" data-story-prev aria-label="Previous story">←</button>
+      <span><b data-story-current>01</b><i>/</i><span data-story-total>02</span></span>
+      <button type="button" data-story-next aria-label="Next story">→</button>
+    </div>
+  </div>
+  <div class="story-deck-viewport" data-story-viewport tabindex="0" aria-label="Browse illustrated mission stories horizontally">
+    <div class="story-deck-track" data-story-track>
+      <a class="story-deck-card story-deck-mars" href="comic.html?chapter=pathfinder-sojourner" data-story-card>
+        <div class="story-deck-art">
+          <img src="IMG-20261114-WA0559(1).jpg" alt="Illustration from the Mars Pathfinder and Sojourner mission story" fetchpriority="high">
+          <span class="story-deck-number">01 <i>/ FIELD JOURNAL</i></span>
+          <span class="story-deck-world">MARS · 1996—1998</span>
+        </div>
+        <div class="story-deck-copy">
+          <span class="story-deck-label">THE FIRST MARTIAN ROVER</span>
+          <h3>Pathfinder <em>&amp;</em><br>Sojourner</h3>
+          <p>A seven-month journey. A tiny six-wheeled explorer. 83 days that changed the future of Mars exploration.</p>
+          <span class="story-deck-meta"><b>19</b> ORIGINAL STORY FRAMES <i>·</i> <b>NASA</b> MISSION RECORDS</span>
+          <span class="story-deck-enter">ENTER THE STORY <b>↗</b></span>
+        </div>
+      </a>
+      <a class="story-deck-card story-deck-deep" href="comic.html?chapter=pioneer-10-11" data-story-card>
+        <div class="story-deck-art">
+          <img src="IMG-20261114-WA0644.jpg" alt="Illustration from the Pioneer 10 and 11 deep-space story" loading="lazy">
+          <span class="story-deck-number">02 <i>/ DEEP SPACE LOG</i></span>
+          <span class="story-deck-world">OUTER SOLAR SYSTEM · 1972—2003</span>
+        </div>
+        <div class="story-deck-copy">
+          <span class="story-deck-label">MESSENGERS BEYOND THE GIANT PLANETS</span>
+          <h3>Pioneer <em>10</em><br>&amp; Pioneer 11</h3>
+          <p>Two spacecraft cross the frontier of the outer Solar System, carrying a message from Earth into deep space.</p>
+          <span class="story-deck-meta"><b>20</b> ORIGINAL STORY FRAMES <i>·</i> <b>NASA</b> MISSION RECORDS</span>
+          <span class="story-deck-enter">ENTER THE STORY <b>↗</b></span>
+        </div>
+      </a>
+    </div>
+  </div>
+  <p class="story-deck-footnote">Original illustrated storytelling · Mission facts are linked to NASA primary sources · Swipe or use the arrows to explore</p>
+</section>
 
 <section class="mission-brief" id="mission-brief" aria-labelledby="brief-title">
   <div class="brief-orbit" aria-hidden="true"></div>
