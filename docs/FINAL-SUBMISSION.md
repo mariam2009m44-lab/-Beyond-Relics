@@ -75,7 +75,7 @@ Record the demo only after the qualifying dataset is visibly integrated. Keep it
 
 Edit this to match the team's actual work; remove anything that is not true:
 
-- AI-assisted coding/editorial support: ChatGPT was used for code assistance and editorial refinement; team members reviewed and remain responsible for the final work.
+- Digital tools: disclose the AI-assisted tools actually used and their role, as required by the event rules. The team owns the project concept, design decisions, implementation review, and final submission.
 - NASA imagery: images are retrieved from NASA's public Image and Video Library and should retain their NASA record/source attribution.
 - AI-generated visuals: list each tool and identify the specific generated image/video portions with a visible “AI-generated” watermark. Do not present generated visuals as NASA photographs and do not generate or alter NASA logos, mission identifiers, or other NASA branding.
 - Audio: identify whether the soundtrack is original code-generated audio, licensed music, or another source; include licence/source details where relevant.
