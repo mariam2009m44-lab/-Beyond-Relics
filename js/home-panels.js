@@ -22,10 +22,17 @@
       image.decoding = "async";
       image.referrerPolicy = "no-referrer";
       var credit = visual.querySelector(".chronicle-credit");
+      if (credit && credit.tagName !== "A") {
+        var sourceLink = document.createElement("a");
+        sourceLink.className = credit.className;
+        sourceLink.textContent = credit.textContent;
+        credit.replaceWith(sourceLink);
+        credit = sourceLink;
+      }
       image.addEventListener("nasaimageload", function (event) {
         var record = event.detail;
         if (!credit) return;
-        credit.textContent = "NASA · " + record.id;
+        credit.textContent = "NASA · " + record.id + " ↗";
         credit.href = record.detail;
         credit.target = "_blank";
         credit.rel = "noopener noreferrer";
