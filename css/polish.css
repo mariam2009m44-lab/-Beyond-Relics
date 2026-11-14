@@ -953,3 +953,125 @@ body {
   --vr-cyan:#00e5ff;
 }
 .status-live,.status-active,.data-status-live { color:var(--vr-mint); }
+
+
+/* ==========================================================
+   IMMERSIVE MOTION LAYER — subtle, responsive and accessible
+   ========================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .earth {
+    transform-origin:58% 48%;
+    animation:vr-planet-drift 22s ease-in-out infinite;
+    will-change:transform;
+  }
+  .hero::before {
+    animation:vr-grid-drift 48s linear infinite;
+  }
+  .hero::after {
+    animation:vr-star-breathe 11s ease-in-out infinite alternate;
+  }
+  .copy .kicker {
+    animation:vr-soft-arrive .9s .05s both cubic-bezier(.2,.75,.25,1);
+  }
+  .copy h1 {
+    animation:vr-soft-arrive 1s .13s both cubic-bezier(.2,.75,.25,1);
+  }
+  .copy .sub {
+    animation:vr-soft-arrive .9s .25s both cubic-bezier(.2,.75,.25,1);
+  }
+  .hero-actions {
+    animation:vr-soft-arrive .9s .38s both cubic-bezier(.2,.75,.25,1);
+  }
+  .card {
+    transform-style:preserve-3d;
+    transition:transform .42s cubic-bezier(.2,.75,.25,1),border-color .35s ease,box-shadow .35s ease;
+  }
+  .card::before {
+    background-size:180% 180%;
+    animation:vr-holo-breathe 10s ease-in-out infinite alternate;
+  }
+  .card:hover,.card:focus-visible {
+    transform:perspective(1100px) rotateX(1.2deg) rotateY(-1deg) translateY(-7px);
+  }
+  .chronicle-card,.acard,.science-card,.panel,.release-card {
+    transition:transform .4s cubic-bezier(.2,.75,.25,1),border-color .35s ease,box-shadow .35s ease;
+  }
+  .chronicle-card:hover,.acard:hover,.science-card:hover {
+    transform:translateY(-6px);
+  }
+  .btn,.links a,.tools button,.chip {
+    transition:transform .25s ease,color .25s ease,background .25s ease,border-color .25s ease,box-shadow .3s ease;
+  }
+  .btn:active,.tools button:active,.chip:active {
+    transform:translateY(1px) scale(.985);
+  }
+  .btn:not(.ghost):hover {
+    box-shadow:0 0 0 1px rgba(0,229,255,.22),0 0 34px rgba(0,229,255,.22),0 14px 34px rgba(0,0,0,.28);
+  }
+  .links a:hover { transform:translateY(-2px); }
+  .nav { transition:background .4s ease,border-color .4s ease,box-shadow .4s ease; }
+  .nasa-image-credit,.chronicle-credit {
+    transition:background .25s ease,border-color .25s ease,color .25s ease;
+  }
+
+  .motion-ready .motion-reveal {
+    opacity:0;
+    transform:translate3d(0,24px,0);
+    transition:opacity .72s cubic-bezier(.2,.7,.2,1),transform .78s cubic-bezier(.2,.7,.2,1);
+    transition-delay:calc(var(--motion-index,0) * 55ms);
+    will-change:opacity,transform;
+  }
+  .motion-ready .motion-reveal.is-visible {
+    opacity:1;
+    transform:translate3d(0,0,0);
+  }
+  .motion-ready .chronicle-card.motion-reveal,
+  .motion-ready .science-card.motion-reveal,
+  .motion-ready .acard.motion-reveal,
+  .motion-ready .insight-card.motion-reveal {
+    transform:translate3d(0,28px,0) scale(.985);
+  }
+  .motion-ready .chronicle-card.motion-reveal.is-visible,
+  .motion-ready .science-card.motion-reveal.is-visible,
+  .motion-ready .acard.motion-reveal.is-visible,
+  .motion-ready .insight-card.motion-reveal.is-visible {
+    transform:translate3d(0,0,0) scale(1);
+  }
+}
+@keyframes vr-planet-drift {
+  0%,100% { transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+  50% { transform:translate3d(-10px,13px,0) rotate(1.2deg) scale(1.018); }
+}
+@keyframes vr-grid-drift {
+  from { background-position:0 0,0 0; }
+  to { background-position:68px 68px,-68px 68px; }
+}
+@keyframes vr-star-breathe {
+  from { opacity:.20; }
+  to { opacity:.34; }
+}
+@keyframes vr-holo-breathe {
+  from { background-position:0% 50%; opacity:.48; }
+  to { background-position:100% 50%; opacity:.78; }
+}
+@keyframes vr-soft-arrive {
+  from { opacity:0; transform:translate3d(0,16px,0); filter:blur(3px); }
+  to { opacity:1; transform:translate3d(0,0,0); filter:blur(0); }
+}
+@media (max-width:760px) and (prefers-reduced-motion:no-preference) {
+  .earth { animation-duration:30s; }
+  .hero::before { animation-duration:70s; }
+  .card:hover,.card:focus-visible { transform:translateY(-4px); }
+  .motion-ready .motion-reveal { transform:translate3d(0,16px,0); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .earth,.hero::before,.hero::after,.copy .kicker,.copy h1,.copy .sub,.hero-actions,.card::before {
+    animation:none !important;
+  }
+  .motion-ready .motion-reveal {
+    opacity:1 !important;
+    transform:none !important;
+    filter:none !important;
+    transition:none !important;
+  }
+}
