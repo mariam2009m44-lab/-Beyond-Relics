@@ -14,6 +14,7 @@
 - [ ] Confirm third-party assets have suitable usage rights. Attribution alone does not grant permission.
 - [ ] Prepare either a demo video of **30 seconds maximum** or a presentation of **7 slides maximum** (including title and closing slides).
 - [ ] Test the deployed site on mobile and desktop, including all navigation, story controls, image fallbacks, data explorers, and external links.
+- [ ] Specifically verify the Apollo waveform lab: load the sample from NASA PDS, test the downloaded-CSV import fallback, confirm the detected GeoCSV value/time columns against the source file, and check the plotted values and descriptive statistics.
 - [ ] Verify the final submission is public and accessible without signing in.
 
 ## Data eligibility — current project status
@@ -21,10 +22,11 @@
 Beyond Relics currently includes:
 - NASA PDS Apollo Passive Seismic Experiment archive links and collection metadata.
 - Published ALSEP station coordinates and PSE instrument sampling-rate metadata.
+- An Apollo 12 GeoCSV waveform explorer that can request a real NASA PDS observation file or parse a GeoCSV file selected locally by the user, then plot its numeric observations and calculate descriptive statistics.
 - NASA-published InSight instrument specifications and links to the SEIS archive.
 - NASA Image and Video Library search results with NASA record identifiers.
 
-**Important limitation:** the current ALSEP explorer plots station locations and displays instrument metadata. It does not yet process or plot raw seismic waveform samples. A link to a NASA dataset, mission facts, or NASA photographs alone does not satisfy the 2026 Global Award data requirement.
+**Important limitation:** the ALSEP locator still shows station locations and instrument metadata; the separate Apollo waveform lab now includes a real PDS GeoCSV sample URL, a direct-load attempt, and a local-file import/plot workflow. Browser-level verification of cross-origin loading and the GeoCSV parser is still required. If direct loading is blocked, download the original PDS CSV and import it through the file picker. Do not describe the plot as an event detection or scientific interpretation: it currently provides a transparent visualization and descriptive statistics only. A link to a NASA dataset, mission facts, or NASA photographs alone does not satisfy the 2026 Global Award data requirement.
 
 **Unresolved eligibility check:** the team must compare the Apollo PSE and/or InSight SEIS sources against the exact list in the selected Challenge 01 Resources tab. Do not claim that either qualifies until this match is confirmed. If a listed resource is different, prioritize integrating that exact source.
 
