@@ -14,6 +14,7 @@
 - [ ] Confirm third-party assets have suitable usage rights. Attribution alone does not grant permission.
 - [ ] Prepare either a demo video of **30 seconds maximum** or a presentation of **7 slides maximum** (including title and closing slides).
 - [ ] Test the deployed site on mobile and desktop, including all navigation, story controls, image fallbacks, data explorers, and external links.
+- [ ] Test the Mission Investigator quiz end-to-end: all four questions, correct and incorrect answers, source links, score, restart, keyboard navigation, and mobile layout.
 - [ ] Test the cinematic motion layer on mobile and desktop: orbital hero details, scroll reveals, scene transitions, chart-line drawing, and scroll progress. Confirm the site remains usable with the device's reduced-motion accessibility setting enabled.
 - [ ] Specifically verify the Apollo waveform lab: load the sample from NASA PDS, test the downloaded-CSV import fallback, confirm the detected GeoCSV value/time columns against the source file, and check the plotted values and descriptive statistics.
 - [ ] Verify the final submission is public and accessible without signing in.
