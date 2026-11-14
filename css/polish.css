@@ -1180,3 +1180,27 @@ body {
   .reader .scene-image { animation-duration:34s; }
   .astro { animation-duration:10s; }
 }
+
+
+/* Clear access to original NASA data bundles */
+.dataset-access {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.55rem;
+  margin:1rem 0 0;
+  padding:1rem 1.15rem;
+  border:1px solid rgba(0,229,255,.24);
+  border-radius:14px;
+  background:linear-gradient(120deg,rgba(0,229,255,.07),rgba(139,92,246,.08));
+  color:#c5d8ee;
+  line-height:1.55;
+}
+.dataset-access strong { color:#eff8ff; }
+.dataset-access a {
+  color:#70eaff;
+  text-decoration:underline;
+  text-decoration-color:rgba(112,234,255,.5);
+  text-underline-offset:3px;
+}
+.dataset-access a:hover { color:#d4baff; }
