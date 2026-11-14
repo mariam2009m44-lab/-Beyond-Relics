@@ -30,6 +30,15 @@ Space hardware has a second story. When a lander stops transmitting or a rover c
 7. **Image provenance:** photographs are retrieved live from NASA’s public Image and Video Library, selected using mission-specific queries, and labeled with NASA record IDs. If the service is unavailable, the site keeps its original artwork rather than showing broken images.
 8. **Original soundtrack:** the cinematic score is synthesized by the project with the Web Audio API. It is not a recording from the Moon or Mars. Visitors explicitly start the story audio; it does not autoplay.
 
+
+## Global judging readiness — data requirement
+
+The NASA Space Apps Global Organizing Team clarified that Global Award eligibility requires meaningful use of at least one NASA data source listed in the Resources tab for the selected challenge. Mission facts, NASA photographs, and citations alone do not automatically meet this requirement.
+
+Beyond Relics currently links the NASA PDS Apollo Seismic Data Bundle and InSight SEIS bundle. Its Apollo explorer presently visualizes published station locations and instrument metadata; it does **not** yet plot raw Apollo seismic waveform samples. The Apollo PSE archive is a NASA dataset, but the project team must verify that it appears in the exact Challenge 01 Resources list before claiming challenge-resource compliance.
+
+For a strong data demonstration, the final experience should identify the qualifying resource, show the exact data fields/products used, explain any processing, and connect the resulting observation to a story about the hardware. Keep all derived visuals labelled as processed data, and never label an illustrative schematic as telemetry.
+
 ## Technology
 
 - Semantic HTML5 and responsive CSS
