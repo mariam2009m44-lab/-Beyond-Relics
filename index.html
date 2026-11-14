@@ -85,52 +85,45 @@
   <div class="tag">Real missions. Lasting legacies.<i></i><i></i><i></i></div>
 </main>
 
-<section class="story-deck" id="mission-stories" aria-labelledby="story-deck-title">
-  <div class="story-deck-heading">
-    <div>
-      <p class="eyebrow">THE HUMAN SIDE OF SPACE EXPLORATION · ORIGINAL ILLUSTRATED STORIES</p>
-      <h2 id="story-deck-title">Every mission leaves <em>a story.</em></h2>
-      <p>Step into the mission, follow the journey, and discover the science behind every frame.</p>
+<section class="mission-story-gallery" id="mission-stories" aria-labelledby="mission-stories-title">
+  <div class="mission-gallery-heading">
+    <div class="mission-gallery-title">
+      <p class="eyebrow">ORIGINAL ILLUSTRATED MISSION STORIES</p>
+      <h2 id="mission-stories-title">Five frames. <em>One journey.</em></h2>
+      <p>Explore each mission through its most important moments, arranged in the order they happened.</p>
     </div>
-    <div class="story-deck-controls" aria-label="Story navigation">
-      <button type="button" data-story-prev aria-label="Previous story">←</button>
-      <span><b data-story-current>01</b><i>/</i><span data-story-total>02</span></span>
-      <button type="button" data-story-next aria-label="Next story">→</button>
-    </div>
-  </div>
-  <div class="story-deck-viewport" data-story-viewport tabindex="0" aria-label="Browse illustrated mission stories horizontally">
-    <div class="story-deck-track" data-story-track>
-      <a class="story-deck-card story-deck-mars" href="comic.html?chapter=pathfinder-sojourner" data-story-card>
-        <div class="story-deck-art">
-          <img src="IMG-20261114-WA0559(1).jpg" alt="Illustration from the Mars Pathfinder and Sojourner mission story" fetchpriority="high">
-          <span class="story-deck-number">01 <i>/ FIELD JOURNAL</i></span>
-          <span class="story-deck-world">MARS · 1996—1998</span>
-        </div>
-        <div class="story-deck-copy">
-          <span class="story-deck-label">THE FIRST MARTIAN ROVER</span>
-          <h3>Pathfinder <em>&amp;</em><br>Sojourner</h3>
-          <p>A seven-month journey. A tiny six-wheeled explorer. 83 days that changed the future of Mars exploration.</p>
-          <span class="story-deck-meta"><b>19</b> ORIGINAL STORY FRAMES <i>·</i> <b>NASA</b> MISSION RECORDS</span>
-          <span class="story-deck-enter">ENTER THE STORY <b>↗</b></span>
-        </div>
-      </a>
-      <a class="story-deck-card story-deck-deep" href="comic.html?chapter=pioneer-10-11" data-story-card>
-        <div class="story-deck-art">
-          <img src="IMG-20261114-WA0644.jpg" alt="Illustration from the Pioneer 10 and 11 deep-space story" loading="lazy">
-          <span class="story-deck-number">02 <i>/ DEEP SPACE LOG</i></span>
-          <span class="story-deck-world">OUTER SOLAR SYSTEM · 1972—2003</span>
-        </div>
-        <div class="story-deck-copy">
-          <span class="story-deck-label">MESSENGERS BEYOND THE GIANT PLANETS</span>
-          <h3>Pioneer <em>10</em><br>&amp; Pioneer 11</h3>
-          <p>Two spacecraft cross the frontier of the outer Solar System, carrying a message from Earth into deep space.</p>
-          <span class="story-deck-meta"><b>20</b> ORIGINAL STORY FRAMES <i>·</i> <b>NASA</b> MISSION RECORDS</span>
-          <span class="story-deck-enter">ENTER THE STORY <b>↗</b></span>
-        </div>
-      </a>
+    <div class="mission-gallery-switch" role="group" aria-label="Choose a mission story">
+      <button type="button" class="is-active" data-mission-choice="pathfinder-sojourner" aria-pressed="true">MARS PATHFINDER</button>
+      <button type="button" data-mission-choice="pioneer-10-11" aria-pressed="false">PIONEER 10 &amp; 11</button>
     </div>
   </div>
-  <p class="story-deck-footnote">Original illustrated storytelling · Mission facts are linked to NASA primary sources · Swipe or use the arrows to explore</p>
+  <div class="mission-gallery-meta">
+    <div><span class="mission-gallery-kicker" data-gallery-kicker>THE FIRST MARTIAN ROVER · 1996—1998</span><h3 data-gallery-name>Pathfinder <em>&amp;</em> Sojourner</h3></div>
+    <a data-gallery-link href="comic.html?chapter=pathfinder-sojourner">EXPLORE THE FULL STORY <b>↗</b></a>
+  </div>
+  <div class="mission-frame-grid" data-mission-frame-grid aria-label="Five selected story moments">
+    <a class="mission-frame" href="comic.html?chapter=pathfinder-sojourner" data-frame-link>
+      <span class="mission-frame-image"><img src="IMG-20261114-WA0554.jpg" alt="Pathfinder launches from Earth on 4 December 1996" fetchpriority="high"></span>
+      <span class="mission-frame-caption"><i>01</i><b>THE LAUNCH</b><small>Earth · December 1996</small></span>
+    </a>
+    <a class="mission-frame" href="comic.html?chapter=pathfinder-sojourner" data-frame-link>
+      <span class="mission-frame-image"><img src="IMG-20261114-WA0550(1).jpg" alt="Pathfinder reaches the Martian surface in July 1997" loading="lazy"></span>
+      <span class="mission-frame-caption"><i>02</i><b>TOUCHDOWN</b><small>Mars · 4 July 1997</small></span>
+    </a>
+    <a class="mission-frame" href="comic.html?chapter=pathfinder-sojourner" data-frame-link>
+      <span class="mission-frame-image"><img src="IMG-20261114-WA0561(1).jpg" alt="Sojourner rover rolls down the lander ramp" loading="lazy"></span>
+      <span class="mission-frame-caption"><i>03</i><b>FIRST ROLLOUT</b><small>First rover operations</small></span>
+    </a>
+    <a class="mission-frame" href="comic.html?chapter=pathfinder-sojourner" data-frame-link>
+      <span class="mission-frame-image"><img src="IMG-20261114-WA0553(1).jpg" alt="Sojourner's APXS instrument examines Martian rocks" loading="lazy"></span>
+      <span class="mission-frame-caption"><i>04</i><b>THE SCIENCE</b><small>APXS · Rock analysis</small></span>
+    </a>
+    <a class="mission-frame" href="comic.html?chapter=pathfinder-sojourner" data-frame-link>
+      <span class="mission-frame-image"><img src="IMG-20261114-WA0551(1).jpg" alt="Pathfinder's final data transmission in September 1997" loading="lazy"></span>
+      <span class="mission-frame-caption"><i>05</i><b>FINAL SIGNAL</b><small>27 September 1997</small></span>
+    </a>
+  </div>
+  <div class="mission-gallery-bottom"><span data-gallery-count>01—05 / 19 ORIGINAL FRAMES</span><span>SELECT A FRAME TO ENTER ITS MISSION STORY</span></div>
 </section>
 
 <section class="mission-brief" id="mission-brief" aria-labelledby="brief-title">
