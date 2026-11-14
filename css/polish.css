@@ -1459,3 +1459,41 @@ html[dir="rtl"] .br-scroll-progress{transform-origin:right center}
   .br-motion-enabled .hero .earth{transform:none!important;animation:none!important}
   .br-motion-enabled .btn::after{display:none}
 }
+
+
+/* Interactive mission investigator — learning through evidence */
+.mission-detective{position:relative;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(2rem,6vw,6rem);align-items:center;padding:clamp(4rem,8vw,7.5rem) clamp(1.2rem,6vw,6rem);overflow:hidden;border-top:1px solid rgba(146,170,205,.14);border-bottom:1px solid rgba(146,170,205,.14);background:radial-gradient(ellipse at 8% 50%,rgba(99,213,229,.09),transparent 38%),linear-gradient(135deg,rgba(12,24,41,.96),rgba(8,15,28,.98))}
+.mission-detective:before{content:"";position:absolute;width:30rem;aspect-ratio:1;border:1px solid rgba(99,213,229,.09);border-radius:50%;right:-14rem;top:-15rem;box-shadow:0 0 0 42px rgba(99,213,229,.018),0 0 0 84px rgba(99,213,229,.012);pointer-events:none}
+.detective-heading,.detective-console{position:relative;z-index:1}
+.detective-heading{max-width:36rem}
+.detective-heading h2{margin:.4rem 0 1rem;color:#f1f6fc;font-family:var(--f-head);font-size:clamp(2.6rem,5vw,4.6rem);line-height:.98}
+.detective-heading h2 em{color:var(--cosmic-cyan);font-style:normal}
+.detective-heading>p:last-child{max-width:54ch;color:#aebfd2;line-height:1.8}
+.detective-console{padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(131,185,215,.25);border-radius:18px;background:linear-gradient(145deg,rgba(20,37,58,.94),rgba(9,19,34,.96));box-shadow:0 28px 70px rgba(0,0,0,.3)}
+.detective-topline{display:flex;justify-content:space-between;gap:1rem;color:#80dce9;font-size:.68rem;font-weight:800;letter-spacing:.13em}
+.detective-topline span:last-child{color:#e6bd79}
+.detective-progress{height:5px;margin:1rem 0 1.8rem;overflow:hidden;border-radius:9px;background:rgba(180,205,230,.13)}
+.detective-progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#9b91e8,#63d5e5);transition:width .45s ease}
+.detective-kicker{margin:0 0 .6rem;color:#e6bd79;font-size:.65rem;font-weight:800;letter-spacing:.16em}
+.detective-question h3{margin:0 0 1.2rem;color:#f3f7fc;font-family:var(--f-head);font-size:clamp(1.45rem,3vw,2.15rem);line-height:1.18}
+.detective-options{display:grid;gap:.65rem}
+.detective-options button{width:100%;padding:.9rem 1rem;border:1px solid rgba(153,184,215,.22);border-radius:10px;background:rgba(255,255,255,.035);color:#dce7f3;text-align:left;font:inherit;font-size:.9rem;cursor:pointer;transition:border-color .2s,background .2s,transform .2s}
+.detective-options button:hover:not(:disabled){transform:translateX(4px);border-color:rgba(99,213,229,.65);background:rgba(99,213,229,.08)}
+.detective-options button:focus-visible,.detective-controls button:focus-visible{outline:2px solid var(--cosmic-cyan);outline-offset:3px}
+.detective-options button:disabled{cursor:default;opacity:.72}
+.detective-options button.is-correct{border-color:rgba(95,224,177,.7);background:rgba(95,224,177,.11);color:#b9f6dc;opacity:1}
+.detective-options button.is-incorrect{border-color:rgba(255,145,130,.65);background:rgba(255,145,130,.08);color:#ffd0c7;opacity:1}
+.detective-feedback{margin-top:1rem;padding:1rem;border:1px solid rgba(99,213,229,.22);border-radius:11px;background:rgba(99,213,229,.055);color:#c5d5e6;font-size:.84rem;line-height:1.7}
+.detective-feedback.is-incorrect{border-color:rgba(255,145,130,.3);background:rgba(255,145,130,.045)}
+.detective-feedback strong{display:block;margin-bottom:.25rem;color:#9ce9f0}
+.detective-feedback.is-incorrect strong{color:#ffc1b5}
+.detective-feedback p{margin:.2rem 0 .6rem}
+.detective-feedback a,.detective-controls>a{color:#83e5f0;text-decoration:underline;text-underline-offset:3px;font-size:.78rem;font-weight:700}
+.detective-controls{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.2rem}
+.detective-controls button{min-height:43px;padding:.65rem 1rem;border:1px solid rgba(99,213,229,.42);border-radius:9px;background:linear-gradient(120deg,rgba(99,213,229,.18),rgba(155,145,216,.17));color:#f1fbff;font:inherit;font-weight:750;cursor:pointer}
+.detective-controls button:disabled{opacity:.35;cursor:not-allowed}
+.detective-footnote{margin:1.2rem 0 0;color:#8499b2;font-size:.7rem;line-height:1.6}
+.detective-result{color:#b9cce0;font-family:var(--f-body);font-size:.95rem;line-height:1.7}
+@media(max-width:850px){.mission-detective{grid-template-columns:1fr;gap:2rem}.detective-heading{max-width:48rem}}
+@media(max-width:480px){.mission-detective{padding:3.3rem 1rem}.detective-console{padding:1rem}.detective-controls{align-items:stretch;flex-direction:column}.detective-controls button{width:100%}.detective-topline{font-size:.6rem}}
+@media(prefers-reduced-motion:reduce){.detective-progress span,.detective-options button{transition:none}}
