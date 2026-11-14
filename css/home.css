@@ -654,3 +654,15 @@ h1 em { color:var(--cosmic-cyan); -webkit-text-fill-color:var(--cosmic-cyan); }
   .team-artwork-card { border-radius:12px; aspect-ratio:3/4; }
   .team-artwork-card span { left:.4rem; bottom:.4rem; font-size:.58rem; }
 }
+
+/* Curated original mission-story entry cards */
+.team-story-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,3vw,2rem);max-width:1120px;margin:0 auto}
+.team-story-feature{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;padding:0 0 1.35rem;border:1px solid rgba(137,155,206,.35);border-radius:20px;background:linear-gradient(145deg,#111b31,#080d1c);color:#edf5ff;text-decoration:none;box-shadow:0 18px 48px rgba(0,0,0,.28);transition:transform .3s,border-color .3s,box-shadow .3s}
+.team-story-feature:hover{transform:translateY(-7px);border-color:var(--cosmic-cyan);box-shadow:0 22px 55px rgba(0,187,249,.14)}
+.team-story-feature img{display:block;width:100%;height:clamp(190px,28vw,330px);object-fit:cover;background:#080d1c}
+.team-story-feature h3,.team-story-feature p,.team-story-feature b{margin-left:1.3rem;margin-right:1.3rem}
+.team-story-feature h3{margin-top:.5rem;margin-bottom:.45rem;font-size:clamp(1.4rem,2.8vw,2rem)}
+.team-story-feature p{color:#aebfd2;line-height:1.7;flex:1}
+.team-story-feature b{margin-top:.6rem;color:#70e2f0;font-size:.85rem}
+.team-story-tag{align-self:flex-start;margin:1rem 1.3rem 0;padding:.35rem .65rem;border:1px solid rgba(99,213,229,.35);border-radius:99px;color:#8ce8f2;font-size:.68rem;letter-spacing:.1em}
+@media(max-width:650px){.team-story-feature-grid{grid-template-columns:1fr}.team-story-feature img{height:220px}}
