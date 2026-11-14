@@ -622,3 +622,35 @@ h1 em { color:var(--cosmic-cyan); -webkit-text-fill-color:var(--cosmic-cyan); }
   .chronicle-section,.science-panels { padding:3rem 1rem; }
   .cards { padding-bottom:5.7rem; }
 }
+
+
+/* Original team comic artwork — homepage feature */
+.team-artwork-section {
+  position:relative; z-index:2; padding:clamp(3rem,6vw,5.5rem) clamp(1rem,4vw,3.5rem);
+  background:radial-gradient(65% 90% at 50% 0,rgba(0,187,249,.12),transparent 70%),#070b18;
+  border-top:1px solid rgba(0,187,249,.2);
+}
+.team-artwork-grid {
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem;
+  max-width:1500px; margin:0 auto;
+}
+.team-artwork-card {
+  position:relative; display:block; min-width:0; overflow:hidden; aspect-ratio:4/3;
+  border:1px solid rgba(137,155,206,.45); border-radius:16px;
+  background:#10172a; box-shadow:0 14px 34px rgba(0,0,0,.35);
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.team-artwork-card:hover { transform:translateY(-5px); border-color:var(--cosmic-cyan); box-shadow:0 18px 40px rgba(0,187,249,.16); }
+.team-artwork-card img { display:block; width:100%; height:100%; object-fit:contain; background:#080d1c; }
+.team-artwork-card span {
+  position:absolute; left:.65rem; bottom:.65rem; padding:.35rem .55rem;
+  border:1px solid rgba(255,255,255,.2); border-radius:999px;
+  background:rgba(5,8,19,.82); color:#eaf6ff; font-size:.65rem; letter-spacing:.1em;
+}
+.team-artwork-action { display:flex; justify-content:center; margin:2rem auto 0; }
+@media(max-width:900px) { .team-artwork-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:600px) {
+  .team-artwork-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem; }
+  .team-artwork-card { border-radius:12px; aspect-ratio:3/4; }
+  .team-artwork-card span { left:.4rem; bottom:.4rem; font-size:.58rem; }
+}
