@@ -1,0 +1,158 @@
+/* Beyond Relics — device-wide responsive layer
+   Loaded after the visual theme so these layout rules win consistently. */
+:root { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html, body { width:100%; max-width:100%; overflow-x:clip; }
+body { min-width:0; }
+img, video, iframe, svg, canvas { max-width:100%; }
+img, video { height:auto; }
+button, input, select, textarea { max-width:100%; font:inherit; }
+p, h1, h2, h3, h4, a, small, strong, span, li { overflow-wrap:anywhere; }
+main, section, article, header, footer, nav, .page, .panel { min-width:0; }
+.page { width:100%; margin-inline:auto; }
+table { max-width:100%; }
+.table-wrap, .benchmark, .wave-chart-wrap, .data-table-wrap { max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+:focus-visible { scroll-margin-block:1rem; }
+
+/* Wide laptops and compact desktops */
+@media (max-width:1100px) {
+  .nav { gap:1rem; }
+  .links { gap:clamp(.7rem,1.5vw,1.15rem); }
+  .links a { font-size:.68rem; letter-spacing:.06em; }
+  .chronicle-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .science-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .mission-frame-grid { grid-template-columns:repeat(3,minmax(0,1fr)); overflow:visible; }
+}
+
+/* Tablets */
+@media (max-width:900px) {
+  .nav { flex-wrap:wrap; justify-content:space-between; gap:.65rem 1rem; padding:.8rem 1.1rem; }
+  .nav > nav { order:3; flex:1 0 100%; width:100%; min-width:0; }
+  .links { display:flex; width:100%; justify-content:flex-start; gap:1.15rem; overflow-x:auto; overscroll-behavior-inline:contain; scrollbar-width:thin; padding:.35rem 0 .55rem; }
+  .links li { flex:0 0 auto; }
+  .links a { white-space:nowrap; font-size:.72rem; }
+  .tools { margin-inline-start:auto; }
+  .mission-brief { grid-template-columns:1fr; gap:2rem; }
+  .brief-stats { grid-template-columns:repeat(3,minmax(0,1fr)); border-left:0; padding:1.2rem 0 0; border-top:1px solid var(--line); }
+  .mission-detective { grid-template-columns:1fr; }
+  .alsep-explorer, .insight-explorer, .pathfinder-explorer { grid-template-columns:1fr; }
+  .data-hero { grid-template-columns:1fr; }
+  .detail, .about-grid { grid-template-columns:1fr; }
+  .reader { grid-template-columns:1fr; grid-template-areas:"side" "stage" "strip"; }
+  .reader .side { min-width:0; }
+  .story-intro { margin-inline:1rem; }
+}
+
+/* Phones */
+@media (max-width:650px) {
+  .hero { min-height:100svh; min-height:100dvh; }
+  .nav { padding:.7rem .85rem; }
+  .brand { font-size:1rem; }
+  .tools { gap:.35rem; padding-left:.5rem; }
+  .tools button { width:2.35rem; height:2.35rem; }
+  .copy { padding:2.2rem 1rem 0; }
+  .copy h1 { font-size:clamp(2.45rem,11vw,4rem); line-height:.94; }
+  .kicker { font-size:.58rem; letter-spacing:.12em; line-height:1.6; }
+  .kicker::before,.kicker::after { width:.55rem; margin-inline:.25rem; }
+  .sub { max-width:38ch; font-size:.98rem; line-height:1.6; }
+  .hero-actions { display:grid; grid-template-columns:1fr; gap:.65rem; width:min(100%,25rem); margin:1.2rem auto 0; }
+  .hero-actions .btn, .brief-actions .btn { width:100%; min-width:0; white-space:normal; text-align:center; }
+  .scroll { left:.85rem; bottom:max(.8rem,env(safe-area-inset-bottom)); font-size:.58rem; letter-spacing:.08em; }
+  .tag,.spark { display:none; }
+  .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; width:100%; padding:1.4rem .85rem 5.2rem; overflow:visible; }
+  .card { min-width:0; width:100%; min-height:0; max-height:none; aspect-ratio:4/5; flex:auto; }
+  .label { min-height:82px; padding:.7rem; }
+  .label h2 { font-size:1rem; }
+  .card-meta { font-size:.52rem; letter-spacing:.07em; }
+  .go { width:1.8rem; height:1.8rem; }
+  .mission-story-gallery { padding:2.4rem .85rem 1.8rem; }
+  .mission-gallery-heading { display:grid; grid-template-columns:1fr; gap:1rem; align-items:start; }
+  .mission-gallery-title h2 { font-size:clamp(1.8rem,8vw,2.5rem); line-height:1.05; }
+  .mission-gallery-title>p:last-child { font-size:.88rem; }
+  .mission-gallery-switch { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }
+  .mission-gallery-switch button { min-width:0; min-height:44px; padding:.55rem .35rem; font-size:.57rem; letter-spacing:.04em; }
+  .mission-gallery-meta { align-items:flex-start; flex-direction:column; gap:.65rem; margin-top:1.25rem; }
+  .mission-gallery-meta>a { white-space:normal; font-size:.62rem; }
+  .mission-frame-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem; overflow:visible; padding:0; }
+  .mission-frame { min-width:0; scroll-snap-align:none; }
+  .mission-frame-image { aspect-ratio:4/3; }
+  .mission-frame-caption { grid-template-columns:auto minmax(0,1fr); padding:.6rem; }
+  .mission-frame-caption b { font-size:.62rem; }
+  .mission-frame-caption small { font-size:.57rem; }
+  .mission-gallery-bottom { flex-direction:column; gap:.35rem; font-size:.55rem; line-height:1.5; }
+  .mission-brief { padding:3rem 1rem; gap:1.6rem; }
+  .brief-copy h2 { font-size:clamp(2.2rem,10vw,3.3rem); }
+  .brief-actions { display:grid; grid-template-columns:1fr; }
+  .brief-stats { gap:.55rem; }
+  .brief-stats strong { font-size:1.65rem; }
+  .brief-stats span { font-size:.55rem; letter-spacing:.04em; line-height:1.4; }
+  .chronicle-section,.science-panels { padding:2.8rem .9rem; }
+  .chronicle-grid,.science-grid { grid-template-columns:1fr; }
+  .chronicle-card { min-height:0; }
+  .chronicle-visual { min-height:190px; }
+  .mission-detective { padding:2.8rem .9rem; gap:1.4rem; }
+  .detective-console { padding:1rem; }
+  .detective-controls { align-items:stretch; flex-direction:column; }
+  .detective-controls button { width:100%; min-height:46px; }
+  .detective-options { grid-template-columns:1fr; }
+  .section-heading h2 { font-size:clamp(1.8rem,8vw,2.6rem); }
+  .section-heading p { font-size:.9rem; }
+  .page { padding:2rem .9rem 3rem; }
+  .page-title { font-size:clamp(2.35rem,10vw,3.8rem); }
+  .lead { font-size:.96rem; }
+  .toolbar { display:grid; grid-template-columns:1fr; }
+  .search,.search input { width:100%; min-width:0; }
+  .chips { max-width:100%; overflow-x:auto; flex-wrap:nowrap; }
+  .chip { flex:0 0 auto; }
+  .page .grid { grid-template-columns:1fr; gap:.9rem; }
+  .page .aart { min-height:175px; aspect-ratio:16/9; }
+  .facts { grid-template-columns:1fr; }
+  .data-hero,.panel,.release-card,.science-card { padding:1rem; }
+  .release-grid { grid-template-columns:1fr; }
+  .nasa-results { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .evidence-metrics,.pds-facts { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .research-method,.evidence-track { grid-template-columns:1fr; }
+  .comic { display:flex; flex-direction:column; aspect-ratio:auto; }
+  .comic .cp,.cp { min-height:190px; }
+  .original-comic .original-scene-image { max-height:58vh; }
+  .cap { max-width:94%; font-size:.9rem; padding:.7rem .8rem; }
+  .strip { display:flex; flex-wrap:wrap; gap:.45rem; }
+  .thumbs { order:5; flex-basis:100%; }
+  .timeline-photo img { max-width:100%; }
+  .footer { align-items:flex-start; flex-direction:column; gap:.65rem; padding:1.3rem .9rem; }
+  .footer span { line-height:1.5; }
+  .wave-source { flex-direction:column; }
+  .wave-actions { width:100%; min-width:0; }
+  .wave-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .wave-chart { min-width:520px; }
+  .benchmark { display:block; max-width:100%; overflow-x:auto; }
+  .dataset-access { align-items:flex-start; flex-direction:column; }
+}
+
+/* Narrow phones */
+@media (max-width:380px) {
+  .brand { font-size:.9rem; }
+  .tools button { width:2.1rem; height:2.1rem; }
+  .links { gap:.9rem; }
+  .links a { font-size:.66rem; }
+  .copy h1 { font-size:clamp(2.2rem,10.5vw,3rem); }
+  .cards { gap:.5rem; padding-inline:.65rem; }
+  .label { padding:.55rem; }
+  .label h2 { font-size:.88rem; }
+  .mission-frame-grid { grid-template-columns:1fr; }
+  .mission-frame-image { aspect-ratio:16/9; }
+  .mission-gallery-switch button { font-size:.52rem; }
+  .brief-stats { grid-template-columns:1fr; }
+  .brief-stats div { display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; }
+  .nasa-results { grid-template-columns:1fr; }
+  .evidence-metrics,.pds-facts,.wave-stats { grid-template-columns:1fr; }
+  .detective-topline { font-size:.58rem; }
+}
+
+/* Touch, motion and readable focus */
+@media (hover:none) and (pointer:coarse) {
+  .card:hover,.mission-frame:hover,.chronicle-card:hover,.acard:hover { transform:none; }
+  .btn { min-height:46px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .mission-frame,.mission-frame-image img,.chronicle-card,.card,.btn { transition:none !important; }
+}
