@@ -1,11 +1,14 @@
 :root {
   color-scheme: dark;
-  --bg: #07080c;
-  --bg2: #12100e;
-  --bone: #e9dcc6;
-  --mute: #9a8f7e;
-  --rust: #d9552b;
-  --line: rgba(233, 220, 198, .28);
+  --bg: #070b18;
+  --bg2: #11172a;
+  --bone: #edf4ff;
+  --mute: #9aa9c5;
+  --rust: #00bbf9;
+  --line: rgba(155, 93, 229, .30);
+  --cosmic-purple: #9b5de5;
+  --cosmic-cyan: #00bbf9;
+  --cosmic-gold: #ff9f1c;
   --dim: 0;
   --f-head: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
   --f-serif: "Cormorant Garamond", Georgia, serif;
@@ -107,3 +110,56 @@ body::after {
 }
 @keyframes relic-audio-pulse { 0%,100% { opacity:.55; transform:scale(.8); } 50% { opacity:1; transform:scale(1.25); } }
 .tools button#sound:focus-visible { outline:2px solid var(--rust); outline-offset:4px; }
+
+
+/* Beyond Relics — Solar Frontiers visual identity */
+:root {
+  --bg: #070b18;
+  --bg2: #11172a;
+  --bone: #edf4ff;
+  --mute: #9aa9c5;
+  --rust: #00bbf9;
+  --line: rgba(155,93,229,.30);
+  --cosmic-purple: #9b5de5;
+  --cosmic-cyan: #00bbf9;
+  --cosmic-gold: #ff9f1c;
+  --f-head: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+}
+body {
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(82,42,145,.22), transparent 34rem),
+    radial-gradient(ellipse at 88% 4%, rgba(0,187,249,.12), transparent 32rem),
+    #070b18;
+  color: var(--bone);
+}
+.nav {
+  background: rgba(7,11,24,.88);
+  border-bottom: 1px solid rgba(0,187,249,.18);
+  backdrop-filter: blur(18px);
+}
+.brand b, .eyebrow, .back:hover, .more, .facts dt { color: var(--cosmic-cyan); }
+.links a:hover, .links a[aria-current="page"] {
+  color: #fff;
+  border-color: var(--cosmic-cyan);
+  text-shadow: 0 0 16px rgba(0,187,249,.45);
+}
+.tools button:hover { color: var(--cosmic-cyan); }
+.btn {
+  background: linear-gradient(110deg,var(--cosmic-purple),#6540b8);
+  border-color: rgba(177,137,255,.8);
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 28px rgba(155,93,229,.22);
+}
+.btn:hover { filter: brightness(1.14); box-shadow: 0 10px 34px rgba(0,187,249,.22); }
+.btn.ghost { background: rgba(11,18,37,.55); border-color: rgba(0,187,249,.42); }
+.btn.ghost:hover { color: var(--cosmic-cyan); border-color: var(--cosmic-cyan); }
+.panel {
+  border: 1px solid rgba(115,146,206,.28);
+  border-radius: 18px;
+  background: linear-gradient(145deg,rgba(19,27,49,.92),rgba(8,13,28,.88));
+  box-shadow: 0 18px 50px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.035);
+}
+.panel::before { background: linear-gradient(90deg,var(--cosmic-purple),var(--cosmic-cyan)); border-radius: 9px; }
+.footer { border-color: rgba(0,187,249,.18); background: rgba(7,11,24,.65); }
+:focus-visible { outline-color: var(--cosmic-cyan); }
