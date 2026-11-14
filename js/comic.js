@@ -104,6 +104,7 @@
     window.dispatchEvent(new CustomEvent("beyondrelics:chapter",{detail:{id:item.id}}));
     $("c-title").textContent=item.title;$("c-meta").textContent=item.region+" · "+item.years;
     var introTitle=$("story-intro-title");if(introTitle)introTitle.textContent=item.title;
+    var introCover=$("story-intro");if(introCover){introCover.dataset.tone=item.tone||"space";introCover.style.setProperty("--story-cover",item.story_cover?'url("'+item.story_cover+'")':"none");}
     $("c-quote").textContent=item.story_hook;$("c-chap").textContent="Chapter "+String(chapter+1).padStart(2,"0")+" / "+String(records.length).padStart(2,"0");
     $("c-thumb").dataset.tone=item.tone;
     drawStory(item);drawThumbs(item);drawInfo(item);
