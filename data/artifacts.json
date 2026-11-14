@@ -145,10 +145,25 @@
     "design_life": "A technology demonstration planned for a short surface mission.",
     "actual_life": "The mission operated from July to September 1997.",
     "story_beats": [
-      "On 4 July 1997, a spacecraft reached Mars and opened like a set of petals.",
-      "A tiny rover named Sojourner rolled down a ramp and began exploring nearby rocks.",
-      "The lander served as a radio bridge, sending the rover’s discoveries back to Earth.",
-      "The mission ended after its final transmission—but its design helped shape the future of Mars exploration."
+      "The journey begins: Pathfinder launches from Earth on 4 December 1996, carrying Sojourner toward Mars.",
+      "After a seven-month voyage, Pathfinder lands on Mars on 4 July 1997. The lander is later named the Carl Sagan Memorial Station.",
+      "On 5 July 1997, Sojourner rolls down the ramp and begins exploring another world.",
+      "Meet Sojourner: a compact, six-wheeled rover designed to examine the Martian surface.",
+      "The rover is named after Sojourner Truth, the 19th-century abolitionist and civil-rights advocate.",
+      "The lander and rover work as a team: the lander relays the rover's observations to Earth.",
+      "Commands travel from mission operators on Earth through Pathfinder to the rover.",
+      "Six wheels and a rocker-bogie suspension help Sojourner cross uneven Martian ground.",
+      "Solar cells provide electrical power for the rover's instruments and operations.",
+      "The Alpha Proton X-ray Spectrometer, or APXS, helps investigate the elemental composition of rocks and soil.",
+      "By examining rocks, APXS gives scientists clues about the geology of the landing site.",
+      "The rover's cameras, wheels and soil experiments help scientists study the terrain around the lander.",
+      "Sojourner travels across the rock-strewn plain, testing how a small rover can explore another planet.",
+      "The mission delivers engineering lessons and scientific measurements far beyond its original plan.",
+      "On 27 September 1997, Pathfinder sends its final data transmission to Earth.",
+      "The mission's communication ends, but the technology has already changed how we explore Mars.",
+      "The story is remembered through exhibits and the discoveries that followed.",
+      "Sojourner's legacy lives on in the later generations of Mars rovers.",
+      "A small rover proves a big idea: robotic exploration can open an entire planet to discovery."
     ],
     "image_query": "NASA Mars Pathfinder Sojourner rover on Mars 1997",
     "facts": [
@@ -158,33 +173,130 @@
       ],
       [
         "Landing",
-        "4 July 1997"
+        "4 July 1997 · Ares Vallis, Mars"
       ],
       [
-        "Landing site",
-        "Ares Vallis · Mars"
+        "First rover operations",
+        "5 July 1997"
       ],
       [
-        "Final transmission",
-        "27 September 1997"
+        "Planned rover mission",
+        "7 days"
+      ],
+      [
+        "Actual rover operations",
+        "83 days"
+      ],
+      [
+        "Final data transmission",
+        "27 September 1997 · 10:23 UTC"
+      ],
+      [
+        "Mission formally ended",
+        "10 March 1998"
+      ],
+      [
+        "Key instrument",
+        "Alpha Proton X-ray Spectrometer (APXS)"
       ]
     ],
     "sources": [
       {
-        "label": "NASA — Mars Pathfinder mission",
-        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+        "label": "NASA — Sojourner & Yogi",
+        "url": "https://science.nasa.gov/resource/sojourner-yogi/"
       },
       {
-        "label": "NASA JPL — Pathfinder robotics",
-        "url": "https://www-robotics.jpl.nasa.gov/what-we-do/flight-projects/pathfinder/"
+        "label": "NASA — Sojourner & Terrain",
+        "url": "https://science.nasa.gov/resource/sojourner-terrain/"
+      },
+      {
+        "label": "NASA JPL — Pathfinder on Mars",
+        "url": "https://www.jpl.nasa.gov/images/pia01120-pathfinder-on-mars/"
+      },
+      {
+        "label": "NASA — Sojourner’s Farthest Journey",
+        "url": "https://science.nasa.gov/resource/sojourners-farthest-journey/"
       }
     ],
     "story_artwork": [
       {
-        "file": "IMG-20261114-WA0543(1).jpg",
-        "caption": "Sojourner: a small rover with a giant legacy."
+        "file": "IMG-20261114-WA0554.jpg",
+        "caption": "The journey begins: Pathfinder launches from Earth on 4 December 1996, carrying Sojourner toward Mars."
+      },
+      {
+        "file": "IMG-20261114-WA0550(1).jpg",
+        "caption": "After a seven-month voyage, Pathfinder lands on Mars on 4 July 1997. The lander is later named the Carl Sagan Memorial Station."
+      },
+      {
+        "file": "IMG-20261114-WA0561(1).jpg",
+        "caption": "On 5 July 1997, Sojourner rolls down the ramp and begins exploring another world."
+      },
+      {
+        "file": "IMG-20261114-WA0562.jpg",
+        "caption": "Meet Sojourner: a compact, six-wheeled rover designed to examine the Martian surface."
+      },
+      {
+        "file": "IMG-20261114-WA0556.jpg",
+        "caption": "The rover is named after Sojourner Truth, the 19th-century abolitionist and civil-rights advocate."
+      },
+      {
+        "file": "IMG-20261114-WA0552(1).jpg",
+        "caption": "The lander and rover work as a team: the lander relays the rover's observations to Earth."
+      },
+      {
+        "file": "IMG-20261114-WA0557(1).jpg",
+        "caption": "Commands travel from mission operators on Earth through Pathfinder to the rover."
+      },
+      {
+        "file": "IMG-20261114-WA0560.jpg",
+        "caption": "Six wheels and a rocker-bogie suspension help Sojourner cross uneven Martian ground."
+      },
+      {
+        "file": "IMG-20261114-WA0558.jpg",
+        "caption": "Solar cells provide electrical power for the rover's instruments and operations."
+      },
+      {
+        "file": "IMG-20261114-WA0553(1).jpg",
+        "caption": "The Alpha Proton X-ray Spectrometer, or APXS, helps investigate the elemental composition of rocks and soil."
+      },
+      {
+        "file": "IMG-20261114-WA0547(1).jpg",
+        "caption": "By examining rocks, APXS gives scientists clues about the geology of the landing site."
+      },
+      {
+        "file": "IMG-20261114-WA0549(1).jpg",
+        "caption": "The rover's cameras, wheels and soil experiments help scientists study the terrain around the lander."
+      },
+      {
+        "file": "IMG-20261114-WA0555(1).jpg",
+        "caption": "Sojourner travels across the rock-strewn plain, testing how a small rover can explore another planet."
+      },
+      {
+        "file": "IMG-20261114-WA0546(1).jpg",
+        "caption": "The mission delivers engineering lessons and scientific measurements far beyond its original plan."
+      },
+      {
+        "file": "IMG-20261114-WA0551(1).jpg",
+        "caption": "On 27 September 1997, Pathfinder sends its final data transmission to Earth."
+      },
+      {
+        "file": "IMG-20261114-WA0545(1).jpg",
+        "caption": "The mission's communication ends, but the technology has already changed how we explore Mars."
+      },
+      {
+        "file": "IMG-20261114-WA0548(1).jpg",
+        "caption": "The story is remembered through exhibits and the discoveries that followed."
+      },
+      {
+        "file": "IMG-20261114-WA0544(1).jpg",
+        "caption": "Sojourner's legacy lives on in the later generations of Mars rovers."
+      },
+      {
+        "file": "IMG-20261114-WA0559(1).jpg",
+        "caption": "A small rover proves a big idea: robotic exploration can open an entire planet to discovery."
       }
-    ]
+    ],
+    "story_cover": "IMG-20261114-WA0559(1).jpg"
   },
   {
     "id": "spirit",
