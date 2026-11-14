@@ -20,10 +20,10 @@
   function renderMetrics(records) {
     if (!metrics) return;
     var values = [
-      ["04", "Curated 2026 archive records"],
-      ["03", "Planetary / human-spaceflight missions"],
-      ["01", "Long-running observatory archive"],
-      ["100%", "Records linked to primary sources"]
+      ["04", "NASA archive-release summaries"],
+      ["03", "Mission data-release records"],
+      ["01", "Retired observatory archive"],
+      ["100%", "Records link to NASA source pages"]
     ];
     metrics.replaceChildren();
     values.forEach(function (item) {
