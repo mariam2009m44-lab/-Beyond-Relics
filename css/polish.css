@@ -658,3 +658,40 @@ a { text-decoration:none; }
   html { scroll-behavior:auto; }
   *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
+
+
+/* Hero actions and archive attribution */
+.hero-actions {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:.75rem;
+  margin:1.55rem auto 0;
+}
+.hero-actions .btn { min-width:190px; }
+.nasa-image-credit {
+  position:absolute;
+  z-index:3;
+  top:.65rem;
+  left:.65rem;
+  max-width:calc(100% - 1.3rem);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding:.32rem .55rem;
+  border:1px solid rgba(210,226,241,.22);
+  border-radius:5px;
+  background:rgba(7,15,27,.86);
+  color:#eaf4fb;
+  font-family:var(--f-body);
+  font-size:.58rem;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.nasa-image-credit:hover { border-color:var(--cosmic-cyan); color:var(--cosmic-cyan); }
+.chronicle-credit:hover { border-color:var(--cosmic-cyan); color:var(--cosmic-cyan); }
+@media(max-width:650px) {
+  .hero-actions { gap:.6rem; margin-top:1.2rem; }
+  .hero-actions .btn { width:min(100%,320px); }
+}
