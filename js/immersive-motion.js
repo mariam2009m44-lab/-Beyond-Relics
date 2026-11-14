@@ -17,7 +17,7 @@
     ".data-section",
     ".about-grid > *",
     ".judge-section",
-    ".stage",
+    ".stage",\n    ".scene-panel",\n    ".cp",
     ".mission-brief",
     ".chronicle-section .section-heading",
     ".chronicle-card",
