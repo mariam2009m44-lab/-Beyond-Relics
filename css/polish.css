@@ -946,3 +946,10 @@ body {
 @media(prefers-reduced-motion:reduce) {
   .hero::before,.hero::after { opacity:.1; }
 }
+
+:root {
+  --vr-mint:#42f5c5;
+  --vr-violet:#8b5cf6;
+  --vr-cyan:#00e5ff;
+}
+.status-live,.status-active,.data-status-live { color:var(--vr-mint); }
