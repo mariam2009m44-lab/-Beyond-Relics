@@ -44,42 +44,87 @@
   });
 })();
 
-/* Horizontal story-deck controls: native scrolling, touch swipe and keyboard friendly. */
+
+/* Mission frame selector: five curated moments per story, in chronological order. */
 (function () {
   "use strict";
-  var viewport = document.querySelector("[data-story-viewport]");
-  if (!viewport) return;
-  var cards = Array.from(viewport.querySelectorAll("[data-story-card]"));
-  var previous = document.querySelector("[data-story-prev]");
-  var next = document.querySelector("[data-story-next]");
-  var current = document.querySelector("[data-story-current]");
-  var total = document.querySelector("[data-story-total]");
-  if (!cards.length) return;
-  if (total) total.textContent = String(cards.length).padStart(2, "0");
-  function activeIndex() {
-    var center = viewport.getBoundingClientRect().left + viewport.clientWidth / 2;
-    var best = 0, distance = Infinity;
-    cards.forEach(function (card, index) {
-      var rect = card.getBoundingClientRect();
-      var d = Math.abs(rect.left + rect.width / 2 - center);
-      if (d < distance) { distance = d; best = index; }
+  var grid = document.querySelector("[data-mission-frame-grid]");
+  if (!grid) return;
+  var choices = Array.from(document.querySelectorAll("[data-mission-choice]"));
+  var kicker = document.querySelector("[data-gallery-kicker]");
+  var title = document.querySelector("[data-gallery-name]");
+  var mainLink = document.querySelector("[data-gallery-link]");
+  var count = document.querySelector("[data-gallery-count]");
+  var stories = {
+    "pathfinder-sojourner": {
+      kicker: "THE FIRST MARTIAN ROVER · 1996—1998",
+      title: "Pathfinder & Sojourner",
+      total: 19,
+      frames: [
+        ["IMG-20261114-WA0554.jpg","THE LAUNCH","Earth · December 1996","Pathfinder launches from Earth on 4 December 1996, carrying Sojourner toward Mars."],
+        ["IMG-20261114-WA0550(1).jpg","TOUCHDOWN","Mars · 4 July 1997","After a seven-month voyage, Pathfinder lands on Mars on 4 July 1997."],
+        ["IMG-20261114-WA0561(1).jpg","FIRST ROLLOUT","5 July 1997","Sojourner rolls down the ramp and begins exploring another world."],
+        ["IMG-20261114-WA0553(1).jpg","THE SCIENCE","APXS · Rock analysis","The Alpha Proton X-ray Spectrometer investigates the elemental composition of Martian rocks and soil."],
+        ["IMG-20261114-WA0551(1).jpg","FINAL SIGNAL","27 September 1997","Pathfinder sends its final data transmission to Earth."]
+      ]
+    },
+    "pioneer-10-11": {
+      kicker: "MESSENGERS BEYOND THE GIANT PLANETS · 1972—2003",
+      title: "Pioneer 10 & 11",
+      total: 20,
+      frames: [
+        ["IMG-20261114-WA0644.jpg","THE SPACECRAFT","Before launch","Meet the Pioneer spacecraft built to explore the outer Solar System."],
+        ["IMG-20261114-WA0642.jpg","EARTH DEPARTURE","2 March 1972","Pioneer 10 launches from Cape Kennedy."],
+        ["IMG-20261114-WA0653.jpg","JUPITER ENCOUNTER","Outer Solar System","Jupiter's immense atmosphere becomes a scientific destination."],
+        ["IMG-20261114-WA0654.jpg","SATURN FLYBY","1979","Pioneer 11 becomes the first spacecraft to fly past Saturn."],
+        ["IMG-20261114-WA0651.jpg","LAST SIGNAL","2003","Pioneer 10 continues sending signals until 2003."]
+      ]
+    }
+  };
+  function render(id) {
+    var story = stories[id];
+    if (!story) return;
+    var href = "comic.html?chapter=" + encodeURIComponent(id);
+    if (kicker) kicker.textContent = story.kicker;
+    if (title) title.textContent = story.title;
+    if (mainLink) mainLink.href = href;
+    if (count) count.textContent = "01—05 / " + String(story.total).padStart(2, "0") + " ORIGINAL FRAMES";
+    grid.replaceChildren();
+    story.frames.forEach(function (frame, index) {
+      var link = document.createElement("a");
+      link.className = "mission-frame";
+      link.href = href;
+      link.setAttribute("aria-label", frame[1] + ": " + frame[3] + " Open the full story.");
+      var visual = document.createElement("span");
+      visual.className = "mission-frame-image";
+      var image = document.createElement("img");
+      image.src = frame[0];
+      image.alt = frame[3];
+      image.loading = index === 0 ? "eager" : "lazy";
+      image.decoding = "async";
+      visual.appendChild(image);
+      var caption = document.createElement("span");
+      caption.className = "mission-frame-caption";
+      var number = document.createElement("i");
+      number.textContent = String(index + 1).padStart(2, "0");
+      var label = document.createElement("b");
+      label.textContent = frame[1];
+      var date = document.createElement("small");
+      date.textContent = frame[2];
+      caption.append(number, label, date);
+      link.append(visual, caption);
+      grid.appendChild(link);
     });
-    return best;
+    choices.forEach(function (button) {
+      var active = button.getAttribute("data-mission-choice") === id;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
   }
-  function update() {
-    var index = activeIndex();
-    if (current) current.textContent = String(index + 1).padStart(2, "0");
-    if (previous) previous.disabled = index === 0;
-    if (next) next.disabled = index === cards.length - 1;
-  }
-  function move(direction) {
-    var index = Math.max(0, Math.min(cards.length - 1, activeIndex() + direction));
-    cards[index].scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest", inline: "start" });
-    window.setTimeout(update, 420);
-  }
-  if (previous) previous.addEventListener("click", function () { move(-1); });
-  if (next) next.addEventListener("click", function () { move(1); });
-  viewport.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update, { passive: true });
-  update();
+  choices.forEach(function (button) {
+    button.addEventListener("click", function () {
+      render(button.getAttribute("data-mission-choice"));
+    });
+  });
+  render("pathfinder-sojourner");
 })();
