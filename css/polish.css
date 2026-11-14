@@ -1337,3 +1337,55 @@ body {
   .pds-facts>div { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
   .pds-facts span { margin:0; text-align:right; }
 }
+
+
+/* NASA Apollo PSE — real GeoCSV waveform explorer */
+.wave-lab {
+  padding:clamp(1rem,3vw,1.7rem);
+  border:1px solid rgba(0,229,255,.25);
+  border-radius:20px;
+  background:radial-gradient(80% 90% at 100% 0,rgba(0,229,255,.08),transparent 70%),linear-gradient(145deg,rgba(12,27,49,.96),rgba(5,13,28,.98));
+  box-shadow:0 22px 58px rgba(0,0,0,.22);
+}
+.wave-source {display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem;}
+.wave-source h3 {margin:.3rem 0 .5rem;color:#f1f8ff;font-size:clamp(1.35rem,3vw,1.9rem);}
+.wave-source p,.wave-import p {max-width:68ch;color:#aebfd5;line-height:1.65;font-size:.9rem;}
+.wave-kicker {color:#75eaff;font-size:.68rem;letter-spacing:.14em;font-weight:800;}
+.wave-actions {display:flex;flex-direction:column;gap:.7rem;min-width:220px;}
+.wave-actions button,.wave-import button {
+  border:1px solid rgba(0,229,255,.4);border-radius:10px;padding:.75rem 1rem;
+  color:#eafaff;background:linear-gradient(120deg,rgba(0,229,255,.18),rgba(139,92,246,.18));
+  font:inherit;font-weight:700;cursor:pointer;
+}
+.wave-actions button:disabled {opacity:.55;cursor:wait;}
+.wave-actions a,.wave-citation a {color:#73eaff;text-decoration:underline;text-underline-offset:3px;}
+.wave-import {margin:1.25rem 0;padding:1rem;border:1px solid rgba(137,184,222,.18);border-radius:13px;background:rgba(3,11,25,.48);}
+.wave-import label {display:block;margin-bottom:.7rem;color:#eef7ff;font-weight:700;}
+.wave-import-controls {display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;}
+.wave-import input {max-width:100%;color:#c5d8ee;}
+.wave-import p {margin:.6rem 0 0;font-size:.78rem;}
+.wave-lab .data-status {padding:.7rem .9rem;border-radius:10px;background:rgba(115,170,210,.08);color:#bdd1e7;}
+.wave-lab .data-status[data-state="success"] {border:1px solid rgba(70,220,170,.3);color:#a8f3d5;}
+.wave-lab .data-status[data-state="error"] {border:1px solid rgba(255,150,120,.35);color:#ffc0ad;}
+.wave-chart-wrap {overflow-x:auto;margin:1rem 0;border:1px solid rgba(137,184,222,.16);border-radius:14px;background:rgba(2,8,20,.55);}
+.wave-chart {min-width:560px;padding:.5rem;}
+.wave-chart:empty {min-height:150px;display:grid;place-items:center;}
+.wave-chart:empty::after {content:"Your NASA observation plot will appear here";color:#7188a5;font-size:.85rem;}
+.wave-chart svg {display:block;width:100%;height:auto;min-height:220px;}
+.wave-grid {stroke:rgba(154,184,215,.15);stroke-width:1;stroke-dasharray:3 6;}
+.wave-axis {stroke:rgba(177,207,235,.45);stroke-width:1.2;}
+.wave-axis-label {fill:#93abc5;font:11px "DM Sans",sans-serif;}
+.wave-line {fill:none;stroke:#66e9ff;stroke-width:1.35;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 3px rgba(0,229,255,.32));}
+.wave-stats {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;}
+.wave-stat {padding:.8rem;border:1px solid rgba(137,184,222,.17);border-radius:11px;background:rgba(4,12,27,.48);}
+.wave-stat span {display:block;color:#9db3cb;font-size:.76rem;}
+.wave-stat strong {display:block;margin-top:.35rem;color:#e9f7ff;font-size:1.05rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
+.wave-details,.wave-method,.wave-citation {color:#9fb4cd;font-size:.8rem;line-height:1.65;}
+.wave-details {margin-top:.8rem;padding:.8rem 1rem;border-left:2px solid rgba(0,229,255,.55);background:rgba(0,229,255,.035);}
+.wave-details p {margin:.2rem 0;}
+.wave-method {margin-top:1rem;}
+@media(max-width:760px) {
+  .wave-source {flex-direction:column;}
+  .wave-actions {width:100%;min-width:0;}
+  .wave-stats {grid-template-columns:repeat(2,minmax(0,1fr));}
+}
