@@ -1189,3 +1189,48 @@ body {
 .detective-bottom button{padding:.7rem 1rem;border:1px solid var(--rust);background:var(--rust);color:#140c08;font:700 .8rem var(--f-head);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 @media(max-width:600px){.detective-options{grid-template-columns:1fr}.detective-option{min-height:48px;text-align:left}.detective-top,.detective-bottom{font-size:.64rem}}
 @media(prefers-reduced-motion:reduce){.detective-option{transition:none}}
+
+
+/* Solar Frontiers — immersive evidence-led comic reader */
+.reader { background:radial-gradient(65% 90% at 70% 5%,rgba(92,54,164,.2),transparent 70%),#080d1c; }
+.reader .side { background:rgba(9,15,31,.9); border-color:rgba(0,187,249,.2); }
+.reader .side h1 { background:linear-gradient(110deg,#f4f7ff,#b99aff 55%,#00bbf9); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.reader .side .q { color:#d4e0f5; }
+.reader .tabs { border-color:rgba(0,187,249,.2); }
+.reader .tabs button.on,.reader .tabs a:hover { color:#00bbf9; border-color:#00bbf9; }
+.stage { background:radial-gradient(ellipse at 50% 25%,rgba(155,93,229,.12),transparent 62%),#070b18; }
+.comic { gap:clamp(.8rem,1.5vw,1.4rem); }
+.cp {
+  position:relative; min-height:clamp(240px,34vw,480px); overflow:hidden;
+  border:2px solid rgba(155,93,229,.72); border-radius:16px;
+  background:linear-gradient(145deg,#1c1b3c,#0b1429);
+  box-shadow:0 14px 38px rgba(0,0,0,.42),0 0 24px rgba(0,187,249,.1);
+}
+.cp::before { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; border:1px solid rgba(0,187,249,.22); border-radius:12px; }
+.scene-image { filter:saturate(.92) contrast(1.08); }
+.scene-credit {
+  position:absolute; z-index:3; top:.7rem; right:.7rem; padding:.35rem .6rem;
+  border:1px solid rgba(0,187,249,.4); border-radius:999px;
+  background:rgba(5,9,22,.82); color:#eaf7ff; font-size:.65rem;
+}
+.cap {
+  max-width:min(78%,34rem); padding:1rem 1.2rem;
+  border:1px solid rgba(0,187,249,.38); border-radius:14px;
+  background:rgba(8,13,29,.9); color:#f4f7ff;
+  box-shadow:0 12px 30px rgba(0,0,0,.3);
+  font-size:clamp(1rem,1.7vw,1.35rem); line-height:1.35;
+}
+.cap::before { border-color:rgba(0,187,249,.38); }
+.strip { background:rgba(8,13,28,.92); border-color:rgba(0,187,249,.2); }
+.strip .rbtn { border-color:rgba(155,93,229,.55); color:#eaf7ff; }
+.strip .rbtn:hover { border-color:#00bbf9; color:#00bbf9; }
+.strip .th[aria-current="true"] { border-color:#00bbf9; background:rgba(0,187,249,.15); }
+.story-intro { background:radial-gradient(ellipse at 50% 40%,rgba(82,42,145,.38),transparent 55%),#070b18; }
+.story-intro h2 { color:#f4f7ff; }
+.story-intro .eyebrow { color:#00bbf9; }
+.story-intro-copy { color:#c8d7f2; }
+.story-enter { background:linear-gradient(110deg,#9b5de5,#6540b8); border-radius:999px; }
+@media(max-width:760px) {
+  .cp { min-height:250px; }
+  .cap { max-width:92%; font-size:1rem; padding:.75rem .9rem; }
+}
