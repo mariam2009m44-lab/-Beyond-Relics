@@ -53,10 +53,49 @@
     var a=el("a","btn ghost","Open artifact record →");a.href="artifact-details.html?id="+encodeURIComponent(item.id);panel.appendChild(a);root.appendChild(panel);
   }
   function drawGallery(item){
-    var root=$("v-gallery");root.replaceChildren(el("p","gallery-loading","Loading NASA image records…"));
+    var root=$("v-gallery");
+    root.replaceChildren();
+    var originals=[
+      "IMG-20261114-WA0543(1).jpg",
+      "IMG-20261114-WA0543(2).jpg",
+      "IMG-20261114-WA0635.jpg",
+      "IMG-20261114-WA0636.jpg",
+      "IMG-20261114-WA0637.jpg",
+      "IMG-20261114-WA0638.jpg",
+      "IMG-20261114-WA0639.jpg",
+      "IMG-20261114-WA0640.jpg",
+      "IMG-20261114-WA0641.jpg",
+      "IMG-20261114-WA0642.jpg",
+      "IMG-20261114-WA0643.jpg",
+      "IMG-20261114-WA0644.jpg",
+      "IMG-20261114-WA0645.jpg",
+      "IMG-20261114-WA0646.jpg",
+      "IMG-20261114-WA0647.jpg",
+      "IMG-20261114-WA0648.jpg",
+      "IMG-20261114-WA0649.jpg",
+      "IMG-20261114-WA0650.jpg",
+      "IMG-20261114-WA0651.jpg",
+      "IMG-20261114-WA0652.jpg",
+      "IMG-20261114-WA0653.jpg",
+      "IMG-20261114-WA0654.jpg"
+    ];
+    root.appendChild(el("h2","gallery-heading","Original story artwork"));
+    root.appendChild(el("p","gallery-loading","The team's original comic images, shown in upload order and kept unchanged."));
+    var originalsGrid=el("div","original-story-gallery");
+    originals.forEach(function(filename,index){
+      var url="https://raw.githubusercontent.com/mariam2009m44-lab/-Beyond-Relics/main/"+encodeURIComponent(filename);
+      var a=el("a","nasa-evidence-image");a.href=url;a.target="_blank";a.rel="noopener noreferrer";
+      var img=el("img","");img.src=url;img.alt="Original story artwork — image "+(index+1);img.loading="lazy";img.decoding="async";
+      var caption=el("span","", "Original story image "+String(index+1).padStart(2,"0"));
+      a.append(img,caption);originalsGrid.appendChild(a);
+    });
+    root.appendChild(originalsGrid);
+    root.appendChild(el("h2","gallery-heading","NASA reference imagery"));
+    root.appendChild(el("p","gallery-loading","Additional archival images from NASA's public image library."));
     if(imageController)imageController.abort();imageController=new AbortController();
-    if(!window.BeyondRelicsImages){root.replaceChildren(el("p","gallery-loading","NASA image archive is unavailable."));return;}
+    if(!window.BeyondRelicsImages)return;
     window.BeyondRelicsImages.search(item.image_query||item.title,16).then(function(images){
+      if(!root.isConnected)return;
       var fragment=document.createDocumentFragment();
       images.slice(0,6).forEach(function(record){
         var a=el("a","nasa-evidence-image");a.href=record.detail;a.target="_blank";a.rel="noopener noreferrer";
@@ -65,8 +104,9 @@
         window.BeyondRelicsImages.mount(img,[record]);
         a.append(img,el("span","",record.title||"Open NASA image ↗"));fragment.appendChild(a);
       });
-      root.replaceChildren(fragment);if(!images.length)root.append(el("p","gallery-loading","No matching images were returned. Use the primary NASA sources in Mission Info."));
-    }).catch(function(){root.replaceChildren(el("p","gallery-loading","NASA image search is temporarily unavailable. The story and primary sources still work."));});
+      root.appendChild(fragment);
+      if(!images.length)root.append(el("p","gallery-loading","No additional NASA images were returned."));
+    }).catch(function(){if(root.isConnected)root.append(el("p","gallery-loading","NASA image search is temporarily unavailable. The original story images above remain available."));});
   }
   function tab(name){
     activeTab=name;["story","gallery","info"].forEach(function(key){$("v-"+key).hidden=key!==name;});
