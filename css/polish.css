@@ -1204,3 +1204,136 @@ body {
   text-underline-offset:3px;
 }
 .dataset-access a:hover { color:#d4baff; }
+
+
+/* ==========================================================
+   GLOBAL JUDGE PASS — evidence presentation and source clarity
+   ========================================================== */
+.pds-evidence {
+  position:relative;
+  overflow:hidden;
+  margin:1.4rem 0 2rem;
+  padding:clamp(1.25rem,3vw,2rem);
+  border:1px solid rgba(0,229,255,.25);
+  border-radius:20px;
+  background:
+    radial-gradient(70% 120% at 100% 0,rgba(0,229,255,.105),transparent 72%),
+    radial-gradient(60% 100% at 0 100%,rgba(139,92,246,.12),transparent 70%),
+    linear-gradient(145deg,rgba(14,31,56,.96),rgba(5,13,29,.98));
+  box-shadow:0 24px 64px rgba(0,0,0,.28),inset 0 1px 0 rgba(236,250,255,.06);
+}
+.pds-evidence::after {
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,255,.85),rgba(139,92,246,.72),transparent);
+  opacity:.75;
+}
+.pds-evidence-head {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1.5rem;
+}
+.pds-evidence-head h3 {
+  margin:.2rem 0 .55rem;
+  color:#f1f8ff;
+  font-size:clamp(1.45rem,3vw,2rem);
+}
+.pds-evidence-head p:not(.eyebrow) {
+  max-width:68ch;
+  color:#aebfd5;
+  line-height:1.7;
+}
+.pds-stamp {
+  flex:none;
+  padding:.65rem .8rem;
+  border:1px solid rgba(184,166,255,.42);
+  border-radius:10px;
+  color:#cbbcff;
+  background:rgba(139,92,246,.10);
+  font-size:.62rem;
+  line-height:1.5;
+  letter-spacing:.12em;
+  text-align:center;
+}
+.pds-facts {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.8rem;
+  margin:1.4rem 0;
+}
+.pds-facts>div,.pds-formats>div {
+  min-width:0;
+  padding:1rem;
+  border:1px solid rgba(137,184,222,.19);
+  border-radius:13px;
+  background:rgba(4,12,27,.55);
+}
+.pds-facts strong {
+  display:block;
+  color:#72edff;
+  font-size:clamp(1.5rem,3.4vw,2.2rem);
+  line-height:1.1;
+}
+.pds-facts span,.pds-formats span {
+  display:block;
+  margin-top:.45rem;
+  color:#aebfd5;
+  font-size:.82rem;
+  line-height:1.5;
+}
+.pds-formats {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.8rem;
+}
+.pds-formats b { color:#f1f8ff; }
+.pds-citation {
+  margin:1rem 0;
+  color:#8fa8c4;
+  font-size:.78rem;
+  line-height:1.6;
+}
+.pds-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.8rem 1.2rem;
+}
+.pds-actions a,.eligibility-check a {
+  color:#73eaff;
+  text-decoration:underline;
+  text-decoration-color:rgba(115,234,255,.4);
+  text-underline-offset:4px;
+}
+.pds-actions a:hover,.eligibility-check a:hover { color:#d2c2ff; }
+.eligibility-check {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.85rem;
+  margin:1.4rem 0;
+}
+.eligibility-check>div {
+  padding:1.15rem;
+  border:1px solid rgba(123,184,232,.2);
+  border-radius:14px;
+  background:linear-gradient(145deg,rgba(18,35,63,.82),rgba(7,16,34,.92));
+}
+.eligibility-check b { color:#eaf7ff; }
+.eligibility-check p {
+  margin:.6rem 0 0;
+  color:#aebfd5;
+  font-size:.92rem;
+  line-height:1.65;
+}
+@media(max-width:760px) {
+  .pds-evidence-head { flex-direction:column; }
+  .pds-stamp { align-self:flex-start; }
+  .eligibility-check { grid-template-columns:1fr; }
+}
+@media(max-width:520px) {
+  .pds-facts { grid-template-columns:1fr; }
+  .pds-formats { grid-template-columns:1fr; }
+  .pds-facts>div { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .pds-facts span { margin:0; text-align:right; }
+}
