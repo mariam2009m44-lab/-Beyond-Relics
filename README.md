@@ -44,6 +44,8 @@ For a strong data demonstration, the final experience should identify the qualif
 
 Before submitting, use [`docs/FINAL-SUBMISSION.md`](docs/FINAL-SUBMISSION.md). It records the official Global Judging gates, the unresolved Challenge 01 Resources match, the current data limitations, AI/asset disclosure requirements, and a 30-second demo outline. Do not claim Global Award data eligibility until the qualifying Challenge 01 NASA resource is identified and its actual use is demonstrated.
 
+For the judge-facing walkthrough, use [`docs/DEMO-SCRIPT.md`](docs/DEMO-SCRIPT.md), which contains a timed 30-second narration, screen sequence, seven-slide fallback, and accuracy gates.
+
 ## Technology
 
 - Semantic HTML5 and responsive CSS
