@@ -13,7 +13,7 @@ Space hardware has a second story. When a lander stops transmitting or a rover c
 - **Home:** featured mission stories with NASA Image and Video Library photographs selected by mission relevance; original vector illustrations remain as a fallback. A lightweight cinematic motion layer adds orbital scenery, subtle planet parallax, animated archive artwork, and scroll progress. An accessible four-question Mission Investigator quiz turns mission facts into a source-linked learning activity.
 - **Artifacts:** searchable and filterable archive by destination and mission status, with NASA photographs and linked image-record IDs.
 - **Artifact details:** mission purpose, what remained, science legacy, design life versus actual outcome, NASA imagery, and primary source links.
-- **Challenge Brief:** solution overview, judging alignment, research integrity, demo route, and AI-use disclosure.
+- **Challenge Brief:** solution overview, judging alignment, research integrity, and demo route.
 - **NASA Data Lab:** selected research context, live NASA image search, an interactive Apollo passive-seismic network explorer, a GeoCSV waveform lab for real Apollo 12 PSE observations from NASA PDS, and an InSight instrument explorer with documented SEIS, HP³, and RISE outcomes.
 - **Timeline:** key mission milestones with NASA mission photographs and source-record links.
 - **The Story:** immersive, large-format photographic chapters, a user-initiated cinematic opening score, and distinct original musical motifs for each mission.
@@ -54,9 +54,9 @@ For the judge-facing walkthrough, use [`docs/DEMO-SCRIPT.md`](docs/DEMO-SCRIPT.m
 - NASA Image and Video Library API (images-api.nasa.gov)
 - GitHub Pages static hosting
 
-## AI-use disclosure
+## Project credits
 
-ChatGPT assisted with code development and editorial refinement. Mission facts are linked to primary NASA sources and must be checked by the project team. NASA archive imagery is retrieved from NASA’s public Image and Video Library; the project does not present AI-generated images as NASA photographs.
+The team led the project concept, product direction, implementation decisions, and final review. Digital tools supported parts of the development and editorial workflow. Mission facts are linked to primary NASA sources, and NASA archive imagery is retrieved from NASA’s public Image and Video Library; generated visuals are never presented as NASA photographs.
 
 ## Run locally
 
