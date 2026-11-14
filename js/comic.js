@@ -17,43 +17,36 @@
   }
   function drawStory(item){
     var beats=pages(item)[page]||[],root=$("c-page"),token=++storyRender;
+    var needsNASA=beats.some(function(_,index){return !item.story_artwork||!item.story_artwork[page*2+index];});
     root.className="comic l2"+(item.story_artwork?" original-comic":"");
-    root.replaceChildren();
-    beats.forEach(function(text,index){
-      var beat=page*2+index,art=item.story_artwork&&item.story_artwork[beat];
-      var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);
-      if(art){
-        var img=el("img","scene-image original-scene-image");
-        img.src=art.file;img.alt=art.caption||item.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
-        img.addEventListener("error",function(){img.remove();panel.classList.add("scene-no-image");},{once:true});
-        var open=el("a","scene-credit","View original frame ↗");open.href=art.file;open.target="_blank";open.rel="noopener noreferrer";
-        panel.appendChild(img);panel.appendChild(open);
-      }else if(!item.story_artwork){
-        panel.classList.add("scene-no-image");
-      }
-      panel.appendChild(el("span","scene-number","SCENE "+String(beat+1).padStart(2,"0")));
-      panel.appendChild(el("span","cap tl",text));root.appendChild(panel);
-    });
-    if(!item.story_artwork){
-      root.replaceChildren(el("div","scene-loading","Retrieving NASA mission imagery…"));
-      fetchStoryImages(item).then(function(images){
-        if(records[chapter]!==item||token!==storyRender)return;
-        root.replaceChildren();
-        beats.forEach(function(text,index){
-          var beat=page*2+index,record=images.length?images[beat%images.length]:null;
-          var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);
-          if(record){
-            var img=el("img","scene-image");img.alt=record.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
-            img.addEventListener("nasaimageerror",function(){img.remove();panel.classList.add("scene-no-image");},{once:true});
-            var credit=el("a","scene-credit","NASA · "+record.id+" ↗");credit.href=record.detail;credit.target="_blank";credit.rel="noopener noreferrer";
-            img.addEventListener("nasaimageload",function(event){credit.href=event.detail.detail;credit.textContent="NASA · "+event.detail.id+" ↗";});
-            window.BeyondRelicsImages.mount(img,images);panel.appendChild(img);panel.appendChild(credit);
-          }else panel.classList.add("scene-no-image");
-          panel.appendChild(el("span","scene-number","SCENE "+String(beat+1).padStart(2,"0")));
-          panel.appendChild(el("span","cap tl",text));root.appendChild(panel);
-        });
+    function paint(images){
+      if(records[chapter]!==item||token!==storyRender)return;
+      root.replaceChildren();
+      beats.forEach(function(text,index){
+        var beat=page*2+index,art=item.story_artwork&&item.story_artwork[beat];
+        var record=images&&images.length?images[beat%images.length]:null;
+        var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);
+        if(art){
+          var original=el("img","scene-image original-scene-image");
+          original.src=art.file;original.alt=art.caption||item.title;original.loading=index===0?"eager":"lazy";original.decoding="async";
+          original.addEventListener("error",function(){original.remove();panel.classList.add("scene-no-image");},{once:true});
+          var open=el("a","scene-credit","View original frame ↗");open.href=art.file;open.target="_blank";open.rel="noopener noreferrer";
+          panel.appendChild(original);panel.appendChild(open);
+        }else if(record&&window.BeyondRelicsImages){
+          var img=el("img","scene-image");img.alt=record.title;img.loading=index===0?"eager":"lazy";img.decoding="async";
+          img.addEventListener("nasaimageerror",function(){img.remove();panel.classList.add("scene-no-image");},{once:true});
+          var credit=el("a","scene-credit","NASA · "+record.id+" ↗");credit.href=record.detail;credit.target="_blank";credit.rel="noopener noreferrer";
+          img.addEventListener("nasaimageload",function(event){credit.href=event.detail.detail;credit.textContent="NASA · "+event.detail.id+" ↗";});
+          window.BeyondRelicsImages.mount(img,images);panel.appendChild(img);panel.appendChild(credit);
+        }else panel.classList.add("scene-no-image");
+        panel.appendChild(el("span","scene-number","SCENE "+String(beat+1).padStart(2,"0")));
+        panel.appendChild(el("span","cap tl",text));root.appendChild(panel);
       });
     }
+    if(needsNASA&&window.BeyondRelicsImages){
+      root.replaceChildren(el("div","scene-loading","Preparing the mission frames…"));
+      fetchStoryImages(item).then(paint).catch(function(){paint([]);});
+    }else paint([]);
     $("c-closing").textContent=page===pages(item).length-1?item.story_hook:item.short;
   }
   function drawThumbs(item){
