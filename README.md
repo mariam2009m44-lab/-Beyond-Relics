@@ -10,7 +10,7 @@ Space hardware has a second story. When a lander stops transmitting or a rover c
 
 ## Explore the experience
 
-- **Home:** featured mission stories with NASA Image and Video Library photographs selected by mission relevance; original vector illustrations remain as a fallback. A lightweight cinematic motion layer adds orbital scenery, subtle planet parallax, animated archive artwork, and scroll progress.
+- **Home:** featured mission stories with NASA Image and Video Library photographs selected by mission relevance; original vector illustrations remain as a fallback. A lightweight cinematic motion layer adds orbital scenery, subtle planet parallax, animated archive artwork, and scroll progress. An accessible four-question Mission Investigator quiz turns mission facts into a source-linked learning activity.
 - **Artifacts:** searchable and filterable archive by destination and mission status, with NASA photographs and linked image-record IDs.
 - **Artifact details:** mission purpose, what remained, science legacy, design life versus actual outcome, NASA imagery, and primary source links.
 - **Challenge Brief:** solution overview, judging alignment, research integrity, demo route, and AI-use disclosure.
