@@ -22,6 +22,7 @@
 <script src="js/data-lab.js" defer></script>
 <script src="js/alsep-explorer.js" defer></script>
 <script src="js/insight-explorer.js" defer></script>
+<script src="js/apollo-waveform-lab.js" defer></script>
 <script src="js/pathfinder-explorer.js" defer></script>
 <script src="js/mission-detective.js" defer></script>
 </head>
@@ -93,6 +94,29 @@
         <a href="https://doi.org/10.17189/9ykc-er91" target="_blank" rel="noopener noreferrer">Open dataset DOI ↗</a>
       </div>
     </section>
+  </section>
+  <section class="data-section" aria-labelledby="waveform-title">
+    <div class="data-section-head"><div><p class="eyebrow">REAL OBSERVATIONS · NASA PDS GEOSCIENCES NODE</p><h2 id="waveform-title">Hear the Moon through its data</h2><p>Load a real Apollo 12 Passive Seismic Experiment observation from the NASA archive. The explorer reads the archive's ASCII GeoCSV locally in your browser, plots the recorded numeric series, and calculates transparent descriptive statistics.</p></div></div>
+    <div class="wave-lab" id="apollo-waveform-lab">
+      <div class="wave-source">
+        <div><span class="wave-kicker">NASA PDS · APOLLO 12 · DAY 323 / 1969</span><h3>One day in the lunar seismic archive</h3><p>Sample channel: <code>XA.S12.00.MHZ</code>. This is an archived observation file, not a live feed. The chart uses the file's own values and does not assign an earthquake or impact label.</p></div>
+        <div class="wave-actions">
+          <button type="button" data-wave-load>Load sample from NASA PDS</button>
+          <a href="https://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-apollo_pse/data/xa/continuous_waveform/s12/1969/323/xa.s12.00.mhz.1969.323.0.a.csv" target="_blank" rel="noopener noreferrer">Download original NASA GeoCSV ↗</a>
+        </div>
+      </div>
+      <div class="wave-import">
+        <label for="apollo-wave-file">Or inspect a different NASA PDS ASCII GeoCSV file</label>
+        <div class="wave-import-controls"><input id="apollo-wave-file" data-wave-file type="file" accept=".csv,.txt,text/csv,text/plain"><button type="button" data-wave-plot>Plot selected file</button></div>
+        <p>Files are read locally in your browser; this page does not upload them to a server.</p>
+      </div>
+      <p class="data-status" data-wave-status role="status" aria-live="polite">Ready. Load the NASA sample or choose a downloaded GeoCSV file.</p>
+      <div class="wave-chart-wrap"><div data-wave-chart class="wave-chart" aria-label="NASA Apollo seismic observation plot"></div></div>
+      <div data-wave-stats class="wave-stats" aria-label="Calculated descriptive statistics"></div>
+      <div data-wave-details class="wave-details"></div>
+      <p class="wave-method">Method: parse the selected ASCII GeoCSV, identify a numeric observation column, plot up to 1,600 evenly sampled points for readability, and calculate min, max, mean, standard deviation, and largest absolute value from all valid parsed observations. These are descriptive statistics, not a scientific event classification.</p>
+      <p class="wave-citation">Source: Nunn, C., Nakamura, Y., Kedar, S. &amp; Panning, M. P. (2022), Apollo Seismic Data Bundle, NASA Planetary Data System, DOI <a href="https://doi.org/10.17189/9ykc-er91" target="_blank" rel="noopener noreferrer">10.17189/9ykc-er91</a>. Original file hosted by the PDS Geosciences Node.</p>
+    </div>
   </section>
   <section class="data-section" aria-labelledby="insight-title">
     <div class="data-section-head"><div><p class="eyebrow">Mars · InSight mission</p><h2 id="insight-title">Inside the silent lander</h2><p>Three instruments. Three different questions about the inside of Mars. Select an instrument to inspect NASA-published specifications and outcomes. The SEIS archive is linked separately; no raw seismic waveform is simulated here.</p></div></div>
