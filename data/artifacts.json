@@ -185,7 +185,7 @@
       ],
       [
         "Actual rover operations",
-        "83 days"
+        "83 sols (Martian days)"
       ],
       [
         "Final data transmission",
@@ -216,6 +216,10 @@
       {
         "label": "NASA — Sojourner’s Farthest Journey",
         "url": "https://science.nasa.gov/resource/sojourners-farthest-journey/"
+      },
+      {
+        "label": "NASA — Mars Pathfinder rover traverse (83 Sols)",
+        "url": "https://science.nasa.gov/resource/mars-pathfinder-rover-traverse-image/"
       }
     ],
     "story_artwork": [
