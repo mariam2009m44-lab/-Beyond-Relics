@@ -22,57 +22,10 @@
     status.textContent = message;
     status.dataset.state = state || "info";
   }
-  function parseCSV(text) {
-    var lines = text.replace(/^\uFEFF/, "").split(/\r?\n/);
-    var headerIndex = -1, headers = [], delimiter = ",";
-    for (var i = 0; i < Math.min(lines.length, 100); i++) {
-      var line = lines[i].trim();
-      if (!line || line.charAt(0) === "#") continue;
-      var commas = (line.match(/,/g) || []).length;
-      var semis = (line.match(/;/g) || []).length;
-      delimiter = semis > commas ? ";" : ",";
-      var cells = line.split(delimiter).map(function (x) { return x.trim().replace(/^"|"$/g, ""); });
-      if (cells.length > 1 && cells.some(function (x) { return /time|date|sample|value|data|amplitude|count|^x$|^y$/i.test(x); })) {
-        headerIndex = i; headers = cells; break;
-      }
-    }
-    if (headerIndex < 0) throw new Error("Could not identify the GeoCSV column header. Please select a NASA PDS ASCII GeoCSV observation file.");
-    var rows = [];
-    for (var r = headerIndex + 1; r < lines.length; r++) {
-      var raw = lines[r].trim();
-      if (!raw || raw.charAt(0) === "#") continue;
-      var values = raw.split(delimiter).map(function (x) { return x.trim().replace(/^"|"$/g, ""); });
-      if (values.length < headers.length) continue;
-      rows.push(values);
-    }
-    if (rows.length < 20) throw new Error("The file contains too few readable observation rows.");
-    var numericCounts = headers.map(function (_, col) {
-      var count = 0;
-      rows.slice(0, Math.min(rows.length, 3000)).forEach(function (row) {
-        if (Number.isFinite(Number(row[col])) && row[col] !== "") count++;
-      });
-      return count;
-    });
-    var candidates = headers.map(function (h, col) {
-      var name = h.toLowerCase();
-      var score = numericCounts[col];
-      if (/time|date|year|day|jday|epoch|utc/.test(name)) score -= rows.length;
-      if (/sample|value|data|amplitude|count|^y$|^x$/.test(name)) score += 10000;
-      return { col: col, score: score, count: numericCounts[col] };
-    }).filter(function (x) { return x.count > rows.length * 0.5; }).sort(function (a, b) { return b.score - a.score; });
-    if (!candidates.length) throw new Error("No numeric observation column was found in this file.");
-    var valueCol = candidates[0].col;
-    var timeCol = headers.findIndex(function (h, col) {
-      return col !== valueCol && /time|date|epoch|utc/i.test(h) && numericCounts[col] < rows.length * 0.5;
-    });
-    var points = [];
-    rows.forEach(function (row, index) {
-      var y = Number(row[valueCol]);
-      if (!Number.isFinite(y)) return;
-      points.push({ x: timeCol >= 0 ? row[timeCol] : String(index + 1), y: y });
-    });
-    if (points.length < 20) throw new Error("Not enough valid numeric samples could be read.");
-    return { headers: headers, valueLabel: headers[valueCol] || "Observed value", timeLabel: timeCol >= 0 ? headers[timeCol] : "Sample index", points: points, totalRows: rows.length };
+  var parseCSV = window.BeyondRelicsGeoCSV && window.BeyondRelicsGeoCSV.parse;
+  if (typeof parseCSV !== "function") {
+    setStatus("The GeoCSV parser could not be initialized. Refresh the page and try again.", "error");
+    return;
   }
   function render(result, filename) {
     chart.replaceChildren();
@@ -119,12 +72,14 @@
     chart.appendChild(svg);
 
     [
-      ["Samples plotted", values.length.toLocaleString()],
+      ["Valid samples plotted", values.length.toLocaleString()],
       ["Minimum", min.toExponential(4)],
       ["Maximum", max.toExponential(4)],
       ["Mean", mean.toExponential(4)],
+      ["Median", values.slice().sort(function (a, b) { return a - b; })[Math.floor(values.length / 2)].toExponential(4)],
       ["Standard deviation", spread.toExponential(4)],
-      ["Largest |value|", peak.y.toExponential(4)]
+      ["Largest |value|", peak.y.toExponential(4)],
+      ["Rows skipped / invalid", (result.skippedRows + result.invalidValues).toLocaleString()]
     ].forEach(function (pair) {
       var item = node("div", "wave-stat");
       item.append(node("span", "", pair[0]), node("strong", "", pair[1]));
@@ -132,8 +87,10 @@
     });
     details.replaceChildren();
     details.append(node("p", "", "Source file: " + filename));
-    details.append(node("p", "", "Detected value column: " + result.valueLabel + " · Horizontal axis: " + result.timeLabel + ". The chart plots the values contained in the selected NASA archive file; no event labels or physical units are inferred."));
-    setStatus("NASA archive file parsed successfully. " + values.length.toLocaleString() + " numeric observations are plotted.", "success");
+    details.append(node("p", "", "Detected value column: " + result.valueLabel + " · Horizontal axis: " + result.timeLabel + " · Delimiter: " + result.delimiter + "."));
+    details.append(node("p", "", "Rows read: " + result.totalRows.toLocaleString() + " · Valid numeric observations: " + result.points.length.toLocaleString() + " · Invalid numeric values: " + result.invalidValues.toLocaleString() + " · Malformed rows skipped: " + result.skippedRows.toLocaleString() + "."));
+    details.append(node("p", "", "The chart plots values from the selected archive file. The explorer does not infer physical units, identify moonquakes, or assign causes to peaks."));
+    setStatus("Archive file parsed. " + values.length.toLocaleString() + " valid numeric observations plotted; " + (result.skippedRows + result.invalidValues).toLocaleString() + " rows or values were excluded and are reported below.", "success");
   }
   function processText(text, filename) {
     try {
