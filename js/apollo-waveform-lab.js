@@ -33,6 +33,10 @@
     var values = result.points.map(function (p) { return p.y; });
     var min = Math.min.apply(null, values), max = Math.max.apply(null, values);
     var mean = values.reduce(function (a, b) { return a + b; }, 0) / values.length;
+    var sortedValues = values.slice().sort(function (a, b) { return a - b; });
+    var middle = Math.floor(sortedValues.length / 2);
+    var median = sortedValues.length % 2 ? sortedValues[middle] : (sortedValues[middle - 1] + sortedValues[middle]) / 2;
+    var rms = Math.sqrt(values.reduce(function (sum, v) { return sum + v * v; }, 0) / values.length);
     var peak = result.points.reduce(function (best, p) { return Math.abs(p.y) > Math.abs(best.y) ? p : best; }, result.points[0]);
     var spread = Math.sqrt(values.reduce(function (sum, v) { return sum + Math.pow(v - mean, 2); }, 0) / values.length);
     var svgNS = "http://www.w3.org/2000/svg";
@@ -76,8 +80,9 @@
       ["Minimum", min.toExponential(4)],
       ["Maximum", max.toExponential(4)],
       ["Mean", mean.toExponential(4)],
-      ["Median", values.slice().sort(function (a, b) { return a - b; })[Math.floor(values.length / 2)].toExponential(4)],
-      ["Standard deviation", spread.toExponential(4)],
+      ["Median", median.toExponential(4)],
+      ["RMS", rms.toExponential(4)],
+      ["Population standard deviation", spread.toExponential(4)],
       ["Largest |value|", peak.y.toExponential(4)],
       ["Rows skipped / invalid", (result.skippedRows + result.invalidValues).toLocaleString()]
     ].forEach(function (pair) {
