@@ -455,3 +455,101 @@
   .reader .strip .rbtn,.reader .strip .th,
   .reader .side .tabs button,.reader .side .tabs a{transition:none!important}
 }
+
+
+/* Single-frame cinematic reader: let each original image define its own height. */
+.reader{align-items:start}
+.reader .stage{min-height:0;height:auto;align-self:start;overflow:visible}
+.reader .view{width:100%;height:auto;min-height:0}
+.reader .comic.original-comic,
+.reader .comic.l2{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  justify-items:center;
+  align-items:start;
+  width:100%;
+  height:auto;
+  min-height:0;
+  margin:0 auto;
+  gap:0;
+}
+.reader .comic .scene-panel,
+.reader .comic.original-comic .cp{
+  width:min(100%,980px);
+  max-width:100%;
+  height:auto;
+  min-height:0;
+  margin-inline:auto;
+  overflow:hidden;
+  cursor:pointer;
+  outline:none;
+  border-color:rgba(115,229,245,.34);
+  box-shadow:0 18px 55px rgba(0,0,0,.34),0 0 32px rgba(0,190,230,.07);
+  transition:border-color .35s ease,box-shadow .35s ease,transform .45s cubic-bezier(.2,.75,.2,1);
+}
+.reader .comic .scene-panel:focus-visible{
+  outline:2px solid var(--reader-cyan);
+  outline-offset:4px;
+}
+.reader .comic .scene-image,
+.reader .comic .original-scene-image{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+}
+.reader .comic .scene-panel .cap{
+  padding:clamp(.8rem,1.7vw,1.35rem) clamp(1rem,2.2vw,1.7rem);
+  font-size:clamp(.9rem,1.15vw,1.08rem);
+}
+.reader .stage .story-intro{
+  position:relative;
+  inset:auto;
+  width:100%;
+  min-height:clamp(340px,58svh,700px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  overflow:hidden;
+}
+.reader .stage .story-intro[hidden]{display:none!important}
+.reader .scene-loading{
+  width:min(100%,980px);
+  min-height:clamp(160px,30vw,300px);
+  margin-inline:auto;
+  display:grid;
+  place-items:center;
+}
+.reader .comic .scene-panel:hover{
+  border-color:rgba(115,229,245,.72);
+  box-shadow:0 22px 65px rgba(0,0,0,.42),0 0 38px rgba(0,190,230,.14);
+}
+.reader .comic .scene-panel:active{transform:scale(.994)}
+.reader .strip{position:relative}
+.reader .strip .rbtn:not(:disabled):hover{
+  transform:translateY(-2px);
+  border-color:var(--reader-cyan);
+  background:rgba(0,190,230,.18);
+}
+.reader .story-intro.leaving{
+  animation:reader-launch-exit .85s cubic-bezier(.65,0,.25,1) both;
+  pointer-events:none;
+}
+@keyframes reader-launch-exit{
+  0%{opacity:1;transform:scale(1);filter:blur(0)}
+  55%{opacity:.75;transform:scale(1.035);filter:blur(1px)}
+  100%{opacity:0;transform:scale(1.08);filter:blur(8px)}
+}
+@media(max-width:760px){
+  .reader .stage{padding:.35rem;overflow:visible}
+  .reader .comic.original-comic,.reader .comic.l2{grid-template-columns:minmax(0,1fr);gap:0}
+  .reader .comic .scene-panel{width:100%;border-radius:11px}
+  .reader .comic .scene-image,.reader .comic .original-scene-image{width:100%;height:auto}
+  .reader .stage .story-intro{min-height:clamp(300px,58svh,560px);padding:1.15rem}
+  .reader .strip{margin-top:.1rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .reader .comic .scene-panel,.reader .story-intro.leaving{animation:none!important;transition:none!important}
+}
