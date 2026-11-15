@@ -20,6 +20,8 @@
     ".stage",
     ".scene-panel",
     ".cp",
+    ".story-worlds-heading",
+    ".story-world-card",
     ".mission-brief",
     ".chronicle-section .section-heading",
     ".chronicle-card",
