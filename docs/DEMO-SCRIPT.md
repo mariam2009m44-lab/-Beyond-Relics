@@ -11,7 +11,7 @@ Use this as a recording script only after the deployed site and the Apollo GeoCS
 “Beyond Relics follows the hardware NASA left on the Moon and Mars. This is Apollo 12’s passive seismic experiment: a scientific instrument deployed on the lunar surface.”
 
 **11–21 sec — The evidence**  
-“Its observations were preserved in NASA’s Planetary Data System. Here, we load an original Apollo 12 GeoCSV file and plot the values with transparent descriptive statistics.”
+“Its observations were preserved in NASA’s Planetary Data System. Here, we read the original Apollo 12 GeoCSV, inspect its recorded values, and calculate transparent statistics without guessing what caused a signal.”
 
 **21–26 sec — The learning experience**  
 “Then young explorers test what they discovered in a source-linked mission investigation.”
@@ -24,7 +24,7 @@ Use this as a recording script only after the deployed site and the Apollo GeoCS
 1. Open the Apollo 12 artifact record. Keep the artifact name and mission visible.
 2. Open **NASA Data Lab → Apollo waveform lab**.
 3. Load the NASA PDS sample. If remote loading fails, use the original NASA CSV download and the local-file import. Do not switch to fabricated or illustrative values.
-4. Point to the chart and at least one statistic. State that these are descriptive statistics, not an event classification.
+4. Point to the detected time/value columns, the chart, and at least one statistic. State that missing or malformed values are reported, units are not inferred, and these are descriptive statistics—not an event classification.
 5. Open the Mission Investigator quiz and answer one question, showing its NASA evidence link.
 6. End on the project home page and state the learning outcome.
 
