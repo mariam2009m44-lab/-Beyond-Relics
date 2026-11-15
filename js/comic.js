@@ -25,7 +25,7 @@
       beats.forEach(function(text,index){
         var beat=page+index,art=item.story_artwork&&item.story_artwork[beat];
         var record=images&&images.length?images[beat%images.length]:null;
-        var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);panel.tabIndex=0;panel.setAttribute("role","button");panel.setAttribute("aria-label","Continue to scene "+(beat+2));
+        var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);panel.setAttribute("role","group");
         if(art){
           var original=el("img","scene-image original-scene-image");
           original.src=art.file;original.alt=art.caption||item.title;original.loading=index===0?"eager":"lazy";original.decoding="async";
@@ -40,7 +40,7 @@
           window.BeyondRelicsImages.mount(img,images);panel.appendChild(img);panel.appendChild(credit);
         }else panel.classList.add("scene-no-image");
         panel.appendChild(el("span","scene-number","SCENE "+String(beat+1).padStart(2,"0")));
-        panel.appendChild(el("span","cap tl",text));root.appendChild(panel);
+        panel.appendChild(el("span","cap tl",text));\n        var advance=el("button","scene-advance",page===pages(item).length-1?"Chapter complete":"Continue to next frame  →");advance.type="button";advance.disabled=page===pages(item).length-1;advance.addEventListener("click",function(){goPage(page+1);});panel.appendChild(advance);root.appendChild(panel);
       });
     }
     if(needsNASA&&window.BeyondRelicsImages){
@@ -126,7 +126,7 @@
     var panel=event.target.closest(".scene-panel");if(panel&&!event.target.closest("a,button")){goPage(page+1);return;}\n    var button=event.target.closest("[data-tab]");if(button)tab(button.dataset.tab);
   });
   document.addEventListener("keydown",function(event){
-    if(event.target.closest("input,textarea,button,a"))return;\n    if(event.target.closest(".scene-panel")&&(event.key==="Enter"||event.key===" ")){event.preventDefault();goPage(page+1);return;}
+    if(event.target.closest("input,textarea,button,a"))return;\n    
     if(event.key==="ArrowLeft")goPage(page-1);
     if(event.key==="ArrowRight")goPage(page+1);
   });
