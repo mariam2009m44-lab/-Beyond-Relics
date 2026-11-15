@@ -580,3 +580,52 @@
 .reader .comic .scene-advance:disabled{color:#8797ad;cursor:default;opacity:.72}
 .reader .comic .scene-advance:focus-visible{outline:2px solid var(--reader-cyan);outline-offset:-4px}
 @media(prefers-reduced-motion:reduce){.reader .comic .scene-advance{transition:none!important}}
+
+
+/* Cinematic fallback for frames whose remote archive image is unavailable. */
+.reader .comic .scene-panel.scene-no-image{
+  position:relative;
+  isolation:isolate;
+  min-height:clamp(250px,42vw,520px);
+  justify-content:flex-end;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 35%,rgba(71,133,205,.28),transparent 38%),
+    radial-gradient(ellipse at 15% 85%,rgba(38,193,218,.14),transparent 42%),
+    linear-gradient(145deg,#101e39 0%,#070d1b 62%,#11152b 100%);
+}
+.reader .comic .scene-panel.scene-no-image:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:min(58vw,390px);
+  aspect-ratio:1;
+  left:50%;
+  top:38%;
+  border:1px solid rgba(139,218,255,.22);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 0 24px rgba(139,218,255,.025),0 0 0 52px rgba(139,218,255,.02),inset 0 0 70px rgba(81,155,225,.09);
+}
+.reader .comic .scene-panel.scene-no-image:after{
+  content:"ARCHIVE SIGNAL · IMAGE UNAVAILABLE";
+  position:absolute;
+  z-index:1;
+  top:50%;
+  left:50%;
+  display:block;
+  width:max-content;
+  max-width:90%;
+  padding:.65rem .9rem;
+  border:1px solid rgba(115,229,245,.25);
+  border-radius:999px;
+  background:rgba(4,10,23,.72);
+  color:#9eddeb;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  transform:translate(-50%,-50%);
+}
+@media(max-width:760px){
+  .reader .comic .scene-panel.scene-no-image{min-height:300px}
+}
