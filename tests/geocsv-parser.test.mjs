@@ -40,9 +40,9 @@ test("keeps numeric time values as the horizontal coordinate", () => {
 });
 
 test("reports missing numeric values and malformed rows without inventing samples", () => {
-  const rows = Array.from({ length: 20 }, (_, i) => i === 4 ? "T" + i + ",NA" : "T" + i + "," + i).join("\n");
+  const rows = Array.from({ length: 21 }, (_, i) => i === 4 ? "T" + i + ",NA" : "T" + i + "," + i).join("\n");
   const result = parse("time,value\n" + rows + "\nmalformed,row,extra");
-  assert.equal(result.points.length, 19);
+  assert.equal(result.points.length, 20);
   assert.equal(result.invalidValues, 1);
   assert.equal(result.skippedRows, 1);
 });
