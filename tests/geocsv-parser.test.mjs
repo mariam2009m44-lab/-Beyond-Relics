@@ -51,7 +51,9 @@ test("rejects metadata-only or non-observation files", () => {
   assert.throws(() => parse("# metadata only\n# no observation table"), /Could not identify/);
 });
 
-test("rejects incomplete quoted CSV records", () => {
+test("skips incomplete quoted CSV records and reports the omission", () => {
   const rows = Array.from({ length: 20 }, (_, i) => "T" + i + "," + i).join("\n");
-  assert.throws(() => parse("time,value\n" + rows + '\nT20,"unfinished'), /fewer than 20 readable/);
+  const result = parse("time,value\n" + rows + '\nT20,"unfinished');
+  assert.equal(result.points.length, 20);
+  assert.equal(result.skippedRows, 1);
 });
