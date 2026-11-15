@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 const root = process.cwd();
 const failures = [];
@@ -28,6 +29,7 @@ const quizCount = (quiz.match(/question:\s*"/g) || []).length;
 check(quizCount === 4, "Mission Investigator contains four evidence questions");
 check(index.includes('aria-valuemax="4"'), "Quiz progress accessibility maximum matches four questions");
 check(dataPage.includes("Read the Moon through its data"), "Waveform lab wording describes a plotted data experience, not audio playback");
+check(dataPage.indexOf("js/geocsv-parser.js") >= 0 && dataPage.indexOf("js/geocsv-parser.js") < dataPage.indexOf("js/apollo-waveform-lab.js"), "GeoCSV parser loads before the waveform explorer");
 
 const requiredFields = ["mission_goal", "what_stayed", "science_legacy", "why_it_matters"];
 let sourceCount = 0;
@@ -66,9 +68,31 @@ for (const htmlFile of htmlFiles) {
 }
 check(exists("assets/logos/favicon.svg"), "Primary SVG favicon exists");
 
+function collectFiles(directory, extension, output = []) {
+  for (const entry of fs.readdirSync(path.join(root, directory), { withFileTypes: true })) {
+    if (entry.name === ".git" || entry.name === "node_modules") continue;
+    const relative = path.join(directory, entry.name);
+    if (entry.isDirectory()) collectFiles(relative, extension, output);
+    else if (entry.isFile() && entry.name.endsWith(extension)) output.push(relative);
+  }
+  return output;
+}
+const jsFiles = collectFiles(".", ".js");
+for (const file of jsFiles) {
+  const result = spawnSync(process.execPath, ["--check", path.join(root, file)], { encoding: "utf8" });
+  check(result.status === 0, "JavaScript syntax is valid: " + file + (result.status === 0 ? "" : " — " + (result.stderr || result.stdout).trim()));
+}
+const jsonFiles = collectFiles(".", ".json");
+for (const file of jsonFiles) {
+  try { JSON.parse(read(file)); check(true, "JSON is valid: " + file); }
+  catch (error) { check(false, "JSON is valid: " + file + " — " + error.message); }
+}
+
 console.log("Beyond Relics quality audit");
 console.log("---------------------------");
 console.log("HTML pages checked: " + htmlFiles.length);
+console.log("JavaScript files syntax-checked: " + jsFiles.length);
+console.log("JSON files parsed: " + jsonFiles.length);
 console.log("Artifact records: " + records.length);
 console.log("Primary source links: " + sourceCount);
 console.log("Original story frames: " + artworkCount);
