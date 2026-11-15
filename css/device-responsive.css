@@ -321,3 +321,163 @@ a,button { touch-action:manipulation; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
+
+
+/* =========================================================
+   CINEMATIC STORY WORLD — artwork-led, zero empty image boxes
+   The artwork determines its own height; no forced letterboxing.
+   ========================================================= */
+.mission-story-gallery{
+  isolation:isolate;
+  padding:clamp(2.6rem,5vw,5rem) clamp(1rem,3.5vw,3rem);
+  background:
+    radial-gradient(ellipse at 50% 0,rgba(65,116,170,.18),transparent 48%),
+    radial-gradient(ellipse at 0 75%,rgba(115,82,184,.12),transparent 40%),
+    linear-gradient(180deg,#050914 0%,#080f1e 48%,#050914 100%);
+}
+.mission-story-gallery::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background:radial-gradient(1px 1px at 12% 18%,#d7efff 99%,transparent),
+             radial-gradient(1px 1px at 76% 26%,#d7efff 99%,transparent),
+             radial-gradient(1px 1px at 43% 73%,#d7efff 99%,transparent),
+             radial-gradient(1px 1px at 89% 82%,#d7efff 99%,transparent);
+  background-size:220px 190px,270px 230px,310px 250px,250px 210px;
+}
+.mission-gallery-heading,.mission-gallery-meta,.mission-frame-grid,.mission-gallery-bottom{
+  max-width:1580px;
+}
+.mission-gallery-heading{align-items:center;gap:clamp(1rem,3vw,3rem)}
+.mission-gallery-title h2{letter-spacing:-.035em}
+.mission-gallery-meta{
+  margin-top:clamp(1.4rem,3vw,2.5rem);
+  padding-bottom:1rem;
+  border-color:rgba(136,190,226,.24);
+}
+.mission-frame-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:clamp(.55rem,1.1vw,1rem);
+  overflow:visible;
+  align-items:start;
+}
+.mission-frame{
+  align-self:start;
+  border-radius:9px;
+  border-color:rgba(151,190,224,.25);
+  background:rgba(5,12,25,.72);
+  box-shadow:0 14px 34px rgba(0,0,0,.34);
+}
+.mission-frame-image{
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:auto;
+  overflow:hidden;
+  padding:0;
+  background:transparent;
+  border:0;
+}
+.mission-frame-image img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:initial;
+  object-position:center;
+  filter:none;
+  transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .35s;
+}
+.mission-frame:hover .mission-frame-image img{
+  transform:scale(1.025);
+  filter:brightness(1.06);
+}
+.mission-frame-caption{
+  padding:.72rem .75rem .8rem;
+  background:linear-gradient(180deg,rgba(8,17,32,.96),rgba(5,11,23,.98));
+}
+.mission-frame-caption b,.mission-frame-caption small{
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+}
+.mission-frame-caption b{font-size:clamp(.62rem,.75vw,.78rem);line-height:1.3}
+.mission-frame-caption small{font-size:clamp(.58rem,.68vw,.7rem);line-height:1.45}
+.mission-gallery-bottom{
+  padding-top:.15rem;
+  color:#8da4c0;
+}
+.chronicle-grid{align-items:stretch}
+.chronicle-card{min-height:0}
+.chronicle-visual{
+  flex:none;
+  min-height:0;
+  height:auto;
+  aspect-ratio:16/9;
+  background:#050b16;
+}
+.chronicle-visual img{
+  position:relative;
+  inset:auto;
+  display:block;
+  width:100%;
+  height:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  object-position:center;
+}
+.chronicle-visual::after{pointer-events:none}
+.chronicle-copy{flex:1}
+
+@media (min-width:651px) and (max-width:1050px){
+  .mission-frame-grid{grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}
+  .mission-frame-caption{padding:.65rem}
+}
+@media (max-width:650px){
+  .mission-story-gallery{
+    padding:2.6rem .85rem 2.1rem;
+    background:
+      radial-gradient(ellipse at 50% 0,rgba(65,116,170,.16),transparent 52%),
+      linear-gradient(180deg,#050914,#081120 55%,#050914);
+  }
+  .mission-gallery-heading{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem}
+  .mission-gallery-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .mission-gallery-meta{align-items:flex-start;flex-direction:column;gap:.65rem}
+  .mission-frame-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:.65rem;
+    overflow:visible;
+    padding:0;
+  }
+  .mission-frame{width:100%;min-width:0}
+  .mission-frame-image{aspect-ratio:auto;height:auto}
+  .mission-frame-image img{width:100%;height:auto;object-fit:initial}
+  .mission-frame-caption{padding:.58rem .6rem .68rem}
+  .mission-frame-caption i{font-size:.58rem}
+  .mission-frame-caption b{font-size:.61rem}
+  .mission-frame-caption small{font-size:.57rem}
+  .mission-gallery-bottom{flex-direction:column;gap:.3rem}
+  .chronicle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+  .chronicle-card{min-height:0}
+  .chronicle-visual{aspect-ratio:4/3}
+  .chronicle-visual img{aspect-ratio:4/3}
+  .chronicle-copy{padding:.8rem}
+  .chronicle-copy h3{font-size:1.05rem}
+  .chronicle-copy p{font-size:.82rem}
+}
+@media (max-width:380px){
+  .mission-frame-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mission-frame-caption{padding:.48rem}
+  .mission-frame-caption b{font-size:.56rem}
+  .mission-frame-caption small{font-size:.53rem}
+  .chronicle-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){
+  .mission-frame:hover .mission-frame-image img{transform:none}
+}
