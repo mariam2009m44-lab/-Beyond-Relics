@@ -673,3 +673,202 @@ a,button { touch-action:manipulation; }
   .story-world-card,.story-world-art img,.story-world-enter b{transition:none}
   .story-world-card:hover{transform:none}
 }
+
+
+/* FINAL MOBILE-FIRST STORY PORTALS
+   Artwork fills each portal; mobile uses large horizontal snap cards. */
+.story-worlds{
+  padding:clamp(2.5rem,5vw,5rem) clamp(1rem,4vw,3.5rem) clamp(2rem,4vw,3.5rem);
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 15% 8%,rgba(39,111,174,.17),transparent 45%),
+    radial-gradient(ellipse at 90% 90%,rgba(111,68,163,.13),transparent 42%),
+    #050a16;
+}
+.story-worlds-heading{
+  max-width:1500px;
+  margin:0 auto clamp(1.25rem,2.5vw,2rem);
+}
+.story-worlds-heading .eyebrow{
+  margin:0 0 .55rem;
+  color:#83dff0;
+  font-size:.68rem;
+  letter-spacing:.18em;
+}
+.story-worlds-heading h2{
+  margin:0 0 .55rem;
+  color:#f4f7ff;
+  font-size:clamp(2.1rem,4.6vw,4rem);
+  line-height:1;
+}
+.story-worlds-heading h2 em{color:#ffc27b;font-style:normal}
+.story-worlds-heading>p:last-child{
+  margin:0;
+  color:#afc0d4;
+  font-size:.92rem;
+  line-height:1.55;
+}
+.story-worlds-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(.9rem,2vw,1.6rem);
+  width:100%;
+  max-width:1500px;
+  margin:0 auto;
+}
+.story-world-card{
+  position:relative;
+  display:block;
+  min-width:0;
+  aspect-ratio:1.28 / 1;
+  overflow:hidden;
+  border:1px solid rgba(151,201,230,.34);
+  border-radius:clamp(12px,1.5vw,20px);
+  background:#030814;
+  color:#fff;
+  text-decoration:none;
+  box-shadow:0 18px 48px rgba(0,0,0,.42);
+  isolation:isolate;
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.story-world-image{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:cover;
+  object-position:center 45%;
+  transform:scale(1.001);
+  transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .4s ease;
+}
+.story-world-shade{
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(3,8,18,.06) 5%,rgba(3,8,18,.02) 38%,rgba(3,8,18,.88) 100%),
+    linear-gradient(90deg,rgba(3,8,18,.22),transparent 72%);
+}
+.story-world-index{
+  position:absolute;
+  top:clamp(.7rem,1.5vw,1.15rem);
+  left:clamp(.7rem,1.5vw,1.15rem);
+  padding:.42rem .65rem;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:99px;
+  background:rgba(3,9,20,.62);
+  color:#f1f8ff;
+  font-size:.62rem;
+  letter-spacing:.13em;
+  backdrop-filter:blur(8px);
+}
+.story-world-copy{
+  position:absolute;
+  inset:auto 0 0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:.55rem;
+  padding:clamp(1rem,2.3vw,1.8rem);
+}
+.story-world-copy>span:first-child{
+  color:#9cebf5;
+  font-size:clamp(.57rem,.78vw,.72rem);
+  font-weight:700;
+  letter-spacing:.12em;
+  line-height:1.4;
+}
+.story-world-copy strong{
+  color:#fff;
+  font-size:clamp(1.65rem,3.4vw,3.15rem);
+  font-weight:800;
+  line-height:.98;
+  text-shadow:0 3px 22px rgba(0,0,0,.85);
+}
+.story-world-copy strong em{color:#ffd08b;font-style:normal}
+.story-world-cta{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  color:#a9eff8;
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.14em;
+}
+.story-world-cta b{
+  display:grid;
+  place-items:center;
+  width:1.8rem;
+  height:1.8rem;
+  border:1px solid currentColor;
+  border-radius:50%;
+  font-size:.9rem;
+}
+.story-world-card:hover,.story-world-card:focus-visible{
+  transform:translateY(-5px);
+  border-color:#8de7f2;
+  box-shadow:0 24px 58px rgba(0,0,0,.56),0 0 28px rgba(0,187,249,.12);
+}
+.story-world-card:hover .story-world-image,
+.story-world-card:focus-visible .story-world-image{
+  transform:scale(1.055);
+  filter:brightness(1.06);
+}
+.story-world-card:focus-visible{outline:3px solid #91e8f5;outline-offset:4px}
+.story-worlds-hint{display:none}
+@media(max-width:700px){
+  .story-worlds{padding:2.35rem 0 2rem}
+  .story-worlds-heading{padding:0 1rem;margin-bottom:1.15rem}
+  .story-worlds-heading h2{font-size:clamp(2rem,8vw,2.75rem)}
+  .story-worlds-heading>p:last-child{font-size:.83rem}
+  .story-worlds-grid{
+    display:flex;
+    gap:.8rem;
+    width:100%;
+    max-width:none;
+    margin:0;
+    padding:0 1rem .8rem;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:1rem;
+    overscroll-behavior-inline:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(126,220,238,.55) transparent;
+  }
+  .story-world-card{
+    flex:0 0 min(86vw,390px);
+    width:min(86vw,390px);
+    aspect-ratio:1.08 / 1;
+    border-radius:14px;
+    scroll-snap-align:start;
+  }
+  .story-world-image{object-position:center 44%}
+  .story-world-index{top:.65rem;left:.65rem;padding:.38rem .55rem;font-size:.56rem}
+  .story-world-copy{gap:.48rem;padding:1rem}
+  .story-world-copy>span:first-child{font-size:.57rem;letter-spacing:.08em}
+  .story-world-copy strong{font-size:clamp(1.65rem,7.4vw,2.35rem)}
+  .story-world-cta{font-size:.6rem}
+  .story-world-cta b{width:1.65rem;height:1.65rem}
+  .story-worlds-hint{
+    display:block;
+    margin:.55rem 1rem 0;
+    color:#7f9bb9;
+    font-size:.57rem;
+    font-weight:700;
+    letter-spacing:.15em;
+  }
+  .story-worlds-hint span{color:#9cebf5;font-size:.9rem}
+}
+@media(max-width:360px){
+  .story-world-card{flex-basis:88vw;width:88vw}
+  .story-world-copy{padding:.85rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .story-world-card,.story-world-image{transition:none}
+  .story-world-card:hover{transform:none}
+}
