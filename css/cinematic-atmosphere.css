@@ -1,0 +1,90 @@
+/* Beyond Relics — cinematic atmosphere, second pass */
+:root{--br-cinematic-ease:cubic-bezier(.16,1,.3,1)}
+.hero .earth{
+  transform:translate3d(var(--br-earth-x,0px),var(--br-earth-y,0px),0);
+  animation:br-earth-breathe 18s ease-in-out infinite alternate;
+  will-change:transform,filter;
+}
+@keyframes br-earth-breathe{0%{filter:brightness(.86) saturate(.88)}100%{filter:brightness(1.12) saturate(1.12)}}
+.hero .astro{
+  transform:translate3d(var(--br-astro-x,0px),var(--br-astro-y,0px),0);
+  animation:br-astro-float 8s ease-in-out infinite;
+  transform-origin:50% 80%;
+}
+@keyframes br-astro-float{0%,100%{margin-top:0}50%{margin-top:-9px}}
+.hero .ground{transform:translate3d(0,var(--br-ground-y,0px),0);will-change:transform}
+.hero .br-shooting-star{
+  position:absolute;z-index:2;top:18%;left:-18%;width:clamp(90px,15vw,210px);height:1px;
+  pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(185,231,255,.95),transparent);
+  box-shadow:0 0 12px rgba(119,211,255,.45);
+  transform:rotate(-24deg);
+  animation:br-shooting-star 12s 2s ease-in-out infinite;
+}
+@keyframes br-shooting-star{
+  0%,68%{opacity:0;translate:0 0}
+  70%{opacity:.9}
+  78%{opacity:0;translate:125vw 34vh}
+  100%{opacity:0;translate:125vw 34vh}
+}
+.hero .br-lens-glow{
+  position:absolute;z-index:1;inset:0;pointer-events:none;opacity:.5;
+  background:radial-gradient(ellipse at var(--br-lens-x,70%) var(--br-lens-y,40%),rgba(90,176,255,.12),transparent 35%);
+  mix-blend-mode:screen;transition:opacity .5s ease;
+}
+.story-world-card,.chronicle-card,.mission-frame,.release-card,.science-card{
+  isolation:isolate;
+}
+.story-world-card::before,.chronicle-card::before,.mission-frame::before{
+  content:"";position:absolute;z-index:2;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at var(--br-spot-x,50%) var(--br-spot-y,50%),rgba(156,229,255,.2),transparent 42%);
+  transition:opacity .45s ease;
+}
+.story-world-card:hover::before,.chronicle-card:hover::before,.mission-frame:hover::before{opacity:1}
+.story-world-image,.chronicle-visual img,.mission-frame-image img{
+  transition:transform 1.1s var(--br-cinematic-ease),filter .8s ease;
+}
+.story-world-card:hover .story-world-image{transform:scale(1.075);filter:brightness(1.12) saturate(1.12)}
+.story-world-card .story-world-shade{transition:opacity .7s ease}
+.story-world-card:hover .story-world-shade{opacity:.82}
+.story-world-card .story-world-cta b{transition:transform .45s var(--br-cinematic-ease),background .35s ease}
+.story-world-card:hover .story-world-cta b{transform:translate(4px,-4px) rotate(45deg)}
+/* A subtle cinematic separator between long-form sections. */
+.story-worlds,.mission-brief,.chronicle-section,.science-panels,.mission-detective,.judge-section,.data-section{
+  position:relative;
+}
+.story-worlds::before,.mission-brief::before,.chronicle-section::before,.science-panels::before{
+  content:"";position:absolute;top:0;left:50%;width:min(72%,720px);height:1px;
+  background:linear-gradient(90deg,transparent,rgba(123,214,242,.25),rgba(174,151,255,.2),transparent);
+  transform:translateX(-50%);pointer-events:none;
+}
+.story-intro{
+  position:relative;isolation:isolate;overflow:hidden;
+}
+.story-intro::after{
+  content:"";position:absolute;z-index:-1;inset:-30%;
+  background:conic-gradient(from 0deg at 50% 50%,transparent 0 72%,rgba(114,221,255,.09) 78%,transparent 84% 100%);
+  animation:br-intro-orbit 28s linear infinite;
+}
+@keyframes br-intro-orbit{to{transform:rotate(360deg)}}
+.story-intro h2{animation:br-intro-title 1.2s var(--br-cinematic-ease) both}
+@keyframes br-intro-title{from{opacity:0;transform:translateY(22px);letter-spacing:.08em;filter:blur(8px)}to{opacity:1;transform:translateY(0);letter-spacing:normal;filter:blur(0)}}
+.reader .stage{box-shadow:0 25px 90px rgba(0,0,0,.35),inset 0 0 80px rgba(72,145,220,.035)}
+.reader .comic .scene-panel{transition:border-color .5s ease,box-shadow .5s ease}
+.reader .comic .scene-panel:hover{border-color:rgba(115,229,245,.62);box-shadow:0 20px 55px rgba(0,0,0,.48),0 0 35px rgba(0,190,230,.12)}
+.reader .strip .th{position:relative;overflow:hidden}
+.reader .strip .th[aria-current="true"]::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,rgba(160,240,255,.35),transparent);
+  transform:translateX(-110%);animation:br-thumb-sheen 2.8s ease-in-out infinite;
+}
+@keyframes br-thumb-sheen{to{transform:translateX(110%)}}
+@media(max-width:760px){
+  .hero .earth{animation-duration:26s}
+  .hero .astro{animation-duration:10s}
+  .hero .br-shooting-star{display:none}
+  .story-world-card:hover .story-world-image{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero .earth,.hero .astro,.hero .br-shooting-star,.story-intro::after{animation:none!important}
+  .story-world-card:hover .story-world-image{transform:none!important}
+}
