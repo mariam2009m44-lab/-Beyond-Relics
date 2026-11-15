@@ -156,3 +156,168 @@ table { max-width:100%; }
 @media (prefers-reduced-motion:reduce) {
   .mission-frame,.mission-frame-image img,.chronicle-card,.card,.btn { transition:none !important; }
 }
+
+
+/* =========================================================
+   FINAL RESPONSIVE PASS — consistent landscape-first layouts
+   ========================================================= */
+*,
+*::before,
+*::after { box-sizing:border-box; }
+html { width:100%; max-width:100%; scroll-padding-top:1rem; }
+body { width:100%; max-width:100%; min-width:0; }
+main,section,article,aside,header,footer,nav,div { min-width:0; }
+img,video,svg,canvas { max-width:100%; }
+button,a,input,select,textarea { -webkit-tap-highlight-color:transparent; }
+a,button { touch-action:manipulation; }
+.page,.reader,.mission-story-gallery,.mission-brief,.chronicle-section,.science-panels,.mission-detective {
+  width:100%; max-width:100%; margin-inline:auto;
+}
+.page-title,h1,h2,h3,p,li,small,strong { overflow-wrap:anywhere; }
+
+/* Landscape-first visual media: show the complete frame, never crop story art. */
+.mission-frame-image,
+.chronicle-visual,
+.aart,
+.dart,
+.sthumb,
+.original-scene-image {
+  aspect-ratio:16/9;
+  overflow:hidden;
+}
+.mission-frame-image img,
+.chronicle-visual img,
+.aart img,
+.dart img,
+.original-scene-image img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+}
+.mission-frame-caption { min-width:0; }
+.mission-frame-caption small { min-width:0; overflow-wrap:anywhere; }
+
+/* Desktop and medium screens: cards keep equal widths and stable gaps. */
+.mission-frame-grid { align-items:stretch; }
+.mission-frame { min-width:0; }
+.chronicle-card,.science-card,.acard,.release-card,.nasa-result { min-width:0; }
+.chronicle-visual { display:grid; place-items:center; background:#070d18; }
+.chronicle-visual img { position:absolute; inset:0; }
+
+/* Tablet: keep the mission story in a readable horizontal row. */
+@media (min-width:651px) and (max-width:1000px) {
+  .mission-frame-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .chronicle-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .science-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .page .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .reader { grid-template-columns:minmax(170px, .34fr) minmax(0,1fr); }
+  .strip { min-width:0; }
+  .count { white-space:nowrap; }
+}
+
+/* Phones: no long single-column stacks for visual collections. */
+@media (max-width:650px) {
+  .mission-frame-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(.5rem,2.2vw,.8rem);
+    overflow:visible;
+    padding:0;
+  }
+  .mission-frame { width:100%; min-width:0; }
+  .mission-frame-image { aspect-ratio:16/9; }
+  .mission-frame-caption { grid-template-columns:auto minmax(0,1fr); gap:.25rem .45rem; }
+  .mission-frame-caption i { grid-row:1 / span 2; }
+  .mission-frame-caption b { min-width:0; font-size:clamp(.56rem,2.2vw,.72rem); line-height:1.25; }
+  .mission-frame-caption small { grid-column:2; font-size:clamp(.52rem,1.9vw,.65rem); line-height:1.35; }
+  .mission-gallery-bottom { align-items:flex-start; }
+  .chronicle-grid {
+    display:flex;
+    gap:.8rem;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:.2rem .1rem 1rem;
+    scroll-snap-type:x mandatory;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:thin;
+  }
+  .chronicle-card {
+    flex:0 0 min(82vw,340px);
+    scroll-snap-align:start;
+  }
+  .science-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:.7rem;
+  }
+  .science-card { padding:.9rem; }
+  .science-card h3 { font-size:1rem; line-height:1.2; }
+  .science-card p { font-size:.82rem; line-height:1.55; }
+  .page .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
+  .acard { transform:none; }
+  .aart { aspect-ratio:16/9; padding:.55rem; }
+  .abody { padding:.8rem; }
+  .abody h3 { font-size:1rem; line-height:1.2; }
+  .abody p { font-size:.85rem; line-height:1.45; }
+  .detail { grid-template-columns:minmax(0,1fr); }
+  .dart { aspect-ratio:16/9; }
+  .facts { grid-template-columns:minmax(0,1fr) minmax(0,1.5fr); }
+  .release-grid,.nasa-results { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .evidence-metrics,.pds-facts,.wave-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .reader { display:grid; grid-template-columns:minmax(0,1fr); grid-template-areas:"side" "stage" "strip"; gap:1rem; padding:1rem .75rem; }
+  .side { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:.55rem .8rem; }
+  .side .back,.side h1,.side .meta,.side .q,.side .tabs,.side .chap { grid-column:1 / -1; }
+  .side .sthumb { display:none; }
+  .tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.25rem; }
+  .tabs button,.tabs a { justify-content:center; padding:.65rem .25rem; font-size:.68rem; letter-spacing:.04em; border:1px solid var(--line); }
+  .tabs button::before,.tabs a::before { display:none; }
+  .comic { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:minmax(125px,auto); gap:.45rem; aspect-ratio:auto; }
+  .comic.l5 { grid-template-areas:"a a" "b c" "d e"; }
+  .comic.l3 { grid-template-areas:"a b" "a c"; }
+  .comic.l2 { grid-template-areas:"a b"; }
+  .cp { min-width:0; min-height:125px; transform:none !important; }
+  .cap { max-width:86%; font-size:.78rem; }
+  .strip { display:flex; flex-wrap:wrap; gap:.5rem; min-width:0; }
+  .thumbs { order:0; flex:1 1 calc(100% - 6rem); min-width:0; }
+  .count { order:1; padding:.35rem .5rem; border:0; font-size:.8rem; }
+  #nextch { order:2; width:100%; justify-content:center; }
+  .wave-chart-wrap { max-width:100%; }
+  .wave-chart { min-width:480px; }
+  .data-section-head { align-items:flex-start; }
+  .search-console { grid-template-columns:minmax(0,1fr); }
+  .search-console button { width:100%; }
+  .footer { gap:.7rem; }
+}
+
+/* Small phones: retain two-up artwork instead of reverting to vertical cards. */
+@media (max-width:380px) {
+  .mission-frame-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .mission-frame-image { aspect-ratio:16/9; }
+  .chronicle-card { flex-basis:84vw; }
+  .science-grid,.page .grid,.release-grid,.nasa-results { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .science-card { padding:.72rem; }
+  .science-card h3 { font-size:.9rem; }
+  .science-card p { font-size:.76rem; }
+  .page { padding-inline:.7rem; }
+  .abody { padding:.65rem; }
+  .abody h3 { font-size:.9rem; }
+  .abody p { font-size:.78rem; }
+  .tabs button,.tabs a { font-size:.58rem; }
+  .comic { grid-auto-rows:minmax(105px,auto); }
+  .cp { min-height:105px; }
+  .cap { max-width:90%; font-size:.68rem; padding:.35rem .45rem; }
+  .facts { grid-template-columns:minmax(0,1fr); }
+}
+
+/* Accessibility and orientation safety. */
+@media (orientation:landscape) and (max-height:520px) {
+  .hero { min-height:640px; }
+  .copy { padding-top:1rem; }
+  .copy h1 { font-size:clamp(2rem,7vw,3.5rem); }
+  .reader { min-height:auto; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
