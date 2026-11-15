@@ -11,8 +11,9 @@
     linear-gradient(180deg,#050a16 0%,#081326 52%,#060d1b 100%);
 }
 .story-worlds-heading{
-  max-width:1000px;
+  max-width:900px;
   margin:0 auto clamp(1.25rem,2.5vw,1.9rem);
+  text-align:center;
 }
 .story-worlds-heading .eyebrow{
   margin:0 0 .55rem;
@@ -31,7 +32,7 @@
 .story-worlds-heading h2 em{color:#b8a6ff;font-style:normal}
 .story-worlds-heading>p:last-child{
   max-width:62ch;
-  margin:0;
+  margin:0 auto;
   color:#aebfd5;
   font-size:.92rem;
   line-height:1.65;
@@ -42,7 +43,7 @@
   align-items:stretch;
   gap:clamp(.75rem,1.8vw,1.2rem);
   width:100%;
-  max-width:1000px;
+  max-width:920px;
   margin:0 auto;
 }
 .story-world-card{
@@ -188,7 +189,7 @@
     padding:.34rem .58rem .72rem;
   }
   .story-world-copy>span:first-child{
-    font-size:clamp(.43rem,1.65vw,.55rem);
+    font-size:clamp(.5rem,2vw,.62rem);
     letter-spacing:.045em;
     line-height:1.38;
   }
@@ -196,15 +197,15 @@
     font-size:clamp(.92rem,4.05vw,1.3rem);
     line-height:1.08;
   }
-  .story-world-cta{font-size:.48rem;letter-spacing:.055em;gap:.3rem}
+  .story-world-cta{font-size:.5rem;letter-spacing:.045em;gap:.3rem}
   .story-world-cta b{width:1.38rem;height:1.38rem;font-size:.72rem}
 }
 @media(max-width:350px){
   .story-worlds-grid{gap:.48rem}
   .story-world-copy{min-height:104px;padding-inline:.48rem}
-  .story-world-copy>span:first-child{font-size:.42rem}
+  .story-world-copy>span:first-child{font-size:.47rem}
   .story-world-copy strong{font-size:.88rem}
-  .story-world-cta{font-size:.44rem}
+  .story-world-cta{font-size:.46rem}
 }
 @media(prefers-reduced-motion:reduce){
   .story-world-card,.story-world-image,.story-world-cta b{transition:none!important}
