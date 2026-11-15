@@ -17,13 +17,13 @@
   }
   function drawStory(item){
     var beats=pages(item)[page]||[],root=$("c-page"),token=++storyRender;
-    var needsNASA=beats.some(function(_,index){return !item.story_artwork||!item.story_artwork[page*2+index];});
+    var needsNASA=beats.some(function(_,index){return !item.story_artwork||!item.story_artwork[page+index];});
     root.className="comic l2"+(item.story_artwork?" original-comic":"");
     function paint(images){
       if(records[chapter]!==item||token!==storyRender)return;
       root.replaceChildren();
       beats.forEach(function(text,index){
-        var beat=page*2+index,art=item.story_artwork&&item.story_artwork[beat];
+        var beat=page+index,art=item.story_artwork&&item.story_artwork[beat];
         var record=images&&images.length?images[beat%images.length]:null;
         var panel=el("article","cp scene-panel");panel.dataset.tone=item.tone;panel.dataset.n=String(beat+1);panel.tabIndex=0;panel.setAttribute("role","button");panel.setAttribute("aria-label","Continue to scene "+(beat+2));
         if(art){
