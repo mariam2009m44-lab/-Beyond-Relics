@@ -22,3 +22,5 @@ jobs:
           node-version: 22
       - name: Validate project logic and local assets
         run: node scripts/validate-project.mjs
+      - name: Test GeoCSV parsing against edge cases
+        run: node --test tests/*.test.mjs
