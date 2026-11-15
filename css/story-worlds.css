@@ -1,0 +1,213 @@
+/* Beyond Relics — measured story artwork layout
+   Source artwork is 752 × 1024 px (47:64). Keep its native portrait ratio. */
+.story-worlds{
+  position:relative;
+  isolation:isolate;
+  padding:clamp(2.7rem,5vw,4.6rem) clamp(1rem,4vw,3rem);
+  border-block:1px solid rgba(120,190,225,.13);
+  background:
+    radial-gradient(ellipse at 14% 12%,rgba(0,210,245,.10),transparent 42rem),
+    radial-gradient(ellipse at 88% 88%,rgba(139,92,246,.12),transparent 40rem),
+    linear-gradient(180deg,#050a16 0%,#081326 52%,#060d1b 100%);
+}
+.story-worlds-heading{
+  max-width:1000px;
+  margin:0 auto clamp(1.25rem,2.5vw,1.9rem);
+}
+.story-worlds-heading .eyebrow{
+  margin:0 0 .55rem;
+  color:#70eaff;
+  font-size:.68rem;
+  font-weight:750;
+  letter-spacing:.16em;
+}
+.story-worlds-heading h2{
+  margin:0 0 .6rem;
+  color:#f2f8ff;
+  font-size:clamp(2.1rem,4.5vw,3.8rem);
+  line-height:1;
+  letter-spacing:-.025em;
+}
+.story-worlds-heading h2 em{color:#b8a6ff;font-style:normal}
+.story-worlds-heading>p:last-child{
+  max-width:62ch;
+  margin:0;
+  color:#aebfd5;
+  font-size:.92rem;
+  line-height:1.65;
+}
+.story-worlds-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(.75rem,1.8vw,1.2rem);
+  width:100%;
+  max-width:1000px;
+  margin:0 auto;
+}
+.story-world-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(130,195,230,.30);
+  border-radius:16px;
+  background:linear-gradient(155deg,rgba(17,32,57,.98),rgba(5,12,27,.99));
+  color:#f4f8ff;
+  text-decoration:none;
+  box-shadow:0 16px 42px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.035);
+  isolation:isolate;
+  transition:transform .38s cubic-bezier(.2,.75,.25,1),border-color .35s ease,box-shadow .35s ease;
+}
+.story-world-image{
+  position:relative;
+  z-index:0;
+  display:block;
+  flex:none;
+  width:100%;
+  height:auto;
+  aspect-ratio:752 / 1024;
+  object-fit:contain;
+  object-position:center;
+  background:#030814;
+  border-bottom:1px solid rgba(130,195,230,.22);
+  transform:translateZ(0);
+  transition:transform .75s cubic-bezier(.2,.7,.2,1),filter .5s ease;
+}
+.story-world-shade{display:none}
+.story-world-index{
+  position:static;
+  z-index:auto;
+  align-self:flex-start;
+  margin:.78rem .9rem 0;
+  padding:.34rem .62rem;
+  border:1px solid rgba(112,234,255,.30);
+  border-radius:99px;
+  background:rgba(0,210,245,.07);
+  color:#9cefff;
+  font-size:.59rem;
+  font-weight:750;
+  letter-spacing:.12em;
+}
+.story-world-copy{
+  position:relative;
+  inset:auto;
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:.45rem;
+  min-height:122px;
+  padding:.42rem .9rem 1rem;
+}
+.story-world-copy>span:first-child{
+  color:#8deaff;
+  font-size:clamp(.56rem,.72vw,.68rem);
+  font-weight:750;
+  letter-spacing:.09em;
+  line-height:1.45;
+}
+.story-world-copy strong{
+  color:#f4f8ff;
+  font-size:clamp(1.35rem,2.7vw,2.35rem);
+  font-weight:800;
+  line-height:1.02;
+  text-shadow:0 2px 16px rgba(0,0,0,.35);
+}
+.story-world-copy strong em{color:#c5b6ff;font-style:normal}
+.story-world-cta{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  margin-top:auto;
+  color:#a9eff8;
+  font-size:.61rem;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.story-world-cta b{
+  display:grid;
+  place-items:center;
+  width:1.65rem;
+  height:1.65rem;
+  border:1px solid rgba(169,239,248,.7);
+  border-radius:50%;
+  font-size:.85rem;
+  transition:transform .3s ease,background .3s ease;
+}
+.story-world-card::before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(112deg,transparent 30%,rgba(220,250,255,.12) 48%,transparent 66%);
+  background-size:220% 100%;
+}
+.story-worlds-hint{display:none}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .story-world-card:hover,.story-world-card:focus-visible{
+    transform:translateY(-6px);
+    border-color:rgba(112,234,255,.78);
+    box-shadow:0 24px 54px rgba(0,0,0,.43),0 0 26px rgba(0,210,245,.10);
+  }
+  .story-world-card:hover .story-world-image,
+  .story-world-card:focus-visible .story-world-image{
+    transform:scale(1.035);
+    filter:brightness(1.045);
+  }
+  .story-world-card:hover::before{opacity:1;animation:story-world-sweep 1.15s ease both}
+  .story-world-card:hover .story-world-cta b{transform:translate(3px,-2px);background:rgba(0,210,245,.12)}
+}
+@keyframes story-world-sweep{
+  from{background-position:120% 0}
+  to{background-position:-120% 0}
+}
+@media(max-width:700px){
+  .story-worlds{padding:2.35rem .75rem 2.2rem}
+  .story-worlds-heading{margin-bottom:1.05rem}
+  .story-worlds-heading h2{font-size:clamp(1.85rem,7.5vw,2.55rem)}
+  .story-worlds-heading>p:last-child{font-size:.81rem;line-height:1.55}
+  .story-worlds-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:.62rem;
+  }
+  .story-world-card{border-radius:12px}
+  .story-world-index{
+    margin:.55rem .58rem 0;
+    padding:.29rem .46rem;
+    font-size:.49rem;
+    letter-spacing:.07em;
+  }
+  .story-world-copy{
+    min-height:108px;
+    gap:.38rem;
+    padding:.34rem .58rem .72rem;
+  }
+  .story-world-copy>span:first-child{
+    font-size:clamp(.43rem,1.65vw,.55rem);
+    letter-spacing:.045em;
+    line-height:1.38;
+  }
+  .story-world-copy strong{
+    font-size:clamp(.92rem,4.05vw,1.3rem);
+    line-height:1.08;
+  }
+  .story-world-cta{font-size:.48rem;letter-spacing:.055em;gap:.3rem}
+  .story-world-cta b{width:1.38rem;height:1.38rem;font-size:.72rem}
+}
+@media(max-width:350px){
+  .story-worlds-grid{gap:.48rem}
+  .story-world-copy{min-height:104px;padding-inline:.48rem}
+  .story-world-copy>span:first-child{font-size:.42rem}
+  .story-world-copy strong{font-size:.88rem}
+  .story-world-cta{font-size:.44rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .story-world-card,.story-world-image,.story-world-cta b{transition:none!important}
+  .story-world-card::before{display:none}
+  .story-world-card:hover{transform:none}
+}
