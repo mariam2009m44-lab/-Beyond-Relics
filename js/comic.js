@@ -44,10 +44,14 @@
         var advance=el("button","scene-advance",page===pages(item).length-1?"Chapter complete":"Continue to next frame  →");advance.type="button";advance.disabled=page===pages(item).length-1;advance.addEventListener("click",function(){goPage(page+1);});panel.appendChild(advance);root.appendChild(panel);
       });
     }
+    /* Never block the reader on the remote NASA image service.
+       Render the story immediately; enrich missing frames when images arrive. */
+    paint([]);
     if(needsNASA&&window.BeyondRelicsImages){
-      root.replaceChildren(el("div","scene-loading","Preparing the mission frames…"));
-      fetchStoryImages(item).then(paint).catch(function(){paint([]);});
-    }else paint([]);
+      fetchStoryImages(item).then(function(images){
+        if(images&&images.length)paint(images);
+      }).catch(function(){ /* The text-first story remains usable offline. */ });
+    }
     $("c-closing").textContent=page===pages(item).length-1?item.story_hook:item.short;
   }
   function drawThumbs(item){
