@@ -553,3 +553,30 @@
 @media(prefers-reduced-motion:reduce){
   .reader .comic .scene-panel,.reader .story-intro.leaving{animation:none!important;transition:none!important}
 }
+
+.reader .comic .scene-advance{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:48px;
+  padding:.8rem 1rem;
+  border:0;
+  border-top:1px solid rgba(115,229,245,.2);
+  background:linear-gradient(100deg,rgba(13,37,62,.98),rgba(25,28,62,.98));
+  color:#aef4ff;
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background .3s ease,color .3s ease,letter-spacing .3s ease;
+}
+.reader .comic .scene-advance:not(:disabled):hover{
+  background:linear-gradient(100deg,rgba(16,85,112,.98),rgba(59,47,111,.98));
+  color:#fff;
+  letter-spacing:.15em;
+}
+.reader .comic .scene-advance:disabled{color:#8797ad;cursor:default;opacity:.72}
+.reader .comic .scene-advance:focus-visible{outline:2px solid var(--reader-cyan);outline-offset:-4px}
+@media(prefers-reduced-motion:reduce){.reader .comic .scene-advance{transition:none!important}}
