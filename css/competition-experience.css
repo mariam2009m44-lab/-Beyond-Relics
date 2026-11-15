@@ -1,0 +1,280 @@
+/* Beyond Relics — competition-ready cinematic home experience
+   Keeps original story artwork uncropped and preserves a fast, accessible page. */
+:root {
+  --br-cyan: #8be8f3;
+  --br-violet: #c2b4ff;
+  --br-ink: #050b17;
+}
+.hero {
+  min-height: min(940px, 100svh);
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 77% 40%, rgba(49,105,161,.22), transparent 34rem),
+    radial-gradient(ellipse at 16% 72%, rgba(85,67,142,.13), transparent 30rem),
+    linear-gradient(120deg,#050a14 0%,#091426 54%,#050a15 100%);
+}
+.hero::before {
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(4,9,18,.96) 0%,rgba(4,9,18,.84) 36%,rgba(4,9,18,.18) 75%,rgba(4,9,18,.35) 100%),
+    linear-gradient(0deg,rgba(3,7,14,.68),transparent 35%);
+}
+.nav {
+  background:linear-gradient(180deg,rgba(4,9,18,.82),rgba(4,9,18,.18));
+  border-bottom-color:rgba(139,232,243,.13);
+}
+.copy {
+  width:min(760px,58vw);
+  margin:clamp(3.5rem,9vh,7.5rem) 0 0 clamp(2rem,9vw,9rem);
+  padding:0 1rem;
+  text-align:left;
+}
+.kicker {
+  color:#a7c4d7;
+  font-family:var(--f-body,"DM Sans",sans-serif);
+  font-size:.68rem;
+  font-style:normal;
+  font-weight:750;
+  letter-spacing:.22em;
+}
+.kicker::before {display:none}
+.kicker::after {width:3.5rem;background:linear-gradient(90deg,var(--br-cyan),transparent)}
+.copy h1 {
+  font-size:clamp(4.1rem,9.1vw,8.5rem);
+  line-height:.83;
+  letter-spacing:-.035em;
+  background:linear-gradient(180deg,#fff 8%,#c7d7e9 58%,#8ba6c6);
+  -webkit-background-clip:text;
+  background-clip:text;
+}
+.copy h1 span+span {margin-top:.18em}
+.copy h1 em {
+  color:var(--br-cyan);
+  -webkit-text-fill-color:var(--br-cyan);
+  text-shadow:0 0 34px rgba(99,213,229,.16);
+}
+.copy .sub {
+  max-width:40ch;
+  margin:1.35rem 0 0;
+  color:#c0ccdc;
+  font-family:var(--f-body,"DM Sans",sans-serif);
+  font-size:clamp(.98rem,1.25vw,1.14rem);
+  font-style:normal;
+  font-weight:400;
+  line-height:1.8;
+}
+.hero-actions {justify-content:flex-start;flex-wrap:wrap;gap:.75rem;margin-top:1.6rem}
+.hero-actions .btn {min-height:48px;border-radius:5px}
+.hero-actions .btn:first-child {box-shadow:0 12px 34px rgba(74,195,215,.19)}
+.divider {justify-content:flex-start;gap:.8rem;margin-top:2rem}
+.divider::before {width:2.5rem;flex:none;background:var(--br-cyan)}
+.divider::after {width:min(20vw,220px);background:linear-gradient(90deg,rgba(139,232,243,.32),transparent)}
+.divider svg {color:#9bb4d0}
+.earth {
+  right:3vw;
+  top:13vh;
+  width:min(48vw,760px);
+  opacity:.94;
+  filter:saturate(1.1) contrast(1.08);
+  box-shadow:inset -4vw -3vw 7vw rgba(0,0,0,.9),0 0 110px rgba(74,142,210,.18);
+}
+.astro {
+  left:auto;
+  right:31vw;
+  top:auto;
+  bottom:8vh;
+  width:clamp(95px,12vw,190px);
+  opacity:.72;
+  filter:drop-shadow(0 14px 28px rgba(0,0,0,.5));
+}
+.ground {height:34%;opacity:.78}
+.scroll {
+  z-index:5;
+  left:auto;
+  right:clamp(1.2rem,4vw,4rem);
+  bottom:2rem;
+  color:#b6c7dc;
+}
+.scroll .ring {border-color:rgba(139,232,243,.55)}
+.tag {z-index:5;color:#9bb1ca}
+.spark {z-index:5;color:var(--br-cyan)}
+
+/* Story portals: full image remains visible, with an editorial information panel. */
+.story-worlds {
+  padding:clamp(3.5rem,6vw,6rem) clamp(1rem,5vw,5rem);
+  border-block:1px solid rgba(139,232,243,.16);
+  background:
+    radial-gradient(ellipse at 10% 10%,rgba(47,143,180,.13),transparent 38rem),
+    radial-gradient(ellipse at 92% 88%,rgba(116,89,180,.13),transparent 38rem),
+    linear-gradient(180deg,#050a14,#091426 52%,#050a14);
+}
+.story-worlds-heading {max-width:1100px;margin-bottom:2rem;text-align:left}
+.story-worlds-heading .eyebrow {color:var(--br-cyan);letter-spacing:.2em}
+.story-worlds-heading h2 {font-size:clamp(2.4rem,5vw,4.5rem);letter-spacing:-.035em}
+.story-worlds-heading h2 em {color:var(--br-violet)}
+.story-worlds-heading>p:last-child {margin:0;max-width:55ch}
+.story-worlds-grid {max-width:1440px;gap:clamp(1rem,2vw,1.6rem)}
+.story-world-card {
+  display:grid;
+  grid-template-columns:minmax(0,42%) minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr);
+  min-height:310px;
+  aspect-ratio:1.72 / 1;
+  border-radius:12px;
+  border-color:rgba(139,232,243,.24);
+  background:
+    radial-gradient(ellipse at 18% 35%,rgba(53,104,148,.2),transparent 60%),
+    linear-gradient(140deg,#101d30,#070d19 72%);
+  box-shadow:0 22px 58px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.05);
+}
+.story-world-image {
+  position:relative;
+  inset:auto;
+  z-index:0;
+  grid-column:1;
+  grid-row:1 / span 2;
+  width:100%;
+  height:100%;
+  min-height:0;
+  object-fit:contain;
+  object-position:center;
+  padding:.65rem;
+  border:0;
+  background:rgba(2,7,15,.54);
+}
+.story-world-shade {display:none}
+.story-world-index {
+  position:relative;
+  grid-column:2;
+  grid-row:1;
+  align-self:start;
+  justify-self:start;
+  margin:1.4rem 1.4rem .3rem;
+  border-color:rgba(139,232,243,.3);
+  background:rgba(99,213,229,.07);
+  color:#a9eff8;
+}
+.story-world-copy {
+  position:relative;
+  grid-column:2;
+  grid-row:2;
+  align-self:stretch;
+  justify-content:center;
+  gap:.75rem;
+  padding:.5rem 1.4rem 1.5rem;
+}
+.story-world-copy>span:first-child {font-size:.62rem;letter-spacing:.13em}
+.story-world-copy strong {font-size:clamp(1.6rem,2.6vw,2.8rem);line-height:1.03}
+.story-world-copy strong em {color:var(--br-violet)}
+.story-world-cta {margin-top:.5rem}
+.story-world-cta b {transition:transform .25s,background .25s}
+.story-world-card:hover,.story-world-card:focus-visible {
+  transform:translateY(-6px);
+  border-color:rgba(139,232,243,.72);
+  box-shadow:0 28px 70px rgba(0,0,0,.5),0 0 30px rgba(99,213,229,.09);
+}
+.story-world-card:hover .story-world-cta b {transform:translateX(4px);background:rgba(139,232,243,.12)}
+.story-worlds-hint {display:none}
+
+/* Editorial archive cards and science panels */
+.chronicle-section,.science-panels {
+  position:relative;
+  padding:clamp(3.5rem,6vw,6rem) clamp(1rem,5vw,5rem);
+  background:linear-gradient(180deg,rgba(7,15,28,.2),rgba(7,15,28,.72));
+}
+.chronicle-section .section-heading,.science-panels .section-heading {max-width:1100px;margin:0 auto 2rem}
+.chronicle-grid,.science-grid {max-width:1440px;margin-inline:auto;gap:1.1rem}
+.chronicle-card,.science-card {
+  border:1px solid rgba(145,183,212,.17);
+  border-radius:10px;
+  background:linear-gradient(150deg,rgba(17,31,50,.92),rgba(7,14,26,.98));
+  box-shadow:0 18px 42px rgba(0,0,0,.22);
+  overflow:hidden;
+}
+.chronicle-visual {min-height:220px;background-color:#081426}
+.chronicle-visual>img {width:100%;height:100%;min-height:220px;object-fit:cover;display:block}
+.chronicle-copy {padding:1.25rem 1.3rem 1.4rem}
+.chronicle-copy h3,.science-card h3 {letter-spacing:-.02em}
+.chronicle-copy a,.science-card a {color:var(--br-cyan);font-weight:750}
+.chronicle-copy a:hover,.science-card a:hover {color:#fff}
+.science-card {padding:1.5rem}
+.science-card .science-icon {color:var(--br-cyan)}
+.mission-detective {max-width:1440px;margin:0 auto;padding:clamp(3rem,6vw,5.5rem) clamp(1rem,5vw,5rem)}
+.detective-console {
+  border:1px solid rgba(139,232,243,.22);
+  border-radius:12px;
+  background:radial-gradient(ellipse at 100% 0,rgba(99,213,229,.09),transparent 48%),linear-gradient(145deg,#101d30,#080f1c);
+  box-shadow:0 24px 64px rgba(0,0,0,.28);
+}
+.mission-brief {border-block:1px solid rgba(139,232,243,.12)}
+@media(max-width:900px) {
+  .hero {min-height:900px}
+  .copy {width:min(760px,86vw);margin:4rem auto 0;padding:0}
+  .earth {right:-17vw;top:22vh;width:75vw;opacity:.62}
+  .astro {right:16vw;bottom:7vh;width:130px;opacity:.5}
+  .story-world-card {min-height:290px}
+}
+@media(max-width:700px) {
+  .hero {min-height:850px}
+  .nav {background:rgba(4,9,18,.74)}
+  .copy {width:auto;margin:2.5rem 1.2rem 0;padding:0}
+  .copy h1 {font-size:clamp(3.2rem,13vw,5.1rem);line-height:.88}
+  .kicker {font-size:.58rem;letter-spacing:.14em}
+  .copy .sub {max-width:34ch;font-size:.94rem;line-height:1.65}
+  .hero-actions {align-items:stretch;max-width:360px}
+  .hero-actions .btn {flex:1 1 100%;min-height:46px}
+  .earth {right:-38vw;top:32vh;width:100vw;opacity:.42}
+  .astro {right:7vw;bottom:5vh;width:100px;opacity:.42}
+  .ground {height:25%}
+  .scroll {right:1rem;bottom:1.25rem}
+  .story-worlds {padding:2.8rem 0 2.3rem}
+  .story-worlds-heading {padding:0 1rem;margin-bottom:1.2rem}
+  .story-worlds-heading h2 {font-size:clamp(2rem,8vw,2.8rem)}
+  .story-worlds-grid {
+    display:flex;
+    gap:.8rem;
+    max-width:none;
+    margin:0;
+    padding:0 1rem .8rem;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:1rem;
+    -webkit-overflow-scrolling:touch;
+  }
+  .story-world-card {
+    flex:0 0 min(91vw,440px);
+    width:min(91vw,440px);
+    min-height:245px;
+    aspect-ratio:1.48 / 1;
+    scroll-snap-align:start;
+    border-radius:11px;
+  }
+  .story-world-image {padding:.35rem}
+  .story-world-index {margin:.9rem .85rem .2rem;padding:.32rem .48rem;font-size:.52rem}
+  .story-world-copy {gap:.5rem;padding:.25rem .85rem .9rem}
+  .story-world-copy>span:first-child {font-size:.5rem;letter-spacing:.07em}
+  .story-world-copy strong {font-size:clamp(1.35rem,6.2vw,2rem)}
+  .story-world-cta {font-size:.54rem;letter-spacing:.08em}
+  .story-world-cta b {width:1.55rem;height:1.55rem}
+  .story-worlds-hint {display:block;margin:.45rem 1rem 0;color:#8ba2bd;font-size:.58rem;letter-spacing:.13em}
+  .chronicle-section,.science-panels {padding:3rem 1rem}
+}
+@media(max-width:390px) {
+  .hero {min-height:820px}
+  .copy {margin-top:2rem}
+  .copy h1 {font-size:clamp(2.9rem,13vw,4rem)}
+  .story-world-card {flex-basis:94vw;min-height:225px;aspect-ratio:1.4 / 1}
+  .story-world-index {margin:.72rem .65rem .1rem}
+  .story-world-copy {padding:.2rem .65rem .7rem}
+  .story-world-copy>span:first-child {font-size:.46rem}
+  .story-world-copy strong {font-size:1.25rem}
+}
+@media(prefers-reduced-motion:reduce) {
+  .story-world-card,.story-world-image,.story-world-cta b {transition:none!important}
+  .story-world-card:hover {transform:none}
+}
