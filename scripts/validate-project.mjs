@@ -29,6 +29,17 @@ const cosmicScript = read("js/cosmic-environment.js");
 const cosmicCss = read("css/cosmic-environment.css");
 const visualSystem = read("css/visual-system.css");
 
+const layoutConsistency = read("css/layout-consistency.css");
+const layoutPages = ["index.html","artifacts.html","timeline.html","challenge.html","data.html","about.html","comic.html","artifact-details.html","404.html","credits.html","lunar-journey.html"];
+for (const page of layoutPages) {
+  check(read(page).includes("css/layout-consistency.css"), "Final responsive layout layer is included on " + page);
+}
+check(layoutConsistency.includes("@media(max-width:650px)") && layoutConsistency.includes("@media(max-width:390px)"), "Final layout layer includes compact phone and narrow-device breakpoints");
+check(layoutConsistency.includes("min-height:44px") && layoutConsistency.includes(":focus-visible"), "Final layout layer preserves touch targets and visible keyboard focus");
+check(layoutConsistency.includes("prefers-reduced-motion:reduce"), "Final layout layer respects reduced-motion preferences");
+check(layoutConsistency.includes(".reader-image") && layoutConsistency.includes(".cinema-controls") && layoutConsistency.includes(".artifact-3d-toolbar"), "Final layout layer explicitly covers comic and 3D exhibit controls");
+
+
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
 check(artifact3d.includes("function makeStudioEnvironment(T)") && artifact3d.includes("scene.environment=makeStudioEnvironment(T)"), "Artifact reconstructions use a generated studio reflection environment");
