@@ -1,218 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#080f1c">
-<meta name="description" content="Beyond Relics: Solar Frontiers is an independent educational archive exploring NASA mission hardware, authentic archival imagery, and science data from the Moon and Mars.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="Explore the original Beyond Relics comic collection. Open a comic, zoom into the artwork, and turn every page in an immersive reader.">
+<meta property="og:title" content="Beyond Relics — The Comic Collection">
+<meta property="og:description" content="The missions. The artwork. The stories told one page at a time.">
+<title>Beyond Relics — Comic Collection</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<meta property="og:title" content="Beyond Relics | Solar Frontiers — NASA Mission Archive">
-<meta property="og:description" content="Explore the machines that reached beyond Earth — and the stories they left behind.">
-<meta property="og:type" content="website">
-<title>Beyond Relics | Solar Frontiers — NASA Mission Archive</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="css/responsive.css">
-<link rel="stylesheet" href="css/polish.css">
-<link rel="stylesheet" href="css/device-responsive.css">
-<link rel="stylesheet" href="css/story-worlds.css">
-<link rel="stylesheet" href="css/competition-experience.css">
-<script src="js/main.js" defer></script>
-<script src="js/nasa-images.js" defer></script>
-<script src="js/home-gallery.js" defer></script>
-<script src="js/home-panels.js" defer></script>
- <link rel="stylesheet" href="css/cinematic-upgrade.css">
- <link rel="stylesheet" href="css/cinematic-atmosphere.css">
+<link rel="stylesheet" href="css/comics-experience.css">
+<script src="js/comics-experience.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#home">Skip to content</a>
-<main class="hero" id="home">
-  <div id="stars" aria-hidden="true"></div>
-  <div class="earth" aria-hidden="true"></div>
-  <div class="ground" aria-hidden="true"></div>
-
-  <div class="astro" aria-hidden="true">
-    <svg viewBox="0 0 220 300" fill="currentColor">
-      <rect x="6" y="70" width="86" height="120" rx="10" fill="#8a8172"/>
-      <rect x="14" y="80" width="30" height="40" fill="#6f675a"/>
-      <path d="M80 200c-6-50 6-92 44-100 36-6 60 22 62 70l16 70-28 30H70z" fill="#a89d8a"/>
-      <path d="M150 150c10 30 4 62-8 92" fill="none" stroke="#5c5448" stroke-width="3"/>
-      <circle cx="120" cy="52" r="46" fill="#cfc4b0"/>
-      <ellipse cx="132" cy="54" rx="26" ry="30" fill="#14110f"/>
-      <ellipse cx="124" cy="44" rx="8" ry="12" fill="#3a3a44" opacity=".8"/>
-      <circle cx="104" cy="170" r="10" fill="#5b5346"/>
-      <path d="M50 258c30-10 90-10 150 8l-6 30H30z" fill="#7a7164"/>
-    </svg>
-  </div>
-
-  <header class="nav">
-    <a class="brand" href="index.html" aria-label="Beyond Relics home">Beyond<br><b>Relics</b></a>
-    <nav aria-label="Main navigation">
-      <ul class="links">
-        <li><a href="index.html" aria-current="page">Home</a></li>
-        <li><a href="data.html">NASA Data Lab</a></li><li><a href="challenge.html">Challenge Brief</a></li>
-        <li><a href="artifacts.html">Artifacts</a></li>
-        <li><a href="timeline.html">Timeline</a></li>
-        <li><a href="comic.html">The Story</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-    <div class="tools">
-      <button id="sound" type="button" aria-pressed="false" aria-label="Toggle sound">
-        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="off" d="M17 9l4 6M21 9l-4 6"/><path class="on" d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg>
-      </button>
-      <button id="theme" class="round" type="button" aria-pressed="false" aria-label="Toggle dim mode">
-        <svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <section class="copy">
-    <p class="kicker">NASA ARCHIVE · REAL MISSIONS · SCIENCE DATA</p>
-    <h1><span>Beyond <em>Relics</em></span><span><em>Solar Frontiers</em></span></h1>
-    <p class="sub">Meet the machines NASA left on the Moon and Mars. Discover what they were built to do, what they found, and why their stories still matter.</p>
-    <div class="hero-actions"><a class="btn" href="artifacts.html">Explore mission archive <span aria-hidden="true">↗</span></a><a class="btn ghost" href="data.html">Open NASA Data Lab</a></div>
-    <div class="divider" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(-24 12 12)"/></svg>
-    </div>
-  </section>
-
-
-
-  <a class="scroll" href="#mission-brief">
-    <span class="ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>Explore the archive
-  </a>
-  <div class="spark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></div>
-  <div class="tag">Real missions. Lasting legacies.<i></i><i></i><i></i></div>
+<header class="comics-nav">
+<a class="comics-brand" href="index.html">BEYOND RELICS<span>THE COMIC COLLECTION</span></a>
+<nav class="comics-links" aria-label="Main navigation">
+<a href="#collection">Comics</a><a href="artifacts.html">Mission archive</a><a href="about.html">About</a>
+</nav>
+</header>
+<main>
+<section class="comics-hero">
+<div class="hero-kicker">THE ORIGINAL ARTWORK · TWO WORLDS · ONE ARCHIVE</div>
+<h1>Stories<br><span>Beyond Earth.</span></h1>
+<p>Step inside the missions through the comic pages created for Beyond Relics. Explore each page in detail, zoom into the artwork, and move through the story at your own pace.</p>
+<div class="hero-meta"><span><b id="comic-count">02</b> COMIC STORIES</span><span><b id="page-count">39</b> ORIGINAL PAGES</span><span>FULL-SCREEN READING</span></div>
+</section>
+<section class="comic-library" id="collection">
+<div class="library-heading"><div><small>THE COLLECTION / 01—02</small><h2>Choose your comic.</h2></div><p>Only the comic artwork added by the team appears here. NASA reference photographs and archive imagery stay separate.</p></div>
+<div class="comic-grid" id="comic-grid"><div class="loading-state">Loading the comic collection…</div></div>
+<p class="library-note">Select a cover to open the dedicated reader. Use the arrows, keyboard, or swipe gestures to turn pages.</p>
+</section>
 </main>
-
-<section class="story-worlds" id="mission-stories" aria-labelledby="mission-stories-title">
-  <div class="story-worlds-heading">
-    <p class="eyebrow">CHOOSE YOUR JOURNEY · ENTER THE ARCHIVE</p>
-    <h2 id="mission-stories-title">From Mars <em>to deep space.</em></h2>
-    <p>Explore two very different journeys: a rover on the Martian surface and twin spacecraft travelling beyond the outer planets.</p>
-  </div>
-  <div class="story-worlds-grid" aria-label="Mission stories">
-    <a class="story-world-card" href="comic.html?chapter=pathfinder-sojourner" aria-label="Enter the Mars Pathfinder and Sojourner story">
-      <img class="story-world-image" src="IMG-20261114-WA0559(1).jpg" alt="Mars Pathfinder and Sojourner mission story artwork" width="752" height="1024" fetchpriority="high" decoding="async">
-      <span class="story-world-shade" aria-hidden="true"></span>
-      <span class="story-world-index">01 / MARS</span>
-      <span class="story-world-copy">
-        <span>THE FIRST MARTIAN ROVER · 1996—1998</span>
-        <strong>Pathfinder <em>&amp;</em> Sojourner</strong>
-        <span class="story-world-cta">ENTER THIS WORLD <b>↗</b></span>
-      </span>
-    </a>
-    <a class="story-world-card" href="comic.html?chapter=pioneer-10-11" aria-label="Enter the Pioneer 10 and 11 story">
-      <img class="story-world-image" src="IMG-20261114-WA0644.jpg" alt="Pioneer 10 and 11 deep-space mission story artwork" width="752" height="1024" loading="lazy" decoding="async">
-      <span class="story-world-shade" aria-hidden="true"></span>
-      <span class="story-world-index">02 / DEEP SPACE</span>
-      <span class="story-world-copy">
-        <span>DEEP-SPACE COMPARISON · OUTSIDE THE SURFACE COLLECTION</span>
-        <strong>Pioneer <em>10 &amp; 11</em></strong>
-        <span class="story-world-cta">ENTER THIS WORLD <b>↗</b></span>
-      </span>
-    </a>
-  </div>
-  <p class="story-worlds-hint" aria-hidden="true">SWIPE TO EXPLORE THE NEXT MISSION <span>→</span></p>
-</section>
-
-<section class="mission-brief" id="mission-brief" aria-labelledby="brief-title">
-  <div class="brief-orbit" aria-hidden="true"></div>
-  <div class="brief-copy">
-    <p class="eyebrow">Beyond the mission</p>
-    <h2 id="brief-title">The mission ends.<br><em>The evidence stays.</em></h2>
-    <p>Built around NASA Space Apps 2026 Challenge 01: Abandoned but Not Forgotten. Explore the machines left on the Moon and Mars, separate retired hardware from active missions, and follow each discovery back to NASA sources.</p>
-    <div class="brief-actions">
-      <a class="btn" href="artifacts.html">Explore the collection <span aria-hidden="true">↗</span></a>
-      <a class="btn ghost" href="challenge.html">Why this project matters to the challenge</a>
-    </div>
-  </div>
-  <div class="brief-stats" aria-label="Archive overview">
-    <div><strong>11</strong><span>Mission records</span></div>
-    <div><strong>02</strong><span>Surface worlds</span></div>
-    <div><strong>NASA</strong><span>Primary sources</span></div>
-  </div>
-</section>
-
-<section class="chronicle-section" aria-labelledby="chronicle-title">
-  <div class="section-heading">
-    <p class="eyebrow">NASA archive · Visual chronicle</p>
-    <h2 id="chronicle-title">Four missions. Stories that remain.</h2>
-    <p>Explore the real hardware, the missions behind it, and the evidence preserved in NASA’s image archive. Every photograph links to its original NASA record.</p>
-  </div>
-  <div class="chronicle-grid" id="home-chronicle">
-    <article class="chronicle-card" data-artifact="lunar-module">
-      <div class="chronicle-visual" data-chronicle-visual><span class="chronicle-credit">NASA ARCHIVE</span></div>
-      <div class="chronicle-copy"><small>THE MOON · APOLLO</small><h3>The Lunar Module</h3><p>Humanity’s first steps on another world left a descent stage behind.</p><a href="comic.html?chapter=lunar-module">Read the mission story ↗</a></div>
-    </article>
-    <article class="chronicle-card" data-artifact="apollo-12-alsep">
-      <div class="chronicle-visual" data-chronicle-visual><span class="chronicle-credit">NASA ARCHIVE</span></div>
-      <div class="chronicle-copy"><small>THE MOON · SCIENCE</small><h3>Apollo Lunar Science Network</h3><p>Instruments left on the lunar surface continued returning scientific measurements.</p><a href="comic.html?chapter=apollo-12-alsep">Read the mission story ↗</a></div>
-    </article>
-    <article class="chronicle-card" data-artifact="pathfinder-sojourner">
-      <div class="chronicle-visual" data-chronicle-visual><span class="chronicle-credit">NASA ARCHIVE</span></div>
-      <div class="chronicle-copy"><small>MARS · 1997</small><h3>Pathfinder &amp; Sojourner</h3><p>A lander and a small rover changed how we explored the Martian surface.</p><a href="comic.html?chapter=pathfinder-sojourner">Read the mission story ↗</a></div>
-    </article>
-    <article class="chronicle-card" data-artifact="insight">
-      <div class="chronicle-visual" data-chronicle-visual><span class="chronicle-credit">NASA ARCHIVE</span></div>
-      <div class="chronicle-copy"><small>MARS · 2018–2022</small><h3>InSight Lander</h3><p>Its instruments helped reveal the interior structure and seismic activity of Mars.</p><a href="comic.html?chapter=insight">Read the mission story ↗</a></div>
-    </article>
-  </div>
-</section>
-
-
-
-<section class="mission-detective" id="mission-detective" aria-labelledby="detective-title">
-  <div class="detective-heading">
-    <p class="eyebrow">Interactive learning · Mission investigation</p>
-    <h2 id="detective-title">Can you read the clues <em>left behind?</em></h2>
-    <p>Become a mission investigator. Use what you learned from the archive to connect each machine with the science it made possible.</p>
-  </div>
-  <div class="detective-console" data-mission-quiz>
-    <div class="detective-topline"><span data-quiz-step>CASE FILE 01 / 04</span><span data-quiz-score>0 correct</span></div>
-    <div class="detective-progress" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><span data-quiz-progress></span></div>
-    <div class="detective-question" data-quiz-question aria-live="polite">
-      <p class="detective-kicker">FIELD QUESTION</p>
-      <h3>What part of Apollo 11’s Lunar Module remained on the Moon?</h3>
-      <div class="detective-options" data-quiz-options>
-        <button type="button" data-answer="0">The ascent stage</button>
-        <button type="button" data-answer="1">The descent stage</button>
-        <button type="button" data-answer="2">The entire spacecraft</button>
-      </div>
-    </div>
-    <div class="detective-feedback" data-quiz-feedback role="status" aria-live="polite" hidden></div>
-    <div class="detective-controls"><a class="text-link" data-quiz-source href="https://science.nasa.gov/resource/apollo-11-landing-site/" target="_blank" rel="noopener noreferrer">Open NASA evidence ↗</a><button type="button" data-quiz-next disabled>Next case <span aria-hidden="true">→</span></button></div>
-    <p class="detective-footnote">Learning activity based on the mission records in this archive. Each answer includes a NASA source so you can verify the evidence.</p>
-  </div>
-</section>
-
-<section class="science-panels" aria-labelledby="science-panels-title">
-  <div class="section-heading">
-    <p class="eyebrow">Deep dive · Science data &amp; evidence</p>
-    <h2 id="science-panels-title">Explore the science behind the relics</h2>
-    <p>Move beyond the photographs and inspect documented instruments, mission records, and research archives.</p>
-  </div>
-  <div class="science-grid">
-    <article class="science-card"><span class="science-icon" aria-hidden="true">◉</span><h3>ALSEP Lunar Seismic Network</h3><p>Explore documented Apollo station locations and instrument metadata. Historical recordings are distinguished from explanatory diagrams.</p><a href="data.html">Open the lunar data explorer ↗</a></article>
-    <article class="science-card"><span class="science-icon" aria-hidden="true">⌁</span><h3>NASA InSight Instruments</h3><p>Understand SEIS, HP³, and RISE, including what each instrument measured and the documented limits of the mission.</p><a href="data.html">Explore InSight science ↗</a></article>
-    <article class="science-card"><span class="science-icon" aria-hidden="true">✧</span><h3>NASA Image &amp; Video Library</h3><p>Search original mission photographs and open the NASA source record for image identification and provenance.</p><a href="data.html">Search NASA’s archive ↗</a></article>
-  </div>
-  <p class="science-note">Research integrity: photographs are retrieved from NASA’s public archive; mission facts link to primary sources. Illustrations and explanatory graphics are never labeled as original NASA photographs or raw telemetry.</p>
-</section>
-<footer class="footer">
-  <a class="brand" href="index.html">Beyond<br><b>Relics</b></a>
-  <p>Real missions. Lasting legacies.</p>
-  <span>© <span data-year></span> Beyond Relics · Educational project</span>
-</footer>
-<script src="js/immersive-motion.js"></script>
-<script src="js/cinematic-motion.js"></script>
-<script src="js/mission-quiz.js"></script>
- <script src="js/cinematic-upgrade.js" defer></script>
- <script src="js/cinematic-atmosphere.js" defer></script>
+<footer class="comics-footer"><span>BEYOND RELICS · THE COMIC COLLECTION</span><span>Educational project · Original team-uploaded artwork</span></footer>
 </body>
 </html>
