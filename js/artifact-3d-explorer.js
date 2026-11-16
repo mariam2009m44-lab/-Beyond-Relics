@@ -22,7 +22,7 @@ const componentMap={
  "lunar-module":["body","upper","landing-gear","descent-engine"],
  "apollo-12-alsep":["central-station","science-instruments","antenna","rtg-power"],
  "pathfinder-sojourner":["lander","rover-body","wheels","solar-array"],
- "spirit":["rover-body",null,"wheels","solar-array"],
+ "spirit":["rover-body","rock-abrasion-tool","wheels","solar-array"],
  "opportunity":["rover-body","mast","wheels","solar-array"],
  "phoenix":["lander-deck","robotic-arm","solar-array","landing-legs"],
  "insight":["lander-deck",null,"solar-array","robotic-arm"],
@@ -108,6 +108,15 @@ function makeScene(T,id,root){
   const body=group(name);const chassis=part(body,"rover-body");box(chassis,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
   box(chassis,[.8,.48,.7],foil,[0,.22,0]);box(chassis,[.25,.12,.25],dark,[0,.55,0]);
   const mast=part(body,"mast");mast.position.set(0,.45,0);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
+  if(id==="spirit"){
+   // Simplified artistic representation of Spirit's instrument deployment device and RAT.
+   const arm=part(body,"robotic-arm");arm.position.set(.78,-.34,.12);
+   cyl(arm,.065,.075,.72,foil,[.14,-.16,.08],12,[0,0,.55]);
+   cyl(arm,.05,.055,.52,metal,[.43,-.43,.08],12,[0,0,-.75]);
+   const rat=part(arm,"rock-abrasion-tool");rat.position.set(.62,-.64,.08);
+   cyl(rat,.12,.1,.16,dark,[0,0,0],16);
+   cyl(rat,.07,.07,.18,foil,[0,-.14,0],16);
+  }
   if(curiosity){const arm=part(body,"robotic-arm");arm.position.set(.9,-.35,.1);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
   const wheelAssembly=part(body,"wheels");
   for(let z of [-.7,.7])for(let x of [-.85,0,.85])wheel(wheelAssembly,x,z,.35);
