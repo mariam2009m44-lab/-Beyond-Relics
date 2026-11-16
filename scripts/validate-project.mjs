@@ -229,3 +229,5 @@ check(universe3d.includes("surfaceAim=null") && universe3d.includes("surfaceAim.
 check(universe3d.includes("surfaceBuildPromises[key]") && universe3d.includes("await ensureSurface(key)") && universe3d.includes("if(!surfaceMode||surfaceWorldKey!==key)return;") && universe3d.includes("surfaceMode&&surfaceWorldKey===key"), "Surface model loading is shared per destination and stale async completions cannot take over a different or exited surface");
 
 check(universe3d.includes("group.userData.modelLoadResults=[ok]") && universe3d.includes("group.userData.modelLoadResults=[ok,insight]") && universe3d.includes("const modelResults=surfaceGroups[key].userData.modelLoadResults||[]"), "Cached lunar and Martian surface scenes restore accurate NASA model availability status when revisited");
+
+check(universe3d.includes("surfaceTerrainHeight") && universe3d.includes("segments=112") && universe3d.includes("vertexColors:true") && universe3d.includes("new THREE.InstancedMesh(rockGeometry,rockMaterial,76)"), "Lunar and Martian terrain uses multi-scale crater relief, per-vertex regolith shading, and instanced rocks for lower draw-call cost");
