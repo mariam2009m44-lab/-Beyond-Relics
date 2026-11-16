@@ -121,7 +121,7 @@
     var gallery=el("section","artifact-gallery");gallery.append(el("div","gallery-heading"),el("div","nasa-artifact-images"));gallery.querySelector(".gallery-heading").append(el("p","eyebrow","NASA visual evidence"),el("h2","","See the mission"));gallery.querySelector(".nasa-artifact-images").append(el("p","gallery-loading","Loading NASA archive images…"));content.appendChild(gallery);
     var sources=el("section","source-list");sources.append(el("h2","","Primary mission sources"),el("p","","Use these NASA records to verify the mission history and science described here."));var ul=el("ul","");item.sources.forEach(function(s){var li=el("li","");li.appendChild(link(s.url,s.label+" ↗"));ul.appendChild(li);});sources.appendChild(ul);content.appendChild(sources);
     var actions=el("div","actions");var storyLink=el("a","btn","Enter the story →");storyLink.href="comic.html?chapter="+encodeURIComponent(item.id);var archiveLink=el("a","btn ghost","Back to archive");archiveLink.href="artifacts.html";actions.append(storyLink,archiveLink);content.appendChild(actions);
-    root.classList.add("has-apollo-3d");root.replaceChildren(visual,content);if(window.BeyondRelicsArtifact3D)window.BeyondRelicsArtifact3D.mount(visual,item);
+    root.classList.add("has-artifact-3d");root.replaceChildren(visual,content);if(window.BeyondRelicsArtifact3D)window.BeyondRelicsArtifact3D.mount(visual,item);
     var prev=DATA[(index+DATA.length-1)%DATA.length],next=DATA[(index+1)%DATA.length],pn=$("pn");
     if(pn){pn.replaceChildren();var p=el("a","","← "+prev.title);p.href="artifact-details.html?id="+prev.id;var n=el("a","",next.title+" →");n.href="artifact-details.html?id="+next.id;pn.append(p,n);}
     loadNASAImages(item,gallery.querySelector(".nasa-artifact-images"));
