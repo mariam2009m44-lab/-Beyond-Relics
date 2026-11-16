@@ -45,7 +45,8 @@ function makeScene(T,id,root){
  const lunar=id==="lunar-module"||id==="apollo-12-alsep";
  const mars=["pathfinder-sojourner","spirit","opportunity","phoenix","insight","curiosity"].includes(id);
  const compactRender=window.innerWidth<700||(navigator.hardwareConcurrency||8)<=4;
- const terrainY=lunar?-2.25:(id==="pathfinder-sojourner"?-1.95:-1.78);
+ const roverSurface=["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id);
+ const terrainY=lunar?-2.25:(roverSurface?-1.98:-1.78);
  if(lunar||mars){
  const terrainSegments=compactRender?44:84;
  const terrainGeo=new T.PlaneGeometry(54,54,terrainSegments,terrainSegments);
