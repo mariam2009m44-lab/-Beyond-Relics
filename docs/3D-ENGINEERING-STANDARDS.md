@@ -51,3 +51,14 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 - [ ] Keyboard and touch controls remain available.
 - [ ] Asset fidelity labels and credits remain accurate.
 - [ ] Existing archive records, artwork, and page order are unchanged.
+
+## 7. Manual verification scenarios
+
+- Open an artifact exhibit, rotate it, switch to another browser tab, then return; motion should resume without a stale or duplicated frame loop.
+- Repeat with the Solar Frontiers Explorer open and closed.
+- Resize from desktop width to a narrow mobile viewport; the canvas should stay aligned with its stage and use the lower pixel-ratio cap.
+- Toggle reduced motion before loading the exhibit; automatic rotation should remain off.
+- Simulate a WebGL context interruption in browser developer tools where supported; the interface should retain its archive navigation and recovery message.
+- Navigate the explorer using Tab, Shift+Tab, Escape, arrow keys, +, -, and 0.
+- Verify that closing the modal returns focus to its launch button.
+- Check at least one official NASA model and one artistic reconstruction; fidelity labels must remain distinct.
