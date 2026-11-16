@@ -23,6 +23,27 @@
 <button class="reader-tool" data-action="fullscreen" aria-label="Enter full screen" title="Full screen">⛶</button>
 </div>
 </header>
+<section class="motion-console" aria-label="Cinematic comic controls">
+  <div class="motion-console-main">
+    <button class="motion-play" id="motion-play" type="button">▶ Play Full Story</button>
+    <button class="motion-control" id="motion-pause" type="button" disabled>Ⅱ Pause</button>
+    <button class="motion-control" id="motion-stop" type="button" disabled>■ Stop</button>
+  </div>
+  <div class="motion-console-options">
+    <label for="motion-speed">Playback speed</label>
+    <select id="motion-speed">
+      <option value="0.7">Slow</option><option value="1" selected>Normal</option><option value="1.45">Fast</option>
+    </select>
+    <label for="motion-preset">Camera move</label>
+    <select id="motion-preset">
+      <option value="pan-right">Pan Right</option><option value="pan-left">Pan Left</option>
+      <option value="pan-down">Pan Down</option><option value="zoom-in">Zoom In</option>
+      <option value="zoom-out">Zoom Out</option><option value="impact">Impact Zoom</option>
+    </select>
+    <button class="motion-control" id="motion-apply" type="button">Apply Move</button>
+  </div>
+  <div class="motion-progress" aria-hidden="true"><span id="motion-progress-fill"></span></div>
+</section>
 <main class="reader-stage" id="reader-stage">
 <button class="reader-arrow prev" id="reader-prev" aria-label="Previous page">‹</button>
 <div class="reader-image-wrap" id="reader-image-wrap"><img class="reader-image" id="reader-image" alt="" draggable="false"><div class="reader-help" id="reader-help">TAP IMAGE TO ZOOM · SWIPE TO TURN PAGE</div></div>
