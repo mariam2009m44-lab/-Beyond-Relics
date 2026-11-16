@@ -2,7 +2,7 @@
    All procedural geometry is an artistic educational visualization, not an official scan. */
 (function(){
 "use strict";
-const THREE_URLS=["https://esm.sh/three@0.188.0","https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js","https://unpkg.com/three@0.188.0/build/three.module.js"];
+const THREE_URLS=["https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/three.module.min.js","https://esm.sh/three@0.188.0","https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js","https://unpkg.com/three@0.188.0/build/three.module.js"];
 let enginePromise;
 function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=(async()=>{let lastError;for(const source of THREE_URLS){try{const T=await import(source);window.THREE=T;return T;}catch(error){lastError=error;}}throw lastError||new Error("Three.js could not be loaded");})();enginePromise=enginePromise.catch(error=>{enginePromise=null;throw error;});return enginePromise;}
 const copy={
