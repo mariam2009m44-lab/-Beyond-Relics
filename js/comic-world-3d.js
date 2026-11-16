@@ -79,7 +79,7 @@ function buildProbe(){
  return g;
 }
 function build(){
- scene=new THREE.Scene();scene.background=new THREE.Color(mars?0x160b09:lunar?0x030711:0x030914);scene.fog=new THREE.FogExp2(mars?0x160b09:lunar?0x030711:0x030914,.035);
+ scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.FogExp2(mars?0x160b09:lunar?0x030711:0x030914,.035);
  camera=new THREE.PerspectiveCamera(42,1,.1,120);camera.position.set(0,1.5,12);
  scene.add(new THREE.HemisphereLight(0xb8d9f0,0x30211c,1.6));
  const key=new THREE.DirectionalLight(mars?0xffad7c:0x9acbff,2.1);key.position.set(-5,8,7);scene.add(key);
@@ -147,7 +147,7 @@ try{
  renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:"low-power"});renderer.setClearColor(0x000000,0);
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;
  build();resize();observer=new ResizeObserver(resize);observer.observe(stage);active=false;stage.classList.add("has-3d-world");
-}catch(error){canvas.remove();hud.remove();detail.remove();const note=document.createElement("p");note.className="comic-world-fallback";note.textContent="Interactive 3D is unavailable on this device. The original comic artwork remains available.";stage.prepend(note);}
+}catch(error){canvas.remove();hud.remove();detail.remove();const toggle=stage.querySelector(".comic-world-toggle");if(toggle)toggle.remove();const note=document.createElement("p");note.className="comic-world-fallback";note.textContent="Interactive 3D is unavailable on this device. The original comic artwork remains available.";stage.prepend(note);}
 document.addEventListener("visibilitychange",()=>{active=!document.hidden;if(active&&!raf&&renderer&&stage.classList.contains("is-world-mode"))tick();else if(!active){cancelAnimationFrame(raf);raf=0;}});
-window.addEventListener("pagehide",()=>{active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(renderer)renderer.dispose();},{once:true});
+window.addEventListener("pagehide",()=>{active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(scene)scene.traverse(object=>{if(object.geometry)object.geometry.dispose();if(object.material){const materials=Array.isArray(object.material)?object.material:[object.material];materials.forEach(material=>{if(material.map)material.map.dispose();material.dispose();});}});if(renderer)renderer.dispose();},{once:true});
 })();
