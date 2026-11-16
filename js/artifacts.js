@@ -40,7 +40,7 @@
     return wrap;
   }
   function renderArchive(){
-    var grid=$("grid");if(!grid)return;
+    var grid=$("grid");if(!grid)return;grid.classList.add("archive-grid");
     var chips=$("chips"),query=$("q"),empty=$("empty");
     var region="All",status="left-behind",term="";
     var regions=["All"].concat(Array.from(new Set(DATA.map(function(x){return x.region;}))));
@@ -68,7 +68,7 @@
         art.append(el("span","status-stamp",item.classification));
         art.append(el("span","three-d-stamp","3D EXHIBIT"));
         loadArchiveImage(item,art);
-        var body=el("div","abody");body.append(el("p","eyebrow",item.type),el("h3","",item.title),el("p","",item.short),el("span","more","Open 3D exhibit ↗"));
+        var body=el("div","abody");body.append(el("p","eyebrow",item.type),el("h3","",item.title),el("span","more","Explore exhibit ↗"));
         a.append(art,body);grid.appendChild(a);
       });
       if(empty){empty.hidden=rows.length!==0;empty.textContent=rows.length?"":"No records match these filters.";}
