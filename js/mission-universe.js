@@ -81,6 +81,14 @@ function texture(kind){
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 const worldTextureSources={
+ mercury:{
+  tiles:[
+   "https://trek.nasa.gov/tiles/Mercury/EQ/Mercury_MESSENGER_MDIS_Basemap_EnhancedColor_Mosaic_Global_665m/1.0.0/default/default028mm/0/0/0.jpg",
+   "https://trek.nasa.gov/tiles/Mercury/EQ/Mercury_MESSENGER_MDIS_Basemap_EnhancedColor_Mosaic_Global_665m/1.0.0/default/default028mm/0/0/1.jpg"
+  ],
+  label:"NASA MESSENGER/MDIS · enhanced-colour global mosaic",
+  source:"https://trek.nasa.gov/tiles/apidoc/trekAPI.html?body=mercury"
+ },
  earth:{
   url:"https://svs.gsfc.nasa.gov/vis/a000000/a002900/a002915/bluemarble-2048.png",
   label:"NASA Terra/MODIS Blue Marble · true-colour global mosaic",
@@ -104,7 +112,7 @@ function loadVerifiedWorldTextures(){
   const group=planetGroups[key];
   const mesh=group&&group.children.find(child=>child.isMesh&&child.userData.world===key);
   if(!mesh||!mesh.material)return;
-  loader.load(record.url,texture=>{
+  const applyTexture=texture=>{
    if(!mesh.parent){texture.dispose();return;}
    texture.colorSpace=THREE.SRGBColorSpace;
    texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);
@@ -126,9 +134,17 @@ function loadVerifiedWorldTextures(){
      mesh.userData.elevationMapLoaded=true;
     },undefined,()=>{mesh.userData.elevationMapLoadFailed=true;});
    }
-  },undefined,()=>{
-   mesh.userData.textureLoadFailed=true;
-  });
+  };
+  if(record.tiles){
+   Promise.all(record.tiles.map(url=>loader.loadAsync(url))).then(tiles=>{
+    const canvas=document.createElement("canvas");canvas.width=512;canvas.height=256;
+    const context=canvas.getContext("2d");
+    tiles.forEach((tile,index)=>{context.drawImage(tile.image,index*256,0,256,256);tile.dispose();});
+    applyTexture(new THREE.CanvasTexture(canvas));
+   }).catch(()=>{mesh.userData.textureLoadFailed=true;});
+  }else{
+   loader.load(record.url,applyTexture,undefined,()=>{mesh.userData.textureLoadFailed=true;});
+  }
  });
 }
 const planetGroups={},worldRadii={};
