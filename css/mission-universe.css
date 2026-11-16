@@ -52,3 +52,11 @@
  .br-universe-top{padding:14px}
 }
 @media(prefers-reduced-motion:reduce){#br-universe.is-open{animation:none}#br-universe-launcher:before{animation:none}}
+
+
+/* Visible provenance labels: every illustrative 3D scene identifies its fidelity. */
+.br-universe-fidelity{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 12px}
+.br-fidelity-tag{display:inline-flex;align-items:center;min-height:28px;padding:5px 9px;border:1px solid rgba(242,194,112,.42);border-radius:999px;background:rgba(112,76,30,.2);color:#f4d49a;font-size:.62rem;font-weight:750;letter-spacing:.035em;line-height:1.25}
+.br-universe-foot{max-width:46ch}
+@media(max-width:680px){.br-universe-fidelity{gap:5px}.br-fidelity-tag{font-size:.58rem;min-height:26px}}
+@media(prefers-reduced-motion:reduce){#br-universe.is-open{animation:none}#br-universe-launcher:before{animation:none}}
