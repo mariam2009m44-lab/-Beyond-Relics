@@ -53,3 +53,19 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 .artifact-3d-actions button[data-view-zoom-in],.artifact-3d-actions button[data-view-zoom-out]{border-color:#6db9d65c;background:#112b3b;color:#d5f5ff;min-width:76px}
 .artifact-3d-actions button[data-view-zoom-in]:hover,.artifact-3d-actions button[data-view-zoom-out]:hover{background:#1c4960;border-color:#9be6ff}
 @media(max-width:760px){.artifact-3d-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.artifact-3d-actions button{width:100%}}
+
+
+/* Keep the model unobstructed until a visitor requests component information. */
+.artifact-3d-callout[hidden]{display:none!important}
+.artifact-3d-callout{padding:13px 42px 13px 15px;max-width:min(310px,calc(100% - 28px));box-shadow:0 12px 34px rgba(0,0,0,.24)}
+.artifact-3d-callout-close{position:absolute;top:7px;right:8px;display:grid;place-items:center;width:30px;height:30px;border:1px solid rgba(157,214,235,.25);border-radius:50%;background:rgba(11,25,40,.86);color:#d9f3fc;font-size:19px;line-height:1;cursor:pointer}
+.artifact-3d-callout-close:hover{border-color:#91d6e2;background:#18364a}
+.artifact-3d-callout-close:focus-visible{outline:3px solid #9be6ff;outline-offset:3px}
+.artifact-model-viewer{background:radial-gradient(ellipse at 50% 40%,#2a4054 0%,#101e30 45%,#050a14 100%);--progress-bar-color:#d8bd8b}
+.artifact-3d-stage{background:radial-gradient(ellipse at 50% 36%,#263d50 0%,#101c2b 48%,#050a14 100%);border-color:rgba(145,214,226,.28);box-shadow:0 32px 90px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.035)}
+.artifact-3d-topline{color:#b4d0dc}
+.artifact-3d-toolbar{border-top-color:rgba(174,199,215,.12);background:rgba(3,9,18,.84)}
+.artifact-3d-toolbar button{border-color:rgba(145,184,204,.28);background:rgba(15,31,47,.84)}
+.artifact-3d-toolbar button:hover,.artifact-3d-toolbar button[aria-pressed=true]{border-color:#91d6e2;background:#18364a}
+.artifact-3d-foot{color:#9aafbd}
+@media(max-width:760px){.artifact-3d-callout{left:10px;bottom:10px;max-width:calc(100% - 20px)}}
