@@ -85,6 +85,12 @@ const worldTextureSources={
   url:"https://marsoweb.nas.nasa.gov/globalData/images/fullscale/MOLA_cylin.jpg",
   label:"NASA MOLA · global elevation · false colour",
   source:"https://marsoweb.nas.nasa.gov/globalData/datamaps.html"
+ },
+ moon:{
+  url:"https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_2k.jpg",
+  bumpUrl:"https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/ldem_3_8bit.jpg",
+  label:"NASA LRO/LROC · colour mosaic + LOLA elevation",
+  source:"https://svs.gsfc.nasa.gov/4720/"
  }
 };
 function loadVerifiedWorldTextures(){
@@ -104,6 +110,17 @@ function loadVerifiedWorldTextures(){
    if(previous)previous.dispose();
    mesh.userData.textureSource=record.source;
    mesh.userData.textureLabel=record.label;
+   if(record.bumpUrl){
+    loader.load(record.bumpUrl,bump=>{
+     if(!mesh.parent){bump.dispose();return;}
+     bump.colorSpace=THREE.NoColorSpace;
+     bump.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);
+     mesh.material.bumpMap=bump;
+     mesh.material.bumpScale=.006;
+     mesh.material.needsUpdate=true;
+     mesh.userData.elevationMapLoaded=true;
+    },undefined,()=>{mesh.userData.elevationMapLoadFailed=true;});
+   }
   },undefined,()=>{
    mesh.userData.textureLoadFailed=true;
   });
