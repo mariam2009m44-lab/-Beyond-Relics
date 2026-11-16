@@ -1,0 +1,91 @@
+/* Beyond Relics — shared interactive artifact viewer.
+   All procedural geometry is an artistic educational visualization, not an official scan. */
+(function(){
+"use strict";
+const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";
+let enginePromise;
+function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src=THREE_URL;s.async=true;s.onload=()=>window.THREE?resolve(window.THREE):reject(Error("3D engine unavailable"));s.onerror=()=>reject(Error("3D engine unavailable"));document.head.append(s);});return enginePromise;}
+const copy={
+ "lunar-module":[["Descent stage","The lower stage supported landing and remained at Tranquility Base."],["Ascent stage","The upper crew cabin returned the astronauts to lunar orbit."],["Landing gear","Four landing legs supported the Lunar Module at touchdown."],["Descent engine","The descent propulsion system slowed the spacecraft for landing."]],
+ "apollo-12-alsep":[["Central station","The ALSEP package connected instruments and supported long-running lunar measurements."],["Seismic instrument","Seismic experiments recorded lunar vibrations."],["Antenna","The station communicated instrument data to Earth."],["Power unit","The package used a radioisotope thermoelectric generator for electrical power."]],
+ "pathfinder-sojourner":[["Lander","Pathfinder delivered the rover and relayed its observations to Earth."],["Rover body","Sojourner carried cameras and scientific instruments."],["Wheels","Six wheels helped the rover move across uneven Martian terrain."],["Solar panel","Solar cells supplied electrical power to the rover."]],
+ "spirit":[["Rover body","Spirit was a mobile robotic laboratory designed to study Martian rocks and soil."],["Rock abrasion tool","The rover could expose fresh rock surfaces for close study."],["Wheels","Its mobility system enabled traverses across the Martian surface."],["Solar array","Solar panels supplied electrical power."]],
+ "opportunity":[["Rover body","Opportunity investigated rocks and soil on Mars over an extended mission."],["Panoramic cameras","The camera system documented terrain and geological context."],["Wheels","The rover travelled across the Meridiani Planum region."],["Solar array","Solar panels supplied electrical power."]],
+ "phoenix":[["Lander deck","Phoenix was a stationary lander that studied soil and water ice in the Martian arctic."],["Robotic arm","The arm collected soil and ice-rich samples for onboard analysis."],["Solar panels","The arrays generated electrical power on the surface."],["Landing legs","The legs supported the lander after touchdown."]],
+ "insight":[["Lander platform","InSight studied the deep interior of Mars from a stationary landing site."],["SEIS","The seismometer measured seismic waves and helped investigate the Martian interior."],["Solar arrays","The solar panels supplied electrical power."],["Robotic arm","The arm placed scientific instruments on the surface."]],
+ "curiosity":[["Rover body","Curiosity is a mobile laboratory investigating the geology and habitability of Gale Crater."],["Mast","The mast carries remote-sensing cameras and instruments."],["Wheels","Six wheels provide mobility across the Martian terrain."],["Robotic arm","The arm carries tools for close-up study of rocks and soil."]],
+ "voyager":[["Main bus","The spacecraft bus houses key spacecraft systems."],["High-gain antenna","The dish antenna supports long-distance communication with Earth."],["Instrument boom","The boom carries scientific instruments away from the spacecraft body."],["RTG booms","Radioisotope power systems supplied electricity during the long mission."]],
+ "space-telescope":[["Primary mirror","The telescope's primary mirror collects incoming light."],["Instrument section","Scientific instruments analyze collected light."],["Solar arrays","Solar arrays provide electrical power."],["Antenna","Communications hardware links the observatory with mission operations."]],
+ "pioneer-10-11":[["High-gain antenna","The dish antenna maintained communication across immense distances."],["Instrument section","Scientific instruments studied the interplanetary and outer-planet environment."],["RTG power","Radioisotope thermoelectric generators supplied electrical power."],["Booms","Instrument booms helped position sensors away from spacecraft interference."]]
+};
+function makeScene(T,id,root){
+ const scene=new T.Scene();scene.background=new T.Color(0x07111e);scene.fog=new T.Fog(0x07111e,19,42);
+ const camera=new T.PerspectiveCamera(36,1,.1,100);camera.position.set(7,5,13);
+ scene.add(new T.HemisphereLight(0xc4e2ff,0x3b2b25,2));
+ const key=new T.DirectionalLight(0xffd9a6,3);key.position.set(-6,9,8);scene.add(key);
+ const rim=new T.DirectionalLight(0x68c9ee,2.3);rim.position.set(7,4,-8);scene.add(rim);
+ const ground=new T.Mesh(new T.CircleGeometry(7,64),new T.MeshStandardMaterial({color:id==="lunar-module"||id==="apollo-12-alsep"?0x343943:0x44302b,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-2.8;scene.add(ground);
+ const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<450;i++)stars.push((Math.random()-.5)*40,Math.random()*20-1,(Math.random()-.5)*35);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));scene.add(new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:.045})));
+ const rootObj=new T.Group();scene.add(rootObj);
+ const metal=new T.MeshStandardMaterial({color:0xb9a17b,metalness:.65,roughness:.38}),foil=new T.MeshStandardMaterial({color:0xb9c5c8,metalness:.72,roughness:.3}),dark=new T.MeshStandardMaterial({color:0x343e48,metalness:.45,roughness:.48}),black=new T.MeshStandardMaterial({color:0x101a26,metalness:.3,roughness:.35}),blue=new T.MeshStandardMaterial({color:0x254c70,metalness:.5,roughness:.22}),solar=new T.MeshStandardMaterial({color:0x173d65,metalness:.5,roughness:.28,emissive:0x07182c});
+ const groups={};
+ const group=(name)=>{const g=new T.Group();groups[name]=g;rootObj.add(g);return g;};
+ const mesh=(parent,geo,mat,pos=[0,0,0],rot=[0,0,0])=>{const m=new T.Mesh(geo,mat);m.position.set(...pos);m.rotation.set(...rot);parent.add(m);return m;};
+ const box=(p,s,m,pos,rot)=>mesh(p,new T.BoxGeometry(...s),m,pos,rot);
+ const cyl=(p,a,b,h,m,pos,segments=12)=>mesh(p,new T.CylinderGeometry(a,b,h,segments),m,pos);
+ const wheel=(p,x,z,r=.38)=>{const w=mesh(p,new T.CylinderGeometry(r,r,.22,16),black,[x,-1.65,z],[0,0,Math.PI/2]);mesh(p,new T.TorusGeometry(r*.72,.045,8,20),foil,[x,-1.65,z],[0,Math.PI/2,0]);return w;};
+ function rover(curiosity=false){
+  const body=group("body");box(body,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
+  box(body,[.8,.48,.7],foil,[0,.22,0]);box(body,[.25,.12,.25],dark,[0,.55,0]);
+  const mast=new T.Group();mast.position.set(0,.45,0);body.add(mast);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
+  if(curiosity){const arm=new T.Group();arm.position.set(.9,-.35,.1);body.add(arm);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],[0,0,.7]);}
+  for(let z of [-.7,.7])for(let x of [-.85,0,.85])wheel(body,x,z,.35);
+  const panel=box(body,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
+  return body;
+ }
+ function lander(){
+  const base=group("body");cyl(base,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(base,.75,.8,.7,foil,[0,.05,0],8);cyl(base,.42,.48,.45,dark,[0,.58,0],8);
+  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;base.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
+  return base;
+ }
+ if(id==="lunar-module"){
+  const lower=group("body");cyl(lower,1.5,1.65,.42,metal,[0,-.55,0],8);cyl(lower,1.2,1.25,.7,foil,[0,-1.1,0],8);cyl(lower,.42,.5,.55,dark,[0,-1.68,0]);
+  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a),leg=new T.Group();leg.position.set(x*1,-.9,z*1);leg.rotation.z=-x*.4;leg.rotation.x=z*.4;lower.add(leg);cyl(leg,.055,.075,1.45,foil,[0,-.62,0]);box(leg,[.58,.08,.38],metal,[x*.18,-1.35,z*.18]);}
+  const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
+ }else if(id==="apollo-12-alsep"){
+  const station=group("body");box(station,[1.1,.65,.85],metal,[0,-.55,0]);cyl(station,.13,.13,1.25,foil,[0,.3,0]);for(let i=0;i<3;i++){const a=i*2.094;box(station,[.9,.06,.6],solar,[Math.cos(a)*1.25,-.48,Math.sin(a)*1.25],[0,-a,0]);}cyl(station,.28,.28,.15,foil,[0,.85,0]);
+ }else if(["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
+ else if(["phoenix","insight"].includes(id)){lander();const p=groups.body;box(p,[1.4,.12,.9],solar,[0,.3,0]);if(id==="insight"){const arm=new T.Group();arm.position.set(.8,.1,0);p.add(arm);cyl(arm,.06,.06,1,foil,[.25,-.1,0],[0,0,.65]);}else{const arm=new T.Group();arm.position.set(.7,.1,0);p.add(arm);cyl(arm,.055,.055,1.15,foil,[.2,-.25,0],[0,0,.6]);}}
+ else if(id==="voyager"||id==="pioneer-10-11"){
+  const craft=group("body");cyl(craft,.5,.5,.9,foil,[0,0,0]);mesh(craft,new T.SphereGeometry(.82,24,18),metal,[0,.1,0]);cyl(craft,.95,.95,.08,foil,[0,.05,0],48).rotation.x=Math.PI/2;box(craft,[.12,3,.12],foil,[0,0,0]);for(let x of [-1.5,1.5])box(craft,[1.5,.06,.8],solar,[x,0,0]);cyl(craft,.08,.08,2.5,foil,[0,-.1,0]);const dish=mesh(craft,new T.SphereGeometry(.95,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,.5,1.3]);dish.rotation.x=Math.PI;
+ }else{
+  const telescope=group("body");cyl(telescope,.95,1.05,2.6,foil,[0,0,0],16);cyl(telescope,.7,.8,.22,dark,[0,1.4,0],16);mesh(telescope,new T.CylinderGeometry(.7,.7,.05,32),blue,[0,1.53,0]);for(let x of [-1.55,1.55])box(telescope,[1.2,.06,2.2],solar,[x,0,0]);
+ }
+ return {scene,camera,rootObj,groups};
+}
+function mount(root,item){
+ if(!root||root.dataset.viewerMounted==="true")return;root.dataset.viewerMounted="true";
+ const canvas=root.querySelector("canvas"),loading=root.querySelector(".artifact-3d-loading"),panel=root.querySelector(".artifact-3d-callout");
+ const info=copy[item.id]||[["Mission hardware","Explore the shape and role of this mission system."]];
+ const buttons=[...root.querySelectorAll("[data-part]")];let renderer,world,raf=0,active=!document.hidden,observer,drag=false,lastX=0,lastY=0,rotX=-.12,rotY=.45,targetX=rotX,targetY=rotY,zoom=1,pinch=0,exploded=false;
+ function setInfo(i){const d=info[i]||info[0];panel.querySelector("small").textContent="COMPONENT "+String(i+1).padStart(2,"0");panel.querySelector("strong").textContent=d[0];panel.querySelector("p").textContent=d[1];buttons.forEach((b,n)=>b.setAttribute("aria-pressed",String(n===i)));}
+ engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);renderer=new T.WebGLRenderer({canvas,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
+ loading.hidden=true;
+ function frame(){if(!active||!renderer)return;raf=requestAnimationFrame(frame);rotX+=(targetX-rotX)*.08;rotY+=(targetY-rotY)*.08;world.rootObj.rotation.set(rotX,rotY,0);world.camera.position.set(7*zoom,5*zoom,13*zoom);world.camera.lookAt(0,-.1,0);renderer.render(world.scene,world.camera);}frame();
+ }).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
+ buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i)));
+ root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;setInfo(0);});
+ root.querySelector("[data-view-explode]").addEventListener("click",()=>{if(!world)return;exploded=!exploded;const g=world.groups.upper;if(g){g.position.y=exploded?2.1:0;}const b=root.querySelector("[data-view-explode]");b.setAttribute("aria-pressed",String(exploded));b.textContent=exploded?"Reassemble":"Separate components";});
+ canvas.addEventListener("pointerdown",e=>{drag=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
+ canvas.addEventListener("pointermove",e=>{if(!drag)return;targetY+=(e.clientX-lastX)*.008;targetX=Math.max(-.65,Math.min(.65,targetX+(e.clientY-lastY)*.006));lastX=e.clientX;lastY=e.clientY;});
+ ["pointerup","pointercancel"].forEach(ev=>canvas.addEventListener(ev,()=>drag=false));
+ canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.7,Math.min(1.6,zoom+e.deltaY*.001));},{passive:false});
+ canvas.addEventListener("touchstart",e=>{if(e.touches.length===2)pinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
+ canvas.addEventListener("touchmove",e=>{if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinch){zoom=Math.max(.7,Math.min(1.6,zoom+(pinch-d)*.003));}pinch=d;}},{passive:true});
+ canvas.addEventListener("touchend",()=>pinch=0,{passive:true});
+ document.addEventListener("visibilitychange",()=>{active=!document.hidden;if(active&&!raf&&renderer)frame();else cancelAnimationFrame(raf);});
+ window.addEventListener("pagehide",()=>{active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(renderer)renderer.dispose();},{once:true});
+ setInfo(0);
+}
+window.BeyondRelicsArtifact3D={mount};
+})();
