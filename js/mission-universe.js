@@ -52,6 +52,30 @@ function addPlanet(key,kind,pos,radius){
  const group=new THREE.Group();group.position.set(pos[0],pos[1],pos[2]);group.userData.world=key;scene.add(group);
  const mesh=new THREE.Mesh(new THREE.SphereGeometry(radius,72,56),new THREE.MeshStandardMaterial({map:texture(kind),roughness:.94,metalness:.01}));mesh.userData.world=key;group.add(mesh);
  const halo=new THREE.Mesh(new THREE.SphereGeometry(radius*1.045,48,32),new THREE.MeshBasicMaterial({color:kind==="mars"?0xe18a68:kind==="moon"?0xc5d2dc:0x78b9d1,transparent:true,opacity:.055,side:THREE.BackSide}));group.add(halo);
+ const atmosphereColor=kind==="earth"?0x69c8ff:kind==="mars"?0xf18a63:kind==="moon"?0xb8d6e8:kind==="jupiter"?0xe6bd8e:0xd8c5a0;
+ const atmosphere=new THREE.Mesh(
+  new THREE.SphereGeometry(radius*1.085,48,32),
+  new THREE.ShaderMaterial({
+   uniforms:{glowColor:{value:new THREE.Color(atmosphereColor)},glowStrength:{value:kind==="moon"?.12:kind==="mars"?.28:.24}},
+   vertexShader:`varying vec3 vNormal; varying vec3 vViewPosition;
+    void main(){
+     vec4 mvPosition=modelViewMatrix*vec4(position,1.0);
+     vNormal=normalize(normalMatrix*normal);
+     vViewPosition=-mvPosition.xyz;
+     gl_Position=projectionMatrix*mvPosition;
+    }`,
+   fragmentShader:`uniform vec3 glowColor; uniform float glowStrength;
+    varying vec3 vNormal; varying vec3 vViewPosition;
+    void main(){
+     float facing=max(dot(normalize(vNormal),normalize(vViewPosition)),0.0);
+     float rim=pow(1.0-facing,2.65);
+     float softRim=smoothstep(0.05,0.95,rim);
+     gl_FragColor=vec4(glowColor,softRim*glowStrength);
+    }`,
+   transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.FrontSide
+  })
+ );
+ atmosphere.renderOrder=2;group.add(atmosphere);
  if(kind==="saturn"){const ring=new THREE.Mesh(new THREE.RingGeometry(radius*1.35,radius*2.25,128),new THREE.MeshStandardMaterial({color:0xcab58d,roughness:.85,metalness:.12,side:THREE.DoubleSide,transparent:true,opacity:.72}));ring.rotation.x=Math.PI/2.35;group.add(ring);}
  if(kind==="jupiter"){const band=new THREE.Mesh(new THREE.TorusGeometry(radius*1.02,.018,4,100),new THREE.MeshBasicMaterial({color:0xe2c49c,transparent:true,opacity:.18}));band.rotation.x=.35;group.add(band);}
  planetGroups[key]=group;worldRadii[key]=radius;
