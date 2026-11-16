@@ -284,8 +284,9 @@ async function mountOfficialModel(root,item,loading,canvas,onFailure){
   frame.allow="fullscreen; xr-spatial-tracking";
   frame.allowFullscreen=true;
   frame.referrerPolicy="strict-origin-when-cross-origin";
-  frame.addEventListener("load",()=>{loading.hidden=true;},{once:true});
-  frame.addEventListener("error",()=>{loading.hidden=false;loading.textContent="The NASA viewer did not load. Preparing the local 3D reconstruction…";loading.classList.add("is-error");if(onFailure)onFailure();},{once:true});
+  let embedLoaded=false;const embedTimer=setTimeout(()=>{if(!embedLoaded&&onFailure){loading.hidden=false;loading.textContent="NASA viewer is taking too long. Preparing the local 3D reconstruction…";loading.classList.add("is-error");onFailure();}},18000);
+  frame.addEventListener("load",()=>{embedLoaded=true;clearTimeout(embedTimer);loading.hidden=true;},{once:true});
+  frame.addEventListener("error",()=>{clearTimeout(embedTimer);loading.hidden=false;loading.textContent="The NASA viewer did not load. Preparing the local 3D reconstruction…";loading.classList.add("is-error");if(onFailure)onFailure();},{once:true});
   canvas.replaceWith(frame);
   const toolbar=root.querySelector(".artifact-3d-toolbar");if(toolbar)toolbar.hidden=true;
   const badge=document.createElement("a");
