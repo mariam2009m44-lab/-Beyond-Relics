@@ -22,7 +22,7 @@ function applyZoom(){
 }
 function setZoom(value){scale=Math.max(1,Math.min(4,value));if(scale===1){tx=0;ty=0;}applyZoom();}
 function resetZoom(){scale=1;tx=0;ty=0;img.style.transition="transform .25s ease";img.style.transform="translate3d(0,0,0) scale(1)";img.classList.remove("is-zoomed");}
-function setProgress(value){const fill=$("motion-progress-fill");if(fill)fill.style.width=Math.max(0,Math.min(100,value))+"%";}
+function setProgress(value,duration){const fill=$("motion-progress-fill");if(fill){fill.style.transition=duration?"width "+duration+"ms linear":"none";fill.style.width=Math.max(0,Math.min(100,value))+"%";}}
 function setPlaybackControls(){
  $("motion-play").disabled=playing&&!paused;
  $("motion-pause").disabled=!playing;
@@ -61,8 +61,8 @@ function currentMove(){return moves[beatIndex%moves.length];}
 function runBeat(){
  if(!playing||paused)return;
  const move=currentMove();beatDuration=durationForBeat();beatStarted=performance.now();
- applyCamera(move,beatDuration);setProgress(0);
- requestAnimationFrame(()=>setProgress(100));
+ applyCamera(move,beatDuration);setProgress(0,0);
+ requestAnimationFrame(()=>setProgress(100,beatDuration));
  playbackTimer=window.setTimeout(()=>{
    if(!playing||paused)return;
    if(beatIndex===moves.length-1&&page===pages.length-1){stopPlayback(true);return;}
