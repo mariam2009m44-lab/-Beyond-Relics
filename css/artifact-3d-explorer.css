@@ -177,3 +177,10 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
  .artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-canvas-wrap{inset:40px 0 44px}
  .artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-foot{font-size:.48rem;line-height:1.45}
 }
+
+/* Direct manipulation: the exhibit responds to selecting its actual modeled assemblies. */
+.artifact-3d-discover-hint{position:absolute;z-index:2;top:18px;left:50%;transform:translateX(-50%);padding:8px 13px;border:1px solid rgba(142,220,232,.25);border-radius:999px;background:rgba(4,13,24,.68);color:#d5f5fb;font:800 .56rem/1.2 "DM Sans",system-ui,sans-serif;letter-spacing:.16em;white-space:nowrap;pointer-events:none;backdrop-filter:blur(12px)}
+.artifact-3d-callout{pointer-events:auto}
+.artifact-3d-callout[hidden]{display:none!important}
+.artifact-3d-callout-close{pointer-events:auto}
+@media(max-width:650px){.artifact-3d-discover-hint{top:10px;font-size:.49rem;padding:7px 10px}}
