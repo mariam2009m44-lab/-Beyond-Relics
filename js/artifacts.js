@@ -127,8 +127,15 @@
     storyEntry.append(el("p","eyebrow","THE MISSION STORY"),el("h2","","Follow the story behind this artifact"),el("p","",item.story_hook||"Explore the mission, its discoveries, and the hardware that remains."));
     var hasComic=Array.isArray(item.story_artwork)&&item.story_artwork.length>0;
     var storyMeta=el("span","mission-story-format",hasComic?"ORIGINAL COMIC · "+item.story_artwork.length+" PANELS":"MISSION FIELD NOTES · TEXT STORY");
-    var storyStart=el("a","btn",hasComic?"Open the illustrated comic →":"Open mission field notes →");storyStart.href="comic.html?chapter="+encodeURIComponent(item.id);
-    storyEntry.append(storyMeta,storyStart);content.appendChild(storyEntry);
+    storyEntry.appendChild(storyMeta);
+    if(hasComic){
+      var storyStart=el("a","btn","Open the original illustrated comic →");
+      storyStart.href="comic.html?chapter="+encodeURIComponent(item.id);
+      storyEntry.appendChild(storyStart);
+    }else{
+      storyEntry.appendChild(el("p","mission-story-unavailable","No original comic is assigned to this artifact. The factual mission record and NASA sources are shown here; no replacement story has been created."));
+    }
+    content.appendChild(storyEntry);
     var state=el("div","mission-state");state.append(el("span","state-label","Mission status"),el("strong","",item.status));content.appendChild(state);
     var blocks=[["The mission goal",item.mission_goal],["What stayed behind",item.what_stayed],["What science gained",item.science_legacy],["Why it still matters",item.why_it_matters]];
     var story=el("section","insight-grid");blocks.forEach(function(pair){var card=el("article","insight-card");card.append(el("h2","",pair[0]),el("p","",pair[1]));story.appendChild(card);});content.appendChild(story);

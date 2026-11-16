@@ -180,7 +180,10 @@ fetch("data/artifacts.json").then(r=>{if(!r.ok)throw Error("Archive unavailable"
  const artwork=Array.isArray(item.story_artwork)&&item.story_artwork.length;
  if(artwork){textMode=false;pages=item.story_artwork;}
  else if(Array.isArray(item.story_beats)&&item.story_beats.length){textMode=true;pages=item.story_beats.map((caption,i)=>({caption:caption,fact:(item.facts||[])[i]||null}));}
- else{showError();return;}
+ else{
+  window.location.replace("artifact-details.html?id="+encodeURIComponent(item.id));
+  return;
+ }
  buildThumbs();render(false);
  const first=textMode?Promise.resolve():(img.complete&&img.naturalWidth?Promise.resolve():new Promise((resolve,reject)=>{img.addEventListener("load",resolve,{once:true});img.addEventListener("error",reject,{once:true});}));
  first.then(()=>{if(!reduce)startFilm();else{playing=false;updateControls();}}).catch(showImageError);
