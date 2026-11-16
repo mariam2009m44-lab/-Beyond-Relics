@@ -28,6 +28,9 @@ check(index.includes('id="home"') && index.includes('id="mission-stories"'), "Ho
 check(index.includes('href="data.html"') && index.includes('href="artifacts.html"'), "Homepage links directly to the NASA Data Lab and artifact archive");
 check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
+check(!comicPage.includes("three.min.js") && !comicPage.includes("comic-world-3d.js") && !comicPage.includes("mission-universe"), "Comic reader remains a 2D-only experience");
+const creditsPage = read("credits.html");
+check(creditsPage.includes("ASSETS.md"), "Credits page links to the existing asset register");
 check(comicScript.includes("requestFullscreen") && comicScript.includes("ArrowRight") && comicScript.includes("ArrowLeft"), "Comic reader supports full-screen and keyboard page navigation");
 const comicRecords = records.filter((item) => Array.isArray(item.story_artwork) && item.story_artwork.length);
 check(comicRecords.length > 0 && comicRecords.every((item) => item.story_artwork.every((frame) => typeof frame.file === "string")), "Comic collection is built only from assigned team artwork");
