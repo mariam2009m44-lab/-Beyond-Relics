@@ -49,6 +49,9 @@ check(artifact3d.includes("webglcontextlost") && artifact3d.includes("webglconte
 check(artifact3d.includes("resumeFrame=()=>frame()"), "Artifact viewer can resume its render loop after a restored WebGL context");
 check(artifact3d.includes("if(document.hidden){active=false;cancelAnimationFrame(raf);raf=0;}else{active=true;if(renderer&&resumeFrame)resumeFrame();}"), "Artifact viewer correctly pauses and resumes after tab visibility changes");
 check(universe3d.includes('canvas.addEventListener("keydown"') && universe3d.includes('canvas[tabindex]'), "Solar explorer supports keyboard camera controls and includes its canvas in the modal focus loop");
+check(universe3d.includes("orbit(-11,-1,2.8,2.8)") && universe3d.includes("moonAngle+=.00105*delta"), "The Moon follows a visible, animated orbit around Earth in the Solar System explorer");
+check(universe3d.includes("br-universe-motion") && universe3d.includes("Pause orbits") && universe3d.includes("Motion reduced"), "Visitors can pause orbital motion and reduced-motion settings remain enforced");
+
 check(artifact3d.includes("geometries.forEach(geometry=>geometry.dispose())") && universe3d.includes("geometries.forEach(geometry=>geometry.dispose())"), "3D scene geometry and material resources are explicitly disposed on page exit");
 check(exists("docs/3D-ENGINEERING-STANDARDS.md"), "3D engineering standards and review checklist are documented");
 
