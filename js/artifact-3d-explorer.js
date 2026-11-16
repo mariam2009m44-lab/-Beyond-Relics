@@ -2,7 +2,7 @@
    All procedural geometry is an artistic educational visualization, not an official scan. */
 (function(){
 "use strict";
-const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";
+const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";
 let enginePromise;
 function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src=THREE_URL;s.async=true;s.onload=()=>window.THREE?resolve(window.THREE):reject(Error("3D engine unavailable"));s.onerror=()=>reject(Error("3D engine unavailable"));document.head.append(s);});return enginePromise;}
 const copy={
