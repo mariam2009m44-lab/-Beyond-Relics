@@ -4,14 +4,26 @@ const $=id=>document.getElementById(id);
 let item=null,pages=[],page=0,scale=1,tx=0,ty=0,dragging=false,moved=false,suppressClick=false,startX=0,startY=0,originX=0,originY=0,touchX=0,touchY=0;
 let playbackTimer=null,playing=false,paused=false,beatIndex=0,playbackSpeed=1,beatStarted=0,beatDuration=2500;
 const img=$("reader-image"),wrap=$("reader-image-wrap"),stage=$("reader-stage");
+// Cinematic shot language for the existing comic artwork.
 const moves=[
- {id:"pan-right",label:"Pan Right",transform:"translate3d(-9%,0,0) scale(1.28)"},
- {id:"zoom-in",label:"Zoom In",transform:"translate3d(0,0,0) scale(1.72)"},
- {id:"pan-down",label:"Pan Down",transform:"translate3d(0,-9%,0) scale(1.42)"},
- {id:"zoom-out",label:"Zoom Out",transform:"translate3d(0,0,0) scale(1.08)"},
- {id:"impact",label:"Impact Zoom",transform:"translate3d(2%,-2%,0) scale(1.95)"},
- {id:"ending",label:"Slow Reveal",transform:"translate3d(0,0,0) scale(1)"}
+ {id:"pan-right",label:"Slow Pan Right",origin:"78% 50%",transform:"translate3d(-5%,0,0) scale(1.24)",duration:3200},
+ {id:"zoom-in",label:"Slow Face Push-In",origin:"54% 34%",transform:"translate3d(0,2%,0) scale(1.58)",duration:3400},
+ {id:"pan-down",label:"Slow Pan Down",origin:"48% 18%",transform:"translate3d(0,-7%,0) scale(1.42)",duration:3400},
+ {id:"zoom-out",label:"Wide Location Reveal",origin:"50% 50%",transform:"translate3d(0,0,0) scale(1.02)",duration:3600},
+ {id:"impact",label:"Fast Action Punch-In",origin:"52% 42%",transform:"translate3d(0,0,0) scale(1.92)",duration:620,cut:true},
+ {id:"ending",label:"Final Slow Pull-Back",origin:"50% 50%",transform:"translate3d(0,0,0) scale(1)",duration:4800}
 ];
+function cinematicMoveForPage(index){
+ const last=index===pages.length-1;
+ const caption=(pages[index]&&pages[index].caption||"").toLowerCase();
+ if(last)return moves[5];
+ if(/attack|impact|collision|explosion|crash|strike|battle|هجوم|انفجار|اصطدام/.test(caption))return moves[4];
+ if(index===0)return moves[0];
+ if(index===1)return moves[1];
+ if(index===2)return moves[2];
+ if(index===3)return moves[3];
+ return {id:"slow-drift",label:"Slow Cinematic Drift",origin:"50% 48%",transform:"translate3d(-1.5%,0,0) scale(1.12)",duration:3000};
+}
 const reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function applyZoom(){
  stopPlayback(false);
@@ -31,9 +43,18 @@ function setPlaybackControls(){
 }
 function applyCamera(move,duration){
  stopDragForCamera();
- img.classList.remove("is-zoomed");
- img.style.transition="transform "+duration+"ms cubic-bezier(.2,.75,.2,1)";
- img.style.transform=move.transform;
+ img.classList.remove("is-zoomed","is-action-cut");
+ img.style.transformOrigin=move.origin||"50% 50%";
+ img.style.transition="transform "+duration+"ms cubic-bezier(.22,.72,.22,1), opacity 180ms ease";
+ if(move.cut){
+   img.classList.add("is-action-cut");
+   img.style.transition="none";
+   img.style.opacity=".35";
+   requestAnimationFrame(()=>{img.style.transform=move.transform;img.style.opacity="1";});
+ }else{
+   img.style.opacity="1";
+   img.style.transform=move.transform;
+ }
  $("reader-help").classList.add("is-hidden");
 }
 function stopDragForCamera(){dragging=false;img.classList.remove("is-dragging");}
@@ -56,8 +77,8 @@ function buildThumbs(){
  pages.forEach((p,i)=>{const b=document.createElement("button");b.className="reader-thumb";b.type="button";b.setAttribute("aria-label","Go to page "+(i+1));const t=document.createElement("img");t.src=p.file;t.alt="";t.loading="lazy";b.append(t);b.addEventListener("click",()=>{stopPlayback(true);changePage(i);});root.append(b);});
 }
 function showError(){stage.innerHTML='<div class="reader-error">This comic could not be opened. The selected chapter may not have uploaded pages.<br><a href="index.html">Return to the comic collection</a></div>';}
-function durationForBeat(){return Math.round(2500/playbackSpeed);}
-function currentMove(){return moves[beatIndex%moves.length];}
+function durationForBeat(){const move=currentMove();return Math.round((move.duration||3000)/playbackSpeed);}
+function currentMove(){return cinematicMoveForPage(page);}
 function runBeat(){
  if(!playing||paused)return;
  const move=currentMove();beatDuration=durationForBeat();beatStarted=performance.now();
@@ -65,16 +86,14 @@ function runBeat(){
  requestAnimationFrame(()=>setProgress(100,beatDuration));
  playbackTimer=window.setTimeout(()=>{
    if(!playing||paused)return;
-   if(beatIndex===moves.length-1&&page===pages.length-1){stopPlayback(true);return;}
-   beatIndex++;
-   if(beatIndex%moves.length===0&&page<pages.length-1)changePage(page+1);
-   runBeat();
+   if(page===pages.length-1){stopPlayback(true);return;}
+   beatIndex++;changePage(page+1);runBeat();
  },beatDuration);
 }
 function startPlayback(){
  if(!pages.length||reduceMotion)return;
  if(playing&&paused){paused=false;setPlaybackControls();runBeat();return;}
- stopPlayback(false);playing=true;paused=false;beatIndex=0;setPlaybackControls();runBeat();
+ stopPlayback(false);playing=true;paused=false;beatIndex=0;page=0;render();setPlaybackControls();runBeat();
 }
 function pausePlayback(){
  if(!playing||paused)return;
@@ -87,7 +106,7 @@ function stopPlayback(reset){
  setPlaybackControls();
 }
 function applySelectedMove(){
- const id=$("motion-preset").value;const move=moves.find(m=>m.id===id)||moves[0];
+ const id=$("motion-preset").value;const move=moves.find(m=>m.id===id)||cinematicMoveForPage(page);
  stopPlayback(false);applyCamera(move,reduceMotion?0:durationForBeat());
 }
 fetch("data/artifacts.json").then(r=>{if(!r.ok)throw Error();return r.json();}).then(records=>{
