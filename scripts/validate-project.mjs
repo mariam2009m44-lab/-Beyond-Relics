@@ -30,6 +30,7 @@ const provenanceData = JSON.parse(read("data/data-provenance.json"));
 const provenanceScript = read("js/data-provenance.js");
 const layoutConsistency = read("css/layout-consistency.css");
 const artifactFinish = read("css/artifact-exhibit-finish.css");
+const missionUniverseCss = read("css/mission-universe.css");
 const layoutPages = ["index.html","artifacts.html","timeline.html","challenge.html","data.html","about.html","comic.html","artifact-details.html","404.html","credits.html","lunar-journey.html"];
 for (const page of layoutPages) {
   check(read(page).includes("css/layout-consistency.css"), "Final responsive layout layer is included on " + page);
@@ -73,6 +74,10 @@ check(index.includes('href="data.html"') && index.includes('href="artifacts.html
 check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
 check(universe3d.includes('const enter=$("br-universe-enter")') && universe3d.includes("openWorld") && universe3d.includes("&from=universe&world="), "Planet selection, lunar journey, artifact exhibits, and return navigation preserve destination context");
 check(universe3d.includes("worldRadii[key]") && universe3d.includes("radius*5.8") && universe3d.includes("applyEuler(scene.rotation)"), "Destination selection performs a radius-aware cinematic camera approach");
+check(universe3d.includes("br-universe-record-toggle") && universe3d.includes("aria-expanded") && universe3d.includes("list.hidden=true") && universe3d.includes("list.hidden=expanded"), "Planet information stays compact until mission records are explicitly expanded");
+check(missionUniverseCss.includes("bottom:clamp(104px,15vh,142px)") && missionUniverseCss.includes('grid-template-areas:"world archive"'), "Planet information HUD sits below the scene as a compact, non-dominant overlay");
+check(artifactsScript.includes('grid.classList.add("archive-grid")') && !artifactsScript.includes('el("p","",item.short)'), "Artifact archive cards use concise progressive-disclosure summaries");
+check(artifactsScript.includes('var region="All",status="All",term="";'), "The archive initially shows all mission-status groups so records are not hidden by a default filter");
 check(comicPage.includes('class="reader-film-controls"') && !comicPage.includes('class="cinema-controls"'), "Comic film controls live in the lower control bar rather than over the artwork");
 check(comicCss.includes(".reader-film-controls{display:flex") && comicCss.includes("--accent:#d8bd8b"), "Comic reader uses the shared space palette and responsive non-overlay controls");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
