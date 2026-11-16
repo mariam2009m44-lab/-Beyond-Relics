@@ -104,3 +104,50 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 .artifact-3d-callout-close{pointer-events:auto}
 .artifact-3d-callout:focus-within{border-color:rgba(145,214,226,.62)}
 @media(prefers-reduced-motion:reduce){.artifact-3d-toolbar button{transition:none;transform:none}.artifact-3d-toolbar button:active{transform:none}}
+
+/* Immersive artifact chamber: nebulae remain behind both procedural and official models. */
+.artifact-3d-stage{
+ isolation:isolate;
+ background:
+  radial-gradient(ellipse at 48% 46%,rgba(18,45,89,.16),transparent 50%),
+  linear-gradient(180deg,#030612 0%,#060b1c 52%,#030611 100%);
+}
+.artifact-3d-stage::before{
+ content:"";position:absolute;z-index:0;inset:-12%;pointer-events:none;
+ background:
+  radial-gradient(ellipse at 18% 30%,rgba(31,93,224,.36),transparent 34%),
+  radial-gradient(ellipse at 78% 23%,rgba(125,68,218,.34),transparent 36%),
+  radial-gradient(ellipse at 64% 82%,rgba(207,102,67,.18),transparent 34%),
+  radial-gradient(ellipse at 45% 54%,rgba(53,139,183,.14),transparent 42%);
+ filter:blur(18px);transform:scale(1.04);
+ animation:br-artifact-nebula-drift 54s ease-in-out infinite alternate;
+}
+.artifact-3d-stage::after{
+ content:"";position:absolute;z-index:0;inset:0;pointer-events:none;
+ background-image:
+  radial-gradient(1px 1px at 12% 18%,rgba(235,247,255,.95) 98%,transparent),
+  radial-gradient(1.5px 1.5px at 83% 28%,rgba(190,213,255,.85) 98%,transparent),
+  radial-gradient(1px 1px at 63% 73%,rgba(255,212,164,.9) 98%,transparent),
+  radial-gradient(1px 1px at 32% 84%,rgba(225,238,255,.8) 98%,transparent);
+ background-size:173px 151px,227px 193px,281px 211px,319px 263px;
+ opacity:.58;animation:br-artifact-stars-drift 110s linear infinite;
+}
+.artifact-3d-canvas-wrap{z-index:1;background:transparent}
+.artifact-3d-canvas{position:relative;z-index:1;background:transparent}
+.artifact-3d-canvas-wrap::after{z-index:2}
+.artifact-model-viewer{
+ z-index:1;background:transparent!important;background-color:transparent!important;
+ --poster-color:transparent;
+}
+@keyframes br-artifact-nebula-drift{
+ from{transform:translate3d(-1.5%,.5%,0) scale(1.02);filter:blur(18px) hue-rotate(-5deg)}
+ to{transform:translate3d(1.5%,-.5%,0) scale(1.08);filter:blur(22px) hue-rotate(9deg)}
+}
+@keyframes br-artifact-stars-drift{
+ from{background-position:0 0,0 0,0 0,0 0}
+ to{background-position:173px -151px,-227px 193px,281px -211px,-319px 263px}
+}
+@media(prefers-reduced-motion:reduce){
+ .artifact-3d-stage::before,.artifact-3d-stage::after{animation:none!important}
+ .artifact-3d-stage::before{filter:blur(18px)}
+}
