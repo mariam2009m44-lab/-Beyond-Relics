@@ -44,3 +44,22 @@
  .motion-progress span{transition:none}
  .reader-stage .reader-image{will-change:auto}
 }
+
+/* Vertical cinema framing and clean playback */
+.reader-stage{padding:12px 0;background:radial-gradient(ellipse at center,#171717 0,#080808 62%,#020202 100%)}
+.reader-image-wrap{width:min(100%,calc((100svh - 220px)*.5625));max-width:100%;height:100%;aspect-ratio:9/16;flex:none;background:#030303;box-shadow:0 0 0 1px #ffffff12,0 22px 80px #000}
+.reader-image{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;transform-origin:50% 50%}
+.reader-caption{z-index:4;bottom:12px}
+.reader-page.is-cinematic-playing .reader-arrow,
+.reader-page.is-cinematic-playing .reader-help{opacity:0;pointer-events:none}
+.reader-page.is-cinematic-playing .reader-stage{padding-inline:0}
+.reader-page.is-cinematic-playing .reader-image-wrap{width:min(100%,calc((100svh - 170px)*.5625))}
+.reader-image.is-action-cut{filter:contrast(1.08) brightness(1.08)}
+@media(max-width:700px){
+ .reader-image-wrap{width:min(100%,calc((100svh - 190px)*.5625))}
+ .reader-page.is-cinematic-playing .reader-image-wrap{width:min(100%,calc((100svh - 150px)*.5625))}
+ .reader-stage{padding:8px 0}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .reader-image-wrap{width:auto;height:100%;aspect-ratio:9/16}
+}
