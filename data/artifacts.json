@@ -224,6 +224,10 @@
     ],
     "story_artwork": [
       {
+        "file": "IMG-20261114-WA0570.jpg",
+        "caption": "Story of a Pioneer: Sojourner introduces the rover and its mission on Mars."
+      },
+      {
         "file": "IMG-20261114-WA0554.jpg",
         "caption": "The journey begins: Pathfinder launches from Earth on 4 December 1996, carrying Sojourner toward Mars."
       },
@@ -232,12 +236,24 @@
         "caption": "After a seven-month voyage, Pathfinder lands on Mars on 4 July 1997. The lander is later named the Carl Sagan Memorial Station."
       },
       {
+        "file": "IMG-20261114-WA0571(1).jpg",
+        "caption": "The Carl Sagan Memorial Station landing: the entry, descent and landing sequence that brought Pathfinder safely to Mars."
+      },
+      {
+        "file": "IMG-20261114-WA0567(1).jpg",
+        "caption": "Airbags cushion the lander during touchdown, helping Pathfinder survive its landing on the Martian surface."
+      },
+      {
         "file": "IMG-20261114-WA0561(1).jpg",
         "caption": "On 5 July 1997, Sojourner rolls down the ramp and begins exploring another world."
       },
       {
-        "file": "IMG-20261114-WA0562.jpg",
-        "caption": "Meet Sojourner: a compact, six-wheeled rover designed to examine the Martian surface."
+        "file": "IMG-20261114-WA0568.jpg",
+        "caption": "Sojourner encounters the Pathfinder lander and begins exploring the Martian landscape."
+      },
+      {
+        "file": "IMG-20261114-WA0566.jpg",
+        "caption": "Sojourner introduces itself and explains how a small rover can help explore another planet."
       },
       {
         "file": "IMG-20261114-WA0556.jpg",
@@ -248,10 +264,6 @@
         "caption": "The lander and rover work as a team: the lander relays the rover's observations to Earth."
       },
       {
-        "file": "IMG-20261114-WA0557(1).jpg",
-        "caption": "Commands travel from mission operators on Earth through Pathfinder to the rover."
-      },
-      {
         "file": "IMG-20261114-WA0560.jpg",
         "caption": "Six wheels and a rocker-bogie suspension help Sojourner cross uneven Martian ground."
       },
@@ -260,16 +272,24 @@
         "caption": "Solar cells provide electrical power for the rover's instruments and operations."
       },
       {
-        "file": "IMG-20261114-WA0553(1).jpg",
-        "caption": "The Alpha Proton X-ray Spectrometer, or APXS, helps investigate the elemental composition of rocks and soil."
-      },
-      {
         "file": "IMG-20261114-WA0547(1).jpg",
         "caption": "By examining rocks, APXS gives scientists clues about the geology of the landing site."
       },
       {
+        "file": "IMG-20261114-WA0553(1).jpg",
+        "caption": "The Alpha Proton X-ray Spectrometer, or APXS, helps investigate the elemental composition of rocks and soil."
+      },
+      {
+        "file": "IMG-20261114-WA0565(1).jpg",
+        "caption": "The mission explores Ares Vallis, an ancient floodplain shaped by the history of water on Mars."
+      },
+      {
         "file": "IMG-20261114-WA0549(1).jpg",
         "caption": "The rover's cameras, wheels and soil experiments help scientists study the terrain around the lander."
+      },
+      {
+        "file": "IMG-20261114-WA0564.jpg",
+        "caption": "Close observations reveal layers, textures and mineral patterns in Martian rocks."
       },
       {
         "file": "IMG-20261114-WA0555(1).jpg",
@@ -278,6 +298,18 @@
       {
         "file": "IMG-20261114-WA0546(1).jpg",
         "caption": "The mission delivers engineering lessons and scientific measurements far beyond its original plan."
+      },
+      {
+        "file": "IMG-20261114-WA0557(1).jpg",
+        "caption": "Commands travel from mission operators on Earth through Pathfinder to the rover."
+      },
+      {
+        "file": "IMG-20261114-WA0562.jpg",
+        "caption": "Meet Sojourner: a compact, six-wheeled rover designed to examine the Martian surface."
+      },
+      {
+        "file": "IMG-20261114-WA0569(1).jpg",
+        "caption": "The mission timeline reaches an extraordinary 83 Martian sols, far beyond the original planned duration."
       },
       {
         "file": "IMG-20261114-WA0551(1).jpg",
@@ -292,15 +324,23 @@
         "caption": "The story is remembered through exhibits and the discoveries that followed."
       },
       {
+        "file": "IMG-20261114-WA0563(1).jpg",
+        "caption": "Sojourner's engineering legacy informs later generations of Mars rovers."
+      },
+      {
         "file": "IMG-20261114-WA0544(1).jpg",
         "caption": "Sojourner's legacy lives on in the later generations of Mars rovers."
       },
       {
         "file": "IMG-20261114-WA0559(1).jpg",
         "caption": "A small rover proves a big idea: robotic exploration can open an entire planet to discovery."
+      },
+      {
+        "file": "IMG-20261114-WA0543(1).jpg",
+        "caption": "A final reflection on Sojourner's legacy: a small rover helped open the way for robotic exploration of Mars."
       }
     ],
-    "story_cover": "IMG-20261114-WA0559(1).jpg"
+    "story_cover": "IMG-20261114-WA0570.jpg"
   },
   {
     "id": "spirit",
