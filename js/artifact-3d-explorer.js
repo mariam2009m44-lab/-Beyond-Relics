@@ -63,16 +63,57 @@ function makeScene(T,id,root){
  }
  return {scene,camera,rootObj,groups};
 }
+const OFFICIAL_MODELS={
+ "voyager":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/voyager-probe-%28b%29/Voyager%20Probe%20%28B%29.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/voyager-probe-b/",label:"OFFICIAL NASA 3D MODEL"}
+};
+function loadModelViewer(){
+ if(customElements.get("model-viewer"))return Promise.resolve();
+ if(window.__brModelViewerPromise)return window.__brModelViewerPromise;
+ window.__brModelViewerPromise=new Promise((resolve,reject)=>{
+  const script=document.createElement("script");
+  script.type="module";
+  script.src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js";
+  script.onload=()=>customElements.whenDefined("model-viewer").then(resolve,reject);
+  script.onerror=()=>reject(Error("3D model viewer unavailable"));
+  document.head.append(script);
+ });
+ return window.__brModelViewerPromise;
+}
+async function mountOfficialModel(root,item,loading,canvas){
+ const model=OFFICIAL_MODELS[item.id];if(!model)return false;
+ await loadModelViewer();
+ if(!canvas.isConnected)return true;
+ const viewer=document.createElement("model-viewer");
+ viewer.setAttribute("src",model.src);
+ viewer.setAttribute("alt",item.title+" — official NASA 3D model");
+ viewer.setAttribute("camera-controls","");
+ viewer.setAttribute("touch-action","pan-y");
+ viewer.setAttribute("auto-rotate","");
+ viewer.setAttribute("rotation-per-second","12deg");
+ viewer.setAttribute("shadow-intensity","1");
+ viewer.setAttribute("exposure","1.05");
+ viewer.setAttribute("interaction-prompt","auto");
+ viewer.setAttribute("ar","");viewer.setAttribute("loading","eager");
+ viewer.className="artifact-model-viewer";
+ canvas.replaceWith(viewer);
+ const badge=document.createElement("a");
+ badge.className="artifact-model-credit";
+ badge.href=model.page;badge.target="_blank";badge.rel="noopener noreferrer";
+ badge.textContent=model.label+" · SOURCE: "+model.source;
+ root.appendChild(badge);
+ loading.hidden=true;
+ return true;
+}
 function mount(root,item){
  if(!root||root.dataset.viewerMounted==="true")return;root.dataset.viewerMounted="true";
  const canvas=root.querySelector("canvas"),loading=root.querySelector(".artifact-3d-loading"),panel=root.querySelector(".artifact-3d-callout");
  const info=copy[item.id]||[["Mission hardware","Explore the shape and role of this mission system."]];
  const buttons=[...root.querySelectorAll("[data-part]")];let renderer,world,raf=0,active=!document.hidden,observer,drag=false,lastX=0,lastY=0,rotX=-.12,rotY=.45,targetX=rotX,targetY=rotY,zoom=1,pinch=0,exploded=false;
  function setInfo(i){const d=info[i]||info[0];panel.querySelector("small").textContent="COMPONENT "+String(i+1).padStart(2,"0");panel.querySelector("strong").textContent=d[0];panel.querySelector("p").textContent=d[1];buttons.forEach((b,n)=>{b.setAttribute("aria-pressed",String(n===i));if(info[n])b.textContent=info[n][0];});}
- engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;renderer=new T.WebGLRenderer({canvas,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
+ mountOfficialModel(root,item,loading,canvas).then(official=>{if(official)return;return engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;renderer=new T.WebGLRenderer({canvas,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
  loading.hidden=true;
  function frame(){if(!active||!renderer)return;raf=requestAnimationFrame(frame);rotX+=(targetX-rotX)*(window.matchMedia("(prefers-reduced-motion: reduce)").matches?1:.08);rotY+=(targetY-rotY)*(window.matchMedia("(prefers-reduced-motion: reduce)").matches?1:.08);world.rootObj.rotation.set(rotX,rotY,0);world.camera.position.set(7*zoom,5*zoom,13*zoom);world.camera.lookAt(0,-.1,0);renderer.render(world.scene,world.camera);}frame();
- }).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
+ });}).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
  buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i)));
  root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;setInfo(0);});
  root.querySelector("[data-view-explode]").addEventListener("click",()=>{if(!world)return;exploded=!exploded;const g=world.groups.upper;if(g){g.position.y=exploded?2.1:0;}const b=root.querySelector("[data-view-explode]");b.setAttribute("aria-pressed",String(exploded));b.textContent=exploded?"Reassemble":"Separate components";});
