@@ -96,3 +96,20 @@ body:not(.reader-page) .nav{background:linear-gradient(100deg,rgba(6,13,26,.94),
 .artifact-3d-toolbar button:hover,.artifact-3d-toolbar button[aria-pressed=true]{border-color:#8edce8;background:rgba(38,78,98,.9);color:#fff}
 .artifact-model-credit,.three-d-stamp{border-color:rgba(142,220,232,.4);background:rgba(5,17,31,.92);color:#b8edf3}
 @media(max-width:760px){.universe-entry-art{min-height:180px}.br-universe-info{border-radius:14px}.artifact-3d-stage{min-height:550px}}
+
+/* Comic reader: preserve the focused 2D reading experience, recolor it into the same deep-space identity. */
+:root{--accent:#8edce8;--panel:#101d30;--muted:#9bb1c1;--white:#edf4fa}
+.reader-page{background:#050b16;color:#edf4fa}
+.reader-top,.reader-bottom{border-color:rgba(142,190,211,.2);background:rgba(6,14,27,.96)}
+.reader-back a{color:#aebfce}.reader-back a:hover{color:#8edce8}
+.reader-title span{color:#8ea6b8}
+.reader-tool,.reader-arrow{border-color:rgba(142,190,211,.28);background:#102139;color:#e6f0f5;border-radius:7px}
+.reader-tool:hover,.reader-arrow:hover:not(:disabled){border-color:#8edce8;color:#8edce8;background:#18334b}
+.reader-stage{background:radial-gradient(ellipse at 50% 42%,#152941 0%,#0a1728 48%,#040a14 100%)}
+.reader-bottom{border-top-color:rgba(142,190,211,.18)}
+.reader-counter{color:#a8bac8}.reader-counter strong{color:#f2f6f8}
+.reader-caption{background:rgba(5,15,28,.91);border-color:rgba(142,220,232,.26);color:#e1edf2}
+.reader-thumb{border-color:rgba(142,190,211,.25);background:#0d1b2c}
+.reader-thumb[aria-current=true]{border-color:#8edce8}
+.reader-help{background:rgba(5,15,28,.92);border-color:rgba(142,190,211,.2);color:#b9cbd6}
+.reader-error{color:#b9cbd6}.reader-error a{color:#8edce8}
