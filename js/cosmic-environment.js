@@ -90,5 +90,5 @@
  sync();pause.addEventListener("click",()=>{paused=!paused;sync();if(paused){draw(elapsed);stop()}else start()});
  const explore=document.createElement("a");explore.href="artifacts.html#br-universe-launcher";explore.innerHTML='Explore orbits <span aria-hidden="true">↗</span>';explore.setAttribute("aria-label","Open the interactive 3D Solar System explorer");
  dock.append(pause,explore);document.body.append(dock);
- if(reduced){pause.disabled=false;label.textContent="Motion reduced";pause.title="Your device requests reduced motion. The background remains still.";}
+ if(reduced){pause.disabled=true;pause.setAttribute("aria-label","Cosmic motion is reduced by your device settings");label.textContent="Motion reduced";pause.title="Your device requests reduced motion. The background remains still.";}
 })();
