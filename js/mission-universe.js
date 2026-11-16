@@ -83,6 +83,7 @@ const surfaceAtlas={
    {id:"insight-site",title:"InSight · Elysium Planitia",lat:4.502384,lon:135.623447,copy:"HiRISE image registration places InSight at 4.502384° N, 135.623447° E in Elysium Planitia.",source:"https://ntrs.nasa.gov/api/citations/20200003204/downloads/20200003204.pdf?attachment=true"},
    {id:"spirit-site",title:"Spirit · Gusev Crater",lat:-14.5692,lon:175.4729,copy:"Spirit's cartographic landing-site position is listed by the Mars Orbital Data Explorer using the USGS planetary feature and mission-site records.",source:"https://ode.rsl.wustl.edu/mars/pagehelp/Content/Missions_Instruments/Landing_Sites.htm"}
   ]
+ }
 };
 const overlay=document.createElement("section");
 overlay.id="br-universe";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-hidden","true");overlay.setAttribute("aria-label","Interactive 3D solar system explorer");
