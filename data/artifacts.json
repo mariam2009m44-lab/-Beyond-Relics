@@ -908,5 +908,72 @@
       }
     ],
     "story_cover": "IMG-20261114-WA0644.jpg"
+  },
+  {
+    "id": "pioneer-plaque",
+    "title": "The Pioneer Plaque — A Message from Earth",
+    "region": "Deep Space",
+    "years": "1972–1973",
+    "tone": "deep",
+    "type": "Gold-anodized aluminium message plaque",
+    "status": "Carried aboard Pioneer 10 and Pioneer 11; neither spacecraft is still in contact with Earth.",
+    "status_group": "retired",
+    "classification": "Interstellar message attached to deep-space spacecraft — not a surface artifact",
+    "short": "A small engraved plaque carried humanity’s first visual greeting beyond the outer planets.",
+    "body": "Pioneer 10 and Pioneer 11 each carried a small metal plaque designed to communicate where the spacecraft came from and something about the beings who built it. Its diagrams use scientific and pictorial references: a hydrogen-atom transition, a map locating the Sun relative to pulsars, a representation of the Solar System and the spacecraft’s path, and simplified human figures shown beside an outline of the spacecraft for scale. The plaque was conceived by Carl Sagan and collaborators as a message that could travel with the probes long after their radio signals faded.",
+    "story_hook": "A message from Earth, carried outward long after its makers could no longer speak to the spacecraft.",
+    "mission_goal": "Provide a compact visual message that could identify the origin of the Pioneer spacecraft to a future finder.",
+    "what_stayed": "One plaque remains attached to Pioneer 10 and another to Pioneer 11. The probes continue on outbound trajectories, but their missions are no longer in contact with Earth.",
+    "science_legacy": "The plaque became an early experiment in communicating scientific and human context across interstellar distances, using diagrams rather than a shared spoken language.",
+    "why_it_matters": "It connects engineering with culture: a spacecraft carried not only instruments, but also a deliberately designed message about Earth.",
+    "design_life": "Designed to remain attached to the spacecraft during their long outbound journeys.",
+    "actual_life": "The plaques remain aboard Pioneer 10 and Pioneer 11 as the spacecraft continue travelling outward.",
+    "story_beats": [
+      "In the early 1970s, NASA prepared two Pioneer spacecraft to explore the outer Solar System. Their journeys would carry a message as well as scientific instruments.",
+      "The plaque used a hydrogen-atom transition as a scientific reference, helping define a unit of time and distance without relying on Earth languages.",
+      "A map of nearby pulsars and a diagram of the Solar System were designed to show where the spacecraft came from. Simplified human figures were included beside a spacecraft outline for scale.",
+      "Pioneer 10 and Pioneer 11 carried the plaques away from Earth. Their radio missions ended, but the small engraved messages continue travelling with the spacecraft."
+    ],
+    "image_query": "NASA Pioneer Plaque gold anodized aluminum plaque",
+    "facts": [
+      [
+        "Carried by",
+        "Pioneer 10 and Pioneer 11"
+      ],
+      [
+        "Launches",
+        "Pioneer 10 · 2 March 1972; Pioneer 11 · 6 April 1973"
+      ],
+      [
+        "Material",
+        "Gold-anodized aluminium plaque"
+      ],
+      [
+        "Key diagrams",
+        "Hydrogen transition, pulsar map, Solar System and human figures"
+      ],
+      [
+        "NASA credit",
+        "NASA Ames Research Center"
+      ]
+    ],
+    "sources": [
+      {
+        "label": "NASA Science — Pioneer Plaque",
+        "url": "https://science.nasa.gov/resource/pioneer-plaque/"
+      },
+      {
+        "label": "NASA Science — Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      },
+      {
+        "label": "NASA Science — Pioneer 11",
+        "url": "https://science.nasa.gov/mission/pioneer-11/"
+      },
+      {
+        "label": "NASA — 50 Years Ago: Pioneer 10 Launches to Explore Jupiter",
+        "url": "https://www.nasa.gov/history/50-years-ago-pioneer-10-launches-to-explore-jupiter/"
+      }
+    ]
   }
 ]
