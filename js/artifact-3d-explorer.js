@@ -2,9 +2,9 @@
    All procedural geometry is an artistic educational visualization, not an official scan. */
 (function(){
 "use strict";
-const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js";
+const THREE_URLS=["https://esm.sh/three@0.188.0","https://unpkg.com/three@0.188.0/build/three.module.js"];
 let enginePromise;
-function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=import(THREE_URL).then(T=>{window.THREE=T;return T;}).catch(error=>{enginePromise=null;throw error;});return enginePromise;}
+function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=(async()=>{let lastError;for(const source of THREE_URLS){try{const T=await import(source);window.THREE=T;return T;}catch(error){lastError=error;}}throw lastError||new Error("Three.js could not be loaded");})();enginePromise=enginePromise.catch(error=>{enginePromise=null;throw error;});return enginePromise;}
 const copy={
  "lunar-module":[["Descent stage","The lower stage supported landing and remained at Tranquility Base."],["Ascent stage","The upper crew cabin returned the astronauts to lunar orbit."],["Landing gear","Four landing legs supported the Lunar Module at touchdown."],["Descent engine","The descent propulsion system slowed the spacecraft for landing."]],
  "apollo-12-alsep":[["Central station","The ALSEP package connected instruments and supported long-running lunar measurements."],["Seismic instrument","Seismic experiments recorded lunar vibrations."],["Antenna","The station communicated instrument data to Earth."],["Power unit","The package used a radioisotope thermoelectric generator for electrical power."]],
@@ -310,7 +310,8 @@ async function mountOfficialModel(root,item,loading,canvas,onFailure){
  viewer.setAttribute("max-camera-orbit","auto 165deg 18m");
  viewer.setAttribute("touch-action","pan-y");
  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)viewer.setAttribute("auto-rotate","");
- viewer.setAttribute("rotation-per-second","7deg");
+ viewer.setAttribute("rotation-per-second","2deg");
+ viewer.setAttribute("auto-rotate-delay","1200");
  viewer.setAttribute("shadow-intensity","1");
  viewer.setAttribute("environment-image","neutral");
  viewer.setAttribute("exposure","1.08");
