@@ -49,7 +49,7 @@ function createPlanet(name,kind,pos,radius,worldKey){
  worldObjects.push(group);worldObjects.push(mesh);return group;
 }
 function createRover(parent){
- const g=new THREE.Group();g.position.set(2.2,-1.15,.1);parent.add(g);g.userData.world="mars";g.userData.kind="artifact";
+ const g=new THREE.Group();g.position.set(2.2,-1.15,4.35);parent.add(g);g.userData.world="mars";g.userData.kind="artifact";
  const gold=new THREE.MeshStandardMaterial({color:0xb98c51,metalness:.65,roughness:.4}),dark=new THREE.MeshStandardMaterial({color:0x202a32,metalness:.5,roughness:.65}),glass=new THREE.MeshStandardMaterial({color:0x8cd7e9,metalness:.3,roughness:.2,transparent:true,opacity:.72});
  const body=new THREE.Mesh(new THREE.BoxGeometry(1.25,.48,.78),gold);g.add(body);body.userData.world="mars";
  const mast=new THREE.Mesh(new THREE.CylinderGeometry(.055,.07,.72,12),dark);mast.position.set(-.2,.55,0);g.add(mast);
@@ -59,7 +59,7 @@ function createRover(parent){
  worldObjects.push(g);return g;
 }
 function createLander(parent){
- const g=new THREE.Group();g.position.set(-2,-1.2,.1);parent.add(g);g.userData.world="moon";g.userData.kind="artifact";
+ const g=new THREE.Group();g.position.set(-2,-1.2,3.45);parent.add(g);g.userData.world="moon";g.userData.kind="artifact";
  const gold=new THREE.MeshStandardMaterial({color:0xc2a56d,metalness:.55,roughness:.5}),foil=new THREE.MeshStandardMaterial({color:0x9ca8ae,metalness:.75,roughness:.32});
  const cabin=new THREE.Mesh(new THREE.CylinderGeometry(.48,.62,.68,6),gold);g.add(cabin);
  const top=new THREE.Mesh(new THREE.ConeGeometry(.45,.48,6),gold);top.position.y=.55;g.add(top);
@@ -67,7 +67,7 @@ function createLander(parent){
  const base=new THREE.Mesh(new THREE.CylinderGeometry(.9,.9,.08,6),foil);base.position.y=-1.05;g.add(base);worldObjects.push(g);return g;
 }
 function createProbe(parent){
- const g=new THREE.Group();g.position.set(1.8,.6,0);parent.add(g);g.userData.world="deep";g.userData.kind="artifact";
+ const g=new THREE.Group();g.position.set(1.8,.6,3.55);parent.add(g);g.userData.world="deep";g.userData.kind="artifact";
  const metal=new THREE.MeshStandardMaterial({color:0xb9c4cc,metalness:.7,roughness:.35}),gold=new THREE.MeshStandardMaterial({color:0xd2b16e,metalness:.65,roughness:.4});
  const core=new THREE.Mesh(new THREE.BoxGeometry(.45,.65,.4),gold);g.add(core);
  const dish=new THREE.Mesh(new THREE.SphereGeometry(.62,24,12,0,Math.PI*2,0,Math.PI/2),metal);dish.position.y=.48;dish.rotation.x=Math.PI;g.add(dish);
