@@ -57,7 +57,7 @@ check(artifact3d.includes("world.scene.environment.dispose()"), "Generated studi
 check(artifact3d.includes("if(lunar||mars)") && artifact3d.includes("terrainY"), "Only lunar and Mars exhibits receive a mission-surface environment with per-model ground alignment");
 check(artifact3d.includes('const roverSurface=["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id)'), "Rover reconstructions align their wheels with the Mars surface stage");
 check(artifact3d.includes("contactShadow") && artifact3d.includes("CanvasTexture"), "Surface exhibits include a soft procedural contact shadow");
-check(artifact3d.includes("compactRender?44:84") && artifact3d.includes("compactRender?30:72"), "Terrain and rock detail adapt to lower-power and mobile devices");
+check(artifact3d.includes("terrainSegments=compactRender?56:112") && artifact3d.includes("compactRender?30:72"), "Terrain and rock detail adapt to lower-power and mobile devices");
 check(artifact3d.includes("starRand") && !artifact3d.includes("Math.random()"), "Procedural star fields are deterministic between visits");
 check(artifact3d.includes('matchMedia("(prefers-reduced-motion: reduce)")') && artifact3d.includes('const rotating=viewer.hasAttribute("auto-rotate")'), "Official NASA model rotation respects reduced-motion preferences and reports the correct control state");
 check(artifact3d.includes('canvas.addEventListener("keydown"') && artifactsScript.includes("Tap a component for its field note") && artifactsScript.includes("Pinch or +/- to zoom"), "Procedural 3D exhibits support keyboard orbiting and direct component discovery instructions");
