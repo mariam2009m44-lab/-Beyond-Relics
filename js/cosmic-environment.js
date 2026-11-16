@@ -8,12 +8,12 @@
  const ctx=canvas.getContext("2d",{alpha:true,desynchronized:true});if(!ctx)return;
  const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
  const coarse=window.matchMedia&&window.matchMedia("(pointer:coarse)").matches;
- const mobile=window.innerWidth<700;
+ let mobile=window.innerWidth<700;
  let w=0,h=0,dpr=1,stars=[],galaxies=[],raf=0,last=0,elapsed=0,paused=reduced;
  let pointerX=0,pointerY=0,targetX=0,targetY=0;
  const rand=(seed)=>{let s=seed>>>0;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296}};
  function resize(){
-  w=window.innerWidth;h=window.innerHeight;dpr=Math.min(window.devicePixelRatio||1,mobile?1.1:1.35);
+  w=window.innerWidth;h=window.innerHeight;mobile=w<700;dpr=Math.min(window.devicePixelRatio||1,mobile?1.1:1.35);
   canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);canvas.style.width=w+"px";canvas.style.height=h+"px";
   ctx.setTransform(dpr,0,0,dpr,0,0);
   const r=rand(47291);stars=Array.from({length:mobile?360:850},()=>({x:r()*w,y:r()*h,z:.25+r()*.75,size:.35+r()*1.15,phase:r()*Math.PI*2,speed:.35+r()*1.2,tint:r()}));
