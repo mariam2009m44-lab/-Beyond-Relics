@@ -28,6 +28,8 @@ const artifact3dCss = read("css/artifact-3d-explorer.css");
 const cosmicScript = read("js/cosmic-environment.js");
 const cosmicCss = read("css/cosmic-environment.css");
 const visualSystem = read("css/visual-system.css");
+const provenanceData = JSON.parse(read("data/data-provenance.json"));
+const provenanceScript = read("js/data-provenance.js");
 
 const layoutConsistency = read("css/layout-consistency.css");
 const artifactFinish = read("css/artifact-exhibit-finish.css");
@@ -184,6 +186,10 @@ check(universe3d.includes("function addSatellite") && (universe3d.match(/addSate
 check(universe3d.includes("orbitingMoons.forEach") && universe3d.includes("motionPaused"), "Natural satellite orbits respect the explorer pause control");
 check(artifact3dCss.includes("min-height:44px") && artifact3dCss.includes("prefers-reduced-motion"), "3D exhibit controls retain touch target and reduced-motion styling");
 check(visualSystem.includes(".acard") && visualSystem.includes("prefers-reduced-motion:reduce"), "Archive card polish remains reduced-motion aware");
+check(Array.isArray(provenanceData.entries) && provenanceData.entries.length >= 5, "Scientific provenance register contains the expected evidence records");
+check(provenanceData.entries.every((entry) => entry.source && entry.source.startsWith("https://") && entry.processing && entry.limitations && entry.units && entry.period), "Every provenance record documents source, units, period, processing, and limitations");
+check(provenanceScript.includes("aria-expanded") && provenanceScript.includes("noopener noreferrer") && provenanceScript.includes("data-provenance-register"), "Provenance disclosure controls are accessible and external sources are safely linked");
+check(read("data.html").includes("css/data-provenance.css") && read("data.html").includes("js/data-provenance.js") && read("data.html").includes("data-provenance-register"), "NASA Data Lab loads and displays the scientific provenance register");
 
 console.log("Beyond Relics quality audit");
 console.log("---------------------------");
