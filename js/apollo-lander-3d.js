@@ -50,7 +50,7 @@ function mount(root){
   add(groups.descent,new THREE.CylinderGeometry(.62,.7,.28,8),dark,[0,-1.75,0]);
   // Thermal blankets, equipment boxes, handrails and landing struts.
   for(let i=0;i<8;i++){const a=i*Math.PI/4;const box=add(groups.descent,new THREE.BoxGeometry(.42,.36,.42),i%2?gold:foil,[Math.cos(a)*1.08,-.55,Math.sin(a)*1.08],[0,-a,0]);}
-  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a);const leg=new THREE.Group();leg.position.set(x*1.03,-1.05,z*1.03);leg.rotation.z=-x*.42;leg.rotation.x=z*.42;
+  groups.legs=new THREE.Group();groups.descent.add(groups.legs);\n  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a);const leg=new THREE.Group();leg.position.set(x*1.03,-1.05,z*1.03);leg.rotation.z=-x*.42;leg.rotation.x=z*.42;
    add(leg,new THREE.CylinderGeometry(.055,.075,1.65,8),foil,[0,-.63,0]);
    add(leg,new THREE.CylinderGeometry(.12,.12,.1,8),dark,[0,-1.45,0],[0,0,Math.PI/2]);
    add(leg,new THREE.BoxGeometry(.65,.08,.42),foil,[x*.2,-1.42,z*.2],[0,-a,0]);
