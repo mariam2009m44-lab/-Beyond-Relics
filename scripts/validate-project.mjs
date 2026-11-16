@@ -23,6 +23,7 @@ const comicPage = read("comic.html");
 const comicScript = read("js/comic-reader.js");
 const dataPage = read("data.html");
 const artifact3d = read("js/artifact-3d-explorer.js");
+const artifactsScript = read("js/artifacts.js");
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
 check(artifact3d.includes("function makeStudioEnvironment(T)") && artifact3d.includes("scene.environment=makeStudioEnvironment(T)"), "Artifact reconstructions use a generated studio reflection environment");
@@ -36,7 +37,7 @@ check(artifact3d.includes("contactShadow") && artifact3d.includes("CanvasTexture
 check(artifact3d.includes("compactRender?44:84") && artifact3d.includes("compactRender?30:72"), "Terrain and rock detail adapt to lower-power and mobile devices");
 check(artifact3d.includes("starRand") && !artifact3d.includes("Math.random()"), "Procedural star fields are deterministic between visits");
 check(artifact3d.includes('matchMedia("(prefers-reduced-motion: reduce)")') && artifact3d.includes('const rotating=viewer.hasAttribute("auto-rotate")'), "Official NASA model rotation respects reduced-motion preferences and reports the correct control state");
-check(artifacts.includes("Arrow keys to explore") && artifacts.includes("+/- to zoom"), "Procedural 3D exhibits display keyboard interaction instructions");
+check(artifactsScript.includes("Arrow keys to explore") && artifactsScript.includes("+/- to zoom"), "Procedural 3D exhibits display keyboard interaction instructions");
 check(css.includes(".artifact-3d-canvas:focus-visible") && css.includes(".artifact-3d-callout-close{pointer-events:auto}"), "3D canvas focus and component-guide close control remain accessible");
 
 
