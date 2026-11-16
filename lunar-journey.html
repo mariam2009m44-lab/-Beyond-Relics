@@ -14,8 +14,11 @@
 <link rel="stylesheet" href="css/cosmic-environment.css">
 <link rel="stylesheet" href="css/layout-consistency.css">
 <link rel="stylesheet" href="css/lunar-journey.css">
-<script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js" defer></script>
-<script src="js/lunar-journey.js" defer></script>
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js";
+window.THREE=THREE;
+await import("./js/lunar-journey.js");
+</script>
 </head>
 <body class="lunar-journey-page">
 <header class="lj-topbar">
