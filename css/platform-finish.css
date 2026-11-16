@@ -82,9 +82,6 @@ button:disabled{cursor:not-allowed}
 :where(.footer,.lj-footer){
   padding-bottom:max(18px,env(safe-area-inset-bottom));
 }
-:where(.artifact-3d-stage,.artifact-model-viewer,.lj-stage,#lj-canvas){
-  touch-action:pan-y;
-}
 .reader-page .reader-stage{overscroll-behavior:contain}
 .reader-page .reader-image{object-fit:contain}
 .reader-page .reader-thumb{flex:0 0 auto}
