@@ -83,7 +83,7 @@ function makeScene(T,id,root){
   const horizon=new T.Mesh(new T.SphereGeometry(42,32,20),new T.MeshBasicMaterial({color:0x070b12,side:T.BackSide}));horizon.position.y=-2.5;scene.add(horizon);
  }
  let starSeed=90210;const starRand=()=>{starSeed=(starSeed*16807)%2147483647;return(starSeed-1)/2147483646;};
- const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<compactRender?220:450;i++)stars.push((starRand()-.5)*40,starRand()*20-1,(starRand()-.5)*35);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));scene.add(new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:compactRender?.035:.045,transparent:true,opacity:.82,depthWrite:false})));
+ const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<(compactRender?220:450);i++)stars.push((starRand()-.5)*40,starRand()*20-1,(starRand()-.5)*35);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));scene.add(new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:compactRender?.035:.045,transparent:true,opacity:.82,depthWrite:false})));
  const rootObj=new T.Group();scene.add(rootObj);
  const metal=new T.MeshStandardMaterial({color:0xb9a17b,metalness:.78,roughness:.27,envMapIntensity:1.25}),foil=new T.MeshStandardMaterial({color:0xb9c5c8,metalness:.82,roughness:.24,envMapIntensity:1.3}),dark=new T.MeshStandardMaterial({color:0x343e48,metalness:.55,roughness:.36,envMapIntensity:1.05}),black=new T.MeshStandardMaterial({color:0x101a26,metalness:.38,roughness:.3,envMapIntensity:.9}),blue=new T.MeshStandardMaterial({color:0x254c70,metalness:.58,roughness:.24,envMapIntensity:1.15}),solar=new T.MeshStandardMaterial({color:0x173d65,metalness:.62,roughness:.3,emissive:0x07182c,envMapIntensity:1.05});
  const groups={};
