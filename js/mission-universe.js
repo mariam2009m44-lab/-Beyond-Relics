@@ -81,6 +81,11 @@ function texture(kind){
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 const worldTextureSources={
+ jupiter:{
+  url:"https://space.jpl.nasa.gov/tmaps/pix/jup0vss1.jpg",
+  label:"NASA/JPL Voyager · global atmospheric map · 720×360 · enhanced/low resolution",
+  source:"https://space.jpl.nasa.gov/tmaps/jupiter.html"
+ },
  venus:{
   url:"https://maps.jpl.nasa.gov/tmaps/pix/ven0aaa2.jpg",
   label:"NASA/JPL Magellan · radar mosaic · gaps filled with global texture",
