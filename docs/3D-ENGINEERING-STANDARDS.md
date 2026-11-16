@@ -14,7 +14,7 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 ## 2. Frame-rate independent motion
 
 - Express animation as a per-frame baseline multiplied by a capped delta-time factor.
-- Use exponential easing (`1 - Math.pow(1 - smoothing, delta))) so camera motion feels consistent at different refresh rates.
+- Use exponential easing (`1 - Math.pow(1 - smoothing, delta)) so camera motion feels consistent at different refresh rates.
 - Cap unusually large deltas after tab suspension to prevent sudden jumps.
 - Respect `prefers-reduced-motion`; do not auto-rotate when the visitor requests reduced motion.
 
