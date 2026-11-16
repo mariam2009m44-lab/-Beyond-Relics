@@ -1,0 +1,128 @@
+/* Beyond Relics — platform-wide finish layer.
+   Presentation-only: preserves page content, original comics, and each page's layout. */
+:root{
+  --br-finish-ink:#edf4fa;
+  --br-finish-muted:#aebfce;
+  --br-finish-line:rgba(142,190,211,.24);
+  --br-finish-cyan:#8edce8;
+  --br-finish-gold:#e2c28d;
+  --br-finish-glass:rgba(7,17,31,.82);
+  --br-finish-radius:16px;
+}
+html{scroll-padding-top:clamp(68px,9vh,100px);text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100svh;font-kerning:normal}
+img,video,canvas,svg{max-width:100%}
+img{height:auto}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid var(--br-finish-cyan)!important;
+  outline-offset:4px!important;
+}
+::selection{background:rgba(142,220,232,.3);color:#fff}
+:where(h1,h2,h3,h4){text-wrap:balance}
+:where(p,li){text-wrap:pretty}
+:where(.nav,.lj-topbar,.reader-top){
+  border-bottom:1px solid var(--br-finish-line);
+  backdrop-filter:blur(18px) saturate(130%);
+  -webkit-backdrop-filter:blur(18px) saturate(130%);
+}
+:where(.nav .links a,.lj-topbar nav a,.lj-exit,.reader-back a){
+  transition:color .2s ease,text-shadow .2s ease;
+}
+:where(.nav .links a:hover,.lj-topbar nav a:hover,.lj-exit:hover,.reader-back a:hover){
+  color:var(--br-finish-cyan);
+}
+:where(.tools button,.btn,.lj-primary,.universe-entry-launch,.artifact-3d-toolbar button,.lj-controls button,.lj-motion-controls button,.cinema-controls button){
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .2s ease,border-color .2s ease,background-color .2s ease,color .2s ease,box-shadow .2s ease,filter .2s ease;
+}
+:where(.btn,.lj-primary,.universe-entry-launch,.artifact-3d-toolbar button,.lj-controls button,.lj-motion-controls button,.cinema-controls button){
+  min-height:44px;
+}
+:where(.btn,.lj-primary,.universe-entry-launch):hover{
+  filter:brightness(1.08);
+  box-shadow:0 12px 30px rgba(59,164,188,.16);
+}
+:where(.btn,.lj-primary,.universe-entry-launch):active{transform:translateY(1px)}
+:where(input,select,textarea){
+  min-width:0;
+  max-width:100%;
+  accent-color:var(--br-finish-cyan);
+}
+:where(input,select,textarea)::placeholder{color:#91a6b8;opacity:1}
+:where(input,select,textarea):focus-visible{
+  border-color:var(--br-finish-cyan)!important;
+  box-shadow:0 0 0 3px rgba(142,220,232,.12);
+}
+:where(.page,.lj-explorer,.reader-stage,.mission-brief,.chronicle-section,.science-panels,.mission-detective,.story-worlds){
+  min-width:0;
+}
+.page{width:min(100%,1440px);margin-inline:auto}
+.page-title{line-height:1.02;letter-spacing:-.025em}
+.lead{line-height:1.75}
+:where(.panel,.acard,.chronicle-card,.science-card,.detective-console,.release-card,.research-method,.evidence-metric){
+  min-width:0;
+}
+:where(.acard,.chronicle-card,.science-card,.story-world-card,.release-card){
+  transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease;
+}
+:where(.acard,.chronicle-card,.science-card,.release-card):focus-within{
+  border-color:rgba(142,220,232,.58);
+  box-shadow:0 18px 46px rgba(0,0,0,.28),0 0 0 1px rgba(142,220,232,.12);
+}
+:where(.chronicle-copy p,.science-card p,.detail .body,.facts dd){
+  line-height:1.72;
+}
+:where(.chronicle-copy a,.science-card a,.footer-credits,.artifact-model-credit,.lj-object-card a,.lj-source-note a){
+  text-underline-offset:4px;
+  text-decoration-thickness:1px;
+}
+:where(.footer,.lj-footer){
+  padding-bottom:max(18px,env(safe-area-inset-bottom));
+}
+.reader-page .reader-stage{overscroll-behavior:contain}
+.reader-page .reader-image{object-fit:contain}
+.reader-page .reader-thumb{flex:0 0 auto}
+:where(.lj-explorer-hero,.lj-stage,.universe-entry,.artifact-3d-stage){
+  isolation:isolate;
+}
+:where(.lj-object-card,.br-universe-info,.artifact-3d-callout){
+  overflow-wrap:anywhere;
+}
+:where(.lj-controls button,.lj-motion-controls button,.artifact-3d-toolbar button,.cinema-controls button){
+  touch-action:manipulation;
+}
+@media(max-width:760px){
+  .page{padding-inline:clamp(14px,4vw,24px)}
+  :where(.section-heading,.detective-heading,.story-worlds-heading){padding-inline:clamp(14px,4vw,22px)}
+  :where(.toolbar,.universe-entry-actions){min-width:0;max-width:100%}
+  :where(.toolbar input,.toolbar select){width:100%;min-width:0}
+  :where(.lj-explorer-hero){grid-template-columns:minmax(0,1fr);min-height:0}
+  .lj-orbit-art{min-height:clamp(260px,62vw,420px)}
+  .lj-hero-copy{padding:clamp(24px,7vw,42px)}
+  :where(.lj-topbar nav,.lj-topbar .lj-exit){white-space:nowrap}
+  .lj-topbar{gap:10px;padding-inline:12px}
+  .lj-topbar nav{min-width:0;overflow-x:auto;scrollbar-width:none}
+  .lj-topbar nav::-webkit-scrollbar{display:none}
+  :where(.lj-footer,.footer){flex-wrap:wrap;gap:12px}
+}
+@media(max-width:420px){
+  .page-title{overflow-wrap:anywhere}
+  :where(.btn,.lj-primary,.universe-entry-launch){max-width:100%;white-space:normal;text-align:center}
+  .lj-topbar nav a{font-size:.6rem}
+}
+@media(hover:hover){
+  :where(.acard,.chronicle-card,.science-card,.release-card):hover{
+    transform:translateY(-3px);
+    border-color:rgba(142,220,232,.5);
+  }
+}
+@media(hover:none){
+  :where(.acard,.chronicle-card,.science-card,.release-card):hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
