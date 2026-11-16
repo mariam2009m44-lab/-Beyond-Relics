@@ -48,3 +48,8 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 .artifact-3d-actions{display:flex;flex-wrap:wrap;gap:8px}
 .artifact-3d-actions button{min-height:44px}
 @media(max-width:760px){.artifact-3d-actions{grid-template-columns:1fr 1fr}.three-d-stamp{left:8px;bottom:8px;font-size:.52rem}}
+
+/* Accessible zoom controls for touch and pointer users */
+.artifact-3d-actions button[data-view-zoom-in],.artifact-3d-actions button[data-view-zoom-out]{border-color:#6db9d65c;background:#112b3b;color:#d5f5ff;min-width:76px}
+.artifact-3d-actions button[data-view-zoom-in]:hover,.artifact-3d-actions button[data-view-zoom-out]:hover{background:#1c4960;border-color:#9be6ff}
+@media(max-width:760px){.artifact-3d-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.artifact-3d-actions button{width:100%}}
