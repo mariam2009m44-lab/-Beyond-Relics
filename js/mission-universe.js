@@ -338,12 +338,48 @@ function addSurfaceMarker(group,point,position,index){
  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,.72,8),new THREE.MeshBasicMaterial({color:0x8edce8,transparent:true,opacity:.45}));stem.position.y=-.42;
  marker.add(core,ring,stem);group.add(marker);surfaceHotspots.push(marker);return marker;
 }
+function surfaceTerrainHeight(x,z,moon,craters){
+ let height=moon
+  ?Math.sin(x*.23)*Math.cos(z*.2)*.16+Math.sin(x*.71+z*.38)*.035+Math.cos(z*.93-x*.42)*.018
+  :Math.sin(x*.14+z*.18)*.25+Math.sin(z*.39)*.075+Math.cos(x*.57-z*.31)*.035;
+ for(const [cx,cz,r,depth] of craters){
+  const d=Math.hypot(x-cx,z-cz),bowl=Math.exp(-Math.pow(d/(r*.68),2));
+  const rim=Math.exp(-Math.pow((d-r)/(r*.16),2));
+  height-=bowl*depth;height+=rim*depth*.23;
+ }
+ return height;
+}
 function addSurfaceTerrain(group,key){
- const moon=key==="moon",segments=72,geo=new THREE.PlaneGeometry(68,68,segments,segments),pos=geo.attributes.position;
- for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getY(i);let h=moon?(Math.sin(x*.23)*Math.cos(z*.2)*.22):Math.sin(x*.14+z*.18)*.34+Math.sin(z*.39)*.08;if(moon){[[ -7,-4,3.2],[4,7,2.1],[10,-8,2.6],[-12,11,1.8]].forEach(([cx,cz,r])=>{const d=Math.hypot(x-cx,z-cz);h-=Math.exp(-Math.pow(d/(r*.72),2))*.62;h+=Math.exp(-Math.pow((d-r)/(r*.15),2))*.16;});}pos.setZ(i,h);}
- geo.computeVertexNormals();const terrain=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:moon?0x777b80:0x80503e,roughness:.98,metalness:0}));terrain.rotation.x=-Math.PI/2;terrain.position.y=-.22;group.add(terrain);
- const rockMat=new THREE.MeshStandardMaterial({color:moon?0x96989b:0xa56b50,roughness:1});let seed=key==="moon"?31:67;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
- for(let i=0;i<90;i++){const x=(rand()-.5)*48,z=(rand()-.5)*48;if(Math.abs(x)<3&&Math.abs(z)<3)continue;const size=.1+rand()*.32;const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(size,0),rockMat);rock.position.set(x,-.16+rand()*.08,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.8;group.add(rock);}
+ const moon=key==="moon",craters=moon
+  ?[[-7,-4,3.2,.62],[4,7,2.1,.44],[10,-8,2.6,.52],[-12,11,1.8,.36],[1,-12,1.15,.25],[-15,-10,1.4,.3],[14,13,1.7,.32]]
+  :[[-9,-5,2.3,.38],[7,8,1.8,.31],[12,-9,2.7,.42],[-14,10,1.5,.26],[1,-13,1.1,.2]];
+ const segments=112,geo=new THREE.PlaneGeometry(68,68,segments,segments),pos=geo.attributes.position;
+ const colors=[],low=new THREE.Color(moon?0x343b43:0x452b25),high=new THREE.Color(moon?0xaaa9a2:0xb77a5b),ridge=new THREE.Color(moon?0xc1bcb0:0xd29a72);
+ for(let i=0;i<pos.count;i++){
+  const x=pos.getX(i),z=pos.getY(i),h=surfaceTerrainHeight(x,z,moon,craters);
+  pos.setZ(i,h);
+  const variation=(Math.sin(x*.37+z*.19)+Math.cos(z*.31-x*.22))*.045;
+  const tone=THREE.MathUtils.clamp(.42+h*.5+variation,0,1);
+  const color=low.clone().lerp(high,tone);
+  if(h>.24)color.lerp(ridge,THREE.MathUtils.clamp((h-.24)*.8,0,.38));
+  colors.push(color.r,color.g,color.b);
+ }
+ geo.setAttribute("color",new THREE.Float32BufferAttribute(colors,3));geo.computeVertexNormals();
+ const terrain=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.98,metalness:0}));
+ terrain.rotation.x=-Math.PI/2;terrain.position.y=-.22;terrain.name=moon?"lunar-regolith-terrain":"martian-regolith-terrain";group.add(terrain);
+ const rockGeometry=new THREE.DodecahedronGeometry(.22,0),rockMaterial=new THREE.MeshStandardMaterial({color:0xffffff,roughness:1});
+ const rocks=new THREE.InstancedMesh(rockGeometry,rockMaterial,76),dummy=new THREE.Object3D(),rockColor=new THREE.Color();
+ let seed=moon?31:67;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ for(let i=0;i<rocks.count;i++){
+  const x=(rand()-.5)*48,z=(rand()-.5)*48;if(Math.abs(x)<3&&Math.abs(z)<3){i--;continue;}
+  const size=.55+rand()*1.5;
+  dummy.position.set(x,surfaceTerrainHeight(x,z,moon,craters)-.12,z);
+  dummy.rotation.set(rand()*.7,rand()*Math.PI,rand()*.7);
+  dummy.scale.set(size,size*(.45+rand()*.8),size*(.7+rand()*.6));dummy.updateMatrix();rocks.setMatrixAt(i,dummy.matrix);
+  rockColor.set(moon?(rand()>.5?0xaaa9a4:0x656b70):(rand()>.5?0xb47b5c:0x70483b));rocks.setColorAt(i,rockColor);
+ }
+ rocks.instanceMatrix.needsUpdate=true;if(rocks.instanceColor)rocks.instanceColor.needsUpdate=true;
+ rocks.name=moon?"lunar-rock-instances":"martian-rock-instances";group.add(rocks);
  const horizon=new THREE.Mesh(new THREE.SphereGeometry(110,32,24),new THREE.MeshBasicMaterial({color:moon?0x080d16:0x1a1014,side:THREE.BackSide}));horizon.position.y=-5;group.add(horizon);
 }
 async function loadSurfaceModel(group,url,id,position,targetSize){
