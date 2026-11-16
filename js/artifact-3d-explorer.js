@@ -162,7 +162,7 @@ async function mountOfficialModel(root,item,loading,canvas){
  viewer.setAttribute("min-camera-orbit","auto 15deg 2m");
  viewer.setAttribute("max-camera-orbit","auto 165deg 18m");
  viewer.setAttribute("touch-action","pan-y");
- viewer.setAttribute("auto-rotate","");
+ if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)viewer.setAttribute("auto-rotate","");
  viewer.setAttribute("rotation-per-second","7deg");
  viewer.setAttribute("shadow-intensity","1");
  viewer.setAttribute("environment-image","neutral");
@@ -183,11 +183,11 @@ async function mountOfficialModel(root,item,loading,canvas){
  root.appendChild(badge);
  loading.hidden=false;loading.textContent="Loading official NASA 3D model…";
  const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent=model.label+" · NOT A PHYSICAL SCAN";
- const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Drag to orbit · Pinch or scroll to zoom";
+ const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Drag to orbit · Pinch to zoom · Use controls below";
  const parts=root.querySelector(".artifact-3d-parts");if(parts)parts.setAttribute("aria-label","Voyager component guide");
  const explode=root.querySelector("[data-view-explode]");if(explode)explode.hidden=true;
  const reset=root.querySelector("[data-view-reset]");if(reset)reset.addEventListener("click",()=>{viewer.cameraOrbit="0deg 75deg auto";viewer.cameraTarget="auto";viewer.fieldOfView="auto";modelFov=45;viewer.jumpCameraToGoal();});
- const rotate=root.querySelector("[data-view-rotate]");if(rotate){rotate.setAttribute("aria-pressed","true");rotate.textContent="Pause rotation";}
+ const rotate=root.querySelector("[data-view-rotate]");if(rotate){const rotating=viewer.hasAttribute("auto-rotate");rotate.setAttribute("aria-pressed",String(rotating));rotate.textContent=rotating?"Pause rotation":"Auto rotate";}
  const zoomIn=root.querySelector("[data-view-zoom-in]"),zoomOut=root.querySelector("[data-view-zoom-out]");let modelFov=45;
  if(zoomIn)zoomIn.addEventListener("click",()=>{modelFov=Math.max(20,modelFov-5);viewer.fieldOfView=modelFov+"deg";});
  if(zoomOut)zoomOut.addEventListener("click",()=>{modelFov=Math.min(65,modelFov+5);viewer.fieldOfView=modelFov+"deg";});
