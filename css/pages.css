@@ -1248,3 +1248,5 @@ body {
 .story-intro:before{border-color:var(--gateway-glow,rgba(233,220,198,.12));box-shadow:0 0 0 45px rgba(233,220,198,.025),0 0 0 90px rgba(233,220,198,.018),0 0 100px var(--gateway-glow,rgba(120,155,210,.12))}
 .story-intro h2{max-width:17ch}
 .story-intro .story-enter{background:linear-gradient(110deg,#d36c46,#e7a75b);border:1px solid rgba(255,255,255,.5);color:#100d0b;font-weight:800;box-shadow:0 0 38px rgba(232,139,81,.3)}
+
+.footer-credits{color:var(--muted,#a7b3c2);font-size:.72rem;text-decoration:none;letter-spacing:.04em;transition:color .2s ease}.footer-credits:hover,.footer-credits:focus-visible{color:var(--accent,#d7b98e)}.footer-credits:focus-visible{outline:2px solid currentColor;outline-offset:4px}
