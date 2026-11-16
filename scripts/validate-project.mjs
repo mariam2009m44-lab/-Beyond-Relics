@@ -30,6 +30,7 @@ const cosmicCss = read("css/cosmic-environment.css");
 const visualSystem = read("css/visual-system.css");
 
 const layoutConsistency = read("css/layout-consistency.css");
+const artifactFinish = read("css/artifact-exhibit-finish.css");
 const layoutPages = ["index.html","artifacts.html","timeline.html","challenge.html","data.html","about.html","comic.html","artifact-details.html","404.html","credits.html","lunar-journey.html"];
 for (const page of layoutPages) {
   check(read(page).includes("css/layout-consistency.css"), "Final responsive layout layer is included on " + page);
@@ -43,6 +44,9 @@ check(layoutConsistency.includes(".reader-image") && layoutConsistency.includes(
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
 check(artifact3d.includes("function makeStudioEnvironment(T)") && artifact3d.includes("scene.environment=makeStudioEnvironment(T)"), "Artifact reconstructions use a generated studio reflection environment");
+check(artifact3d.includes("new T.Box3().setFromObject(world.rootObj)") && artifact3d.includes("baseDistance*.88*zoom"), "Each artifact reconstruction is auto-framed from its own 3D bounds");
+check(artifactFinish.includes(".artifact-3d-stage") && artifactFinish.includes("@media(max-width:650px)") && artifactFinish.includes("prefers-reduced-motion"), "Artifact exhibit finish layer covers responsive stage styling and reduced motion");
+check(read("artifacts.html").includes("css/artifact-exhibit-finish.css") && read("artifact-details.html").includes("css/artifact-exhibit-finish.css"), "Artifact archive and detail pages share the dedicated exhibit finish layer");
 check(artifact3d.includes("toneMappingExposure=1.08") && artifact3d.includes("envMapIntensity"), "Artifact PBR materials use a calibrated tone-mapping and reflection workflow");
 check(artifact3d.includes("cellGrid") && artifact3d.includes("gridMat"), "Artistic rover reconstructions include segmented solar-array surface details");
 check(artifact3d.includes('setAttribute("environment-image","neutral")'), "Official GLB exhibits use a neutral environment without modifying source geometry");

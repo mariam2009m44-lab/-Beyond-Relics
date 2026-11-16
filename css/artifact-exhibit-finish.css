@@ -1,0 +1,130 @@
+/* Beyond Relics — artifact gallery finishing layer.
+   One shared observatory palette for the archive and every artifact exhibit. */
+:root{
+  --br-ink:#070d1a;
+  --br-panel:#101d30;
+  --br-cyan:#8edce8;
+  --br-violet:#9186d7;
+  --br-champagne:#e2c28d;
+  --br-line:rgba(142,190,211,.24);
+}
+.artifact-3d-stage{
+  min-height:clamp(520px,62vw,740px);
+  border:1px solid var(--br-line);
+  border-radius:22px;
+  background:
+    radial-gradient(ellipse at 50% 34%,rgba(142,220,232,.16),transparent 38%),
+    radial-gradient(ellipse at 78% 18%,rgba(145,134,215,.12),transparent 34%),
+    linear-gradient(155deg,#14263b 0%,#091525 52%,#050a14 100%);
+  box-shadow:0 30px 90px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.06);
+}
+.artifact-3d-canvas-wrap::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(ellipse at center,transparent 42%,rgba(2,7,15,.24) 100%);
+}
+.artifact-3d-canvas{position:relative;z-index:0;outline:none}
+.artifact-3d-canvas:focus-visible{outline:3px solid var(--br-cyan);outline-offset:-5px}
+.artifact-3d-topline{
+  color:#c5dce8;
+  font-size:.66rem;
+  letter-spacing:.18em;
+  text-shadow:0 2px 12px #000;
+}
+.artifact-3d-toolbar{
+  gap:14px;
+  padding:14px 18px;
+  border-top:1px solid rgba(142,190,211,.2);
+  background:linear-gradient(180deg,rgba(7,16,29,.88),rgba(3,9,18,.97));
+}
+.artifact-3d-parts,.artifact-3d-actions{gap:8px}
+.artifact-3d-toolbar button{
+  min-height:44px;
+  border:1px solid rgba(142,190,211,.3);
+  border-radius:9px;
+  background:linear-gradient(145deg,rgba(19,41,62,.96),rgba(10,24,40,.96));
+  color:#dceaf1;
+  font:650 .7rem/1.2 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.015em;
+  transition:transform .2s,border-color .2s,background .2s,box-shadow .2s;
+}
+.artifact-3d-toolbar button:hover{
+  transform:translateY(-1px);
+  border-color:var(--br-cyan);
+  background:rgba(29,65,83,.98);
+  box-shadow:0 7px 22px rgba(65,165,190,.12);
+}
+.artifact-3d-toolbar button[aria-pressed=true]{
+  border-color:var(--br-cyan);
+  background:linear-gradient(120deg,rgba(38,82,101,.96),rgba(30,48,76,.96));
+  color:#fff;
+  box-shadow:inset 0 0 0 1px rgba(142,220,232,.12),0 0 18px rgba(88,187,207,.1);
+}
+.artifact-3d-toolbar button:focus-visible,.artifact-3d-callout-close:focus-visible{
+  outline:3px solid var(--br-champagne);
+  outline-offset:3px;
+}
+.artifact-3d-callout{
+  border-color:rgba(142,220,232,.34);
+  background:linear-gradient(145deg,rgba(10,25,42,.96),rgba(4,12,24,.97));
+  box-shadow:0 18px 48px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.06);
+}
+.artifact-3d-callout small{color:var(--br-cyan)}
+.artifact-3d-callout strong{color:#f4f7f8}
+.artifact-3d-callout p{color:#c4d1dc}
+.artifact-3d-foot{
+  padding:4px 6px 0;
+  color:#a9bbc9;
+  letter-spacing:.07em;
+}
+.artifact-model-viewer{
+  background:
+    radial-gradient(ellipse at 50% 35%,rgba(142,220,232,.17),transparent 40%),
+    radial-gradient(ellipse at 78% 20%,rgba(145,134,215,.12),transparent 36%),
+    linear-gradient(155deg,#14263b,#091525 58%,#050a14);
+  --progress-bar-color:var(--br-cyan);
+}
+.artifact-model-credit{
+  border-color:rgba(142,220,232,.42);
+  background:rgba(5,14,27,.92);
+  color:#d4f5f8;
+}
+.artifact-gallery{
+  margin-top:clamp(2.5rem,5vw,4.5rem);
+  padding-top:clamp(1.5rem,3vw,2.5rem);
+  border-top:1px solid rgba(142,190,211,.18);
+}
+.artifact-gallery .gallery-heading h2{color:#edf4fa}
+.nasa-evidence-image{
+  overflow:hidden;
+  border:1px solid rgba(142,190,211,.22);
+  border-radius:12px;
+  background:linear-gradient(145deg,#13243a,#091322);
+  box-shadow:0 12px 34px rgba(0,0,0,.22);
+}
+.nasa-evidence-image img{transition:transform .45s ease,filter .45s ease}
+.nasa-evidence-image:hover img{transform:scale(1.035);filter:saturate(1.08)}
+.source-list a{color:var(--br-cyan);text-decoration-thickness:1px;text-underline-offset:3px}
+.source-list a:hover{color:#fff}
+@media(max-width:760px){
+  .artifact-3d-stage{min-height:590px;border-radius:16px}
+  .artifact-3d-toolbar{padding:11px;gap:10px}
+  .artifact-3d-parts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .artifact-3d-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .artifact-3d-toolbar button{width:100%;min-height:46px;font-size:.66rem}
+  .artifact-3d-foot{font-size:.55rem}
+}
+@media(max-width:650px){
+  .artifact-3d-stage{min-height:600px}
+  .artifact-3d-topline{font-size:.54rem}
+}
+@media(max-width:390px){
+  .artifact-3d-stage{min-height:620px}
+  .artifact-3d-topline{font-size:.49rem;letter-spacing:.1em}
+  .artifact-3d-toolbar{padding:9px}
+  .artifact-3d-parts,.artifact-3d-actions{gap:6px}
+  .artifact-3d-toolbar button{padding-inline:6px;font-size:.61rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .artifact-3d-toolbar button,.nasa-evidence-image img{transition:none}
+  .artifact-3d-toolbar button:hover,.nasa-evidence-image:hover img{transform:none}
+}
