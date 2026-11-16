@@ -77,6 +77,7 @@ check(universe3d.includes("worldRadii[key]") && universe3d.includes("radius*5.8"
 check(universe3d.includes("br-universe-record-toggle") && universe3d.includes("aria-expanded") && universe3d.includes("list.hidden=true") && universe3d.includes("list.hidden=expanded"), "Planet information stays compact until mission records are explicitly expanded");
 check(missionUniverseCss.includes("bottom:clamp(104px,15vh,142px)") && missionUniverseCss.includes('grid-template-areas:"world archive"'), "Planet information HUD sits below the scene as a compact, non-dominant overlay");
 check(artifactsScript.includes('grid.classList.add("archive-grid")') && !artifactsScript.includes('el("p","",item.short)'), "Artifact archive cards use concise progressive-disclosure summaries");
+check(artifactsScript.includes('var region="All",status="All",term="";'), "The archive initially shows all mission-status groups so records are not hidden by a default filter");
 check(comicPage.includes('class="reader-film-controls"') && !comicPage.includes('class="cinema-controls"'), "Comic film controls live in the lower control bar rather than over the artwork");
 check(comicCss.includes(".reader-film-controls{display:flex") && comicCss.includes("--accent:#d8bd8b"), "Comic reader uses the shared space palette and responsive non-overlay controls");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
