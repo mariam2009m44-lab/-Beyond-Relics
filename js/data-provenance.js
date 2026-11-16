@@ -47,8 +47,6 @@
       fragment.append(card);
     });
     root.replaceChildren(fragment);
-    var status=root.querySelector("[data-provenance-status]");
-    if(status)status.textContent=data.entries.length+" provenance records loaded.";
   }
   var status=root.querySelector("[data-provenance-status]");
   fetch("data/data-provenance.json").then(function(response){
