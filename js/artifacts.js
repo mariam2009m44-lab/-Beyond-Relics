@@ -125,8 +125,9 @@
     content.append(el("p","eyebrow",item.type+" · "+item.classification),el("h1","page-title",item.title),el("p","body",item.body));
     var storyEntry=el("section","mission-story-entry");
     storyEntry.append(el("p","eyebrow","THE MISSION STORY"),el("h2","","Follow the story behind this artifact"),el("p","",item.story_hook||"Explore the mission, its discoveries, and the hardware that remains."));
-    var storyMeta=el("span","mission-story-format",item.story_artwork&&item.story_artwork.length?"ORIGINAL ILLUSTRATED CHAPTER":"GUIDED STORY · FIELD NOTES");
-    var storyStart=el("a","btn","Start the mission story →");storyStart.href="comic.html?chapter="+encodeURIComponent(item.id);
+    var hasComic=Array.isArray(item.story_artwork)&&item.story_artwork.length>0;
+    var storyMeta=el("span","mission-story-format",hasComic?"ORIGINAL COMIC · "+item.story_artwork.length+" PANELS":"MISSION FIELD NOTES · TEXT STORY");
+    var storyStart=el("a","btn",hasComic?"Open the illustrated comic →":"Open mission field notes →");storyStart.href="comic.html?chapter="+encodeURIComponent(item.id);
     storyEntry.append(storyMeta,storyStart);content.appendChild(storyEntry);
     var state=el("div","mission-state");state.append(el("span","state-label","Mission status"),el("strong","",item.status));content.appendChild(state);
     var blocks=[["The mission goal",item.mission_goal],["What stayed behind",item.what_stayed],["What science gained",item.science_legacy],["Why it still matters",item.why_it_matters]];
