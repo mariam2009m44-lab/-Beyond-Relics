@@ -20,13 +20,13 @@ const copy={
 };
 const componentMap={
  "lunar-module":["body","upper","landing-gear","descent-engine"],
- "apollo-12-alsep":["body","science-instruments","antenna","rtg-power"],
- "pathfinder-sojourner":["lander","rover","wheels","solar-array"],
- "spirit":["body",null,"wheels","solar-array"],
- "opportunity":["body","mast","wheels","solar-array"],
- "phoenix":["body","robotic-arm","solar-array","landing-legs"],
- "insight":["body","science-payload","solar-array","robotic-arm"],
- "curiosity":["body","mast","wheels","robotic-arm"]
+ "apollo-12-alsep":["central-station","science-instruments","antenna","rtg-power"],
+ "pathfinder-sojourner":["lander","rover-body","wheels","solar-array"],
+ "spirit":["rover-body",null,"wheels","solar-array"],
+ "opportunity":["rover-body","mast","wheels","solar-array"],
+ "phoenix":["lander-deck","robotic-arm","solar-array","landing-legs"],
+ "insight":["lander-deck",null,"solar-array","robotic-arm"],
+ "curiosity":["rover-body","mast","wheels","robotic-arm"]
 };
 function makeStudioEnvironment(T){
  const faces=[];
@@ -105,8 +105,8 @@ function makeScene(T,id,root){
  const cyl=(p,a,b,h,m,pos,segments=12,rot=[0,0,0])=>mesh(p,new T.CylinderGeometry(a,b,h,segments),m,pos,rot);
  const wheel=(p,x,z,r=.38)=>{const w=mesh(p,new T.CylinderGeometry(r,r,.22,16),black,[x,-1.65,z],[0,0,Math.PI/2]);mesh(p,new T.TorusGeometry(r*.72,.045,8,20),foil,[x,-1.65,z],[0,Math.PI/2,0]);return w;};
  function rover(curiosity=false,name="body"){
-  const body=group(name);box(body,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
-  box(body,[.8,.48,.7],foil,[0,.22,0]);box(body,[.25,.12,.25],dark,[0,.55,0]);
+  const body=group(name);const chassis=part(body,"rover-body");box(chassis,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
+  box(chassis,[.8,.48,.7],foil,[0,.22,0]);box(chassis,[.25,.12,.25],dark,[0,.55,0]);
   const mast=part(body,"mast");mast.position.set(0,.45,0);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
   if(curiosity){const arm=part(body,"robotic-arm");arm.position.set(.9,-.35,.1);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
   const wheelAssembly=part(body,"wheels");
@@ -133,7 +133,7 @@ function makeScene(T,id,root){
   return body;
  }
  function lander(name="body",legCount=4){
-  const base=group(name);cyl(base,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(base,.75,.8,.7,foil,[0,.05,0],8);cyl(base,.42,.48,.45,dark,[0,.58,0],8);
+  const base=group(name);const deck=part(base,"lander-deck");cyl(deck,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(deck,.75,.8,.7,foil,[0,.05,0],8);cyl(deck,.42,.48,.45,dark,[0,.58,0],8);
   const landingLegs=part(base,"landing-legs");
   for(let i=0;i<legCount;i++){const a=(Math.PI*2/legCount)*i+Math.PI/4,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;landingLegs.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
   return base;
@@ -146,7 +146,8 @@ function makeScene(T,id,root){
   const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
  }else if(id==="apollo-12-alsep"){
   const station=group("body");station.position.y=-1.55;
-  box(station,[1.05,.58,.82],metal,[0,-.55,0]);box(station,[.72,.08,.58],foil,[0,-.22,0]);
+  const centralStation=part(station,"central-station");
+  box(centralStation,[1.05,.58,.82],metal,[0,-.55,0]);box(centralStation,[.72,.08,.58],foil,[0,-.22,0]);
   // RTG package, antenna and instrument packages: educational artistic reconstruction.
   const power=part(station,"rtg-power");
   cyl(power,.22,.22,.82,foil,[-.72,-.48,0],24,[0,0,Math.PI/2]);
