@@ -64,7 +64,8 @@ function makeScene(T,id,root){
  return {scene,camera,rootObj,groups};
 }
 const OFFICIAL_MODELS={
- "voyager":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/voyager-probe-%28b%29/Voyager%20Probe%20%28B%29.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/voyager-probe-b/",label:"OFFICIAL NASA 3D MODEL"}
+ "voyager":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/voyager-probe-%28b%29/Voyager%20Probe%20%28B%29.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/voyager-probe-b/",label:"OFFICIAL NASA 3D MODEL"},
+ "lunar-module":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/apollo-lunar-module/",label:"OFFICIAL NASA 3D MODEL"}
 };
 function loadModelViewer(){
  if(customElements.get("model-viewer"))return Promise.resolve();
