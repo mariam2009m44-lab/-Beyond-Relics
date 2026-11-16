@@ -1,0 +1,117 @@
+{
+  "title": "Beyond Relics — Scientific Data Provenance Register",
+  "version": 1,
+  "entries": [
+    {
+      "id": "apollo-pse-observations",
+      "title": "Apollo Passive Seismic Experiment observations",
+      "kind": "Original archived observations",
+      "status": "ARCHIVED OBSERVATIONS",
+      "mission": "Apollo 12 and the wider Apollo PSE network",
+      "instrument": "Passive Seismic Experiment (PSE), channel XA.S12.00.MHZ in the featured sample",
+      "period": "The featured file is identified by its archive path as year 1969, day 323; the wider PSE collection spans Apollo observations from 1969–1977.",
+      "units": "The current browser parser does not read calibration metadata or reliably establish physical units. The plotted value-column header is shown, but units must be checked against the original PDS labels and StationXML before scientific interpretation.",
+      "processing": "The browser parses the selected PDS ASCII GeoCSV, heuristically selects a numeric observation column, plots up to 1,600 evenly sampled points for readability, and calculates descriptive statistics from all valid parsed values.",
+      "limitations": "Not a live feed. The parser does not apply instrument calibration, identify moonquakes, classify events, or assign physical meaning to peaks. Remote loading may fail because of browser cross-origin policy; downloading the original file and selecting it locally is supported.",
+      "sourceLabel": "NASA Planetary Data System — Apollo Seismic Data bundle",
+      "source": "https://pds-geosciences.wustl.edu/missions/apollo/apollo_pse.htm",
+      "additionalSources": [
+        {
+          "label": "NASA PDS — Apollo 12 PSE instrument metadata",
+          "url": "https://pds.nasa.gov/ds-view/pds/viewContext.jsp?identifier=urn%3Anasa%3Apds%3Acontext%3Ainstrument%3Apse.a12a"
+        },
+        {
+          "label": "Dataset DOI 10.17189/9ykc-er91",
+          "url": "https://doi.org/10.17189/9ykc-er91"
+        }
+      ]
+    },
+    {
+      "id": "alsep-station-locator",
+      "title": "Apollo passive-seismic station locator",
+      "kind": "Derived mission metadata",
+      "status": "DERIVED METADATA",
+      "mission": "Apollo 12, 14, 15 and 16",
+      "instrument": "Passive Seismic Experiment station network",
+      "period": "Stations deployed from 1969 to 1972; PSE operations continued until mid-1977.",
+      "units": "Latitude and longitude in degrees; instrument sampling rates in samples per second (Hz).",
+      "processing": "Published station coordinates are stored in data/alsep-network.json and plotted on a custom simplified near-side locator. The PSE sampling rates are displayed as instrument metadata.",
+      "limitations": "The locator is not a terrain map, geodetic projection, or raw seismic plot. Coordinates are rounded for this educational view. Sampling rates describe instrument metadata, not values measured in the displayed locator.",
+      "sourceLabel": "NASA PDS — Apollo 12 PSE instrument metadata",
+      "source": "https://pds.nasa.gov/ds-view/pds/viewContext.jsp?identifier=urn%3Anasa%3Apds%3Acontext%3Ainstrument%3Apse.a12a",
+      "additionalSources": [
+        {
+          "label": "NASA RP-1036 — ALSEP Termination Report",
+          "url": "https://www.lpi.usra.edu/lunar/documents/NASA%20RP-1036.pdf"
+        },
+        {
+          "label": "NASA NTRS — ALSEP data restoration and archiving",
+          "url": "https://ntrs.nasa.gov/citations/20190032593"
+        }
+      ]
+    },
+    {
+      "id": "insight-instrument-profiles",
+      "title": "NASA InSight instrument profiles",
+      "kind": "Curated mission and instrument metadata",
+      "status": "CURATED METADATA",
+      "mission": "InSight Mars lander",
+      "instrument": "SEIS, HP³ and RISE",
+      "period": "Mission landed 26 November 2018; final communication 15 December 2022.",
+      "units": "Only units explicitly stated in the cited NASA instrument documentation are displayed in the profile facts. No time-series measurement is plotted.",
+      "processing": "Facts in data/insight-instruments.json are curated into interactive profiles. The adjacent spacecraft drawing is an original educational schematic and is labelled not to scale.",
+      "limitations": "This is not live telemetry, a measured instrument trace, a NASA-provided technical drawing, or a scale engineering model.",
+      "sourceLabel": "NASA Science — InSight Science Instruments",
+      "source": "https://science.nasa.gov/mission/insight/science-instruments/",
+      "additionalSources": [
+        {
+          "label": "NASA Science — InSight mission",
+          "url": "https://science.nasa.gov/mission/insight/"
+        }
+      ]
+    },
+    {
+      "id": "nasa-2026-release-index",
+      "title": "2026 NASA archive-release index",
+      "kind": "Editorial summaries of NASA release announcements",
+      "status": "RELEASE SUMMARIES — NOT RAW DATA",
+      "mission": "Voyager 2, New Horizons, Artemis II and Swift",
+      "instrument": "Varies by release; see each linked NASA announcement and archive.",
+      "period": "The observation period is shown separately on each release card and must not be confused with its publication date.",
+      "units": "Not applicable to the summary cards. Units belong to the underlying dataset documentation.",
+      "processing": "The cards in data/nasa-2026-releases.json summarize NASA Science Data Portal announcements and link to the corresponding archive or DOI.",
+      "limitations": "No underlying measurement arrays are embedded in these cards. A release announcement is not itself a dataset and its publication date is not the observation date.",
+      "sourceLabel": "NASA Science Data Portal — 2026 release announcements",
+      "source": "https://science.data.nasa.gov/features-events/",
+      "additionalSources": [
+        {
+          "label": "NASA August 2026 data highlights",
+          "url": "https://science.data.nasa.gov/features-events/data-software-highlights-august-2026"
+        },
+        {
+          "label": "NASA June 2026 data highlights",
+          "url": "https://science.data.nasa.gov/features-events/data-software-highlights-june-2026"
+        },
+        {
+          "label": "NASA October 2026 data highlights",
+          "url": "https://science.data.nasa.gov/features-events/data-software-highlights-october-2026"
+        }
+      ]
+    },
+    {
+      "id": "nasa-image-library",
+      "title": "NASA Image and Video Library search",
+      "kind": "Live archive search results",
+      "status": "LIVE ARCHIVE METADATA",
+      "mission": "Depends on the visitor's search query",
+      "instrument": "Not applicable — image and video archive records",
+      "period": "Varies by individual media record.",
+      "units": "Not applicable.",
+      "processing": "The browser requests search results from NASA's public images API and displays selected media metadata with a link to the individual NASA record.",
+      "limitations": "A search result is not automatically a science dataset or proof of image reuse rights. Check each individual record for creator credits and any third-party restrictions before reusing media.",
+      "sourceLabel": "NASA Image and Video Library",
+      "source": "https://images.nasa.gov/",
+      "additionalSources": []
+    }
+  ]
+}
