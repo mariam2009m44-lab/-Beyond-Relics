@@ -224,9 +224,9 @@ function addPlanet(key,kind,pos,radius){
  if(kind==="jupiter"){const band=new THREE.Mesh(new THREE.TorusGeometry(radius*1.02,.018,4,100),new THREE.MeshBasicMaterial({color:0xe2c49c,transparent:true,opacity:.18}));band.rotation.x=.35;group.add(band);}
  planetGroups[key]=group;worldRadii[key]=radius;
 }
-function orbit(x,z,rx,rz){
+function orbit(x,z,rx,rz,opacity=.17){
  const curve=new THREE.EllipseCurve(x,0,rx,rz,0,Math.PI*2,false,0);const pts=curve.getPoints(180).map(p=>new THREE.Vector3(p.x,0,p.y+z));
- const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x8aa9c4,transparent:true,opacity:.17}));scene.add(line);
+ const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x8aa9c4,transparent:true,opacity}));line.userData.orbitGuide=true;scene.add(line);
 }
 function addSatellite(parentKey,key,radius,distance,speed,color,phase=0){
  const parent=planetGroups[parentKey];if(!parent)return;
@@ -257,6 +257,8 @@ function buildScene(){
  const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,64,48),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);sun.userData.world="sun";scene.add(sun);planetGroups.sun=sun;worldRadii.sun=3.2;
  const glow=new THREE.Mesh(new THREE.SphereGeometry(4.2,40,28),new THREE.MeshBasicMaterial({color:0xffb66f,transparent:true,opacity:.09,side:THREE.BackSide}));glow.position.copy(sun.position);scene.add(glow);
  addPlanet("mercury","mercury",[-16,0,1],.42);addPlanet("venus","venus",[-13,0,-1],.72);addPlanet("earth","earth",[-11,0,-1],1.15);addPlanet("moon","moon",[-8.2,.35,-2.2],.34);orbit(-11,-1,2.8,2.8);addPlanet("mars","mars",[-5,0,-4],.68);addPlanet("jupiter","jupiter",[3,0,-7],2.05);addPlanet("saturn","saturn",[12,0,-10],1.72);addPlanet("uranus","uranus",[22,0,-12],1.2);addPlanet("neptune","neptune",[32,0,-14],1.18);
+ // Subtle orbital guides make the planetary layout easier to read without implying scale accuracy.
+ orbit(-20,0,4,3.1,.11);orbit(-20,0,7.2,4.7,.105);orbit(-20,0,9.2,6.2,.10);orbit(-20,0,16,9.2,.095);orbit(-20,0,24,13.5,.09);orbit(-20,0,34,18.5,.085);orbit(-20,0,44,23.5,.08);orbit(-20,0,55,29,.075);
  loadVerifiedWorldTextures();
  addSatellite("mars","phobos",.22,1.55,.012,0xb98b75,.4);addSatellite("mars","deimos",.16,2.05,.008,0x9a8c82,2.1);
  addSatellite("jupiter","io",.25,3.35,.004,0xd6c3a0,.2);addSatellite("jupiter","europa",.22,3.9,.0032,0x9da8aa,1.8);addSatellite("jupiter","ganymede",.29,4.55,.0025,0xb8a38a,3.2);addSatellite("jupiter","callisto",.24,5.15,.002,0xc5bca8,4.7);
