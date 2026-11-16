@@ -46,6 +46,7 @@ function animateEntry(){
 }
 function render(animate){
  const p=pages[page];if(!p)return;
+ const oldError=stage.querySelector(".reader-image-error");if(oldError)oldError.remove();
  resetZoom();img.src=p.file;img.alt=p.caption||item.title+" — page "+(page+1);
  $("reader-title").textContent=item.title;$("reader-subtitle").textContent=(item.region||"")+" · "+(item.years||"");
  $("reader-counter").innerHTML="<strong>"+(page+1)+"</strong> / "+pages.length;
@@ -145,15 +146,17 @@ function toggleMusic(){
  $("cinema-sound").textContent=musicOn?"♫ SOUND ON":"♫ SOUND";
  $("cinema-sound").setAttribute("aria-pressed",String(musicOn));
 }
+function showImageError(){let note=stage.querySelector(".reader-image-error");if(!note){note=document.createElement("div");note.className="reader-image-error";note.setAttribute("role","status");stage.append(note);}note.textContent="This comic frame could not be loaded. You can still move to another page or return to the collection.";clearTimeout(timer);clearCameraSequence();playing=false;paused=false;updateControls();}
+img.addEventListener("error",showImageError);
 function showError(){stage.innerHTML='<div class="reader-error">This story could not be opened. Please return to the mission collection and select a chapter.<br><a href="index.html">Return to Beyond Relics</a></div>';}
 fetch("data/artifacts.json").then(r=>{if(!r.ok)throw Error("Archive unavailable");return r.json();}).then(rows=>{
  const id=new URLSearchParams(location.search).get("chapter");item=rows.find(x=>x.id===id&&Array.isArray(x.story_artwork)&&x.story_artwork.length);
  if(!item){showError();return;}pages=item.story_artwork;buildThumbs();render(false);
- const first=img.complete&&img.naturalWidth?Promise.resolve():new Promise(resolve=>img.addEventListener("load",resolve,{once:true}));
- first.then(()=>{if(!reduce)startFilm();else{playing=false;updateControls();}});
+ const first=img.complete&&img.naturalWidth?Promise.resolve():new Promise((resolve,reject)=>{img.addEventListener("load",resolve,{once:true});img.addEventListener("error",reject,{once:true});});
+ first.then(()=>{if(!reduce)startFilm();else{playing=false;updateControls();}}).catch(showImageError);
 }).catch(showError);
 $("reader-prev").addEventListener("click",previousScene);$("reader-next").addEventListener("click",nextScene);
-$("cinema-toggle").addEventListener("click",()=>{toggleFilm();if(!musicOn)toggleMusic();});
+$("cinema-toggle").addEventListener("click",toggleFilm);
 $("cinema-next").addEventListener("click",nextScene);$("cinema-sound").addEventListener("click",toggleMusic);
 document.querySelectorAll("[data-action]").forEach(b=>b.addEventListener("click",()=>{
  const action=b.dataset.action;
