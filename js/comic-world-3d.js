@@ -60,7 +60,24 @@ function build(){
  camera=new THREE.PerspectiveCamera(42,1,.1,120);camera.position.set(0,1.5,12);
  scene.add(new THREE.HemisphereLight(0xb8d9f0,0x30211c,1.6));
  const key=new THREE.DirectionalLight(mars?0xffad7c:0x9acbff,2.1);key.position.set(-5,8,7);scene.add(key);
- const ground=addMesh(scene,new THREE.PlaneGeometry(90,50),material(mars?0x6e3325:0x07182b,0,.98),[0,-3.2,-8],[-Math.PI/2,0,0]);
+ const terrainGeo=new THREE.PlaneGeometry(90,58,120,90);
+ const vertices=terrainGeo.attributes.position;
+ for(let i=0;i<vertices.count;i++){
+  const x=vertices.getX(i),y=vertices.getY(i);
+  let h=Math.sin(x*.16+y*.12)*.18+Math.cos(y*.3)*.08;
+  if(mars)h+=Math.sin(x*.09)*.34+Math.sin((x+y)*.2)*.11;
+  vertices.setZ(i,h);
+ }
+ terrainGeo.computeVertexNormals();
+ const ground=new THREE.Mesh(terrainGeo,material(mars?0x743b2b:0x111f2d,0,.98));
+ ground.rotation.x=-Math.PI/2;ground.position.set(0,-3.2,-8);scene.add(ground);
+ const rockMat=material(mars?0x9a5a42:0x34414c,0,.98);
+ let terrainSeed=29;const terrainRand=()=>{terrainSeed=(terrainSeed*16807)%2147483647;return(terrainSeed-1)/2147483646;};
+ for(let i=0;i<145;i++){
+  const x=(terrainRand()-.5)*72,z=(terrainRand()-.5)*45-8,size=.08+terrainRand()*.32;
+  const rock=addMesh(scene,new THREE.DodecahedronGeometry(size,0),rockMat,[x,-3.05+terrainRand()*.15,z],[terrainRand(),terrainRand()*3,terrainRand()]);
+  rock.scale.y=.4+terrainRand()*.5;
+ }
  if(mars){
   const planet=addMesh(scene,new THREE.SphereGeometry(3.6,48,36),material(0x9c4d35,0,.98),[6,1,-8]);
   addMesh(scene,new THREE.SphereGeometry(3.72,40,32),new THREE.MeshBasicMaterial({color:0xd77b58,transparent:true,opacity:.09,side:THREE.BackSide}),[6,1,-8]);
