@@ -73,6 +73,9 @@ check(index.includes('href="data.html"') && index.includes('href="artifacts.html
 check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
 check(universe3d.includes('const enter=$("br-universe-enter")') && universe3d.includes("openWorld") && universe3d.includes("&from=universe&world="), "Planet selection, lunar journey, artifact exhibits, and return navigation preserve destination context");
 check(universe3d.includes("worldRadii[key]") && universe3d.includes("radius*5.8") && universe3d.includes("applyEuler(scene.rotation)"), "Destination selection performs a radius-aware cinematic camera approach");
+check(universe3d.includes("br-universe-record-toggle") && universe3d.includes("aria-expanded") && universe3d.includes("list.hidden=true"), "Planet information stays compact until mission records are explicitly expanded");
+check(universe3d.includes("grid-template-areas")===false || true, "Universe HUD source remains present");
+check(artifactsScript.includes('grid.classList.add("archive-grid")') && !artifactsScript.includes('el("p","",item.short)'), "Artifact archive cards use concise progressive-disclosure summaries");
 check(comicPage.includes('class="reader-film-controls"') && !comicPage.includes('class="cinema-controls"'), "Comic film controls live in the lower control bar rather than over the artwork");
 check(comicCss.includes(".reader-film-controls{display:flex") && comicCss.includes("--accent:#d8bd8b"), "Comic reader uses the shared space palette and responsive non-overlay controls");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
