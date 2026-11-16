@@ -213,6 +213,8 @@ const OFFICIAL_MODELS={
  "lunar-module":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/apollo-lunar-module/",label:"OFFICIAL NASA 3D MODEL"},
  "insight":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/insight-cruise-lander/InSight%20Cruise%20Lander%20%28arm%20deployed%29.glb",source:"NASA / Brian E. Kumanchik",page:"https://science.nasa.gov/3d-resources/insight-cruise-lander/",label:"OFFICIAL NASA 3D MODEL"},
  "opportunity":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-exploration-rover---opportunity-%28mer-b%29/Mars%20Exploration%20Rover%20-%20Opportunity%20%28MER-B%29.glb",source:"NASA / Ames Research Center",page:"https://science.nasa.gov/3d-resources/mars-exploration-rover-opportunity-mer-b/",label:"OFFICIAL NASA 3D MODEL"},
+ "spirit":{embed:"https://mars.nasa.gov/gltf_embed/24883/?fs=true",source:"NASA/JPL-Caltech",page:"https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",label:"OFFICIAL NASA/JPL INTERACTIVE MODEL · SPIRIT & OPPORTUNITY ROVER FAMILY",displayTitle:"Mars Exploration Rover — Spirit and Opportunity family"},
+ "curiosity":{embed:"https://mars.nasa.gov/gltf_embed/24584/?fs=true",source:"NASA/JPL-Caltech",page:"https://science.nasa.gov/resource/curiosity-rover-3d-model/",label:"OFFICIAL NASA/JPL INTERACTIVE 3D MODEL",displayTitle:"Curiosity Mars Rover"},
  "space-telescope":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/spitzer-space-telescope/Spitzer%20Space%20Telescope.glb",source:"NASA / Janice C. Lee; NASA / Robert L. Hurt",page:"https://science.nasa.gov/3d-resources/spitzer-space-telescope/",label:"OFFICIAL NASA 3D MODEL"},
  "pioneer-10-11":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/pioneer-10/Pioneer%2010.glb",source:"NASA / JPL / Eyes on the Solar System",page:"https://science.nasa.gov/3d-resources/pioneer/",label:"OFFICIAL PIONEER 10 MODEL · PIONEER 11 NOT SHOWN",displayTitle:"Pioneer 10"}
 };
@@ -231,6 +233,30 @@ function loadModelViewer(){
 }
 async function mountOfficialModel(root,item,loading,canvas){
  const model=OFFICIAL_MODELS[item.id];if(!model)return false;
+ if(model.embed){
+  if(!canvas.isConnected)return true;
+  const frame=document.createElement("iframe");
+  frame.className="artifact-nasa-embed";
+  frame.src=model.embed;
+  frame.title=(model.displayTitle||item.title)+" — official NASA/JPL interactive 3D viewer";
+  frame.loading="eager";
+  frame.allow="fullscreen; xr-spatial-tracking";
+  frame.allowFullscreen=true;
+  frame.referrerPolicy="strict-origin-when-cross-origin";
+  frame.addEventListener("load",()=>{loading.hidden=true;},{once:true});
+  frame.addEventListener("error",()=>{loading.hidden=false;loading.textContent="The NASA interactive viewer could not load. Open the official NASA source page below.";loading.classList.add("is-error");},{once:true});
+  canvas.replaceWith(frame);
+  const toolbar=root.querySelector(".artifact-3d-toolbar");if(toolbar)toolbar.hidden=true;
+  const badge=document.createElement("a");
+  badge.className="artifact-model-credit";
+  badge.href=model.page;badge.target="_blank";badge.rel="noopener noreferrer";
+  badge.textContent=model.label+" · SOURCE: "+model.source;
+  root.appendChild(badge);
+  loading.hidden=false;loading.textContent="Opening the official NASA interactive 3D viewer…";
+  const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent=model.label+" · NASA-HOSTED INTERACTIVE VIEWER";
+  const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Use the NASA viewer controls to rotate and inspect the rover";
+  return true;
+ }
  try{await loadModelViewer();}catch(error){return false;}
  if(!canvas.isConnected)return true;
  const viewer=document.createElement("model-viewer");

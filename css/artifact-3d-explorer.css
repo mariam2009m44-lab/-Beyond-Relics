@@ -166,3 +166,14 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 .artifact-3d-loading{color:#b9d4e5;letter-spacing:.08em}
 @media(max-width:640px){.artifact-3d-actions{gap:7px}.artifact-3d-actions button{min-height:44px;padding-inline:13px;font-size:.68rem}.artifact-3d-callout{max-width:calc(100% - 24px)}}
 @media(prefers-reduced-motion:reduce){.artifact-3d-actions button{transition:none}}
+
+/* NASA-hosted interactive glTF exhibits for the Mars Exploration Rovers and Curiosity. */
+.artifact-nasa-embed{position:absolute;inset:0;width:100%;height:100%;display:block;border:0;background:transparent}
+.artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-canvas-wrap{inset:42px 0 44px}
+.artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-toolbar[hidden]{display:none!important}
+.artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-foot{padding:8px 12px 12px;align-items:center}
+.artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-foot span:first-child{color:#8edce8}
+@media(max-width:760px){
+ .artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-canvas-wrap{inset:40px 0 44px}
+ .artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-foot{font-size:.48rem;line-height:1.45}
+}
