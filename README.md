@@ -16,7 +16,7 @@ Space hardware has a second story. When a lander stops transmitting or a rover c
 - **Challenge Brief:** solution overview, judging alignment, research integrity, and demo route.
 - **NASA Data Lab:** selected research context, live NASA image search, an interactive Apollo passive-seismic network explorer, a GeoCSV waveform lab for real Apollo 12 PSE observations from NASA PDS, and an InSight instrument explorer with documented SEIS, HP³, and RISE outcomes.
 - **Timeline:** key mission milestones with NASA mission photographs and source-record links.
-- **The Story:** immersive, large-format photographic chapters, a user-initiated cinematic opening score, and distinct original musical motifs for each mission.
+- **The Story:** immersive, large-format original comic chapters with cinematic camera movement, optional interactive 3D Moon/Mars/deep-space environments, a user-initiated original score, and separate sound controls. The 3D worlds are clearly labelled artistic reconstructions; the original comic panels remain unchanged.
 - **About:** project purpose and research approach.
 
 ## Research integrity
