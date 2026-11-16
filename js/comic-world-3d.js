@@ -4,12 +4,12 @@
 (function(){
 "use strict";
 const stage=document.getElementById("reader-stage");
-if(!stage)return;
+if(!stage||!window.THREE)return;
 const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const chapter=new URLSearchParams(location.search).get("chapter")||"";
 const mars=chapter==="pathfinder-sojourner";
 const label=mars?"MARS · PATHFINDER / SOJOURNER":"DEEP SPACE · PIONEER 10 / 11";
-let renderer,scene,camera,raf=0,observer,active=true,drag=false,lastX=0,lastY=0,rotX=0,rotY=0,targetX=0,targetY=0,zoom=1,selected=null;
+let renderer,scene,camera,raf=0,observer,active=true,drag=false,lastX=0,lastY=0,downX=0,downY=0,rotX=0,rotY=0,targetX=0,targetY=0,zoom=1,selected=null;
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),pickables=[];
 const canvas=document.createElement("canvas");
 canvas.className="comic-world-canvas";canvas.setAttribute("aria-label","Interactive 3D mission environment. Drag to rotate; use the mouse wheel to zoom.");
@@ -81,9 +81,9 @@ function selectAt(e){
  const hits=raycaster.intersectObjects(pickables,true);let obj=hits[0]&&hits[0].object;while(obj&&!obj.userData.label)obj=obj.parent;
  if(obj&&obj.userData.label){selected=obj;detail.hidden=false;detail.textContent=obj.userData.label+" — artistic reconstruction, not an official NASA model."; }
 }
-canvas.addEventListener("pointerdown",e=>{drag=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener("pointerdown",e=>{drag=true;lastX=downX=e.clientX;lastY=downY=e.clientY;canvas.setPointerCapture(e.pointerId);});
 canvas.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;targetY+=dx*.004;targetX=Math.max(-.5,Math.min(.5,targetX+dy*.003));lastX=e.clientX;lastY=e.clientY;});
-canvas.addEventListener("pointerup",e=>{const wasDrag=Math.abs(e.clientX-lastX)+Math.abs(e.clientY-lastY)>3;drag=false;if(!wasDrag)selectAt(e);});
+canvas.addEventListener("pointerup",e=>{const wasDrag=Math.abs(e.clientX-downX)+Math.abs(e.clientY-downY)>6;drag=false;if(!wasDrag)selectAt(e);});
 canvas.addEventListener("pointercancel",()=>drag=false);
 canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.72,Math.min(1.5,zoom+e.deltaY*.001));},{passive:false});
 canvas.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")targetY-=.12;else if(e.key==="ArrowRight")targetY+=.12;else if(e.key==="ArrowUp")targetX=Math.max(-.5,targetX-.1);else if(e.key==="ArrowDown")targetX=Math.min(.5,targetX+.1);else if(e.key==="+"||e.key==="=")zoom=Math.max(.72,zoom-.08);else if(e.key==="-")zoom=Math.min(1.5,zoom+.08);else if(e.key==="0"){targetX=targetY=0;zoom=1;}else return;e.preventDefault();});
