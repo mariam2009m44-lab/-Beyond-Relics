@@ -127,7 +127,7 @@ async function mountOfficialModel(root,item,loading,canvas){
  viewer.setAttribute("max-camera-orbit","auto 165deg 18m");
  viewer.setAttribute("touch-action","pan-y");
  viewer.setAttribute("auto-rotate","");
- viewer.setAttribute("rotation-per-second","12deg");
+ viewer.setAttribute("rotation-per-second","7deg");
  viewer.setAttribute("shadow-intensity","1");
  viewer.setAttribute("exposure","1.05");
  viewer.setAttribute("interaction-prompt","auto");
@@ -163,15 +163,16 @@ function mount(root,item){
  const buttons=[...root.querySelectorAll("[data-part]")];let renderer,world,raf=0,active=!document.hidden,observer,drag=false,lastX=0,lastY=0,rotX=-.12,rotY=.45,targetX=rotX,targetY=rotY,zoom=1,pinch=0,exploded=false,autoRotate=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;
  const rotateButton=root.querySelector("[data-view-rotate]");
  if(rotateButton)rotateButton.addEventListener("click",()=>{autoRotate=!autoRotate;rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";});
- function setInfo(i){const d=info[i]||info[0];panel.querySelector("small").textContent="COMPONENT "+String(i+1).padStart(2,"0");panel.querySelector("strong").textContent=d[0];panel.querySelector("p").textContent=d[1];buttons.forEach((b,n)=>{b.setAttribute("aria-pressed",String(n===i));if(info[n])b.textContent=info[n][0];});}
+ function setInfo(i,show){const d=info[i]||info[0];panel.querySelector("small").textContent="COMPONENT GUIDE · "+String(i+1).padStart(2,"0");panel.querySelector("strong").textContent=d[0];panel.querySelector("p").textContent=d[1];panel.hidden=!show;panel.classList.toggle("is-visible",!!show);buttons.forEach((b,n)=>{b.setAttribute("aria-pressed",String(n===i));if(info[n])b.textContent=info[n][0];});}
  mountOfficialModel(root,item,loading,canvas).then(official=>{if(official)return;return engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;renderer=new T.WebGLRenderer({canvas,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
  loading.hidden=true;
  function frame(){if(!active||!renderer)return;raf=requestAnimationFrame(frame);if(autoRotate&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&!drag)targetY+=.0012;rotX+=(targetX-rotX)*(window.matchMedia("(prefers-reduced-motion: reduce)").matches?1:.08);rotY+=(targetY-rotY)*(window.matchMedia("(prefers-reduced-motion: reduce)").matches?1:.08);world.rootObj.rotation.set(rotX,rotY,0);world.camera.position.set(7*zoom,5*zoom,13*zoom);world.camera.lookAt(0,-.1,0);renderer.render(world.scene,world.camera);}frame();
  });}).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
- buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i)));
+ buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i,true)));
+ const closeInfo=panel.querySelector(".artifact-3d-callout-close");if(closeInfo)closeInfo.addEventListener("click",()=>{panel.hidden=true;panel.classList.remove("is-visible");});
  root.querySelector("[data-view-zoom-in]").addEventListener("click",()=>{zoom=Math.max(.7,zoom-.12);});
  root.querySelector("[data-view-zoom-out]").addEventListener("click",()=>{zoom=Math.min(1.6,zoom+.12);});
- root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;autoRotate=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(rotateButton){rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";}setInfo(0);});
+ root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;autoRotate=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(rotateButton){rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";}setInfo(0,false);});
  root.querySelector("[data-view-explode]").addEventListener("click",()=>{if(!world)return;exploded=!exploded;const g=world.groups.upper;if(g){g.position.y=exploded?2.1:0;}const b=root.querySelector("[data-view-explode]");b.setAttribute("aria-pressed",String(exploded));b.textContent=exploded?"Reassemble":"Separate components";});
  canvas.addEventListener("pointerdown",e=>{drag=true;autoRotate=false;if(rotateButton){rotateButton.setAttribute("aria-pressed","false");rotateButton.textContent="Auto rotate";}lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
  canvas.addEventListener("pointermove",e=>{if(!drag)return;targetY+=(e.clientX-lastX)*.008;targetX=Math.max(-.65,Math.min(.65,targetX+(e.clientY-lastY)*.006));lastX=e.clientX;lastY=e.clientY;});
