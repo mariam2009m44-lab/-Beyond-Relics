@@ -81,6 +81,11 @@ function texture(kind){
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 const worldTextureSources={
+ venus:{
+  url:"https://maps.jpl.nasa.gov/tmaps/pix/ven0aaa2.jpg",
+  label:"NASA/JPL Magellan · radar mosaic · gaps filled with global texture",
+  source:"https://maps.jpl.nasa.gov/tmaps/venus.html"
+ },
  mercury:{
   tiles:[
    "https://trek.nasa.gov/tiles/Mercury/EQ/Mercury_MESSENGER_MDIS_Basemap_EnhancedColor_Mosaic_Global_665m/1.0.0/default/default028mm/0/0/0.jpg",
