@@ -6,10 +6,10 @@
   function external(url,label){var a=el("a","",label);a.href=url;a.target="_blank";a.rel="noopener noreferrer";return a;}
   function load(){
     fetch("data/artifacts.json").then(function(r){if(!r.ok)throw new Error("Archive unavailable");return r.json();})
-    .then(function(data){records=data;var wanted=new URLSearchParams(location.search).get("chapter");var found=records.findIndex(function(x){return x.id===wanted;});chapter=found<0?0:found;render();})
+    .then(function(data){var wanted=new URLSearchParams(location.search).get("chapter");var requested=data.find(function(x){return x.id===wanted;});if(requested&&(!Array.isArray(requested.story_artwork)||requested.story_artwork.length===0)){window.location.replace("artifact-details.html?id="+encodeURIComponent(wanted));return;}records=data.filter(function(x){return Array.isArray(x.story_artwork)&&x.story_artwork.length>0;});var found=records.findIndex(function(x){return x.id===wanted;});chapter=found<0?0:found;render();})
     .catch(function(){ $("c-title").textContent="Story archive unavailable";$("c-quote").textContent="Please refresh the page or return to the artifact archive.";});
   }
-  function pages(item){var beats=item.story_beats||[item.short,item.body,item.science_legacy,item.why_it_matters];return beats.map(function(beat){return [beat];});}
+  function pages(item){return (item.story_artwork||[]).map(function(art){return [art.caption||item.title];});}
   function fetchStoryImages(item){
     if(item.__storyImages) return item.__storyImages;
     item.__storyImages=window.BeyondRelicsImages?window.BeyondRelicsImages.search(item.image_query||item.title,24):Promise.resolve([]);
