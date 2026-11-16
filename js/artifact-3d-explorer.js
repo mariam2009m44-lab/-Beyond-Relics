@@ -2,7 +2,7 @@
    All procedural geometry is an artistic educational visualization, not an official scan. */
 (function(){
 "use strict";
-const THREE_URLS=["https://esm.sh/three@0.188.0","https://unpkg.com/three@0.188.0/build/three.module.js"];
+const THREE_URLS=["https://esm.sh/three@0.188.0","https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js","https://unpkg.com/three@0.188.0/build/three.module.js"];
 let enginePromise;
 function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=(async()=>{let lastError;for(const source of THREE_URLS){try{const T=await import(source);window.THREE=T;return T;}catch(error){lastError=error;}}throw lastError||new Error("Three.js could not be loaded");})();enginePromise=enginePromise.catch(error=>{enginePromise=null;throw error;});return enginePromise;}
 const copy={
@@ -262,13 +262,30 @@ const OFFICIAL_MODELS={
 function loadModelViewer(){
  if(customElements.get("model-viewer"))return Promise.resolve();
  if(window.__brModelViewerPromise)return window.__brModelViewerPromise;
- window.__brModelViewerPromise=new Promise((resolve,reject)=>{
-  const script=document.createElement("script");
-  script.type="module";
-  script.src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js";
-  script.onload=()=>customElements.whenDefined("model-viewer").then(resolve,reject);
-  script.onerror=()=>reject(Error("3D model viewer unavailable"));
-  document.head.append(script);
+ window.__brModelViewerPromise=(async()=>{
+  const sources=[
+   "https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js",
+   "https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js",
+   "https://unpkg.com/@google/model-viewer@4.0.0/dist/model-viewer.min.js"
+  ];
+  let lastError;
+  for(const src of sources){
+   try{
+    await new Promise((resolve,reject)=>{
+     const script=document.createElement("script");
+     script.type="module";script.src=src;
+     script.onload=()=>customElements.whenDefined("model-viewer").then(resolve,reject);
+     script.onerror=()=>{script.remove();reject(new Error("Could not load model-viewer from "+src));};
+     document.head.appendChild(script);
+    });
+    if(customElements.get("model-viewer"))return;
+   }catch(error){lastError=error;}
+  }
+  throw lastError||new Error("3D model viewer unavailable");
+ })();
+ window.__brModelViewerPromise=window.__brModelViewerPromise.catch(error=>{
+  window.__brModelViewerPromise=null;
+  throw error;
  });
  return window.__brModelViewerPromise;
 }
@@ -403,7 +420,7 @@ function mount(root,item){
  let proceduralStarted=false;const startProcedural=()=>{if(proceduralStarted)return Promise.resolve();proceduralStarted=true;return engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);raycaster=new T.Raycaster();pointer=new T.Vector2();canvas.title="Tap a visible component to open its field note. Drag to rotate.";if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;const modelBounds=new T.Box3().setFromObject(world.rootObj);const modelSphere=modelBounds.getBoundingSphere(new T.Sphere());const modelCenter=modelSphere.center.clone();const fitRadius=Math.max(modelSphere.radius,2.4);const baseDistance=fitRadius/Math.sin(T.MathUtils.degToRad(world.camera.fov/2))*1.12;renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.setClearColor(0x000000,0);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
  loading.hidden=true;
  function frame(now=performance.now()){if(!active||!renderer)return;raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(autoRotate&&!reducedMotion.matches&&!drag)targetY+=.0012*delta;const easing=reducedMotion.matches?1:1-Math.pow(.92,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;world.rootObj.rotation.set(rotX,rotY,0);if(world.ambientStars&&!reducedMotion.matches)world.ambientStars.rotation.y+=.000035*delta;const liveTarget=modelCenter.clone().applyEuler(world.rootObj.rotation);world.camera.position.set(liveTarget.x+baseDistance*.48*zoom,liveTarget.y+baseDistance*.34*zoom,liveTarget.z+baseDistance*.88*zoom);world.camera.lookAt(liveTarget);renderer.render(world.scene,world.camera);}resumeFrame=()=>frame();frame();
- });};mountOfficialModel(root,item,loading,canvas,()=>{const viewer=root.querySelector(".artifact-model-viewer,.artifact-nasa-embed");if(viewer&&canvas&&!canvas.isConnected)viewer.replaceWith(canvas);root.querySelectorAll(".artifact-model-credit").forEach(node=>node.remove());const toolbar=root.querySelector(".artifact-3d-toolbar");if(toolbar)toolbar.hidden=false;const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent="ARTISTIC VISUALIZATION · NOT AN OFFICIAL NASA MODEL";startProcedural();}).then(official=>{if(!official)return startProcedural();}).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
+ });};mountOfficialModel(root,item,loading,canvas,()=>{const viewer=root.querySelector(".artifact-model-viewer,.artifact-nasa-embed");if(viewer&&canvas&&!canvas.isConnected)viewer.replaceWith(canvas);root.querySelectorAll(".artifact-model-credit").forEach(node=>node.remove());const toolbar=root.querySelector(".artifact-3d-toolbar");if(toolbar)toolbar.hidden=false;const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent="ARTISTIC VISUALIZATION · NOT AN OFFICIAL NASA MODEL";startProcedural();}).then(official=>{if(!official)return startProcedural();}).catch(error=>{proceduralStarted=false;loading.hidden=false;loading.textContent="The 3D model could not start. Check the connection and reload this exhibit.";loading.classList.add("is-error");console.error("Beyond Relics 3D exhibit failed:",error);});
  buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i,true)));
  canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();active=false;cancelAnimationFrame(raf);raf=0;loading.hidden=false;loading.textContent="The 3D graphics context was interrupted. If it does not recover, reload this exhibit.";loading.classList.add("is-error");});
  canvas.addEventListener("webglcontextrestored",()=>{if(renderer)renderer.resetState();loading.hidden=true;loading.classList.remove("is-error");active=!document.hidden;if(active&&resumeFrame)resumeFrame();});
