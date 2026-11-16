@@ -123,19 +123,16 @@
     visual.innerHTML='<div class="artifact-3d-topline"><span>MISSION OBJECT · '+item.region.toUpperCase()+'</span><span>INTERACTIVE EXPLORER</span></div><div class="artifact-3d-canvas-wrap"><canvas class="artifact-3d-canvas" aria-label="Drag to rotate the 3D reconstruction and tap a component to inspect it"></canvas><div class="artifact-3d-discover-hint">TAP A COMPONENT TO EXPLORE</div><div class="artifact-3d-loading">Preparing the 3D exhibit…</div><div class="artifact-3d-callout" aria-live="polite" hidden><button type="button" class="artifact-3d-callout-close" aria-label="Close component details">×</button><small>COMPONENT GUIDE</small><strong>Explore this mission object</strong><p>Select a component to understand its role.</p></div></div><div class="artifact-3d-toolbar"><div class="artifact-3d-parts" role="group" aria-label="Mission object components"><button type="button" data-part="0" aria-pressed="true">Main structure</button><button type="button" data-part="1" aria-pressed="false">Science system</button><button type="button" data-part="2" aria-pressed="false">Power system</button><button type="button" data-part="3" aria-pressed="false">Communications</button></div><div class="artifact-3d-actions"><button type="button" data-view-zoom-in aria-label="Zoom in">Zoom +</button><button type="button" data-view-zoom-out aria-label="Zoom out">Zoom −</button><button type="button" data-view-rotate aria-pressed="true">Pause rotation</button><button type="button" data-view-explode aria-pressed="false">Separate components</button><button type="button" data-view-reset>Reset view</button></div></div><div class="artifact-3d-foot"><span>ARTISTIC VISUALIZATION · NOT AN OFFICIAL NASA MODEL</span><span>Tap a component for its field note · Drag to orbit · Pinch or +/- to zoom</span></div>';
     var content=el("div","artifact-content apollo-content");
     content.append(el("p","eyebrow",item.type+" · "+item.classification),el("h1","page-title",item.title),el("p","body",item.body));
-    var storyEntry=el("section","mission-story-entry");
-    storyEntry.append(el("p","eyebrow","THE MISSION STORY"),el("h2","","Follow the story behind this artifact"),el("p","",item.story_hook||"Explore the mission, its discoveries, and the hardware that remains."));
     var hasComic=Array.isArray(item.story_artwork)&&item.story_artwork.length>0;
-    var storyMeta=el("span","mission-story-format",hasComic?"ORIGINAL COMIC · "+item.story_artwork.length+" PANELS":"MISSION FIELD NOTES · TEXT STORY");
-    storyEntry.appendChild(storyMeta);
     if(hasComic){
+      var storyEntry=el("section","mission-story-entry");
+      storyEntry.append(el("p","eyebrow","ORIGINAL ILLUSTRATED COMIC"),el("h2","","Open the existing mission comic"),el("p","",item.story_hook||""));
+      storyEntry.appendChild(el("span","mission-story-format","ORIGINAL COMIC · "+item.story_artwork.length+" PANELS"));
       var storyStart=el("a","btn","Open the original illustrated comic →");
       storyStart.href="comic.html?chapter="+encodeURIComponent(item.id);
       storyEntry.appendChild(storyStart);
-    }else{
-      storyEntry.appendChild(el("p","mission-story-unavailable","No original comic is assigned to this artifact. The factual mission record and NASA sources are shown here; no replacement story has been created."));
+      content.appendChild(storyEntry);
     }
-    content.appendChild(storyEntry);
     var state=el("div","mission-state");state.append(el("span","state-label","Mission status"),el("strong","",item.status));content.appendChild(state);
     var blocks=[["The mission goal",item.mission_goal],["What stayed behind",item.what_stayed],["What science gained",item.science_legacy],["Why it still matters",item.why_it_matters]];
     var story=el("section","insight-grid");blocks.forEach(function(pair){var card=el("article","insight-card");card.append(el("h2","",pair[0]),el("p","",pair[1]));story.appendChild(card);});content.appendChild(story);

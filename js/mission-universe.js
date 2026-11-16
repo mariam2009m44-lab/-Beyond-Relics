@@ -31,7 +31,7 @@ worlds.saturn={...worlds.saturn,position:[12,0,-10],moons:["titan","enceladus"],
 worlds.uranus={title:"Uranus",kicker:"ICE GIANT · EXTREME AXIAL TILT",copy:"An ice giant that rotates on its side. Voyager 2 remains the only spacecraft to have made a close flyby of Uranus.",ids:["voyager"],position:[22,0,-12],zoom:1.2,tag:"ICE GIANT",moons:["miranda","titania","oberon"],facts:["Axial tilt about 98°","13 known rings","Voyager 2 flyby: 1986"]};
 worlds.neptune={title:"Neptune",kicker:"ICE GIANT · DISTANT FRONTIER",copy:"A dynamic blue ice giant with powerful winds. Voyager 2 flew past Neptune in 1989 and revealed its moon Triton.",ids:["voyager"],position:[32,0,-14],zoom:1.2,tag:"ICE GIANT",moons:["triton"],facts:["One orbit takes about 165 Earth years","Very fast atmospheric winds","Triton has a retrograde orbit"]};
 worlds.phobos={title:"Phobos",kicker:"MARS MOON · INNER SATELLITE",copy:"Phobos is the larger and closer of Mars’s two moons. Its irregular, heavily cratered surface is slowly moving toward the planet.",ids:[],position:[-1,0,-5],zoom:1.45,tag:"MARTIAN MOON",facts:["Mean radius: about 11 km","Orbits Mars in about 7.7 hours","Very close to Mars"]};
-worlds.deimos={...worlds.deimos,ids:[],facts:["Mean radius: about 6 km","Orbits Mars in about 30.3 hours","Smaller than Phobos"]};
+worlds.deimos={title:"Deimos",kicker:"MARS MOON · OUTER SATELLITE",copy:"Deimos is the smaller and more distant of Mars’s two moons. Its irregular, heavily cratered surface is consistent with a small natural satellite.",ids:[],position:[-5,0,-4],zoom:1.5,tag:"MARTIAN MOON",facts:["Mean radius: about 6 km","Orbits Mars in about 30.3 hours","Smaller and farther from Mars than Phobos"]};
 worlds.io={...worlds.io,position:[3,0,-7],facts:["Hundreds of active volcanoes","Strong tidal heating","Most volcanically active known world"]};
 worlds.europa={...worlds.europa,position:[3,0,-7],ids:["voyager"],facts:["Ice-covered surface","Evidence for a subsurface ocean","Target of NASA’s Europa Clipper mission"]};
 worlds.ganymede={...worlds.ganymede,position:[3,0,-7],ids:["voyager"],facts:["Largest moon in the Solar System","Has its own magnetic field","Ice and rock interior"]};
@@ -79,6 +79,23 @@ function texture(kind){
   if(kind==="mars"){c.fillStyle="rgba(240,187,139,.17)";for(let i=0;i<90;i++){c.beginPath();c.ellipse(Math.random()*1024,Math.random()*512,Math.random()*32+5,Math.random()*8+2,Math.random(),0,Math.PI*2);c.fill();}}
  }
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+function createGalaxyBackdrop(){
+ const canvas=document.createElement("canvas");canvas.width=2048;canvas.height=1024;
+ const ctx=canvas.getContext("2d");
+ const base=ctx.createLinearGradient(0,0,0,1024);
+ base.addColorStop(0,"#02040d");base.addColorStop(.48,"#071126");base.addColorStop(1,"#02050d");
+ ctx.fillStyle=base;ctx.fillRect(0,0,2048,1024);
+ const clouds=[[360,310,560,260,"rgba(52,77,164,.34)"],[820,570,620,300,"rgba(111,54,157,.29)"],[1320,330,540,260,"rgba(38,111,150,.25)"],[1740,760,500,260,"rgba(91,53,137,.22)"],[1080,140,430,180,"rgba(40,71,132,.2)"]];
+ clouds.forEach(([x,y,rx,ry,color])=>{
+  const glow=ctx.createRadialGradient(x,y,4,x,y,rx);
+  glow.addColorStop(0,color);glow.addColorStop(.45,"rgba(76,91,166,.10)");glow.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.save();ctx.translate(x,y);ctx.scale(1,ry/rx);ctx.translate(-x,-y);
+  ctx.fillStyle=glow;ctx.fillRect(x-rx,y-rx,rx*2,rx*2);ctx.restore();
+ });
+ let seed=20261116;const random=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ for(let i=0;i<2600;i++){const x=random()*2048,y=random()*1024,r=random()<.94?.45+random()*.8:1.2+random()*1.2;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=random()<.08?"rgba(174,214,255,.95)":"rgba(226,237,255,"+(.25+random()*.65)+")";ctx.fill();}
+ const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture;
 }
 const worldTextureSources={
  saturn:{
@@ -229,7 +246,7 @@ function buildScene(){
  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"low-power"});
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(overlay.clientWidth,overlay.clientHeight);
  renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
- scene=new THREE.Scene();scene.background=new THREE.Color(0x050b15);scene.fog=new THREE.FogExp2(0x050b15,.0022);
+ scene=new THREE.Scene();scene.background=createGalaxyBackdrop();scene.fog=new THREE.FogExp2(0x050b15,.0022);
  camera=new THREE.PerspectiveCamera(44,overlay.clientWidth/overlay.clientHeight,.1,900);camera.up.set(0,0,-1);camera.position.copy(overviewCameraPosition());camera.lookAt(0,0,-7);
  scene.add(new THREE.HemisphereLight(0x9dbbd5,0x171a26,1.05));
  const sunLight=new THREE.PointLight(0xffd5a0,360,180);sunLight.position.set(-20,7,0);scene.add(sunLight);
@@ -392,7 +409,7 @@ function showWorld(key){
  list.replaceChildren();list.hidden=true;
  const storyRoot=$("br-universe-story-links");storyRoot.replaceChildren();storyRoot.hidden=true;
  const storyChapters=key==="mars"?[{id:"pathfinder-sojourner",label:"OPEN THE PATHFINDER STORY ↗"}]:["jupiter","saturn","deep"].includes(key)?[{id:"pioneer-10-11",label:"OPEN THE PIONEER STORY ↗"}]:[];
- storyChapters.forEach(chapter=>{const exists=data.some(item=>item.id===chapter.id);if(!exists)return;const link=document.createElement("a");link.className="br-universe-story-link";link.href="comic.html?chapter="+encodeURIComponent(chapter.id);link.textContent=chapter.label;storyRoot.append(link);});
+ storyChapters.forEach(chapter=>{const exists=data.some(item=>item.id===chapter.id&&Array.isArray(item.story_artwork)&&item.story_artwork.length>0);if(!exists)return;const link=document.createElement("a");link.className="br-universe-story-link";link.href="comic.html?chapter="+encodeURIComponent(chapter.id);link.textContent=chapter.label;storyRoot.append(link);});
  storyRoot.hidden=!storyRoot.children.length;
  const records=data.filter(item=>cfg.ids.includes(item.id));
  $("br-universe-count").textContent=String(records.length).padStart(2,"0")+" RECORDS";
@@ -423,5 +440,5 @@ $("br-universe-close").addEventListener("click",closeUniverse);$("br-universe-re
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeUniverse();});
 document.addEventListener("keydown",e=>{if(!overlay.classList.contains("is-open"))return;if(e.key==="Escape"){closeUniverse();return;}if(e.key==="Tab"){const items=[...overlay.querySelectorAll("button:not([disabled]),a[href],canvas[tabindex]")].filter(x=>!x.hidden);if(!items.length)return;const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 document.addEventListener("visibilitychange",()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else if(active)startLoop();});
-window.addEventListener("pagehide",()=>{active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(scene){const geometries=new Set(),materials=new Set(),textures=new Set();scene.traverse(object=>{if(object.geometry)geometries.add(object.geometry);if(object.material){for(const material of (Array.isArray(object.material)?object.material:[object.material])){materials.add(material);for(const value of Object.values(material)){if(value&&value.isTexture)textures.add(value);}}}});textures.forEach(texture=>texture.dispose());geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());}if(renderer)renderer.dispose();});
+window.addEventListener("pagehide",()=>{active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(scene){const geometries=new Set(),materials=new Set(),textures=new Set();scene.traverse(object=>{if(object.geometry)geometries.add(object.geometry);if(object.material){for(const material of (Array.isArray(object.material)?object.material:[object.material])){materials.add(material);for(const value of Object.values(material)){if(value&&value.isTexture)textures.add(value);}}}});textures.forEach(texture=>texture.dispose());geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());}if(scene&&scene.background&&scene.background.isTexture)scene.background.dispose();if(renderer)renderer.dispose();});
 })();
