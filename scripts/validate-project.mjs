@@ -223,3 +223,5 @@ if (failures.length) {
   console.log("RESULT: PASS");
 }
 check(universe3d.includes("selected-destination-reticle") && universe3d.includes("selectionHalo.position.copy(group.position)") && universe3d.includes("selectionHalo.visible=false") && universe3d.includes("Math.sin(now*.002)*.012"), "Selected planets and moons receive a subtle animated orbital reticle that follows their position and clears on reset");
+
+check(universe3d.includes("surfaceAim=null") && universe3d.includes("surfaceAim.lerp(targetAim") && universe3d.includes("camera.lookAt(surfaceAim)") && universe3d.includes("surfaceAim=surfaceLookAt.clone()"), "Surface camera focus eases its look target smoothly between landing-site markers and resets cleanly on exit");
