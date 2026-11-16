@@ -55,7 +55,7 @@ function render(animate){
  document.querySelectorAll(".reader-thumb").forEach((b,i)=>b.setAttribute("aria-current",String(i===page)));
  const active=$("reader-thumbs").children[page];if(active)active.scrollIntoView({block:"nearest",inline:"center",behavior:reduce?"auto":"smooth"});
  const exhibit=$("reader-exhibit-link");if(exhibit)exhibit.href="artifact-details.html?id="+encodeURIComponent(item.id);
- document.querySelectorAll('[data-action="zoom-in"],[data-action="zoom-out"]').forEach(b=>b.hidden=textOnly);
+ document.querySelectorAll('[data-action="zoom-in"],[data-action="zoom-out"]').forEach(b=>b.hidden=false);
  if(animate)animateEntry();
 }
 function changePage(next,keepPlayback){
