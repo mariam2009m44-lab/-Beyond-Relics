@@ -61,7 +61,14 @@ check(index.includes('id="home"') && index.includes('id="mission-stories"'), "Ho
 check(index.includes('href="data.html"') && index.includes('href="artifacts.html"'), "Homepage links directly to the NASA Data Lab and artifact archive");
 check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
-check(!comicPage.includes("three.min.js") && !comicPage.includes("comic-world-3d.js") && !comicPage.includes("mission-universe"), "Comic reader remains a 2D-only experience");
+check(comicPage.includes("three.min.js") && comicPage.includes("js/comic-world-3d.js"), "Comic reader preserves original 2D frames and offers an optional interactive 3D world");
+const comicWorld = read("js/comic-world-3d.js");
+const comicWorldCss = read("css/comic-world-3d.css");
+check(comicWorld.includes('const mars=chapter==="pathfinder-sojourner",lunar=chapter==="lunar-module"') && comicWorld.includes("buildLunarModule()"), "Comic 3D mode provides chapter-specific Moon, Mars, and deep-space environments");
+check(comicWorld.includes("starRandom") && comicWorld.includes('!stage.classList.contains("is-world-mode")'), "Comic 3D mode uses deterministic stars and pauses rendering outside the active view");
+check(comicWorldCss.includes(".reader-stage.is-world-mode .reader-image-wrap") && comicWorldCss.includes("prefers-reduced-motion"), "Optional comic 3D mode keeps the original story recoverable and respects reduced motion");
+check(comicScript.includes("showImageError") && comicScript.includes('img.addEventListener("error"'), "Comic reader reports failed frame loads without leaving playback stuck");
+check(comicScript.includes('addEventListener("click",toggleFilm)'), "Film playback does not enable audio without a separate sound action");
 const creditsPage = read("credits.html");
 check(creditsPage.includes("ASSETS.md"), "Credits page links to the existing asset register");
 check(comicScript.includes("requestFullscreen") && comicScript.includes("ArrowRight") && comicScript.includes("ArrowLeft"), "Comic reader supports full-screen and keyboard page navigation");
@@ -117,6 +124,7 @@ for (const htmlFile of htmlFiles) {
   }
 }
 check(exists("assets/logos/favicon.svg"), "Primary SVG favicon exists");
+check(exists("css/comic-world-3d.css"), "Optional comic 3D mode stylesheet exists");
 
 function collectFiles(directory, extension, output = []) {
   for (const entry of fs.readdirSync(path.join(root, directory), { withFileTypes: true })) {
