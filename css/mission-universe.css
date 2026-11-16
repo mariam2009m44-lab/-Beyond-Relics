@@ -70,3 +70,26 @@
 #br-universe-fallback-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;margin-top:18px}
 #br-universe-fallback-links a{display:flex;align-items:center;min-height:48px;padding:10px 13px;border:1px solid #8dcce533;border-radius:12px;background:#0c1d32;color:#dff5ff;text-decoration:none}
 #br-universe-fallback-links a:focus-visible{outline:3px solid #f3c77e;outline-offset:3px}
+
+
+/* Low-obstruction world details: keep the planet scene dominant. */
+.br-universe-intro{display:none!important}
+.br-universe-hint{display:none!important}
+.br-universe-foot{display:none!important}
+.br-universe-info{top:auto;right:clamp(18px,3vw,42px);bottom:88px;width:min(330px,34vw);max-height:44vh;padding:17px 18px;border-radius:16px;transform:translateX(20px)}
+.br-universe-info h3{font-size:1.45rem;margin:6px 0}
+.br-universe-info p{font-size:.76rem;line-height:1.48;margin:5px 0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.br-universe-fidelity{gap:5px;margin:9px 0}
+.br-fidelity-tag{font-size:.54rem;min-height:24px;padding:4px 7px}
+.br-universe-records{gap:6px;margin-top:9px}
+.br-universe-records a{min-height:38px;padding:8px 10px;font-size:.68rem}
+@media(max-width:680px){
+ .br-universe-info{right:12px;left:12px;bottom:66px;width:auto;max-height:34vh;padding:12px 14px;transform:translateY(14px)}
+ .br-universe-info h3{font-size:1.18rem}
+ .br-universe-info p{font-size:.69rem;-webkit-line-clamp:3}
+ .br-universe-records{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+ .br-universe-records a{min-height:36px;font-size:.61rem}
+ .br-universe-top{padding:12px}
+ .br-universe-brand{font-size:.58rem}
+ .br-universe-brand span{font-size:.48rem}
+}

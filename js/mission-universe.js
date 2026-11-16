@@ -5,6 +5,7 @@ if(document.getElementById("br-universe"))return;
 const style=document.createElement("link");style.rel="stylesheet";style.href="css/mission-universe.css";document.head.appendChild(style);
 const launcher=document.createElement("button");launcher.id="br-universe-launcher";launcher.type="button";launcher.innerHTML="ENTER 3D MISSION UNIVERSE";
 launcher.setAttribute("aria-haspopup","dialog");launcher.setAttribute("aria-controls","br-universe");
+let returnFocus=launcher;
 const overlay=document.createElement("section");overlay.id="br-universe";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","3D Mission Universe");
 overlay.innerHTML='<div class="br-universe-loader" id="br-universe-loader">Preparing mission universe…</div><section class="br-universe-fallback" id="br-universe-fallback" hidden aria-live="polite"><h2>Explore the archive without 3D</h2><p>The 3D view is unavailable on this device or browser. The mission records remain accessible below.</p><div id="br-universe-fallback-links"></div></section><div class="br-universe-top"><div class="br-universe-brand">BEYOND RELICS <span>MISSION UNIVERSE · INTERACTIVE 3D</span></div><button id="br-universe-close" type="button" aria-label="Close universe">×</button></div><div class="br-universe-intro"><small>CHOOSE A DESTINATION</small><h2>Enter the<br>unknown.</h2><p>Travel between the Moon, Mars and deep space. Select a world or a mission object to uncover the story behind the hardware.</p></div><div class="br-universe-vignette"></div><div class="br-universe-info" id="br-universe-info" aria-live="polite"><small id="br-universe-kicker">MISSION DESTINATION</small><h3 id="br-universe-title">Explore a world</h3><p id="br-universe-copy">Choose a destination to discover the missions and objects connected to it.</p><div class="br-universe-fidelity" id="br-universe-fidelity" aria-label="3D asset fidelity labels"></div><div class="br-universe-records" id="br-universe-records"></div><p class="br-universe-foot">The 3D environment is an artistic visualization. It is not an official scan, engineering model, or scale-accurate reconstruction. Mission facts are presented separately with source links.</p></div><div class="br-universe-hud"><div class="br-universe-stops"><button class="br-universe-stop" data-world="moon" aria-pressed="false">THE MOON</button><button class="br-universe-stop" data-world="mars" aria-pressed="false">MARS</button><button class="br-universe-stop" data-world="deep" aria-pressed="false">DEEP SPACE</button></div><div class="br-universe-hint">Drag to look around · Tap a world or mission marker to explore · Select a record to open its archive</div></div>';
 document.body.append(launcher,overlay);
@@ -103,7 +104,8 @@ function buildScene(){
 }
 function startRenderLoop(){if(raf)return;const tick=()=>{if(!active){raf=0;return;}raf=requestAnimationFrame(tick);rotX+=(targetRotX-rotX)*.045;rotY+=(targetRotY-rotY)*.045;scene.rotation.x=rotX;scene.rotation.y=rotY;worldObjects.forEach(o=>{if(o.userData.kind==="planet")o.rotation.y+=.0009;});const goal=camera.userData.goal;camera.position.lerp(goal,.025);const aim=worldObjects.find(o=>o.userData.world===selected);if(lookTarget&&selected){const p=aim?aim.position:new THREE.Vector3();lookTarget.lerp(p,.035);}else if(lookTarget)lookTarget.lerp(new THREE.Vector3(0,0,0),.02);camera.lookAt(lookTarget||new THREE.Vector3());renderer.render(scene,camera);};tick();}
 function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";script.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));script.onerror=reject;document.head.appendChild(script);});}
-async function openUniverse(){
+async function openUniverse(event){
+ returnFocus=event&&event.currentTarget instanceof HTMLElement?event.currentTarget:launcher;
  overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;
  $("br-universe-close").focus();
  $("br-universe-loader").hidden=false;
@@ -116,7 +118,7 @@ async function openUniverse(){
   records.forEach(item=>{const a=document.createElement("a");a.href=item.url||("artifact-details.html?id="+encodeURIComponent(item.id));a.textContent=item.title||item.id;links.append(a);});
  }
 }
-function closeUniverse(){active=false;cancelAnimationFrame(raf);raf=0;overlay.classList.remove("is-open");overlay.setAttribute("aria-hidden","true");document.body.style.overflow="";launcher.focus();}
+function closeUniverse(){active=false;cancelAnimationFrame(raf);raf=0;overlay.classList.remove("is-open");overlay.setAttribute("aria-hidden","true");document.body.style.overflow="";(returnFocus&&returnFocus.isConnected?returnFocus:launcher).focus();}
 launcher.addEventListener("click",openUniverse);document.querySelectorAll("[data-open-universe]").forEach(b=>b.addEventListener("click",openUniverse));$("br-universe-close").addEventListener("click",closeUniverse);
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeUniverse();});
 document.addEventListener("keydown",e=>{
