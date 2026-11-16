@@ -98,19 +98,19 @@ function buildScene(){
  el.addEventListener("pointercancel",()=>dragging=false);
  resizeObserver=new ResizeObserver(()=>{if(!renderer||!camera)return;const w=overlay.clientWidth,h=overlay.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);});
  resizeObserver.observe(overlay);
- function animate(){if(!active)return;raf=requestAnimationFrame(animate);rotX+=(targetRotX-rotX)*.045;rotY+=(targetRotY-rotY)*.045;scene.rotation.x=rotX;scene.rotation.y=rotY;worldObjects.forEach(o=>{if(o.userData.kind==="planet")o.rotation.y+=.0009;});const goal=camera.userData.goal;camera.position.lerp(goal,.025);const aim=worldObjects.find(o=>o.userData.world===selected);if(lookTarget&&selected){const p=aim?aim.position:new THREE.Vector3();lookTarget.lerp(p,.035);}else if(lookTarget)lookTarget.lerp(new THREE.Vector3(0,0,0),.02);camera.lookAt(lookTarget||new THREE.Vector3());renderer.render(scene,camera);}
- animate();$("br-universe-loader").hidden=true;
+ startRenderLoop();$("br-universe-loader").hidden=true;
 }
+function startRenderLoop(){if(raf)return;const tick=()=>{if(!active){raf=0;return;}raf=requestAnimationFrame(tick);rotX+=(targetRotX-rotX)*.045;rotY+=(targetRotY-rotY)*.045;scene.rotation.x=rotX;scene.rotation.y=rotY;worldObjects.forEach(o=>{if(o.userData.kind==="planet")o.rotation.y+=.0009;});const goal=camera.userData.goal;camera.position.lerp(goal,.025);const aim=worldObjects.find(o=>o.userData.world===selected);if(lookTarget&&selected){const p=aim?aim.position:new THREE.Vector3();lookTarget.lerp(p,.035);}else if(lookTarget)lookTarget.lerp(new THREE.Vector3(0,0,0),.02);camera.lookAt(lookTarget||new THREE.Vector3());renderer.render(scene,camera);};tick();}
 function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";script.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));script.onerror=reject;document.head.appendChild(script);});}
 async function openUniverse(){
  overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;
  $("br-universe-loader").hidden=false;
  try{if(!data.length){const r=await fetch("data/artifacts.json");if(!r.ok)throw Error("Mission archive unavailable");data=await r.json();}
- THREE=await loadThree();if(!renderer)buildScene();else{renderer.setSize(overlay.clientWidth,overlay.clientHeight);active=true;}
+ THREE=await loadThree();if(!renderer)buildScene();else{renderer.setSize(overlay.clientWidth,overlay.clientHeight);active=true;startRenderLoop();}
  }catch(e){$("br-universe-loader").textContent="3D scene could not load. Please check your connection and try again.";}
 }
-function closeUniverse(){active=false;cancelAnimationFrame(raf);overlay.classList.remove("is-open");overlay.setAttribute("aria-hidden","true");document.body.style.overflow="";launcher.focus();}
-launcher.addEventListener("click",openUniverse);$("br-universe-close").addEventListener("click",closeUniverse);
+function closeUniverse(){active=false;cancelAnimationFrame(raf);raf=0;overlay.classList.remove("is-open");overlay.setAttribute("aria-hidden","true");document.body.style.overflow="";launcher.focus();}
+launcher.addEventListener("click",openUniverse);document.querySelectorAll("[data-open-universe]").forEach(b=>b.addEventListener("click",openUniverse));$("br-universe-close").addEventListener("click",closeUniverse);
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeUniverse();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&overlay.classList.contains("is-open"))closeUniverse();});
 document.querySelectorAll(".br-universe-stop").forEach(b=>b.addEventListener("click",()=>showWorld(b.dataset.world)));
