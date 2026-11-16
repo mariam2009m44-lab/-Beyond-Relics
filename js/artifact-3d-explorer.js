@@ -94,7 +94,8 @@ const OFFICIAL_MODELS={
  "lunar-module":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/apollo-lunar-module/",label:"OFFICIAL NASA 3D MODEL"},
  "insight":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/insight-cruise-lander/InSight%20Cruise%20Lander%20%28arm%20deployed%29.glb",source:"NASA / Brian E. Kumanchik",page:"https://science.nasa.gov/3d-resources/insight-cruise-lander/",label:"OFFICIAL NASA 3D MODEL"},
  "opportunity":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-exploration-rover---opportunity-%28mer-b%29/Mars%20Exploration%20Rover%20-%20Opportunity%20%28MER-B%29.glb",source:"NASA / Ames Research Center",page:"https://science.nasa.gov/3d-resources/mars-exploration-rover-opportunity-mer-b/",label:"OFFICIAL NASA 3D MODEL"},
- "space-telescope":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/spitzer-space-telescope/Spitzer%20Space%20Telescope.glb",source:"NASA / Janice C. Lee; NASA / Robert L. Hurt",page:"https://science.nasa.gov/3d-resources/spitzer-space-telescope/",label:"OFFICIAL NASA 3D MODEL"}
+ "space-telescope":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/spitzer-space-telescope/Spitzer%20Space%20Telescope.glb",source:"NASA / Janice C. Lee; NASA / Robert L. Hurt",page:"https://science.nasa.gov/3d-resources/spitzer-space-telescope/",label:"OFFICIAL NASA 3D MODEL"},
+ "pioneer-10-11":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/pioneer-10/Pioneer%2010.glb",source:"NASA / JPL / Eyes on the Solar System",page:"https://science.nasa.gov/3d-resources/pioneer/",label:"OFFICIAL PIONEER 10 MODEL · PIONEER 11 NOT SHOWN",displayTitle:"Pioneer 10"}
 };
 function loadModelViewer(){
  if(customElements.get("model-viewer"))return Promise.resolve();
@@ -115,7 +116,7 @@ async function mountOfficialModel(root,item,loading,canvas){
  if(!canvas.isConnected)return true;
  const viewer=document.createElement("model-viewer");
  viewer.setAttribute("src",model.src);
- viewer.setAttribute("alt",item.title+" — official NASA 3D model");
+ viewer.setAttribute("alt",(model.displayTitle||item.title)+" — official NASA 3D model");
  viewer.setAttribute("camera-controls","");
  viewer.setAttribute("camera-orbit","0deg 72deg auto");
  viewer.setAttribute("min-camera-orbit","auto 15deg 2m");
