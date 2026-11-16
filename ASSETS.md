@@ -9,6 +9,7 @@ This register distinguishes confirmed technical dependencies from assets whose o
 | Asset | Creator / source | License | Modifications / fidelity |
 |---|---|---|---|
 | Procedural artifact geometry in `js/artifact-3d-explorer.js` | Project implementation; contributors must be credited in the project README | Original project code; confirm team authorship before external reuse | Procedural educational geometry. All models are **Artistic visualization**, not NASA scans, engineering CAD, or scale-accurate replicas. |
+| Interactive comic-world geometry in `js/comic-world-3d.js` | Project implementation; contributors must be credited in the project README | Original project code; confirm team authorship before external reuse | Procedural Mars lander/rover and deep-space probe environments. **Artistic reconstruction**; the original comic panels remain unchanged 2D artwork. |
 | Three.js 0.159.0 runtime | Three.js project — https://threejs.org/ | MIT — https://github.com/mrdoob/three.js/blob/dev/LICENSE | Loaded from jsDelivr CDN; no local modifications. |
 
 | Official Voyager 1 3D model (GLB) | NASA / Michael D. Carbajal — https://science.nasa.gov/3d-resources/voyager-probe-b/ | NASA 3D Resources usage guidance — https://www.nasa.gov/nasa-brand-center/images-and-media/ | Original NASA-provided GLB loaded at runtime; displayed as an official NASA 3D model, not a physical scan. |
