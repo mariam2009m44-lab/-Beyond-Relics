@@ -196,7 +196,6 @@ async function ensureSurface(key){
   const ok=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb","lunar-module",[-3,0,0],4.2);
   if(!ok)$("br-universe-surface-status").textContent="NASA's 3D lander model could not be loaded right now. The interactive landing-site markers are still available.";
   else $("br-universe-surface-status").textContent="NASA 3D model loaded · Apollo Lunar Module · Select a glowing field marker to inspect the mission.";
-  addSurfaceMarker(group,{id:"apollo-12-alsep"},[3,.45,-1],1);
  }else{
   const ok=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-exploration-rover---opportunity-%28mer-b%29/Mars%20Exploration%20Rover%20-%20Opportunity%20%28MER-B%29.glb","opportunity",[0,0,-2],3.6);
   const insight=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/insight-cruise-lander/InSight%20Cruise%20Lander%20%28arm%20deployed%29.glb","insight",[4,0,1],3.1);
@@ -228,7 +227,9 @@ async function enterSurface(key){
  (surfacePoints[key]||[]).forEach(point=>{const button=document.createElement("button");button.type="button";button.className="br-universe-surface-point";button.dataset.point=point.id;button.textContent=point.title;button.addEventListener("click",()=>showSurfacePoint(point.id));list.append(button);});
  rotX=-.08;rotY=0;targetX=rotX;targetY=rotY;focusTarget=null;surfaceLookAt=new THREE.Vector3(0,0,0);transitionCameraTo({x:0,y:6,z:15},1.5);targetZoom=1;
  const group=surfaceGroups[key];if(group)group.visible=true;else await ensureSurface(key);
- if(!surfacePoints[key].some(p=>p.id==="lunar-module"&&key==="moon"))showSurfacePoint(surfacePoints[key][0].id);else showSurfacePoint("lunar-module");
+ surfaceHotspots=[];surfaceGroups[key].traverse(object=>{if(object.userData&&object.userData.surfacePoint)surfaceHotspots.push(object);});
+ scene.rotation.set(0,0,0);
+ if(key==="moon")showSurfacePoint("lunar-module");else showSurfacePoint(surfacePoints[key][0].id);
 }
 function exitSurface(){
  if(!surfaceMode)return;const key=surfaceWorldKey;surfaceMode=false;surfaceWorldKey=null;surfaceRoot.visible=false;scene.children.forEach(object=>{if(object!==surfaceRoot)object.visible=true;});
