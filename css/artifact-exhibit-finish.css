@@ -162,3 +162,26 @@
 }
 @media(max-width:390px){.page .archive-grid{grid-template-columns:1fr}.page .archive-grid .aart{aspect-ratio:16/9}.page .archive-grid .abody{min-height:0}}
 @media(prefers-reduced-motion:reduce){.page .archive-grid .acard,.page .archive-grid .aart .archive-photo,.page .archive-grid .abody .more:after{transition:none}}
+
+/* Story-first exhibit hierarchy and a cleaner cinematic stage. */
+.mission-story-entry{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px 28px;margin:clamp(28px,5vw,54px) 0;padding:clamp(22px,3vw,34px);border:1px solid rgba(142,220,232,.24);border-radius:18px;background:radial-gradient(ellipse at 92% 12%,rgba(145,134,215,.13),transparent 36%),linear-gradient(135deg,rgba(17,34,54,.96),rgba(5,13,24,.98));box-shadow:0 18px 50px rgba(0,0,0,.24)}
+.mission-story-entry .eyebrow{grid-column:1/-1;margin:0;color:#8edce8;font-size:.6rem;letter-spacing:.18em}
+.mission-story-entry h2{margin:0;color:#f1f6fa;font:700 clamp(1.25rem,2.5vw,1.8rem)/1.2 "DM Sans",system-ui,sans-serif;letter-spacing:-.035em}
+.mission-story-entry>p:not(.eyebrow){grid-column:1;max-width:65ch;margin:0;color:#b8c8d6;font:400 .88rem/1.7 "DM Sans",system-ui,sans-serif}
+.mission-story-format{grid-column:1;color:#d9bd8c;font:800 .56rem/1.4 "DM Sans",system-ui,sans-serif;letter-spacing:.12em}
+.mission-story-entry .btn{grid-column:2;grid-row:2/5;align-self:center;white-space:nowrap}
+.artifact-3d-stage{min-height:clamp(590px,68vw,820px);border-radius:24px}
+.artifact-3d-canvas-wrap{inset:48px 0 118px}
+.artifact-3d-toolbar{min-height:108px;align-items:center}
+.artifact-3d-parts button{border-radius:8px}
+.artifact-3d-actions button{border-radius:8px}
+.artifact-3d-foot{font-size:.58rem;line-height:1.6}
+@media(max-width:760px){
+ .mission-story-entry{grid-template-columns:1fr;gap:12px;padding:20px}
+ .mission-story-entry .btn{grid-column:1;grid-row:auto;width:100%;justify-content:center}
+ .mission-story-entry>p:not(.eyebrow){grid-column:1}
+ .artifact-3d-stage{min-height:640px;border-radius:16px}
+ .artifact-3d-canvas-wrap{inset:42px 0 180px}
+}
+@media(orientation:landscape) and (max-height:520px){.artifact-3d-stage{min-height:540px}.artifact-3d-canvas-wrap{inset:38px 0 120px}}
+@media(prefers-reduced-motion:reduce){.mission-story-entry,.artifact-3d-stage{scroll-behavior:auto}}
