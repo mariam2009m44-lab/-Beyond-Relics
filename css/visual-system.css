@@ -64,3 +64,35 @@ body:not(.reader-page) .nav{background:linear-gradient(100deg,rgba(6,13,26,.94),
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.acard,.btn{transition:none}}
 /* The comic reader keeps its dedicated high-contrast reading palette. */
 .reader-page{background:#05080f;color:#edf4fa}
+
+/* 3D exhibit stages — a restrained aurora-lit observatory, not a flat blue panel. */
+.universe-entry{border-color:rgba(142,190,211,.26);background:radial-gradient(ellipse at 76% 48%,rgba(69,150,177,.23),transparent 29%),radial-gradient(ellipse at 12% 95%,rgba(112,91,166,.16),transparent 42%),linear-gradient(118deg,#0c192b 0%,#0b1425 58%,#111b30 100%);box-shadow:0 28px 78px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.045)}
+.universe-entry-art::before{content:"";position:absolute;width:75%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(113,188,207,.15),rgba(105,108,166,.08) 42%,transparent 70%);filter:blur(10px)}
+.ue-orbit{border-color:rgba(151,203,221,.28);box-shadow:0 0 26px rgba(111,174,201,.06)}
+.ue-orbit-b{border-color:rgba(226,194,141,.25)}
+.ue-earth{box-shadow:inset -20px -12px 28px rgba(0,0,0,.66),0 0 36px rgba(87,174,205,.25)}
+.ue-mars{box-shadow:inset -9px -7px 12px rgba(0,0,0,.58),0 0 24px rgba(207,112,78,.18)}
+.ue-moon{box-shadow:inset -8px -6px 12px rgba(0,0,0,.55),0 0 18px rgba(191,206,220,.12)}
+#br-universe{background:radial-gradient(ellipse at 52% 44%,#0c1c30 0%,#07101e 54%,#030812 100%)}
+.br-universe-vignette{background:radial-gradient(ellipse at 52% 45%,transparent 10%,rgba(3,8,16,.12) 48%,rgba(3,8,16,.74) 100%),radial-gradient(ellipse at 78% 12%,rgba(80,104,157,.14),transparent 38%),linear-gradient(180deg,rgba(4,10,19,.76),transparent 25%,transparent 66%,rgba(4,10,19,.94))}
+.br-universe-top{border-bottom-color:rgba(142,190,211,.16);background:linear-gradient(180deg,rgba(4,10,19,.88),rgba(4,10,19,.16))}
+.br-universe-intro small,.br-universe-info>small{color:#8edce8}
+.br-universe-intro h2 em{color:#e2c28d}
+.br-universe-info{border-color:rgba(142,190,211,.32);background:linear-gradient(145deg,rgba(14,31,51,.96),rgba(5,14,27,.97));box-shadow:0 28px 90px rgba(0,0,0,.52),inset 0 1px rgba(255,255,255,.045)}
+.br-universe-record{border-color:rgba(142,190,211,.2);background:rgba(18,39,60,.76)}
+.br-universe-record:hover{border-color:rgba(142,220,232,.7);background:rgba(29,63,83,.88)}
+.br-universe-record b{color:#e2c28d}
+.br-universe-nav{border-color:rgba(142,190,211,.24);background:rgba(5,14,26,.84)}
+.br-universe-stop{border-color:rgba(142,190,211,.2);background:rgba(15,34,53,.78)}
+.br-universe-stop:hover,.br-universe-stop[aria-pressed=true]{border-color:#8edce8;background:rgba(40,83,102,.82);box-shadow:0 0 20px rgba(82,178,198,.12)}
+.br-universe-fidelity{color:#9aafc0!important}
+.artifact-3d-stage{border-color:rgba(142,190,211,.3);background:radial-gradient(ellipse at 52% 38%,rgba(43,89,116,.5) 0%,rgba(18,37,59,.92) 34%,#070f1d 78%),radial-gradient(ellipse at 10% 95%,rgba(110,83,153,.13),transparent 42%);box-shadow:0 32px 90px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.055)}
+.artifact-model-viewer{background:radial-gradient(ellipse at 50% 38%,rgba(57,104,131,.55) 0%,rgba(18,38,59,.92) 40%,#070f1d 84%)}
+.artifact-3d-topline{color:#b6d6e2}
+.artifact-3d-callout{border-color:rgba(142,220,232,.28);background:rgba(5,15,29,.91);box-shadow:0 16px 42px rgba(0,0,0,.32)}
+.artifact-3d-callout small{color:#8edce8}
+.artifact-3d-toolbar{border-top-color:rgba(142,190,211,.18);background:rgba(4,12,23,.94)}
+.artifact-3d-toolbar button{border-color:rgba(142,190,211,.3);background:rgba(16,35,55,.9);color:#d9eaf1}
+.artifact-3d-toolbar button:hover,.artifact-3d-toolbar button[aria-pressed=true]{border-color:#8edce8;background:rgba(38,78,98,.9);color:#fff}
+.artifact-model-credit,.three-d-stamp{border-color:rgba(142,220,232,.4);background:rgba(5,17,31,.92);color:#b8edf3}
+@media(max-width:760px){.universe-entry-art{min-height:180px}.br-universe-info{border-radius:14px}.artifact-3d-stage{min-height:550px}}
