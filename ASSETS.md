@@ -9,7 +9,7 @@ This register distinguishes confirmed technical dependencies from assets whose o
 | Asset | Creator / source | License | Modifications / fidelity |
 |---|---|---|---|
 | Procedural artifact geometry in `js/artifact-3d-explorer.js` | Project implementation; contributors must be credited in the project README | Original project code; confirm team authorship before external reuse | Procedural educational geometry. All models are **Artistic visualization**, not NASA scans, engineering CAD, or scale-accurate replicas. |
-| Three.js 0.160.0 runtime | Three.js project — https://threejs.org/ | MIT — https://github.com/mrdoob/three.js/blob/dev/LICENSE | Loaded from jsDelivr CDN; no local modifications. |
+| Three.js 0.159.0 runtime | Three.js project — https://threejs.org/ | MIT — https://github.com/mrdoob/three.js/blob/dev/LICENSE | Loaded from jsDelivr CDN; no local modifications. |
 
 ## NASA mission imagery
 
