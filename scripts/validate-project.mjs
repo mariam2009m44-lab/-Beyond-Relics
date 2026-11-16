@@ -25,6 +25,9 @@ const dataPage = read("data.html");
 const artifact3d = read("js/artifact-3d-explorer.js");
 const artifactsScript = read("js/artifacts.js");
 const artifact3dCss = read("css/artifact-3d-explorer.css");
+const cosmicScript = read("js/cosmic-environment.js");
+const cosmicCss = read("css/cosmic-environment.css");
+
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
 check(artifact3d.includes("function makeStudioEnvironment(T)") && artifact3d.includes("scene.environment=makeStudioEnvironment(T)"), "Artifact reconstructions use a generated studio reflection environment");
@@ -64,6 +67,17 @@ check(comicRecords.length > 0 && comicRecords.every((item) => item.story_artwork
 check(dataPage.includes("Read the Moon through its data"), "Waveform lab wording describes a plotted data experience, not audio playback");
 check(dataPage.indexOf("js/geocsv-parser.js") >= 0 && dataPage.indexOf("js/geocsv-parser.js") < dataPage.indexOf("js/apollo-waveform-lab.js"), "GeoCSV parser loads before the waveform explorer");
 
+
+const cosmicPages = ["index.html","artifacts.html","timeline.html","challenge.html","data.html","about.html","comic.html","artifact-details.html","credits.html","404.html"];
+check(exists("js/cosmic-environment.js") && exists("css/cosmic-environment.css"), "Shared procedural cosmic atmosphere files exist");
+check(cosmicScript.includes("br-cosmic-canvas") && cosmicScript.includes("galaxies.forEach") && cosmicScript.includes("br-cosmic-dock"), "Cosmic atmosphere renders nebula galaxies, stars, and visitor controls");
+check(cosmicScript.includes("prefers-reduced-motion") && cosmicScript.includes("visibilitychange") && cosmicScript.includes("cancelAnimationFrame"), "Cosmic animation respects reduced motion and pauses when the page is hidden");
+check(cosmicScript.includes("artifacts.html#br-universe-launcher"), "Cosmic controls link to the existing interactive Solar System explorer");
+check(cosmicCss.includes("body.reader-page .br-cosmic-dock{display:none}") && cosmicCss.includes("body.reader-page #br-cosmic-canvas{opacity:.24}"), "Comic reader keeps its dedicated reading controls and subdued backdrop");
+for (const page of cosmicPages) {
+  const source = read(page);
+  check(source.includes("css/cosmic-environment.css") && source.includes("js/cosmic-environment.js"), "Shared cosmic atmosphere is included on " + page);
+}
 const requiredFields = ["mission_goal", "what_stayed", "science_legacy", "why_it_matters"];
 let sourceCount = 0;
 let artworkCount = 0;
