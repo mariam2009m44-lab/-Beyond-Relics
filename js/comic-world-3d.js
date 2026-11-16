@@ -17,6 +17,15 @@ canvas.tabIndex=0;stage.prepend(canvas);
 const hud=document.createElement("div");hud.className="comic-world-hud";
 hud.innerHTML='<span class="comic-world-kicker">INTERACTIVE 3D ENVIRONMENT</span><strong>'+label+'</strong><small>ARTISTIC RECONSTRUCTION · NOT AN OFFICIAL SCAN</small><span class="comic-world-help">Drag to orbit · Scroll to zoom · Select a 3D object</span>';
 stage.append(hud);
+const cinemaControls=stage.querySelector(".cinema-controls");
+if(cinemaControls){
+ const explore=document.createElement("button");explore.type="button";explore.className="comic-world-toggle";explore.textContent="EXPLORE 3D";explore.setAttribute("aria-pressed","false");explore.setAttribute("aria-label","Enter interactive 3D world");
+ explore.addEventListener("click",()=>{
+  if(document.body.classList.contains("is-cinematic-playing")){const pause=document.getElementById("cinema-toggle");if(pause)pause.click();}
+  const on=stage.classList.toggle("is-world-mode");explore.setAttribute("aria-pressed",String(on));explore.textContent=on?"BACK TO STORY":"EXPLORE 3D";explore.setAttribute("aria-label",on?"Return to comic story":"Enter interactive 3D world");
+ });
+ cinemaControls.append(explore);
+}
 const detail=document.createElement("div");detail.className="comic-world-detail";detail.hidden=true;detail.setAttribute("aria-live","polite");stage.append(detail);
 function material(color,metalness=.1,roughness=.75){return new THREE.MeshStandardMaterial({color,metalness,roughness});}
 function addMesh(parent,geo,mat,pos=[0,0,0],rot=[0,0,0],name=""){
