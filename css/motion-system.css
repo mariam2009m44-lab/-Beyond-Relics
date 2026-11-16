@@ -1,0 +1,99 @@
+/* Beyond Relics — site-wide motion system
+   Progressive enhancement: content remains visible if JavaScript or observers are unavailable. */
+:root {
+  --br-motion-ease: cubic-bezier(.2,.75,.2,1);
+  --br-motion-duration: 760ms;
+}
+@view-transition { navigation: auto; }
+::view-transition-old(root) {
+  animation: br-page-out 220ms ease both;
+}
+::view-transition-new(root) {
+  animation: br-page-in 420ms var(--br-motion-ease) both;
+}
+@keyframes br-page-out { to { opacity: 0; filter: blur(3px); } }
+@keyframes br-page-in { from { opacity: 0; filter: blur(5px); transform: translateY(8px); } to { opacity: 1; filter: blur(0); transform: none; } }
+
+.br-motion-progress {
+  position: fixed;
+  z-index: 9999;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 3px;
+  pointer-events: none;
+  transform: scaleX(var(--br-scroll-progress, 0));
+  transform-origin: left center;
+  background: linear-gradient(90deg, #00bbf9, #9b5de5 58%, #ff9f1c);
+  box-shadow: 0 0 14px rgba(0,187,249,.42);
+}
+[dir="rtl"] .br-motion-progress { transform-origin: right center; }
+
+.motion-ready [data-motion-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity var(--br-motion-duration) var(--br-motion-ease),
+    transform var(--br-motion-duration) var(--br-motion-ease);
+  transition-delay: var(--br-motion-delay, 0ms);
+  will-change: opacity, transform;
+}
+.motion-ready [data-motion-reveal].is-motion-visible {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+.motion-ready [data-motion-reveal][data-motion-direction="left"] { transform: translate3d(-28px,0,0); }
+.motion-ready [data-motion-reveal][data-motion-direction="right"] { transform: translate3d(28px,0,0); }
+.motion-ready [data-motion-reveal][data-motion-direction="left"].is-motion-visible,
+.motion-ready [data-motion-reveal][data-motion-direction="right"].is-motion-visible {
+  transform: translate3d(0,0,0);
+}
+
+/* Responsive, tactile feedback without changing component dimensions. */
+.btn, button, .story-world-cta, .comic-open, .reader-tool, .reader-arrow {
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active, button:active, .story-world-cta:active, .comic-open:active {
+  transform: translateY(1px) scale(.985);
+}
+a, button { touch-action: manipulation; }
+a:focus-visible, button:focus-visible {
+  outline-offset: 4px;
+  transition: outline-offset 160ms ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  .chronicle-card, .story-world-card, .comic-card, .science-card, .acard,
+  .release-card, .insight-card, .mission-frame, .judge-pillars article,
+  .panel, .detective-console {
+    transition:
+      transform 420ms var(--br-motion-ease),
+      border-color 350ms ease,
+      box-shadow 420ms ease;
+  }
+  .chronicle-card:hover, .story-world-card:hover, .comic-card:hover,
+  .science-card:hover, .acard:hover, .release-card:hover, .insight-card:hover,
+  .mission-frame:hover, .judge-pillars article:hover, .panel:hover {
+    box-shadow: 0 22px 55px rgba(0,0,0,.32), 0 0 24px rgba(0,187,249,.075);
+  }
+}
+@media (max-width: 760px) {
+  .motion-ready [data-motion-reveal] {
+    transform: translate3d(0,14px,0);
+    transition-duration: 560ms;
+  }
+  .motion-ready [data-motion-reveal][data-motion-direction="left"],
+  .motion-ready [data-motion-reveal][data-motion-direction="right"] {
+    transform: translate3d(0,14px,0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+  .motion-ready [data-motion-reveal],
+  .motion-ready [data-motion-reveal][data-motion-direction="left"],
+  .motion-ready [data-motion-reveal][data-motion-direction="right"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .br-motion-progress { display: none !important; }
+}
