@@ -90,3 +90,11 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 - Use a subtle generated contact-shadow texture to anchor surface reconstructions; it is a rendering aid, not a measured shadow or mission photograph.
 - Seed procedural stars and rocks so the exhibit composition is stable between reloads and screenshot reviews.
 - Reduce terrain tessellation and rock count on compact/low-core devices; keep the object itself as the visual priority.
+
+
+## 10. Motion preference and interaction finish
+
+- Official GLB viewers must respect `prefers-reduced-motion` and begin without auto-rotation when the visitor requests reduced motion.
+- Rotation controls must reflect the actual viewer state (`aria-pressed` and action label).
+- Provide visible keyboard instructions for the procedural 3D canvas and a clear focus indicator.
+- Interactive controls layered over the 3D canvas must remain clickable without blocking drag gestures elsewhere.
