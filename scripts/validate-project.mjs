@@ -71,6 +71,9 @@ check(universe3d.includes("orbit(-11,-1,2.8,2.8)") && universe3d.includes("moonA
 check(universe3d.includes("br-universe-motion") && universe3d.includes("Pause orbits") && universe3d.includes("Motion reduced"), "Visitors can pause orbital motion and reduced-motion settings remain enforced");
 
 check(artifact3d.includes("geometries.forEach(geometry=>geometry.dispose())") && universe3d.includes("geometries.forEach(geometry=>geometry.dispose())"), "3D scene geometry and material resources are explicitly disposed on page exit");
+check(artifact3d.includes("const componentMap=") && artifact3d.includes("world.componentNodes[targetName]") && artifact3d.includes("clone.emissiveIntensity"), "Component guide highlights only explicitly mapped procedural 3D assemblies");
+check(artifact3d.includes("This model does not expose a separately identifiable mesh") && artifact3d.includes("EXPLANATORY NOTE"), "Unsupported component meshes are disclosed as explanatory-only rather than falsely highlighted");
+check(["landing-gear","descent-engine","science-instruments","rtg-power","wheels","solar-array","robotic-arm"].every((name) => artifact3d.includes('"'+name+'"')), "Procedural exhibits expose named component groups for real assembly-level highlighting");
 check(exists("docs/3D-ENGINEERING-STANDARDS.md"), "3D engineering standards and review checklist are documented");
 
 
