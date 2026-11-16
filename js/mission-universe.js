@@ -193,21 +193,23 @@ function loadVerifiedWorldTextures(){
 const planetGroups={},worldRadii={};
 const orbitingMoons=[];
 const planetaryMetrics={
- sun:[["التصنيف","نجم قزم أصفر (G2V)"],["العمر التقديري","نحو 4.6 مليار سنة"],["القطر","1,392,700 كم"],["درجة حرارة السطح الضوئي","نحو 5,500°م"]],
- mercury:[["متوسط البعد عن الشمس","57.9 مليون كم"],["مدة الدوران حول الشمس","88 يومًا أرضيًا"],["القطر المتوسط","4,879 كم"],["الجاذبية السطحية","3.70 م/ث²"]],
- venus:[["متوسط البعد عن الشمس","108.2 مليون كم"],["مدة الدوران حول الشمس","224.7 يومًا أرضيًا"],["القطر المتوسط","12,104 كم"],["متوسط حرارة السطح","نحو 465°م"]],
- earth:[["متوسط البعد عن الشمس","149.6 مليون كم"],["مدة الدوران حول الشمس","365.25 يومًا"],["القطر المتوسط","12,742 كم"],["الجاذبية السطحية","9.81 م/ث²"]],
- moon:[["متوسط البعد عن الأرض","384,400 كم"],["المدار النجمي","27.3 يومًا"],["القطر المتوسط","3,475 كم"],["الجاذبية السطحية","1.62 م/ث²"]],
- mars:[["متوسط البعد عن الشمس","227.9 مليون كم"],["مدة الدوران حول الشمس","687 يومًا أرضيًا"],["القطر المتوسط","6,792 كم"],["الجاذبية السطحية","3.71 م/ث²"]],
- jupiter:[["متوسط البعد عن الشمس","778.6 مليون كم"],["مدة الدوران حول الشمس","11.86 سنة أرضية"],["القطر المتوسط","139,820 كم"],["الجاذبية عند مستوى السحب المرجعي","24.79 م/ث²"]],
- saturn:[["متوسط البعد عن الشمس","1.43 مليار كم"],["مدة الدوران حول الشمس","29.4 سنة أرضية"],["القطر المتوسط","116,460 كم"],["الجاذبية عند مستوى السحب المرجعي","10.44 م/ث²"]],
- uranus:[["متوسط البعد عن الشمس","2.87 مليار كم"],["مدة الدوران حول الشمس","84 سنة أرضية"],["القطر المتوسط","50,724 كم"],["ميل المحور عن العمودي المداري","نحو 98°"]],
- neptune:[["متوسط البعد عن الشمس","4.50 مليار كم"],["مدة الدوران حول الشمس","نحو 165 سنة أرضية"],["القطر المتوسط","49,244 كم"],["الجاذبية عند مستوى السحب المرجعي","11.15 م/ث²"]]
+ sun:[["التصنيف","نجم قزم أصفر (G2V)"],["العمر التقديري","نحو 4.6 مليار سنة"],["القطر","1,392,700 كم"],["درجة حرارة السطح الضوئي","نحو 5,500°م"],["ميل خط الاستواء عن مسار الأرض","نحو 7.25°"]],
+ mercury:[["متوسط البعد عن الشمس","57.9 مليون كم"],["مدة الدوران حول الشمس","88 يومًا أرضيًا"],["القطر المتوسط","4,879 كم"],["الجاذبية السطحية","3.70 م/ث²"],["ميل محور الدوران","0.034°"]],
+ venus:[["متوسط البعد عن الشمس","108.2 مليون كم"],["مدة الدوران حول الشمس","224.7 يومًا أرضيًا"],["القطر المتوسط","12,104 كم"],["متوسط حرارة السطح","نحو 465°م"],["ميل محور الدوران","177.4° · دوران رجعي"]],
+ earth:[["متوسط البعد عن الشمس","149.6 مليون كم"],["مدة الدوران حول الشمس","365.25 يومًا"],["القطر المتوسط","12,742 كم"],["الجاذبية السطحية","9.81 م/ث²"],["ميل محور الدوران","23.44°"]],
+ moon:[["متوسط البعد عن الأرض","384,400 كم"],["المدار النجمي","27.3 يومًا"],["القطر المتوسط","3,475 كم"],["الجاذبية السطحية","1.62 م/ث²"],["ميل المحور","6.68°"]],
+ mars:[["متوسط البعد عن الشمس","227.9 مليون كم"],["مدة الدوران حول الشمس","687 يومًا أرضيًا"],["القطر المتوسط","6,792 كم"],["الجاذبية السطحية","3.71 م/ث²"],["ميل محور الدوران","25.19°"]],
+ jupiter:[["متوسط البعد عن الشمس","778.6 مليون كم"],["مدة الدوران حول الشمس","11.86 سنة أرضية"],["القطر المتوسط","139,820 كم"],["الجاذبية عند مستوى السحب المرجعي","24.79 م/ث²"],["ميل محور الدوران","3.13°"]],
+ saturn:[["متوسط البعد عن الشمس","1.43 مليار كم"],["مدة الدوران حول الشمس","29.4 سنة أرضية"],["القطر المتوسط","116,460 كم"],["الجاذبية عند مستوى السحب المرجعي","10.44 م/ث²"],["ميل محور الدوران","26.73°"]],
+ uranus:[["متوسط البعد عن الشمس","2.87 مليار كم"],["مدة الدوران حول الشمس","84 سنة أرضية"],["القطر المتوسط","50,724 كم"],["ميل المحور عن العمودي المداري","نحو 98°"],["ميل محور الدوران","97.77°"]],
+ neptune:[["متوسط البعد عن الشمس","4.50 مليار كم"],["مدة الدوران حول الشمس","نحو 165 سنة أرضية"],["القطر المتوسط","49,244 كم"],["الجاذبية عند مستوى السحب المرجعي","11.15 م/ث²"],["ميل محور الدوران","28.32°"]]
 };
+const axialTilts={mercury:.034,venus:177.36,earth:23.44,moon:6.68,mars:25.19,jupiter:3.13,saturn:26.73,uranus:97.77,neptune:28.32};
+function applyAxialTilt(object,key){object.rotation.z=THREE.MathUtils.degToRad(axialTilts[key]||0);}
 function addPlanet(key,kind,pos,radius){
  const group=new THREE.Group();group.position.set(pos[0],pos[1],pos[2]);group.userData.world=key;scene.add(group);
- const mesh=new THREE.Mesh(new THREE.SphereGeometry(radius,72,56),new THREE.MeshStandardMaterial({map:texture(kind),roughness:.94,metalness:.01}));mesh.userData.world=key;group.add(mesh);
- const halo=new THREE.Mesh(new THREE.SphereGeometry(radius*1.045,48,32),new THREE.MeshBasicMaterial({color:kind==="mars"?0xe18a68:kind==="moon"?0xc5d2dc:0x78b9d1,transparent:true,opacity:.055,side:THREE.BackSide}));group.add(halo);
+ const mesh=new THREE.Mesh(new THREE.SphereGeometry(radius,72,56),new THREE.MeshStandardMaterial({map:texture(kind),roughness:.94,metalness:.01}));mesh.userData.world=key;applyAxialTilt(mesh,key);group.add(mesh);
+ const halo=new THREE.Mesh(new THREE.SphereGeometry(radius*1.045,48,32),new THREE.MeshBasicMaterial({color:kind==="mars"?0xe18a68:kind==="moon"?0xc5d2dc:0x78b9d1,transparent:true,opacity:.055,side:THREE.BackSide}));applyAxialTilt(halo,key);group.add(halo);
  const atmosphereColor=kind==="earth"?0x69c8ff:kind==="mars"?0xf18a63:kind==="moon"?0xb8d6e8:kind==="jupiter"?0xe6bd8e:kind==="uranus"?0x7bd6d6:kind==="neptune"?0x5c8ff2:kind==="venus"?0xe7b56e:kind==="mercury"?0x9a9288:0xd8c5a0;
  const atmosphere=new THREE.Mesh(
   new THREE.SphereGeometry(radius*1.085,48,32),
@@ -231,9 +233,9 @@ function addPlanet(key,kind,pos,radius){
    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.FrontSide
   })
  );
- atmosphere.renderOrder=2;group.add(atmosphere);
- if(kind==="saturn"||kind==="uranus"){const ring=new THREE.Mesh(new THREE.RingGeometry(radius*(kind==="saturn"?1.35:1.5),radius*(kind==="saturn"?2.25:1.9),128),new THREE.MeshStandardMaterial({color:kind==="saturn"?0xcab58d:0x8ba5a7,roughness:.85,metalness:.08,side:THREE.DoubleSide,transparent:true,opacity:kind==="saturn"?.72:.3}));ring.rotation.x=kind==="saturn"?Math.PI/2.35:Math.PI/2.08;group.add(ring);}
- if(kind==="jupiter"){const band=new THREE.Mesh(new THREE.TorusGeometry(radius*1.02,.018,4,100),new THREE.MeshBasicMaterial({color:0xe2c49c,transparent:true,opacity:.18}));band.rotation.x=.35;group.add(band);}
+ atmosphere.renderOrder=2;applyAxialTilt(atmosphere,key);group.add(atmosphere);
+ if(kind==="saturn"||kind==="uranus"){const ring=new THREE.Mesh(new THREE.RingGeometry(radius*(kind==="saturn"?1.35:1.5),radius*(kind==="saturn"?2.25:1.9),128),new THREE.MeshStandardMaterial({color:kind==="saturn"?0xcab58d:0x8ba5a7,roughness:.85,metalness:.08,side:THREE.DoubleSide,transparent:true,opacity:kind==="saturn"?.72:.3}));ring.rotation.x=kind==="saturn"?Math.PI/2.35:Math.PI/2.08;applyAxialTilt(ring,key);group.add(ring);}
+ if(kind==="jupiter"){const band=new THREE.Mesh(new THREE.TorusGeometry(radius*1.02,.018,4,100),new THREE.MeshBasicMaterial({color:0xe2c49c,transparent:true,opacity:.18}));band.rotation.x=.35;applyAxialTilt(band,key);group.add(band);}
  planetGroups[key]=group;worldRadii[key]=radius;
 }
 function orbit(x,z,rx,rz,opacity=.17){
