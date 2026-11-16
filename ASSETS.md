@@ -116,3 +116,5 @@ Mission records and source URLs are maintained in `data/artifacts.json`. The NAS
 | Asset | Source / implementation | License / status |
 |---|---|---|
 | Animated nebula clouds, spiral-galaxy forms, star field, and small ambient planet silhouettes | Original procedural Canvas 2D artwork generated at runtime by `js/cosmic-environment.js`; styling and visitor controls in `css/cosmic-environment.css`. No external image, NASA texture, or downloaded media is used. | Generated in-browser from project code. Treat as an artistic atmosphere only; not astronomical imagery, to-scale planetary positions, or scientific data. |
+
+| 3D artifact exhibit nebula chamber, drifting star layers, and ambient depth particles | Procedural CSS in `css/artifact-3d-explorer.css` plus generated Three.js point geometry in `js/artifact-3d-explorer.js`; no external galaxy image or NASA texture is used. | Original procedural artistic atmosphere. Not astronomical imagery, not a measured star field, and does not alter official NASA model geometry. |
