@@ -51,5 +51,4 @@ body.reader-page #br-cosmic-canvas{opacity:.42}
 @media(prefers-reduced-motion:reduce){
  body:not(.reader-page)::before,.hero::before{animation:none!important}
  #br-cosmic-canvas{opacity:.48}
- .br-cosmic-dock button,.br-cosmic-dock a{transition:none}
 }
