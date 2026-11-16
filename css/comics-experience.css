@@ -60,3 +60,24 @@
 .footer-credits{color:#a7b3c2;font-size:.72rem;text-decoration:none;letter-spacing:.04em}.footer-credits:hover,.footer-credits:focus-visible{color:#d7b98e}.footer-credits:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 
 /* Interactive 3D mission environments behind the preserved comic panels */
+
+/* Unified cinematic palette and unobstructed comic frame */
+:root{--bg:#050b15;--panel:#0b1524;--line:rgba(145,190,211,.22);--muted:#a8b8ce;--white:#edf3f7;--accent:#d8bd8b}
+body{background:#050b15;color:var(--white)}
+.reader-page{background:radial-gradient(ellipse at 50% 42%,#10233b 0,#07111f 62%,#02050b 100%)}
+.reader-top,.reader-bottom{background:rgba(5,12,24,.92);border-color:rgba(145,190,211,.2)}
+.reader-stage{background:radial-gradient(ellipse at 50% 45%,rgba(24,42,64,.72),rgba(7,17,31,.42) 56%,rgba(2,5,11,.28))}
+.reader-image-wrap{box-shadow:0 24px 90px rgba(0,0,0,.62),0 0 42px rgba(112,207,255,.12)}
+.reader-tools .reader-tool{border-radius:10px;background:rgba(8,24,42,.88);border-color:rgba(139,223,255,.28);color:#e8f5fc}
+.reader-tools .reader-tool:hover{border-color:#8edce8;color:#fff}
+.reader-bottom{height:auto;min-height:78px;display:flex;align-items:center;justify-content:center;gap:clamp(8px,1.6vw,20px);flex-wrap:wrap;padding:10px clamp(10px,2vw,24px)}
+.reader-film-controls{display:flex;align-items:center;gap:8px;flex:none}
+.reader-film-controls button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 15px;border:1px solid rgba(142,220,232,.32);border-radius:999px;background:linear-gradient(135deg,rgba(13,37,58,.96),rgba(17,25,48,.96));color:#eaf6fc;font:800 .65rem/1 "DM Sans",sans-serif;letter-spacing:.07em;cursor:pointer;white-space:nowrap}
+.reader-film-controls button:hover,.reader-film-controls button[aria-pressed=true]{border-color:#8edce8;background:linear-gradient(135deg,#17435b,#25365b)}
+.reader-thumbs{max-width:min(42vw,520px)}
+.reader-counter{min-width:60px}
+.reader-caption{bottom:14px;max-width:min(680px,82%);background:rgba(3,9,18,.82);border-color:rgba(155,223,255,.22);backdrop-filter:blur(12px)}
+.reader-arrow{border-radius:12px;background:rgba(7,24,40,.88);border-color:rgba(139,223,255,.34)}
+@media(max-width:700px){.reader-bottom{min-height:104px;gap:7px 10px;padding:8px 9px}.reader-film-controls{order:0;width:100%;justify-content:center}.reader-film-controls button{min-height:38px;padding:0 14px;font-size:.6rem}.reader-thumbs{order:1;max-width:calc(100vw - 104px);flex:1}.reader-counter{order:2;min-width:54px}.reader-caption{bottom:10px;max-width:calc(100% - 86px);font-size:.62rem}.reader-stage{padding:6px 0}}
+@media(max-width:380px){.reader-film-controls button{min-height:36px;padding:0 11px;font-size:.56rem}.reader-thumbs{max-width:calc(100vw - 92px)}.reader-thumb{width:25px;height:36px}}
+@media(orientation:landscape) and (max-height:520px){.reader-bottom{min-height:54px;flex-wrap:nowrap;padding:5px 8px}.reader-film-controls{width:auto}.reader-film-controls button{min-height:34px;padding:0 10px}.reader-thumbs{max-width:38vw}.reader-stage{padding:4px 0}}
