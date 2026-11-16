@@ -60,3 +60,13 @@
 .br-universe-foot{max-width:46ch}
 @media(max-width:680px){.br-universe-fidelity{gap:5px}.br-fidelity-tag{font-size:.58rem;min-height:26px}}
 @media(prefers-reduced-motion:reduce){#br-universe.is-open{animation:none}#br-universe-launcher:before{animation:none}}
+
+
+/* No-WebGL fallback: preserve the archive and its text-first navigation. */
+.br-universe-fallback{position:absolute;z-index:8;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(680px,calc(100% - 32px));max-height:76vh;overflow:auto;padding:clamp(20px,4vw,34px);border:1px solid rgba(135,210,245,.32);border-radius:22px;background:rgba(4,12,27,.96);box-shadow:0 24px 80px #000b;color:#edf7ff}
+.br-universe-fallback[hidden]{display:none}
+.br-universe-fallback h2{margin:0 0 10px;font-size:clamp(1.5rem,4vw,2.4rem)}
+.br-universe-fallback p{color:#b5c8e0;line-height:1.65}
+#br-universe-fallback-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;margin-top:18px}
+#br-universe-fallback-links a{display:flex;align-items:center;min-height:48px;padding:10px 13px;border:1px solid #8dcce533;border-radius:12px;background:#0c1d32;color:#dff5ff;text-decoration:none}
+#br-universe-fallback-links a:focus-visible{outline:3px solid #f3c77e;outline-offset:3px}
