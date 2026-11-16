@@ -1,3 +1,236 @@
+/* Beyond Relics — shared interactive artifact viewer.
+   All procedural geometry is an artistic educational visualization, not an official scan. */
+(function(){
+"use strict";
+const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";
+let enginePromise;
+function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src=THREE_URL;s.async=true;s.onload=()=>window.THREE?resolve(window.THREE):reject(Error("3D engine unavailable"));s.onerror=()=>reject(Error("3D engine unavailable"));document.head.append(s);});return enginePromise;}
+const copy={
+ "lunar-module":[["Descent stage","The lower stage supported landing and remained at Tranquility Base."],["Ascent stage","The upper crew cabin returned the astronauts to lunar orbit."],["Landing gear","Four landing legs supported the Lunar Module at touchdown."],["Descent engine","The descent propulsion system slowed the spacecraft for landing."]],
+ "apollo-12-alsep":[["Central station","The ALSEP package connected instruments and supported long-running lunar measurements."],["Seismic instrument","Seismic experiments recorded lunar vibrations."],["Antenna","The station communicated instrument data to Earth."],["Power unit","The package used a radioisotope thermoelectric generator for electrical power."]],
+ "pathfinder-sojourner":[["Lander","Pathfinder delivered the rover and relayed its observations to Earth."],["Rover body","Sojourner carried cameras and scientific instruments."],["Wheels","Six wheels helped the rover move across uneven Martian terrain."],["Solar panel","Solar cells supplied electrical power to the rover."]],
+ "spirit":[["Rover body","Spirit was a mobile robotic laboratory designed to study Martian rocks and soil."],["Rock abrasion tool","The rover could expose fresh rock surfaces for close study."],["Wheels","Its mobility system enabled traverses across the Martian surface."],["Solar array","Solar panels supplied electrical power."]],
+ "opportunity":[["Rover body","Opportunity investigated rocks and soil on Mars over an extended mission."],["Panoramic cameras","The camera system documented terrain and geological context."],["Wheels","The rover travelled across the Meridiani Planum region."],["Solar array","Solar panels supplied electrical power."]],
+ "phoenix":[["Lander deck","Phoenix was a stationary lander that studied soil and water ice in the Martian arctic."],["Robotic arm","The arm collected soil and ice-rich samples for onboard analysis."],["Solar panels","The arrays generated electrical power on the surface."],["Landing legs","The legs supported the lander after touchdown."]],
+ "insight":[["Lander platform","InSight studied the deep interior of Mars from a stationary landing site."],["SEIS","The seismometer measured seismic waves and helped investigate the Martian interior."],["Solar arrays","The solar panels supplied electrical power."],["Robotic arm","The arm placed scientific instruments on the surface."]],
+ "curiosity":[["Rover body","Curiosity is a mobile laboratory investigating the geology and habitability of Gale Crater."],["Mast","The mast carries remote-sensing cameras and instruments."],["Wheels","Six wheels provide mobility across the Martian terrain."],["Robotic arm","The arm carries tools for close-up study of rocks and soil."]],
+ "voyager":[["Main bus","The spacecraft bus houses key spacecraft systems."],["High-gain antenna","The dish antenna supports long-distance communication with Earth."],["Instrument boom","The boom carries scientific instruments away from the spacecraft body."],["RTG booms","Radioisotope power systems supplied electricity during the long mission."]],
+ "space-telescope":[["Primary mirror","The telescope's primary mirror collects incoming light."],["Instrument section","Scientific instruments analyze collected light."],["Solar arrays","Solar arrays provide electrical power."],["Antenna","Communications hardware links the observatory with mission operations."]],
+ "pioneer-10-11":[["High-gain antenna","The dish antenna maintained communication across immense distances."],["Instrument section","Scientific instruments studied the interplanetary and outer-planet environment."],["RTG power","Radioisotope thermoelectric generators supplied electrical power."],["Booms","Instrument booms helped position sensors away from spacecraft interference."]]
+};
+const componentMap={
+ "lunar-module":["body","upper","landing-gear","descent-engine"],
+ "apollo-12-alsep":["central-station","science-instruments","antenna","rtg-power"],
+ "pathfinder-sojourner":["lander","rover-body","wheels","solar-array"],
+ "spirit":["rover-body","rock-abrasion-tool","wheels","solar-array"],
+ "opportunity":["rover-body","mast","wheels","solar-array"],
+ "phoenix":["lander-deck","robotic-arm","solar-array","landing-legs"],
+ "insight":["lander-deck",null,"solar-array","robotic-arm"],
+ "curiosity":["rover-body","mast","wheels","robotic-arm"]
+};
+function makeStudioEnvironment(T){
+ const faces=[];
+ for(let face=0;face<6;face++){
+  const canvas=document.createElement("canvas");canvas.width=256;canvas.height=256;
+  const ctx=canvas.getContext("2d");
+  const gradient=ctx.createLinearGradient(0,0,256,256);
+  gradient.addColorStop(0,face%2?"#6e8798":"#9aabb7");gradient.addColorStop(.48,"#24384b");gradient.addColorStop(1,"#07111e");
+  ctx.fillStyle=gradient;ctx.fillRect(0,0,256,256);
+  ctx.fillStyle="rgba(210,235,246,.72)";ctx.fillRect(34+(face%3)*48,28,54,7);
+  ctx.fillStyle="rgba(125,207,229,.32)";ctx.fillRect(20,112+(face%2)*24,12,86);
+  ctx.fillStyle="rgba(236,207,158,.24)";ctx.fillRect(194,74,28,112);
+  faces.push(canvas);
+ }
+ const environment=new T.CubeTexture(faces);environment.mapping=T.CubeReflectionMapping;environment.colorSpace=T.SRGBColorSpace;environment.needsUpdate=true;
+ return environment;
+}
+function makeScene(T,id,root){
+ const scene=new T.Scene();scene.background=null;scene.environment=makeStudioEnvironment(T);
+ const camera=new T.PerspectiveCamera(36,1,.1,100);camera.position.set(7,5,13);
+ scene.add(new T.HemisphereLight(0xc4e2ff,0x3b2b25,1.35));
+ const key=new T.DirectionalLight(0xffdfb2,3.8);key.position.set(-6,9,8);scene.add(key);
+ const rim=new T.DirectionalLight(0x68c9ee,3.1);rim.position.set(7,4,-8);scene.add(rim);
+ const fill=new T.DirectionalLight(0x9ebce8,1.25);fill.position.set(3,1,9);scene.add(fill);
+ const accent=new T.PointLight(0x55c9e8,15,22,2);accent.position.set(-5,1,-3);scene.add(accent);
+ const lunar=id==="lunar-module"||id==="apollo-12-alsep";
+ const mars=["pathfinder-sojourner","spirit","opportunity","phoenix","insight","curiosity"].includes(id);
+ const compactRender=window.innerWidth<700||(navigator.hardwareConcurrency||8)<=4;
+ const roverSurface=["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id);
+ const terrainY=lunar?-2.25:(roverSurface?-1.98:-1.78);
+ if(lunar||mars){
+ const terrainSegments=compactRender?44:84;
+ const terrainGeo=new T.PlaneGeometry(54,54,terrainSegments,terrainSegments);
+ const pos=terrainGeo.attributes.position;
+ const craters=[[-7,-5,2.5],[-1,8,1.5],[8,3,3.2],[5,-9,1.7],[-11,10,1.2]];
+ for(let i=0;i<pos.count;i++){
+  const x=pos.getX(i),y=pos.getY(i);
+  let h=(Math.sin(x*.31)*Math.cos(y*.27)+Math.sin((x+y)*.18)*.6)*.11;
+  if(mars)h+=Math.sin(x*.13+y*.21)*.22+Math.sin(y*.42)*.06;
+  if(lunar)craters.forEach(([cx,cy,r])=>{const d=Math.hypot(x-cx,y-cy);h-=Math.exp(-Math.pow(d/(r*.72),2))*.48;h+=Math.exp(-Math.pow((d-r)/(r*.16),2))*.12;});
+  pos.setZ(i,h);
+ }
+ terrainGeo.computeVertexNormals();
+ const terrain=new T.Mesh(terrainGeo,new T.MeshStandardMaterial({color:lunar?0x555962:mars?0x794435:0x283441,roughness:.98,metalness:0}));
+ terrain.rotation.x=-Math.PI/2;terrain.position.y=terrainY;scene.add(terrain);
+ const shadowCanvas=document.createElement("canvas");shadowCanvas.width=256;shadowCanvas.height=256;
+ const shadowContext=shadowCanvas.getContext("2d");const shadowGradient=shadowContext.createRadialGradient(128,128,8,128,128,122);
+ shadowGradient.addColorStop(0,"rgba(0,0,0,.48)");shadowGradient.addColorStop(.48,"rgba(0,0,0,.22)");shadowGradient.addColorStop(1,"rgba(0,0,0,0)");
+ shadowContext.fillStyle=shadowGradient;shadowContext.fillRect(0,0,256,256);
+ const shadowTexture=new T.CanvasTexture(shadowCanvas);shadowTexture.colorSpace=T.SRGBColorSpace;
+ const contactShadow=new T.Mesh(new T.PlaneGeometry(7,5),new T.MeshBasicMaterial({map:shadowTexture,transparent:true,opacity:.48,depthWrite:false}));
+ contactShadow.rotation.x=-Math.PI/2;contactShadow.position.set(0,terrainY+.035,0);scene.add(contactShadow);
+ const rockMat=new T.MeshStandardMaterial({color:lunar?0x777b80:0x9b5d45,roughness:1});
+ let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ const rockCount=compactRender?30:72;
+ for(let i=0;i<rockCount;i++){
+  const x=(rand()-.5)*34,z=(rand()-.5)*34;
+  if(Math.abs(x)<2.4&&Math.abs(z)<2.4)continue;
+  const size=.08+rand()*.28;
+  const rock=new T.Mesh(new T.DodecahedronGeometry(size,0),rockMat);
+  rock.position.set(x,terrainY+.06+rand()*.05,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.7;scene.add(rock);
+ }
+ }
+ if(lunar){
+  const horizon=new T.Mesh(new T.SphereGeometry(42,32,20),new T.MeshBasicMaterial({color:0x070b12,side:T.BackSide}));horizon.position.y=-2.5;scene.add(horizon);
+ }
+ let starSeed=90210;const starRand=()=>{starSeed=(starSeed*16807)%2147483647;return(starSeed-1)/2147483646;};
+ const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<(compactRender?260:620);i++)stars.push((starRand()-.5)*48,starRand()*24-2,(starRand()-.5)*42);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));const ambientStars=new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:compactRender?.035:.045,transparent:true,opacity:.82,depthWrite:false}));scene.add(ambientStars);
+ const rootObj=new T.Group();scene.add(rootObj);
+ const metal=new T.MeshStandardMaterial({color:0xb9a17b,metalness:.78,roughness:.27,envMapIntensity:1.25}),foil=new T.MeshStandardMaterial({color:0xb9c5c8,metalness:.82,roughness:.24,envMapIntensity:1.3}),dark=new T.MeshStandardMaterial({color:0x343e48,metalness:.55,roughness:.36,envMapIntensity:1.05}),black=new T.MeshStandardMaterial({color:0x101a26,metalness:.38,roughness:.3,envMapIntensity:.9}),blue=new T.MeshStandardMaterial({color:0x254c70,metalness:.58,roughness:.24,envMapIntensity:1.15}),solar=new T.MeshStandardMaterial({color:0x173d65,metalness:.62,roughness:.3,emissive:0x07182c,envMapIntensity:1.05});
+ const groups={},componentNodes={};
+ const group=(name)=>{const g=new T.Group();g.name=name;groups[name]=g;componentNodes[name]=g;rootObj.add(g);return g;};
+ const part=(parent,name)=>{const g=new T.Group();g.name=name;componentNodes[name]=g;parent.add(g);return g;};
+ const mesh=(parent,geo,mat,pos=[0,0,0],rot=[0,0,0])=>{const m=new T.Mesh(geo,mat);m.position.set(...pos);m.rotation.set(...rot);parent.add(m);return m;};
+ const box=(p,s,m,pos,rot)=>mesh(p,new T.BoxGeometry(...s),m,pos,rot);
+ const cyl=(p,a,b,h,m,pos,segments=12,rot=[0,0,0])=>mesh(p,new T.CylinderGeometry(a,b,h,segments),m,pos,rot);
+ const wheel=(p,x,z,r=.38)=>{const w=mesh(p,new T.CylinderGeometry(r,r,.22,16),black,[x,-1.65,z],[0,0,Math.PI/2]);mesh(p,new T.TorusGeometry(r*.72,.045,8,20),foil,[x,-1.65,z],[0,Math.PI/2,0]);return w;};
+ function rover(curiosity=false,name="body"){
+  const body=group(name);const chassis=part(body,"rover-body");box(chassis,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
+  box(chassis,[.8,.48,.7],foil,[0,.22,0]);box(chassis,[.25,.12,.25],dark,[0,.55,0]);
+  const mast=part(body,"mast");mast.position.set(0,.45,0);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
+  if(id==="spirit"){
+   // Simplified artistic representation of Spirit's instrument deployment device and RAT.
+   const arm=part(body,"robotic-arm");arm.position.set(.78,-.34,.12);
+   cyl(arm,.065,.075,.72,foil,[.14,-.16,.08],12,[0,0,.55]);
+   cyl(arm,.05,.055,.52,metal,[.43,-.43,.08],12,[0,0,-.75]);
+   const rat=part(arm,"rock-abrasion-tool");rat.position.set(.62,-.64,.08);
+   cyl(rat,.12,.1,.16,dark,[0,0,0],16);
+   cyl(rat,.07,.07,.18,foil,[0,-.14,0],16);
+  }
+  if(curiosity){const arm=part(body,"robotic-arm");arm.position.set(.9,-.35,.1);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
+  const wheelAssembly=part(body,"wheels");
+  for(let z of [-.7,.7])for(let x of [-.85,0,.85])wheel(wheelAssembly,x,z,.35);
+  if(!curiosity){
+   const solarArray=part(body,"solar-array");
+   const panel=box(solarArray,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
+   const cellGrid=new T.Group();cellGrid.position.copy(panel.position);cellGrid.rotation.copy(panel.rotation);solarArray.add(cellGrid);
+   const gridMat=new T.MeshStandardMaterial({color:0x8caebe,metalness:.52,roughness:.38,envMapIntensity:.8});
+   for(let x=-.8;x<=.81;x+=.4)box(cellGrid,[.014,.012,.98],gridMat,[x,.041,0]);
+   for(let z=-.36;z<=.37;z+=.36)box(cellGrid,[1.94,.012,.014],gridMat,[0,.041,z]);
+   for(const side of [-1,1])box(solarArray,[2.05,.12,.13],foil,[0,-.88,side*.68],[0,0,side*.05]);
+  }else{
+   // Curiosity uses an RTG, not a solar array; this is an artistic reconstruction.
+   const rtg=part(body,"rtg-power");
+   cyl(rtg,.31,.31,.82,foil,[0,.48,-.86],24,[Math.PI/2,0,0]);
+   cyl(rtg,.36,.36,.1,dark,[0,.48,-1.28],24,[Math.PI/2,0,0]);
+   box(rtg,[.62,.12,.18],metal,[0,.84,-.62]);
+   const turret=new T.Group();turret.position.set(0,1.28,.02);body.add(turret);
+   cyl(turret,.16,.16,.22,foil,[0,0,0],20);
+   for(let x of [-.18,.18])mesh(turret,new T.SphereGeometry(.09,12,10),blue,[x,.04,.12]);
+   box(body,[.12,.12,.85],dark,[.96,-.58,.12],[0,0,.35]);
+  }
+  return body;
+ }
+ function lander(name="body",legCount=4){
+  const base=group(name);const deck=part(base,"lander-deck");cyl(deck,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(deck,.75,.8,.7,foil,[0,.05,0],8);cyl(deck,.42,.48,.45,dark,[0,.58,0],8);
+  const landingLegs=part(base,"landing-legs");
+  for(let i=0;i<legCount;i++){const a=(Math.PI*2/legCount)*i+Math.PI/4,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;landingLegs.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
+  return base;
+ }
+ if(id==="lunar-module"){
+  const lower=group("body");cyl(lower,1.5,1.65,.42,metal,[0,-.55,0],8);cyl(lower,1.2,1.25,.7,foil,[0,-1.1,0],8);
+  const descentEngine=part(lower,"descent-engine");cyl(descentEngine,.42,.5,.55,dark,[0,-1.68,0]);
+  const landingGear=part(lower,"landing-gear");
+  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a),leg=new T.Group();leg.position.set(x*1,-.9,z*1);leg.rotation.z=-x*.4;leg.rotation.x=z*.4;landingGear.add(leg);cyl(leg,.055,.075,1.45,foil,[0,-.62,0]);box(leg,[.58,.08,.38],metal,[x*.18,-1.35,z*.18]);}
+  const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
+ }else if(id==="apollo-12-alsep"){
+  const station=group("body");station.position.y=-1.55;
+  const centralStation=part(station,"central-station");
+  box(centralStation,[1.05,.58,.82],metal,[0,-.55,0]);box(centralStation,[.72,.08,.58],foil,[0,-.22,0]);
+  // RTG package, antenna and instrument packages: educational artistic reconstruction.
+  const power=part(station,"rtg-power");
+  cyl(power,.22,.22,.82,foil,[-.72,-.48,0],24,[0,0,Math.PI/2]);
+  for(let k=0;k<7;k++)box(power,[.025,.34,.38],dark,[-.72,-.48,-.3+k*.1]);
+  const antenna=part(station,"antenna");
+  cyl(antenna,.1,.1,1.2,foil,[0,.55,0],16);
+  const dish=mesh(antenna,new T.SphereGeometry(.34,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,1.2,0]);dish.rotation.x=Math.PI;
+  cyl(antenna,.035,.035,.8,metal,[0,1.52,0],10);
+  const instrumentsGroup=part(station,"science-instruments");
+  const instruments=[[-1.35,-.82,-.35],[1.25,-.82,-.35],[1.35,-.82,.55],[-1.25,-.82,.62]];
+  instruments.forEach((p,i)=>box(instrumentsGroup,[.34,.22,.3],i%2?dark:foil,p));
+  cyl(station,.11,.11,.18,foil,[.45,-.17,.12],16);
+ }else if(id==="pathfinder-sojourner"){
+  const pathfinder=lander("lander");pathfinder.position.set(-2.05,-.2,0);
+  for(let i=0;i<4;i++){const a=i*Math.PI/2;box(pathfinder,[.95,.07,.42],solar,[Math.cos(a)*1.18,.18,Math.sin(a)*1.18],[0,-a,0]);}
+  const sojourner=rover(false,"rover");sojourner.position.x=2.05;sojourner.scale.set(.72,.72,.72);
+ }else if(["spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
+ else if(["phoenix","insight"].includes(id)){
+  lander("body",3);const p=groups.body;
+  if(id==="insight"){
+   // InSight's two deployed solar wings and instrument-placement arm.
+   const solarArray=part(p,"solar-array");
+   for(const side of [-1,1]){
+    box(solarArray,[1.35,.055,1.05],solar,[side*1.48,.18,0]);
+    for(let x=-.45;x<=.46;x+=.3)box(solarArray,[.018,.012,.98],blue,[side*1.48+x,.22,0]);
+    for(let z=-.35;z<=.36;z+=.35)box(solarArray,[1.3,.012,.018],blue,[side*1.48,.22,z]);
+   }
+   const arm=part(p,"robotic-arm");arm.position.set(.8,.1,0);
+   cyl(arm,.065,.065,1,foil,[.25,-.1,0],12,[0,0,.65]);cyl(arm,.045,.045,.65,metal,[.7,-.48,0],12,[0,0,-.7]);
+   const sciencePayload=part(p,"science-payload");
+   box(sciencePayload,[.42,.22,.38],foil,[-.72,-.28,.5]);cyl(sciencePayload,.12,.12,.18,dark,[-.72,-.12,.5],20);
+  }else{
+   // Phoenix's two solar wings, deck instruments and sample-delivery arm.
+   const solarArray=part(p,"solar-array");
+   for(const side of [-1,1]){
+    box(solarArray,[1.15,.055,.82],solar,[side*1.45,.25,0]);
+    for(let x=-.38;x<=.39;x+=.25)box(solarArray,[.018,.012,.76],blue,[side*1.45+x,.29,0]);
+   }
+   const arm=part(p,"robotic-arm");arm.position.set(.7,.2,.2);
+   cyl(arm,.06,.06,.9,foil,[.18,-.25,0],12,[0,0,.55]);cyl(arm,.045,.045,.72,metal,[.58,-.56,.06],12,[0,0,-.5]);
+   const deckInstruments=part(p,"deck-instruments");
+   box(deckInstruments,[.42,.26,.36],dark,[-.45,.12,-.35]);
+  }
+ }
+ else if(id==="voyager"||id==="pioneer-10-11"){
+  const craft=group("body");cyl(craft,.5,.5,.9,foil,[0,0,0]);mesh(craft,new T.SphereGeometry(.82,24,18),metal,[0,.1,0]);cyl(craft,.95,.95,.08,foil,[0,.05,0],48).rotation.x=Math.PI/2;box(craft,[.12,3,.12],foil,[0,0,0]);for(let x of [-1.5,1.5])box(craft,[1.5,.06,.8],solar,[x,0,0]);cyl(craft,.08,.08,2.5,foil,[0,-.1,0]);const dish=mesh(craft,new T.SphereGeometry(.95,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,.5,1.3]);dish.rotation.x=Math.PI;
+ }else{
+  const telescope=group("body");cyl(telescope,.95,1.05,2.6,foil,[0,0,0],16);cyl(telescope,.7,.8,.22,dark,[0,1.4,0],16);mesh(telescope,new T.CylinderGeometry(.7,.7,.05,32),blue,[0,1.53,0]);for(let x of [-1.55,1.55])box(telescope,[1.2,.06,2.2],solar,[x,0,0]);
+ }
+ return {scene,camera,rootObj,groups,componentNodes,ambientStars};
+}
+const OFFICIAL_MODELS={
+ "voyager":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/voyager-probe-%28b%29/Voyager%20Probe%20%28B%29.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/voyager-probe-b/",label:"OFFICIAL NASA 3D MODEL"},
+ "lunar-module":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/apollo-lunar-module/",label:"OFFICIAL NASA 3D MODEL"},
+ "insight":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/insight-cruise-lander/InSight%20Cruise%20Lander%20%28arm%20deployed%29.glb",source:"NASA / Brian E. Kumanchik",page:"https://science.nasa.gov/3d-resources/insight-cruise-lander/",label:"OFFICIAL NASA 3D MODEL"},
+ "opportunity":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-exploration-rover---opportunity-%28mer-b%29/Mars%20Exploration%20Rover%20-%20Opportunity%20%28MER-B%29.glb",source:"NASA / Ames Research Center",page:"https://science.nasa.gov/3d-resources/mars-exploration-rover-opportunity-mer-b/",label:"OFFICIAL NASA 3D MODEL"},
+ "spirit":{embed:"https://mars.nasa.gov/gltf_embed/24883/?fs=true",source:"NASA/JPL-Caltech",page:"https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",label:"OFFICIAL NASA/JPL INTERACTIVE MODEL · SPIRIT & OPPORTUNITY ROVER FAMILY",displayTitle:"Mars Exploration Rover — Spirit and Opportunity family"},
+ "curiosity":{embed:"https://mars.nasa.gov/gltf_embed/24584/?fs=true",source:"NASA/JPL-Caltech",page:"https://science.nasa.gov/resource/curiosity-rover-3d-model/",label:"OFFICIAL NASA/JPL INTERACTIVE 3D MODEL",displayTitle:"Curiosity Mars Rover"},
+ "space-telescope":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/spitzer-space-telescope/Spitzer%20Space%20Telescope.glb",source:"NASA / Janice C. Lee; NASA / Robert L. Hurt",page:"https://science.nasa.gov/3d-resources/spitzer-space-telescope/",label:"OFFICIAL NASA 3D MODEL"},
+ "pioneer-10-11":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/pioneer-10/Pioneer%2010.glb",source:"NASA / JPL / Eyes on the Solar System",page:"https://science.nasa.gov/3d-resources/pioneer/",label:"OFFICIAL PIONEER 10 MODEL · PIONEER 11 NOT SHOWN",displayTitle:"Pioneer 10"}
+};
+function loadModelViewer(){
+ if(customElements.get("model-viewer"))return Promise.resolve();
+ if(window.__brModelViewerPromise)return window.__brModelViewerPromise;
+ window.__brModelViewerPromise=new Promise((resolve,reject)=>{
+  const script=document.createElement("script");
+  script.type="module";
+  script.src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js";
+  script.onload=()=>customElements.whenDefined("model-viewer").then(resolve,reject);
+  script.onerror=()=>reject(Error("3D model viewer unavailable"));
+  document.head.append(script);
+ });
+ return window.__brModelViewerPromise;
+}
 async function mountOfficialModel(root,item,loading,canvas){
  const model=OFFICIAL_MODELS[item.id];if(!model)return false;
  if(model.embed){
