@@ -1,8 +1,66 @@
-/* Beyond Relics — unified visual language across every page */
-:root{color-scheme:dark;--bg:#080f1c;--bg2:#101b2c;--bone:#f1f4f6;--mute:#a8b6c9;--line:rgba(157,183,205,.2);--rust:#91d6e2;--cosmic-cyan:#91d6e2;--cosmic-purple:#8e83c6;--cosmic-gold:#d8bd8b;--surface-1:#101b2b;--surface-2:#142238;--surface-3:#1a2b42;--f-head:"Barlow Condensed","Arial Narrow",sans-serif;--f-body:"DM Sans","Segoe UI",sans-serif}
-html{background:#080f1c;scroll-behavior:smooth}body{background-color:#080f1c;color:#f1f4f6;font-family:var(--f-body);-webkit-font-smoothing:antialiased}::selection{background:rgba(145,214,226,.3);color:#fff}:focus-visible{outline:2px solid #91d6e2;outline-offset:4px}
-.nav{background:rgba(7,14,26,.86);border-bottom:1px solid rgba(163,185,218,.14);backdrop-filter:blur(18px) saturate(130%)}.brand{border-color:rgba(145,214,226,.38);color:#f4f7fb;font-family:var(--f-head)}.brand b{color:#d8bd8b}.links a{color:#b8c5d8;font-family:var(--f-body);letter-spacing:.09em}.links a:hover,.links a[aria-current=page]{color:#fff;border-color:#91d6e2}.tools{border-color:rgba(163,185,218,.18)}.tools button{color:#d9e4f1}.tools button:hover{color:#d8bd8b}
-.btn{border:1px solid rgba(145,214,226,.48);border-radius:8px;background:linear-gradient(120deg,#91d6e2,#65b9c8);color:#07131e;font-family:var(--f-body);font-weight:750;letter-spacing:.07em;box-shadow:0 8px 24px rgba(43,153,174,.12)}.btn.ghost{border-color:rgba(166,193,211,.32);background:rgba(10,22,36,.55);color:#dce8f0}.btn.ghost:hover{border-color:#91d6e2;color:#fff}
-.eyebrow{color:#91d6e2;font-family:var(--f-body);font-style:normal;font-weight:750;letter-spacing:.18em}.page-title{background:linear-gradient(110deg,#f3f4ef 0%,#dce7ed 56%,#d8bd8b 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.page-title em{color:#d8bd8b;-webkit-text-fill-color:#d8bd8b}.lead{color:#bdcbd7}
-.panel,.card,.insight-card,.science-card,.chronicle-card,.detective-console{border-color:rgba(157,183,205,.2)}.footer{border-top-color:rgba(157,183,205,.16);color:#9eafbf}.footer-credits{color:#91d6e2}input,select,textarea{accent-color:#91d6e2}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Beyond Relics — Aurora / deep-space visual identity.
+   Loaded last so every page shares one deliberate palette without flattening page layouts. */
+:root{
+ color-scheme:dark;
+ --bg:#070d1a;--bg2:#0d1728;--bone:#edf4fa;--mute:#a8b9ca;
+ --rust:#8edce8;--line:rgba(142,190,211,.22);
+ --cosmic-cyan:#8edce8;--cosmic-purple:#9186d7;--cosmic-gold:#e2c28d;
+ --surface-1:#0c1728;--surface-2:#112138;--surface-3:#172b43;
+ --f-head:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+ --f-body:"DM Sans","Segoe UI",sans-serif;
+}
+html{background:#070d1a;scroll-behavior:smooth}
+body:not(.reader-page){
+ background:
+  radial-gradient(ellipse at 9% 8%,rgba(67,112,166,.13),transparent 34rem),
+  radial-gradient(ellipse at 92% 26%,rgba(112,91,166,.10),transparent 36rem),
+  linear-gradient(180deg,#070d1a 0%,#0a1423 54%,#070d1a 100%);
+ color:var(--bone);font-family:var(--f-body);-webkit-font-smoothing:antialiased
+}
+body:not(.reader-page)::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22;background-image:radial-gradient(1px 1px at 8% 18%,#d9edf8 99%,transparent),radial-gradient(1px 1px at 73% 13%,#d9edf8 99%,transparent),radial-gradient(1.5px 1.5px at 41% 64%,#d9edf8 99%,transparent),radial-gradient(1px 1px at 91% 79%,#d9edf8 99%,transparent),radial-gradient(1px 1px at 24% 88%,#d9edf8 99%,transparent);background-size:390px 310px,510px 420px,620px 490px,470px 360px,560px 430px}
+body:not(.reader-page) .nav{background:linear-gradient(100deg,rgba(6,13,26,.94),rgba(11,23,40,.86));border-bottom:1px solid rgba(142,190,211,.18);box-shadow:0 12px 38px rgba(0,0,0,.18);backdrop-filter:blur(18px) saturate(135%)}
+.brand{color:#f1f6fb;border-color:rgba(142,190,211,.35);font-family:var(--f-head);letter-spacing:.14em}
+.brand b{color:var(--cosmic-cyan)}
+.links a{color:#aebfd0;font-family:var(--f-body);font-size:.76rem;letter-spacing:.11em;transition:color .2s,border-color .2s,text-shadow .2s}
+.links a:hover,.links a[aria-current=page]{color:#f7fbff;border-color:var(--cosmic-cyan);text-shadow:0 0 18px rgba(142,220,232,.25)}
+.tools{border-color:rgba(142,190,211,.2)}.tools button{color:#d7e4ee}.tools button:hover{color:var(--cosmic-cyan)}
+.tools button#sound[aria-pressed=true]{color:var(--cosmic-cyan);background:rgba(142,220,232,.1);box-shadow:0 0 0 1px rgba(142,220,232,.3),0 0 24px rgba(142,220,232,.12)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;min-height:46px;padding:.82rem 1.35rem;border:1px solid rgba(142,220,232,.6);border-radius:8px;background:linear-gradient(115deg,#9be4eb,#62b6d0);color:#06131e;font:750 .78rem var(--f-body);letter-spacing:.09em;text-transform:uppercase;box-shadow:0 9px 26px rgba(59,164,188,.15);transition:transform .22s,box-shadow .22s,filter .22s}
+.btn:hover{filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 13px 30px rgba(59,164,188,.2)}
+.btn.ghost{border-color:rgba(166,194,213,.32);background:rgba(10,22,37,.62);color:#dce9f1;box-shadow:none}
+.btn.ghost:hover{border-color:var(--cosmic-cyan);color:#fff}
+.eyebrow,.back:hover,.more,.facts dt{color:var(--cosmic-cyan)}
+.page{position:relative;z-index:2}
+.page-title{background:linear-gradient(108deg,#f2f6f8 0%,#c6e1e9 52%,#e2c28d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 8px 22px rgba(0,0,0,.34))}
+.page-title em{color:var(--cosmic-gold);-webkit-text-fill-color:var(--cosmic-gold)}
+.eyebrow{font-family:var(--f-body);font-style:normal;font-size:.67rem;letter-spacing:.2em;font-weight:750}
+.lead{color:#c2d0dc;font-family:var(--f-serif);font-style:italic}
+.panel{border:1px solid rgba(142,190,211,.22);border-radius:15px;background:linear-gradient(145deg,rgba(17,34,55,.88),rgba(8,18,32,.94));box-shadow:0 18px 48px rgba(0,0,0,.26),inset 0 1px rgba(255,255,255,.035)}
+.panel::before{background:linear-gradient(90deg,var(--cosmic-cyan),var(--cosmic-purple));border-radius:8px}
+.panel p{color:#c1cedb}
+.acard{transform:none!important;border:1px solid rgba(142,190,211,.22);border-radius:13px;background:linear-gradient(155deg,rgba(18,35,56,.94),rgba(8,17,30,.96));box-shadow:0 15px 38px rgba(0,0,0,.3);transition:transform .28s,border-color .28s,box-shadow .28s}
+.acard:hover,.acard:focus-visible{transform:translateY(-7px)!important;border-color:rgba(142,220,232,.65);box-shadow:0 22px 48px rgba(0,0,0,.4),0 0 26px rgba(82,165,190,.09)}
+.aart{color:#d9e8ef;background-color:#10233a}
+.abody h3{color:#f0f5f8}.abody p{color:#b7c7d5}.more{color:var(--cosmic-cyan)}
+.chip{border:1px solid rgba(142,190,211,.25);border-radius:7px;color:#aebfd0;background:rgba(10,22,37,.45);transition:all .2s}
+.chip:hover,.chip[aria-pressed=true]{border-color:var(--cosmic-cyan);color:#f1f7fa;background:rgba(75,153,177,.14)}
+.search input,input,select,textarea{border-color:rgba(142,190,211,.28);border-radius:7px;background:rgba(6,15,28,.72);color:#edf4fa}
+.search input:focus,input:focus,select:focus,textarea:focus{border-color:var(--cosmic-cyan);outline:2px solid rgba(142,220,232,.18)}
+.dart{transform:none;border:1px solid rgba(142,190,211,.3);border-radius:13px;box-shadow:0 20px 48px rgba(0,0,0,.35)}
+.detail .body{color:#c2d0dc}.facts{border-color:var(--line)}.facts dt{color:var(--cosmic-cyan)}
+.pn{border-color:var(--line)}.pn a:hover{color:var(--cosmic-cyan)}
+.tl::before{background:linear-gradient(180deg,var(--cosmic-cyan),rgba(145,134,215,.35) 50%,transparent)}
+.tl-item::after{background:var(--cosmic-cyan);border-color:var(--bg);box-shadow:0 0 0 1px var(--cosmic-cyan),0 0 16px rgba(142,220,232,.3)}
+.tl-year{color:var(--cosmic-gold)}.place{color:#9eb4c6}
+.footer{border-top-color:rgba(142,190,211,.17);background:rgba(5,12,23,.5);color:#98aebe}
+.footer-credits{color:var(--cosmic-cyan)}
+.note{border-left-color:var(--cosmic-cyan);color:#b3c3d1}
+.steps a{border-color:rgba(142,190,211,.2);border-radius:7px;background:rgba(11,25,42,.4)}
+.steps a:hover{border-color:var(--cosmic-cyan);color:var(--cosmic-cyan)}
+.empty{color:#a9bdcc}
+::selection{background:rgba(142,220,232,.28);color:#fff}
+:focus-visible{outline:2px solid var(--cosmic-cyan);outline-offset:4px}
+@media(max-width:760px){.links a{font-size:.67rem;letter-spacing:.07em}.btn{min-height:46px}.acard:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.acard,.btn{transition:none}}
+/* The comic reader keeps its dedicated high-contrast reading palette. */
+.reader-page{background:#05080f;color:#edf4fa}
