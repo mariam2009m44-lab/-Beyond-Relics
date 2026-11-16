@@ -155,3 +155,7 @@ if (failures.length) {
 } else {
   console.log("RESULT: PASS");
 }
+
+check(artifact3d.includes("scene.background=null") && artifact3d.includes("new T.WebGLRenderer({canvas,antialias:true,alpha:true") && artifact3d.includes("setClearColor(0x000000,0)"), "Artifact 3D canvases remain transparent so the cinematic nebula chamber is visible behind models");
+check(artifact3d.includes("ambientStars.rotation.y") && artifact3d.includes("compactRender?260:620"), "Artifact exhibits add subtle parallax star depth without changing model geometry");
+check(artifact3dCss.includes("br-artifact-nebula-drift") && artifact3dCss.includes("br-artifact-stars-drift") && artifact3dCss.includes("background:transparent!important"), "Both official and reconstructed artifact models sit inside an animated, reduced-motion-aware nebula chamber");
