@@ -83,12 +83,5 @@
  if(!coarse&&!reduced)window.addEventListener("pointermove",e=>{targetX=(e.clientX/w-.5)*22;targetY=(e.clientY/h-.5)*18},{passive:true});
  window.addEventListener("resize",()=>{resize();draw(elapsed)},{passive:true});
  document.addEventListener("visibilitychange",()=>{if(document.hidden)stop();else if(!reduced)start()});
- const dock=document.createElement("div");dock.className="br-cosmic-dock";dock.setAttribute("aria-label","Cosmic background controls");
- const pause=document.createElement("button");pause.type="button";pause.className="br-cosmic-pause";pause.setAttribute("aria-pressed",String(paused));pause.innerHTML='<i class="br-cosmic-dot" aria-hidden="true"></i><span></span>';
- const label=pause.querySelector("span");
- function sync(){label.textContent=paused?"Resume cosmos":"Pause motion";pause.setAttribute("aria-pressed",String(paused));}
- sync();pause.addEventListener("click",()=>{paused=!paused;sync();if(paused){draw(elapsed);stop()}else start()});
- const explore=document.createElement("a");explore.href="artifacts.html#br-universe-launcher";explore.innerHTML='Explore orbits <span aria-hidden="true">↗</span>';explore.setAttribute("aria-label","Open the interactive 3D Solar System explorer");
- dock.append(pause,explore);document.body.append(dock);
- if(reduced){pause.disabled=true;pause.setAttribute("aria-label","Cosmic motion is reduced by your device settings");label.textContent="Motion reduced";pause.title="Your device requests reduced motion. The background remains still.";}
+
 })();
