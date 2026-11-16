@@ -34,6 +34,9 @@ check(artifact3d.includes("if(lunar||mars)") && artifact3d.includes("terrainY"),
 check(artifact3d.includes("contactShadow") && artifact3d.includes("CanvasTexture"), "Surface exhibits include a soft procedural contact shadow");
 check(artifact3d.includes("compactRender?44:84") && artifact3d.includes("compactRender?30:72"), "Terrain and rock detail adapt to lower-power and mobile devices");
 check(artifact3d.includes("starRand") && !artifact3d.includes("Math.random()"), "Procedural star fields are deterministic between visits");
+check(artifact3d.includes('matchMedia("(prefers-reduced-motion: reduce)")') && artifact3d.includes('const rotating=viewer.hasAttribute("auto-rotate")'), "Official NASA model rotation respects reduced-motion preferences and reports the correct control state");
+check(artifacts.includes("Arrow keys to explore") && artifacts.includes("+/- to zoom"), "Procedural 3D exhibits display keyboard interaction instructions");
+check(css.includes(".artifact-3d-canvas:focus-visible") && css.includes(".artifact-3d-callout-close{pointer-events:auto}"), "3D canvas focus and component-guide close control remain accessible");
 
 
 check(artifact3d.includes("webglcontextlost") && artifact3d.includes("webglcontextrestored") && universe3d.includes("webglcontextlost") && universe3d.includes("webglcontextrestored"), "Both 3D experiences handle WebGL context loss and restoration");
