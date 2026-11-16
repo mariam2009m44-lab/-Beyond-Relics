@@ -42,7 +42,7 @@
   function renderArchive(){
     var grid=$("grid");if(!grid)return;grid.classList.add("archive-grid");
     var chips=$("chips"),query=$("q"),empty=$("empty");
-    var region="All",status="left-behind",term="";
+    var region="All",status="All",term="";
     var regions=["All"].concat(Array.from(new Set(DATA.map(function(x){return x.region;}))));
     var statuses=[["All","All"],["left-behind","Left on a world"],["active","Still operating"],["retired","Retired / archived"]];
     function chip(label,value,group,selected){var b=el("button","chip",label);b.type="button";b.dataset[group]=value;b.setAttribute("aria-pressed",String(selected));return b;}
