@@ -88,7 +88,7 @@ function runScene(){
   page++;render(true);runScene();
  },SCENE_MS);
 }
-function startFilm(){if(!pages.length)return;playing=true;paused=false;updateControls();runScene();}
+function startFilm(){if(!pages.length)return;if(page>=pages.length-1){page=0;render(true);}playing=true;paused=false;updateControls();runScene();}
 function toggleFilm(){
  if(!playing){startFilm();return;}
  if(!paused){clearTimeout(timer);timer=0;paused=true;img.style.transition="none";img.style.transform=getComputedStyle(img).transform;}
