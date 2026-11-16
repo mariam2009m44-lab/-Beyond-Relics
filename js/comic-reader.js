@@ -33,7 +33,7 @@ function setZoom(value){
 }
 function updateControls(){
  document.body.classList.toggle("is-cinematic-playing",playing&&!paused);
- $("cinema-toggle").textContent=paused||!playing?"▶":"Ⅱ";
+ $("cinema-toggle").innerHTML=paused||!playing?"▶ <span>PLAY FILM</span>":"Ⅱ <span>PAUSE FILM</span>";
  $("cinema-toggle").setAttribute("aria-label",paused||!playing?"Play film":"Pause film");
  $("cinema-toggle").setAttribute("aria-pressed",String(paused||!playing));
 }
