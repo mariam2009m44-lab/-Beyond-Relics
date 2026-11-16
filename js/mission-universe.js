@@ -80,6 +80,35 @@ function texture(kind){
  }
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
+const worldTextureSources={
+ mars:{
+  url:"https://marsoweb.nas.nasa.gov/globalData/images/fullscale/MOLA_cylin.jpg",
+  label:"NASA MOLA · global elevation · false colour",
+  source:"https://marsoweb.nas.nasa.gov/globalData/datamaps.html"
+ }
+};
+function loadVerifiedWorldTextures(){
+ const loader=new THREE.TextureLoader();
+ Object.entries(worldTextureSources).forEach(([key,record])=>{
+  const group=planetGroups[key];
+  const mesh=group&&group.children.find(child=>child.isMesh&&child.userData.world===key);
+  if(!mesh||!mesh.material)return;
+  loader.load(record.url,texture=>{
+   if(!mesh.parent){texture.dispose();return;}
+   texture.colorSpace=THREE.SRGBColorSpace;
+   texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);
+   const previous=mesh.material.map;
+   mesh.material.map=texture;
+   mesh.material.color.set(0xffffff);
+   mesh.material.needsUpdate=true;
+   if(previous)previous.dispose();
+   mesh.userData.textureSource=record.source;
+   mesh.userData.textureLabel=record.label;
+  },undefined,()=>{
+   mesh.userData.textureLoadFailed=true;
+  });
+ });
+}
 const planetGroups={},worldRadii={};
 const orbitingMoons=[];
 function addPlanet(key,kind,pos,radius){
@@ -147,6 +176,7 @@ function buildScene(){
  const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,64,48),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);sun.userData.world="sun";scene.add(sun);planetGroups.sun=sun;worldRadii.sun=3.2;
  const glow=new THREE.Mesh(new THREE.SphereGeometry(4.2,40,28),new THREE.MeshBasicMaterial({color:0xffb66f,transparent:true,opacity:.09,side:THREE.BackSide}));glow.position.copy(sun.position);scene.add(glow);
  addPlanet("mercury","mercury",[-16,0,1],.42);addPlanet("venus","venus",[-13,0,-1],.72);addPlanet("earth","earth",[-11,0,-1],1.15);addPlanet("moon","moon",[-8.2,.35,-2.2],.34);orbit(-11,-1,2.8,2.8);addPlanet("mars","mars",[-5,0,-4],.68);addPlanet("jupiter","jupiter",[3,0,-7],2.05);addPlanet("saturn","saturn",[12,0,-10],1.72);addPlanet("uranus","uranus",[22,0,-12],1.2);addPlanet("neptune","neptune",[32,0,-14],1.18);
+ loadVerifiedWorldTextures();
  addSatellite("mars","phobos",.22,1.55,.012,0xb98b75,.4);addSatellite("mars","deimos",.16,2.05,.008,0x9a8c82,2.1);
  addSatellite("jupiter","io",.25,3.35,.004,0xd6c3a0,.2);addSatellite("jupiter","europa",.22,3.9,.0032,0x9da8aa,1.8);addSatellite("jupiter","ganymede",.29,4.55,.0025,0xb8a38a,3.2);addSatellite("jupiter","callisto",.24,5.15,.002,0xc5bca8,4.7);
  addSatellite("saturn","titan",.27,2.85,.003,0xd9c7a2,.7);addSatellite("saturn","enceladus",.17,3.55,.0022,0xb9b7ad,2.6);addSatellite("uranus","miranda",.13,1.9,.003,0x9ba5a8,.4);addSatellite("uranus","titania",.2,2.65,.0023,0xb7aaa0,1.7);addSatellite("uranus","oberon",.18,3.25,.0018,0x918a83,3.1);addSatellite("neptune","triton",.2,2.25,.002,0x9fb9c5,2.4);
@@ -289,7 +319,12 @@ function showWorld(key){
  const panel=$("br-universe-info"),toggle=$("br-universe-record-toggle"),list=$("br-universe-records");
  panel.hidden=false;panel.classList.remove("has-records");
  $("br-universe-kicker").textContent=cfg.kicker;$("br-universe-title").textContent=cfg.title;$("br-universe-copy").textContent=cfg.copy;
- const facts=$("br-universe-facts");facts.replaceChildren();(cfg.facts||[]).forEach(value=>{const chip=document.createElement("span");chip.textContent=value;facts.append(chip);});if(authenticWorldModelURLs[key]){if(planetGroups[key].userData.authenticModel){const chip=document.createElement("span");chip.textContent="NASA LRO 3D MODEL";facts.append(chip);}else{const chip=document.createElement("span");chip.textContent="Loading NASA LRO model…";facts.append(chip);loadAuthenticWorldModel(key).then(ok=>{if(selected!==key||!chip.isConnected)return;if(ok)chip.textContent="NASA LRO 3D MODEL";else chip.textContent="NASA model unavailable · visual fallback active";});}}
+ const facts=$("br-universe-facts");facts.replaceChildren();(cfg.facts||[]).forEach(value=>{const chip=document.createElement("span");chip.textContent=value;facts.append(chip);});
+ if(worldTextureSources[key]){
+  const sourceLink=document.createElement("a");sourceLink.className="br-universe-source-chip";sourceLink.href=worldTextureSources[key].source;sourceLink.target="_blank";sourceLink.rel="noopener noreferrer";sourceLink.textContent=worldTextureSources[key].label+" ↗";facts.append(sourceLink);
+  const sourceMesh=planetGroups[key]&&planetGroups[key].children.find(child=>child.isMesh&&child.userData.world===key);
+  if(sourceMesh&&sourceMesh.userData.textureLoadFailed)sourceLink.textContent="NASA MOLA map unavailable · artistic fallback ↗";
+ }if(authenticWorldModelURLs[key]){if(planetGroups[key].userData.authenticModel){const chip=document.createElement("span");chip.textContent="NASA LRO 3D MODEL";facts.append(chip);}else{const chip=document.createElement("span");chip.textContent="Loading NASA LRO model…";facts.append(chip);loadAuthenticWorldModel(key).then(ok=>{if(selected!==key||!chip.isConnected)return;if(ok)chip.textContent="NASA LRO 3D MODEL";else chip.textContent="NASA model unavailable · visual fallback active";});}}
  const moonNav=$("br-universe-moon-nav"),moonButtons=$("br-universe-moon-buttons");moonButtons.replaceChildren();(cfg.moons||[]).forEach(key=>{const b=document.createElement("button");b.type="button";b.textContent=worlds[key].title;b.addEventListener("click",()=>showWorld(key));moonButtons.append(b);});moonNav.hidden=!(cfg.moons&&cfg.moons.length);
  list.replaceChildren();list.hidden=true;
  const storyRoot=$("br-universe-story-links");storyRoot.replaceChildren();storyRoot.hidden=true;
