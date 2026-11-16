@@ -143,7 +143,7 @@ function buildScene(){
  const fill=new THREE.DirectionalLight(0x9dc6e4,1.1);fill.position.set(10,12,20);scene.add(fill);
  const starPos=[];for(let i=0;i<3200;i++)starPos.push((Math.random()-.5)*240,(Math.random()-.5)*130,(Math.random()-.5)*180);
  const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.Float32BufferAttribute(starPos,3));scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xddeaff,size:.13,transparent:true,opacity:.8})));surfaceRoot=new THREE.Group();surfaceRoot.visible=false;scene.add(surfaceRoot);
- const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,64,48),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);sun.userData.world="sun";scene.add(sun);
+ const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,64,48),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);sun.userData.world="sun";scene.add(sun);planetGroups.sun=sun;worldRadii.sun=3.2;
  const glow=new THREE.Mesh(new THREE.SphereGeometry(4.2,40,28),new THREE.MeshBasicMaterial({color:0xffb66f,transparent:true,opacity:.09,side:THREE.BackSide}));glow.position.copy(sun.position);scene.add(glow);
  addPlanet("mercury","mercury",[-16,0,1],.42);addPlanet("venus","venus",[-13,0,-1],.72);addPlanet("earth","earth",[-10,0,-1],1.15);addPlanet("moon","moon",[-7.5,.35,-2.2],.34);orbit(-10,-1,2.8,2.8);addPlanet("mars","mars",[-5,0,-4],.68);addPlanet("jupiter","jupiter",[3,0,-7],2.05);addPlanet("saturn","saturn",[12,0,-10],1.72);addPlanet("uranus","uranus",[22,0,-12],1.2);addPlanet("neptune","neptune",[32,0,-14],1.18);
  addSatellite("mars","phobos",.22,1.55,.012,0xb98b75,.4);addSatellite("mars","deimos",.16,2.05,.008,0x9a8c82,2.1);
