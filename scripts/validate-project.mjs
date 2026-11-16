@@ -60,7 +60,7 @@ check(artifact3d.includes("resumeFrame=()=>frame()"), "Artifact viewer can resum
 check(artifact3d.includes("if(document.hidden){active=false;cancelAnimationFrame(raf);raf=0;}else{active=true;if(renderer&&resumeFrame)resumeFrame();}"), "Artifact viewer correctly pauses and resumes after tab visibility changes");
 check(universe3d.includes('canvas.addEventListener("keydown"') && universe3d.includes('canvas[tabindex]'), "Solar explorer supports keyboard camera controls and includes its canvas in the modal focus loop");
 check(universe3d.includes("orbit(-11,-1,2.8,2.8)") && universe3d.includes("moonAngle+=.00105*delta"), "The Moon follows a visible, animated orbit around Earth in the Solar System explorer");
-check(universe3d.includes("worlds.phobos") && universe3d.includes("worlds.enceladus") && universe3d.includes('addSatellite("jupiter","ganymede"'), "Major planetary moons have individually selectable destination profiles");
+check(universe3d.includes("worlds.phobos") && universe3d.includes("worlds.enceladus") && universe3d.includes('addSatellite("jupiter","ganymede"') && universe3d.includes('class="br-universe-stop" data-world='), "Major planetary moons and destination navigation are individually selectable");
 check(artifact3d.includes("geometries.forEach(geometry=>geometry.dispose())") && universe3d.includes("geometries.forEach(geometry=>geometry.dispose())"), "3D scene geometry and material resources are explicitly disposed on page exit");
 check(artifact3d.includes("const componentMap=") && artifact3d.includes("world.componentNodes[targetName]") && artifact3d.includes("clone.emissiveIntensity"), "Component guide highlights only explicitly mapped procedural 3D assemblies");
 check(artifact3d.includes("This model does not expose a separately identifiable mesh") && artifact3d.includes("EXPLANATORY NOTE"), "Unsupported component meshes are disclosed as explanatory-only rather than falsely highlighted");
@@ -89,7 +89,7 @@ const cosmicPages = ["index.html","artifacts.html","timeline.html","challenge.ht
 check(exists("js/cosmic-environment.js") && exists("css/cosmic-environment.css"), "Shared procedural cosmic atmosphere files exist");
 check(cosmicScript.includes("br-cosmic-canvas") && cosmicScript.includes("galaxies.forEach") && !cosmicScript.includes("br-cosmic-dock"), "Cosmic atmosphere renders an animated nebula without a redundant floating control dock");
 check(cosmicScript.includes("prefers-reduced-motion") && cosmicScript.includes("visibilitychange") && cosmicScript.includes("cancelAnimationFrame"), "Cosmic animation respects reduced motion and pauses when the page is hidden");
-check(cosmicCss.includes("body.reader-page .br-cosmic-dock{display:none}") && cosmicCss.includes("body.reader-page #br-cosmic-canvas{opacity:.24}"), "Comic reader keeps its dedicated reading controls and subdued backdrop");
+check(!cosmicCss.includes(".br-cosmic-dock") && cosmicCss.includes("body.reader-page #br-cosmic-canvas{opacity:.42}"), "Cosmic backdrop has no floating pause dock and remains visible behind the comic reader");
 for (const page of cosmicPages) {
   const source = read(page);
   check(source.includes("css/cosmic-environment.css") && source.includes("js/cosmic-environment.js"), "Shared cosmic atmosphere is included on " + page);
