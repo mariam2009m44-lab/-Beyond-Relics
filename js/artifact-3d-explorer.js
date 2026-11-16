@@ -320,8 +320,22 @@ async function mountOfficialModel(root,item,loading,canvas,onFailure){
  viewer.setAttribute("ar","");viewer.setAttribute("loading","eager");
  viewer.className="artifact-model-viewer";
  viewer.addEventListener("progress",event=>{const pct=Math.round((event.detail.totalProgress||0)*100);loading.hidden=false;loading.textContent="Loading official NASA 3D model · "+pct+"%";});
- let modelLoaded=false;const modelLoadTimer=setTimeout(()=>{if(!modelLoaded&&onFailure){loading.hidden=false;loading.textContent="NASA model is taking too long. Preparing the local 3D reconstruction…";loading.classList.add("is-error");onFailure();}},22000);
- viewer.addEventListener("load",()=>{modelLoaded=true;clearTimeout(modelLoadTimer);loading.hidden=true;},{once:true});
+ let modelLoaded=false,modelFallbackStarted=false;
+ const fallbackModel=()=>{
+  if(modelFallbackStarted||modelLoaded&&viewer.modelIsVisible)return;
+  modelFallbackStarted=true;clearTimeout(modelLoadTimer);
+  loading.hidden=false;loading.textContent="The NASA model did not appear. Preparing the interactive 3D exhibit…";loading.classList.add("is-error");
+  if(onFailure)onFailure();
+ };
+ const modelLoadTimer=setTimeout(()=>{if(!modelLoaded||!viewer.modelIsVisible)fallbackModel();},12000);
+ viewer.addEventListener("load",()=>{
+  modelLoaded=true;clearTimeout(modelLoadTimer);
+  try{viewer.updateFraming();viewer.cameraTarget="auto";viewer.cameraOrbit="0deg 72deg auto";}catch(error){}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   if(!viewer.modelIsVisible)fallbackModel();
+   else loading.hidden=true;
+  }));
+ },{once:true});
  viewer.addEventListener("error",()=>{clearTimeout(modelLoadTimer);loading.hidden=false;loading.textContent="NASA model unavailable. Preparing the local 3D reconstruction…";loading.classList.add("is-error");if(onFailure)onFailure();},{once:true});
  canvas.replaceWith(viewer);
  const badge=document.createElement("a");
