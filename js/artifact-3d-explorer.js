@@ -99,11 +99,23 @@ function makeScene(T,id,root){
   const mast=new T.Group();mast.position.set(0,.45,0);body.add(mast);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
   if(curiosity){const arm=new T.Group();arm.position.set(.9,-.35,.1);body.add(arm);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
   for(let z of [-.7,.7])for(let x of [-.85,0,.85])wheel(body,x,z,.35);
-  const panel=box(body,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
-  const cellGrid=new T.Group();cellGrid.position.copy(panel.position);cellGrid.rotation.copy(panel.rotation);body.add(cellGrid);
-  const gridMat=new T.MeshStandardMaterial({color:0x8caebe,metalness:.52,roughness:.38,envMapIntensity:.8});
-  for(let x=-.8;x<=.81;x+=.4)box(cellGrid,[.014,.012,.98],gridMat,[x,.041,0]);
-  for(let z=-.36;z<=.37;z+=.36)box(cellGrid,[1.94,.012,.014],gridMat,[0,.041,z]);
+  if(!curiosity){
+   const panel=box(body,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
+   const cellGrid=new T.Group();cellGrid.position.copy(panel.position);cellGrid.rotation.copy(panel.rotation);body.add(cellGrid);
+   const gridMat=new T.MeshStandardMaterial({color:0x8caebe,metalness:.52,roughness:.38,envMapIntensity:.8});
+   for(let x=-.8;x<=.81;x+=.4)box(cellGrid,[.014,.012,.98],gridMat,[x,.041,0]);
+   for(let z=-.36;z<=.37;z+=.36)box(cellGrid,[1.94,.012,.014],gridMat,[0,.041,z]);
+   for(const side of [-1,1])box(body,[2.05,.12,.13],foil,[0,-.88,side*.68],[0,0,side*.05]);
+  }else{
+   // Curiosity uses an RTG, not a solar array; this is an artistic reconstruction.
+   cyl(body,.31,.31,.82,foil,[0,.48,-.86],24,[Math.PI/2,0,0]);
+   cyl(body,.36,.36,.1,dark,[0,.48,-1.28],24,[Math.PI/2,0,0]);
+   box(body,[.62,.12,.18],metal,[0,.84,-.62]);
+   const turret=new T.Group();turret.position.set(0,1.28,.02);body.add(turret);
+   cyl(turret,.16,.16,.22,foil,[0,0,0],20);
+   for(let x of [-.18,.18])mesh(turret,new T.SphereGeometry(.09,12,10),blue,[x,.04,.12]);
+   box(body,[.12,.12,.85],dark,[.96,-.58,.12],[0,0,.35]);
+  }
   return body;
  }
  function lander(name="body"){
@@ -116,13 +128,46 @@ function makeScene(T,id,root){
   for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a),leg=new T.Group();leg.position.set(x*1,-.9,z*1);leg.rotation.z=-x*.4;leg.rotation.x=z*.4;lower.add(leg);cyl(leg,.055,.075,1.45,foil,[0,-.62,0]);box(leg,[.58,.08,.38],metal,[x*.18,-1.35,z*.18]);}
   const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
  }else if(id==="apollo-12-alsep"){
-  const station=group("body");station.position.y=-1.55;box(station,[1.1,.65,.85],metal,[0,-.55,0]);cyl(station,.13,.13,1.25,foil,[0,.3,0]);for(let i=0;i<3;i++){const a=i*2.094;box(station,[.9,.06,.6],solar,[Math.cos(a)*1.25,-.48,Math.sin(a)*1.25],[0,-a,0]);}cyl(station,.28,.28,.15,foil,[0,.85,0]);
+  const station=group("body");station.position.y=-1.55;
+  box(station,[1.05,.58,.82],metal,[0,-.55,0]);box(station,[.72,.08,.58],foil,[0,-.22,0]);
+  // RTG package, antenna and instrument packages: educational artistic reconstruction.
+  cyl(station,.22,.22,.82,foil,[-.72,-.48,0],24,[0,0,Math.PI/2]);
+  for(let k=0;k<7;k++)box(station,[.025,.34,.38],dark,[-.72,-.48,-.3+k*.1]);
+  cyl(station,.1,.1,1.2,foil,[0,.55,0],16);
+  const dish=mesh(station,new T.SphereGeometry(.34,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,1.2,0]);dish.rotation.x=Math.PI;
+  cyl(station,.035,.035,.8,metal,[0,1.52,0],10);
+  const instruments=[[-1.35,-.82,-.35],[1.25,-.82,-.35],[1.35,-.82,.55],[-1.25,-.82,.62]];
+  instruments.forEach((p,i)=>box(station,[.34,.22,.3],i%2?dark:foil,p));
+  for(let i=0;i<3;i++){const a=i*2.094;box(station,[.78,.055,.52],solar,[Math.cos(a)*1.42,-.62,Math.sin(a)*1.42],[0,-a,0]);}
+  cyl(station,.11,.11,.18,foil,[.45,-.17,.12],16);
  }else if(id==="pathfinder-sojourner"){
   const pathfinder=lander("lander");pathfinder.position.set(-2.05,-.2,0);
   for(let i=0;i<4;i++){const a=i*Math.PI/2;box(pathfinder,[.95,.07,.42],solar,[Math.cos(a)*1.18,.18,Math.sin(a)*1.18],[0,-a,0]);}
   const sojourner=rover(false,"rover");sojourner.position.x=2.05;sojourner.scale.set(.72,.72,.72);
  }else if(["spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
- else if(["phoenix","insight"].includes(id)){lander();const p=groups.body;box(p,[1.4,.12,.9],solar,[0,.3,0]);if(id==="insight"){const arm=new T.Group();arm.position.set(.8,.1,0);p.add(arm);cyl(arm,.06,.06,1,foil,[.25,-.1,0],12,[0,0,.65]);}else{const arm=new T.Group();arm.position.set(.7,.1,0);p.add(arm);cyl(arm,.055,.055,1.15,foil,[.2,-.25,0],12,[0,0,.6]);}}
+ else if(["phoenix","insight"].includes(id)){
+  lander();const p=groups.body;
+  if(id==="insight"){
+   // InSight's two deployed solar wings and instrument-placement arm.
+   for(const side of [-1,1]){
+    box(p,[1.35,.055,1.05],solar,[side*1.48,.18,0]);
+    for(let x=-.45;x<=.46;x+=.3)box(p,[.018,.012,.98],blue,[side*1.48+x,.22,0]);
+    for(let z=-.35;z<=.36;z+=.35)box(p,[1.3,.012,.018],blue,[side*1.48,.22,z]);
+   }
+   const arm=new T.Group();arm.position.set(.8,.1,0);p.add(arm);
+   cyl(arm,.065,.065,1,foil,[.25,-.1,0],12,[0,0,.65]);cyl(arm,.045,.045,.65,metal,[.7,-.48,0],12,[0,0,-.7]);
+   box(p,[.42,.22,.38],foil,[-.72,-.28,.5]);cyl(p,.12,.12,.18,dark,[-.72,-.12,.5],20);
+  }else{
+   // Phoenix's two solar wings, deck instruments and sample-delivery arm.
+   for(const side of [-1,1]){
+    box(p,[1.15,.055,.82],solar,[side*1.45,.25,0]);
+    for(let x=-.38;x<=.39;x+=.25)box(p,[.018,.012,.76],blue,[side*1.45+x,.29,0]);
+   }
+   const arm=new T.Group();arm.position.set(.7,.2,.2);p.add(arm);
+   cyl(arm,.06,.06,.9,foil,[.18,-.25,0],12,[0,0,.55]);cyl(arm,.045,.045,.72,metal,[.58,-.56,.06],12,[0,0,-.5]);
+   box(p,[.42,.26,.36],dark,[-.45,.12,-.35]);
+  }
+ }
  else if(id==="voyager"||id==="pioneer-10-11"){
   const craft=group("body");cyl(craft,.5,.5,.9,foil,[0,0,0]);mesh(craft,new T.SphereGeometry(.82,24,18),metal,[0,.1,0]);cyl(craft,.95,.95,.08,foil,[0,.05,0],48).rotation.x=Math.PI/2;box(craft,[.12,3,.12],foil,[0,0,0]);for(let x of [-1.5,1.5])box(craft,[1.5,.06,.8],solar,[x,0,0]);cyl(craft,.08,.08,2.5,foil,[0,-.1,0]);const dish=mesh(craft,new T.SphereGeometry(.95,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,.5,1.3]);dish.rotation.x=Math.PI;
  }else{
