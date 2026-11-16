@@ -66,6 +66,13 @@ function buildScene(){
  const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,48,32),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);scene.add(sun);
  const glow=new THREE.Mesh(new THREE.SphereGeometry(4.2,40,28),new THREE.MeshBasicMaterial({color:0xffb66f,transparent:true,opacity:.09,side:THREE.BackSide}));glow.position.copy(sun.position);scene.add(glow);
  addPlanet("earth","earth",[-11,0,-1],1.35);addPlanet("moon","moon",[-8.2,.35,-2.2],.48);addPlanet("mars","mars",[-1,0,-5],1.05);addPlanet("jupiter","jupiter",[7,0,-8],2.55);addPlanet("saturn","saturn",[16,0,-12],2.05);
+ const probe=new THREE.Group();probe.position.set(22,0,-16);probe.userData.world="deep";
+ const probeMetal=new THREE.MeshStandardMaterial({color:0xb9c4cc,metalness:.72,roughness:.34});
+ const probeGold=new THREE.MeshStandardMaterial({color:0xd1b47e,metalness:.65,roughness:.42});
+ const probeCore=new THREE.Mesh(new THREE.BoxGeometry(.48,.72,.46),probeGold);probe.add(probeCore);
+ const probeDish=new THREE.Mesh(new THREE.SphereGeometry(.68,28,16,0,Math.PI*2,0,Math.PI/2),probeMetal);probeDish.position.y=.58;probeDish.rotation.x=Math.PI;probe.add(probeDish);
+ [-1,1].forEach(sign=>{const panel=new THREE.Mesh(new THREE.BoxGeometry(1.35,.055,.62),new THREE.MeshStandardMaterial({color:0x355b80,metalness:.38,roughness:.42}));panel.position.set(sign*1.1,-.08,0);probe.add(panel);});
+ scene.add(probe);planetGroups.deep=probe;
  orbit(-20,0,9,7);orbit(-20,0,17,12);orbit(-20,0,27,18);orbit(-20,0,39,25);orbit(-20,0,51,33);
  const belt=[];for(let i=0;i<650;i++){const a=Math.random()*Math.PI*2,r=11+Math.random()*3.2;belt.push(1+Math.cos(a)*r,(Math.random()-.5)*.6,-6+Math.sin(a)*r);}
  const bg=new THREE.BufferGeometry();bg.setAttribute("position",new THREE.Float32BufferAttribute(belt,3));scene.add(new THREE.Points(bg,new THREE.PointsMaterial({color:0x9b9ca2,size:.055,transparent:true,opacity:.42})));
