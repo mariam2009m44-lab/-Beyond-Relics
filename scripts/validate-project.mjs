@@ -24,7 +24,9 @@ const comicScript = read("js/comic-reader.js");
 const dataPage = read("data.html");
 
 check(Array.isArray(records) && records.length > 0, "Artifact catalogue is valid JSON and non-empty");
-check(index.includes('id="comic-grid"') && index.includes('js/comics-experience.js'), "Homepage is centered on the original comic collection");
+check(index.includes('id="home"') && index.includes('id="mission-stories"'), "Homepage presents the original mission-archive experience");
+check(index.includes('href="data.html"') && index.includes('href="artifacts.html"'), "Homepage links directly to the NASA Data Lab and artifact archive");
+check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
 check(comicScript.includes("requestFullscreen") && comicScript.includes("ArrowRight") && comicScript.includes("ArrowLeft"), "Comic reader supports full-screen and keyboard page navigation");
 const comicRecords = records.filter((item) => Array.isArray(item.story_artwork) && item.story_artwork.length);
