@@ -1,5 +1,5 @@
 /* Shared 3D exhibit for all artifact records */
-#detail.has-apollo-3d{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.5rem,3vw,2.5rem)}
+#detail.has-artifact-3d{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.5rem,3vw,2.5rem)}
 .artifact-3d-stage{position:relative;display:block;min-height:clamp(470px,58vw,700px);overflow:hidden;border:1px solid rgba(129,194,225,.28);border-radius:20px;background:radial-gradient(ellipse at 50% 42%,#1b2d40 0%,#0a1423 48%,#050a14 100%);box-shadow:0 28px 80px #0008}
 .artifact-3d-topline{position:absolute;z-index:3;top:0;left:0;right:0;display:flex;justify-content:space-between;gap:12px;padding:18px 22px;color:#a9c9dc;font:700 .62rem/1.3 system-ui,sans-serif;letter-spacing:.16em}
 .artifact-3d-canvas-wrap{position:absolute;inset:42px 0 94px}
@@ -36,4 +36,4 @@
  .artifact-3d-foot{font-size:.52rem;line-height:1.5}
 }
 @media(prefers-reduced-motion:reduce){.artifact-3d-toolbar button{transition:none}}
-body:has(#detail.has-apollo-3d) #br-universe-launcher{display:none!important}
+body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
