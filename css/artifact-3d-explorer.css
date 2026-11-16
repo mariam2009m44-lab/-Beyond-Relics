@@ -43,3 +43,8 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 .artifact-model-credit{position:absolute;z-index:4;top:54px;right:16px;max-width:calc(100% - 32px);padding:8px 11px;border:1px solid #9bd6ed55;border-radius:999px;background:#061322d9;color:#bcefff;font:700 .56rem/1.35 system-ui,sans-serif;letter-spacing:.08em;text-decoration:none;backdrop-filter:blur(12px)}
 .artifact-model-credit:focus-visible{outline:3px solid #9be6ff;outline-offset:3px}
 @media(max-width:760px){.artifact-model-viewer{inset:40px 0 164px;height:calc(100% - 204px)}.artifact-model-credit{top:48px;left:10px;right:10px;width:max-content;max-width:calc(100% - 20px);font-size:.5rem}}
+
+.three-d-stamp{position:absolute;z-index:3;left:12px;bottom:12px;padding:7px 10px;border:1px solid rgba(126,221,255,.45);border-radius:999px;background:rgba(4,16,29,.88);color:#a9e9ff;font:800 .58rem/1 system-ui,sans-serif;letter-spacing:.14em;backdrop-filter:blur(12px);box-shadow:0 8px 24px #0006}
+.artifact-3d-actions{display:flex;flex-wrap:wrap;gap:8px}
+.artifact-3d-actions button{min-height:44px}
+@media(max-width:760px){.artifact-3d-actions{grid-template-columns:1fr 1fr}.three-d-stamp{left:8px;bottom:8px;font-size:.52rem}}
