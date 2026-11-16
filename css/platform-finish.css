@@ -126,3 +126,29 @@ button:disabled{cursor:not-allowed}
   html{scroll-behavior:auto}
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Keyboard navigation and skip-to-content support */
+.skip-link{
+  position:fixed!important;
+  z-index:10000!important;
+  top:calc(10px + env(safe-area-inset-top))!important;
+  left:12px!important;
+  width:auto!important;
+  height:auto!important;
+  padding:12px 18px!important;
+  border:1px solid var(--br-finish-cyan)!important;
+  border-radius:10px!important;
+  background:#07111f!important;
+  color:#fff!important;
+  font:600 14px/1.3 "DM Sans",sans-serif!important;
+  text-decoration:none!important;
+  transform:translateY(calc(-100% - 24px))!important;
+  transition:transform .18s ease!important;
+}
+.skip-link:focus{
+  transform:translateY(0)!important;
+  outline:3px solid var(--br-finish-gold)!important;
+  outline-offset:3px!important;
+}
+:where(main[id],.reader-stage[id]){scroll-margin-top:24px}
+:where(main[id]):focus{outline:none}
