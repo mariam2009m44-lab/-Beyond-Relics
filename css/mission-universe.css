@@ -179,3 +179,11 @@
 .br-universe-story-link{display:inline-flex;align-items:center;min-height:38px;padding:8px 12px;border:1px solid rgba(226,194,141,.42);border-radius:7px;background:rgba(67,53,35,.26);color:#e8d5ad;text-decoration:none;font:800 .58rem/1.35 var(--f-body,system-ui,sans-serif);letter-spacing:.06em}
 .br-universe-story-link:hover,.br-universe-story-link:focus-visible{border-color:#e2c28d;background:rgba(91,71,43,.4);color:#fff;outline-offset:3px}
 @media(max-width:760px){.br-universe-story-link{font-size:.54rem;min-height:36px}}
+
+/* Editorial planetary data cards */
+.br-universe-metrics-heading{margin:16px 0 8px;color:#e2c28d;font:800 .62rem/1.4 "DM Sans",system-ui,sans-serif;letter-spacing:.04em}
+.br-universe-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0 0 10px}
+.br-universe-metric{min-width:0;padding:10px 11px;border:1px solid rgba(142,220,232,.16);border-radius:9px;background:linear-gradient(145deg,rgba(20,43,61,.82),rgba(8,22,37,.76))}
+.br-universe-metric small{display:block;margin-bottom:5px;color:#91aebe;font:600 .58rem/1.45 "DM Sans",system-ui,sans-serif}
+.br-universe-metric strong{display:block;color:#f1f5f7;font:700 .76rem/1.35 "DM Sans",system-ui,sans-serif;overflow-wrap:anywhere}
+@media(max-width:760px){.br-universe-metrics{gap:6px}.br-universe-metric{padding:8px}.br-universe-metric small{font-size:.53rem}.br-universe-metric strong{font-size:.68rem}}

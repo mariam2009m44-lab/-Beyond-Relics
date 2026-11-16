@@ -234,3 +234,5 @@ check(universe3d.includes("surfaceTerrainHeight") && universe3d.includes("segmen
 
 check(artifact3d.includes("terrainSegments=compactRender?56:112") && artifact3d.includes("terrainGeo.setAttribute(\"color\",new T.Float32BufferAttribute(terrainColors,3))") && artifact3d.includes("vertexColors:true"), "Lunar and Martian artifact exhibit terrain uses multi-scale crater relief and per-vertex regolith shading");
 check(artifact3d.includes("new T.InstancedMesh(rockGeometry,rockMaterial,rockCount)") && artifact3d.includes("terrainHeight(x,z)") && artifact3d.includes("rocks.instanceMatrix.needsUpdate=true"), "Artifact exhibit rocks are instanced, deterministic, and aligned to generated terrain elevation");
+
+check(universe3d.includes("const planetaryMetrics=") && universe3d.includes("br-universe-metrics") && universe3d.includes("metricsRoot.hidden=!metricsRoot.children.length"), "Planet and Sun destination panels expose structured scientific metrics with responsive data cards");
