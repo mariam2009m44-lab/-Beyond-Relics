@@ -18,6 +18,7 @@ const records = JSON.parse(read("data/artifacts.json"));
 const index = read("index.html");
 const comicPage = read("comic.html");
 const comicScript = read("js/comic-reader.js");
+const comicCss = read("css/comics-experience.css");
 const dataPage = read("data.html");
 const artifact3d = read("js/artifact-3d-explorer.js");
 const artifactsScript = read("js/artifacts.js");
