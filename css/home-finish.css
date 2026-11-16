@@ -1,0 +1,119 @@
+/* Beyond Relics — refined editorial homepage palette and layout */
+:root{
+  --rust:#b9d8df;
+  --cosmic-cyan:#91d6e2;
+  --cosmic-purple:#8e83c6;
+  --cosmic-gold:#d8bd8b;
+  --line:rgba(174,190,214,.24);
+}
+.hero{
+  min-height:100svh;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 72% 18%,rgba(72,119,166,.2),transparent 34rem),
+    radial-gradient(ellipse at 18% 72%,rgba(117,91,150,.13),transparent 38rem),
+    linear-gradient(180deg,#060b16 0%,#0a1424 58%,#080d18 100%);
+}
+.hero::before{
+  opacity:.62;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(147,184,214,.07),transparent 55%),
+    linear-gradient(180deg,rgba(4,9,18,.05),rgba(4,9,18,.35));
+}
+.hero .nav{
+  background:linear-gradient(100deg,rgba(5,10,20,.84),rgba(11,20,34,.72));
+  border-bottom:1px solid rgba(170,198,220,.16);
+  box-shadow:0 12px 36px rgba(0,0,0,.16);
+  backdrop-filter:blur(18px);
+}
+.hero .brand{border-color:rgba(145,214,226,.38);text-shadow:none}
+.hero .brand b{color:#c9b38d}
+.hero .links a{color:#aabbd0}
+.hero .links a:hover,.hero .links a[aria-current="page"]{
+  color:#f0f4f8;border-color:#91d6e2;text-shadow:none
+}
+.hero .tools button:hover{color:#c9b38d}
+.hero .earth{
+  opacity:.68;
+  background:
+    radial-gradient(ellipse at 30% 32%,rgba(80,143,179,.34),transparent 27%),
+    radial-gradient(ellipse at 65% 62%,rgba(104,119,157,.2),transparent 33%),
+    radial-gradient(circle at 34% 28%,#25415f 0%,#14243a 49%,#060b15 78%);
+  box-shadow:inset -3vw -3vw 6vw rgba(0,0,0,.88),0 0 95px rgba(92,153,190,.16);
+}
+.hero .earth::after{box-shadow:0 0 32px 4px rgba(139,188,215,.19)}
+.hero .astro{filter:drop-shadow(0 18px 36px rgba(0,0,0,.32));opacity:.92}
+.hero .kicker{
+  color:#a8c8d5;
+  font-family:var(--f-body);
+  font-size:.68rem;
+  font-style:normal;
+  font-weight:700;
+  letter-spacing:.22em;
+}
+.hero .kicker::before,.hero .kicker::after{background:rgba(168,200,213,.42)}
+.hero .copy h1{
+  background:linear-gradient(105deg,#f5f2e9 0%,#dbe8ef 45%,#c7d6e6 72%,#d8c7a7 100%);
+  -webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 10px 32px rgba(0,0,0,.38));
+}
+.hero .copy h1 em{
+  color:#d6c19a;-webkit-text-fill-color:#d6c19a;
+  text-shadow:0 0 24px rgba(214,193,154,.12)
+}
+.hero .sub{
+  max-width:54ch;color:#c2cfdd;
+  font-family:var(--f-body);font-style:normal;
+  font-size:clamp(1rem,1.45vw,1.16rem);line-height:1.8;
+}
+.hero .hero-actions{margin-top:1.55rem;gap:.7rem}
+.hero .hero-actions .btn{
+  min-height:48px;padding:.78rem 1.25rem;
+  border-radius:8px;letter-spacing:.12em;
+  font-size:.76rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.hero .hero-actions .btn:not(.ghost){
+  color:#08121b;background:linear-gradient(115deg,#c9b58f,#e0d0ad);
+  border-color:rgba(224,208,173,.72);
+}
+.hero .hero-actions .btn.ghost{
+  color:#dce8f0;background:rgba(9,20,34,.46);
+  border-color:rgba(151,189,210,.32);
+}
+.hero .hero-actions .btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
+}
+.hero .divider{color:#b7c8d6}
+.hero .divider::before,.hero .divider::after{
+  background:linear-gradient(90deg,transparent,rgba(165,193,211,.36),transparent)
+}
+.hero .scroll{color:#b6c7d5;font-family:var(--f-body);font-size:.66rem}
+.hero .scroll span.ring{border-color:rgba(145,214,226,.5);color:#91d6e2}
+.hero .tag{
+  border:1px solid rgba(171,194,212,.2);border-radius:5px;
+  background:rgba(6,14,25,.64);color:#b8c7d4;
+  font-family:var(--f-body);backdrop-filter:blur(12px)
+}
+.hero .tag i{background:#c9b58f}
+.story-worlds,.mission-brief,.chronicle-section,.mission-detective,.science-panels{
+  scroll-margin-top:24px
+}
+@media(max-width:900px){
+  .hero .copy{padding-top:clamp(2.3rem,7vh,4rem)}
+  .hero .earth{opacity:.42}
+}
+@media(max-width:600px){
+  .hero .copy{padding:2rem 1rem 0}
+  .hero .kicker{font-size:.58rem;letter-spacing:.13em}
+  .hero .copy h1{font-size:clamp(2.7rem,12vw,4rem);line-height:.98}
+  .hero .sub{max-width:34ch;font-size:.98rem;line-height:1.65}
+  .hero .hero-actions{margin-top:1.1rem}
+  .hero .hero-actions .btn{width:min(100%,330px);justify-content:center}
+  .hero .earth{width:94vw;right:-42vw;top:15vh;opacity:.34}
+  .hero .scroll{bottom:max(1rem,env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero .earth,.hero .astro{animation:none!important;transform:none!important}
+}
