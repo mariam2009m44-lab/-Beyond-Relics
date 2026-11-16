@@ -113,6 +113,10 @@
   .artifact-3d-toolbar button{width:100%;min-height:46px;font-size:.66rem}
   .artifact-3d-foot{font-size:.55rem}
 }
+@media(max-width:650px){
+  .artifact-3d-stage{min-height:600px}
+  .artifact-3d-topline{font-size:.54rem}
+}
 @media(max-width:390px){
   .artifact-3d-stage{min-height:620px}
   .artifact-3d-topline{font-size:.49rem;letter-spacing:.1em}
