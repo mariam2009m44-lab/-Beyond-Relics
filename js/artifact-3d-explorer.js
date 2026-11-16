@@ -44,7 +44,11 @@ function makeScene(T,id,root){
  const accent=new T.PointLight(0x55c9e8,15,22,2);accent.position.set(-5,1,-3);scene.add(accent);
  const lunar=id==="lunar-module"||id==="apollo-12-alsep";
  const mars=["pathfinder-sojourner","spirit","opportunity","phoenix","insight","curiosity"].includes(id);
- const terrainGeo=new T.PlaneGeometry(54,54,120,120);
+ const compactRender=window.innerWidth<700||(navigator.hardwareConcurrency||8)<=4;
+ const terrainY=lunar?-2.25:(id==="pathfinder-sojourner"?-1.95:-1.78);
+ if(lunar||mars){
+ const terrainSegments=compactRender?44:84;
+ const terrainGeo=new T.PlaneGeometry(54,54,terrainSegments,terrainSegments);
  const pos=terrainGeo.attributes.position;
  const craters=[[-7,-5,2.5],[-1,8,1.5],[8,3,3.2],[5,-9,1.7],[-11,10,1.2]];
  for(let i=0;i<pos.count;i++){
@@ -56,20 +60,30 @@ function makeScene(T,id,root){
  }
  terrainGeo.computeVertexNormals();
  const terrain=new T.Mesh(terrainGeo,new T.MeshStandardMaterial({color:lunar?0x555962:mars?0x794435:0x283441,roughness:.98,metalness:0}));
- terrain.rotation.x=-Math.PI/2;terrain.position.y=-2.8;scene.add(terrain);
- const rockMat=new T.MeshStandardMaterial({color:lunar?0x777b80:mars?0x9b5d45:0x4d5863,roughness:1});
+ terrain.rotation.x=-Math.PI/2;terrain.position.y=terrainY;scene.add(terrain);
+ const shadowCanvas=document.createElement("canvas");shadowCanvas.width=256;shadowCanvas.height=256;
+ const shadowContext=shadowCanvas.getContext("2d");const shadowGradient=shadowContext.createRadialGradient(128,128,8,128,128,122);
+ shadowGradient.addColorStop(0,"rgba(0,0,0,.48)");shadowGradient.addColorStop(.48,"rgba(0,0,0,.22)");shadowGradient.addColorStop(1,"rgba(0,0,0,0)");
+ shadowContext.fillStyle=shadowGradient;shadowContext.fillRect(0,0,256,256);
+ const shadowTexture=new T.CanvasTexture(shadowCanvas);shadowTexture.colorSpace=T.SRGBColorSpace;
+ const contactShadow=new T.Mesh(new T.PlaneGeometry(7,5),new T.MeshBasicMaterial({map:shadowTexture,transparent:true,opacity:.48,depthWrite:false}));
+ contactShadow.rotation.x=-Math.PI/2;contactShadow.position.set(0,terrainY+.035,0);scene.add(contactShadow);
+ const rockMat=new T.MeshStandardMaterial({color:lunar?0x777b80:0x9b5d45,roughness:1});
  let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
- for(let i=0;i<95;i++){
+ const rockCount=compactRender?30:72;
+ for(let i=0;i<rockCount;i++){
   const x=(rand()-.5)*34,z=(rand()-.5)*34;
   if(Math.abs(x)<2.4&&Math.abs(z)<2.4)continue;
   const size=.08+rand()*.28;
   const rock=new T.Mesh(new T.DodecahedronGeometry(size,0),rockMat);
-  rock.position.set(x,-2.68+rand()*.08,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.7;scene.add(rock);
+  rock.position.set(x,terrainY+.06+rand()*.05,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.7;scene.add(rock);
+ }
  }
  if(lunar){
   const horizon=new T.Mesh(new T.SphereGeometry(42,32,20),new T.MeshBasicMaterial({color:0x070b12,side:T.BackSide}));horizon.position.y=-2.5;scene.add(horizon);
  }
- const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<450;i++)stars.push((Math.random()-.5)*40,Math.random()*20-1,(Math.random()-.5)*35);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));scene.add(new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:.045})));
+ let starSeed=90210;const starRand=()=>{starSeed=(starSeed*16807)%2147483647;return(starSeed-1)/2147483646;};
+ const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<compactRender?220:450;i++)stars.push((starRand()-.5)*40,starRand()*20-1,(starRand()-.5)*35);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));scene.add(new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:compactRender?.035:.045,transparent:true,opacity:.82,depthWrite:false})));
  const rootObj=new T.Group();scene.add(rootObj);
  const metal=new T.MeshStandardMaterial({color:0xb9a17b,metalness:.78,roughness:.27,envMapIntensity:1.25}),foil=new T.MeshStandardMaterial({color:0xb9c5c8,metalness:.82,roughness:.24,envMapIntensity:1.3}),dark=new T.MeshStandardMaterial({color:0x343e48,metalness:.55,roughness:.36,envMapIntensity:1.05}),black=new T.MeshStandardMaterial({color:0x101a26,metalness:.38,roughness:.3,envMapIntensity:.9}),blue=new T.MeshStandardMaterial({color:0x254c70,metalness:.58,roughness:.24,envMapIntensity:1.15}),solar=new T.MeshStandardMaterial({color:0x173d65,metalness:.62,roughness:.3,emissive:0x07182c,envMapIntensity:1.05});
  const groups={};
@@ -101,9 +115,9 @@ function makeScene(T,id,root){
   for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a),leg=new T.Group();leg.position.set(x*1,-.9,z*1);leg.rotation.z=-x*.4;leg.rotation.x=z*.4;lower.add(leg);cyl(leg,.055,.075,1.45,foil,[0,-.62,0]);box(leg,[.58,.08,.38],metal,[x*.18,-1.35,z*.18]);}
   const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
  }else if(id==="apollo-12-alsep"){
-  const station=group("body");box(station,[1.1,.65,.85],metal,[0,-.55,0]);cyl(station,.13,.13,1.25,foil,[0,.3,0]);for(let i=0;i<3;i++){const a=i*2.094;box(station,[.9,.06,.6],solar,[Math.cos(a)*1.25,-.48,Math.sin(a)*1.25],[0,-a,0]);}cyl(station,.28,.28,.15,foil,[0,.85,0]);
+  const station=group("body");station.position.y=-1.55;box(station,[1.1,.65,.85],metal,[0,-.55,0]);cyl(station,.13,.13,1.25,foil,[0,.3,0]);for(let i=0;i<3;i++){const a=i*2.094;box(station,[.9,.06,.6],solar,[Math.cos(a)*1.25,-.48,Math.sin(a)*1.25],[0,-a,0]);}cyl(station,.28,.28,.15,foil,[0,.85,0]);
  }else if(id==="pathfinder-sojourner"){
-  const pathfinder=lander("lander");pathfinder.position.x=-2.05;
+  const pathfinder=lander("lander");pathfinder.position.set(-2.05,-.2,0);
   for(let i=0;i<4;i++){const a=i*Math.PI/2;box(pathfinder,[.95,.07,.42],solar,[Math.cos(a)*1.18,.18,Math.sin(a)*1.18],[0,-a,0]);}
   const sojourner=rover(false,"rover");sojourner.position.x=2.05;sojourner.scale.set(.72,.72,.72);
  }else if(["spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
