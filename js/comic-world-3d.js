@@ -79,7 +79,15 @@ function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)retur
 function selectAt(e){
  const r=canvas.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);
  const hits=raycaster.intersectObjects(pickables,true);let obj=hits[0]&&hits[0].object;while(obj&&!obj.userData.label)obj=obj.parent;
- if(obj&&obj.userData.label){selected=obj;detail.hidden=false;detail.textContent=obj.userData.label+" — artistic reconstruction, not an official NASA model."; }
+ if(obj&&obj.userData.label){
+ selected=obj;detail.hidden=false;detail.replaceChildren();
+ const title=document.createElement("strong");title.textContent=obj.userData.label;
+ const note=document.createElement("span");note.textContent="ARTISTIC RECONSTRUCTION · NOT AN OFFICIAL NASA MODEL";
+ const map=mars?"pathfinder-sojourner":"pioneer-10-11";
+ const action=document.createElement("a");action.href="artifact-details.html?id="+map;action.textContent="ENTER 3D ARTIFACT EXHIBIT ↗";
+ action.setAttribute("aria-label","Open the interactive 3D exhibit for "+(mars?"Mars Pathfinder and Sojourner":"Pioneer 10 and 11"));
+ detail.append(title,note,action);
+ }
 }
 canvas.addEventListener("pointerdown",e=>{drag=true;lastX=downX=e.clientX;lastY=downY=e.clientY;canvas.setPointerCapture(e.pointerId);});
 canvas.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;targetY+=dx*.004;targetX=Math.max(-.5,Math.min(.5,targetX+dy*.003));lastX=e.clientX;lastY=e.clientY;});
