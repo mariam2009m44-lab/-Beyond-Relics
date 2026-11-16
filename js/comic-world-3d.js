@@ -86,8 +86,12 @@ canvas.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-las
 canvas.addEventListener("pointerup",e=>{const wasDrag=Math.abs(e.clientX-downX)+Math.abs(e.clientY-downY)>6;drag=false;if(!wasDrag)selectAt(e);});
 canvas.addEventListener("pointercancel",()=>drag=false);
 canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.72,Math.min(1.5,zoom+e.deltaY*.001));},{passive:false});
+let pinchDistance=0;
+canvas.addEventListener("touchstart",e=>{if(e.touches.length===2){pinchDistance=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}},{passive:true});
+canvas.addEventListener("touchmove",e=>{if(e.touches.length===2){const next=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinchDistance){zoom=Math.max(.72,Math.min(1.5,zoom+(pinchDistance-next)*.003));}pinchDistance=next;}},{passive:true});
+canvas.addEventListener("touchend",()=>{pinchDistance=0;},{passive:true});
 canvas.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")targetY-=.12;else if(e.key==="ArrowRight")targetY+=.12;else if(e.key==="ArrowUp")targetX=Math.max(-.5,targetX-.1);else if(e.key==="ArrowDown")targetX=Math.min(.5,targetX+.1);else if(e.key==="+"||e.key==="=")zoom=Math.max(.72,zoom-.08);else if(e.key==="-")zoom=Math.min(1.5,zoom+.08);else if(e.key==="0"){targetX=targetY=0;zoom=1;}else return;e.preventDefault();});
-function tick(){if(!active||document.hidden){raf=0;return;}raf=requestAnimationFrame(tick);rotX+=(targetX-rotX)*(reduced?1:.06);rotY+=(targetY-rotY)*(reduced?1:.06);camera.position.set(Math.sin(rotY)*1.2,1.5+rotX*2,12*zoom);camera.lookAt(0,-.5,-2);renderer.render(scene,camera);}
+function tick(){if(!active||document.hidden){raf=0;return;}raf=requestAnimationFrame(tick);if(!reduced&&document.body.classList.contains("is-cinematic-playing"))targetY+=.00035;rotX+=(targetX-rotX)*(reduced?1:.06);rotY+=(targetY-rotY)*(reduced?1:.06);camera.position.set(Math.sin(rotY)*1.2,1.5+rotX*2,12*zoom);camera.lookAt(0,-.5,-2);renderer.render(scene,camera);}
 try{
  renderer=new THREE.WebGLRenderer({canvas,alpha:false,antialias:true,powerPreference:"low-power"});
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;
