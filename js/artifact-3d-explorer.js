@@ -102,6 +102,9 @@ async function mountOfficialModel(root,item,loading,canvas){
  badge.textContent=model.label+" · SOURCE: "+model.source;
  root.appendChild(badge);
  loading.hidden=true;
+ const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent="OFFICIAL NASA 3D MODEL · NOT A PHYSICAL SCAN";
+ const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Drag to orbit · Pinch or scroll to zoom";
+ const parts=root.querySelector(".artifact-3d-parts");if(parts)parts.setAttribute("aria-label","Voyager component guide");
  return true;
 }
 function mount(root,item){
