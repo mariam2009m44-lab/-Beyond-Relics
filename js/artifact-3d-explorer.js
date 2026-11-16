@@ -2,9 +2,9 @@
    All procedural geometry is an artistic educational visualization, not an official scan. */
 (function(){
 "use strict";
-const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";
+const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js";
 let enginePromise;
-function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src=THREE_URL;s.async=true;s.onload=()=>window.THREE?resolve(window.THREE):reject(Error("3D engine unavailable"));s.onerror=()=>reject(Error("3D engine unavailable"));document.head.append(s);});return enginePromise;}
+function engine(){if(window.THREE)return Promise.resolve(window.THREE);if(enginePromise)return enginePromise;enginePromise=import(THREE_URL).then(T=>{window.THREE=T;return T;}).catch(error=>{enginePromise=null;throw error;});return enginePromise;}
 const copy={
  "lunar-module":[["Descent stage","The lower stage supported landing and remained at Tranquility Base."],["Ascent stage","The upper crew cabin returned the astronauts to lunar orbit."],["Landing gear","Four landing legs supported the Lunar Module at touchdown."],["Descent engine","The descent propulsion system slowed the spacecraft for landing."]],
  "apollo-12-alsep":[["Central station","The ALSEP package connected instruments and supported long-running lunar measurements."],["Seismic instrument","Seismic experiments recorded lunar vibrations."],["Antenna","The station communicated instrument data to Earth."],["Power unit","The package used a radioisotope thermoelectric generator for electrical power."]],
@@ -16,7 +16,8 @@ const copy={
  "curiosity":[["Rover body","Curiosity is a mobile laboratory investigating the geology and habitability of Gale Crater."],["Mast","The mast carries remote-sensing cameras and instruments."],["Wheels","Six wheels provide mobility across the Martian terrain."],["Robotic arm","The arm carries tools for close-up study of rocks and soil."]],
  "voyager":[["Main bus","The spacecraft bus houses key spacecraft systems."],["High-gain antenna","The dish antenna supports long-distance communication with Earth."],["Instrument boom","The boom carries scientific instruments away from the spacecraft body."],["RTG booms","Radioisotope power systems supplied electricity during the long mission."]],
  "space-telescope":[["Primary mirror","The telescope's primary mirror collects incoming light."],["Instrument section","Scientific instruments analyze collected light."],["Solar arrays","Solar arrays provide electrical power."],["Antenna","Communications hardware links the observatory with mission operations."]],
- "pioneer-10-11":[["High-gain antenna","The dish antenna maintained communication across immense distances."],["Instrument section","Scientific instruments studied the interplanetary and outer-planet environment."],["RTG power","Radioisotope thermoelectric generators supplied electrical power."],["Booms","Instrument booms helped position sensors away from spacecraft interference."]]
+ "pioneer-10-11":[["High-gain antenna","The dish antenna maintained communication across immense distances."],["Instrument section","Scientific instruments studied the interplanetary and outer-planet environment."],["RTG power","Radioisotope thermoelectric generators supplied electrical power."],["Booms","Instrument booms helped position sensors away from spacecraft interference."]],
+ "pioneer-plaque":[["Hydrogen reference","The hydrogen transition diagram provides a universal scientific reference for units of time and length."],["Pulsar map","Lines from the Sun point toward pulsars, using their periods to help describe the Solar System’s location."],["Human figures","Simplified figures communicate something about the beings who created the spacecraft; the spacecraft outline provides a scale reference."],["Solar System map","The planetary diagram shows the spacecraft’s origin and its path away from the Sun."]]
 };
 const componentMap={
  "lunar-module":["body","upper","landing-gear","descent-engine"],
@@ -26,7 +27,9 @@ const componentMap={
  "opportunity":["rover-body","mast","wheels","solar-array"],
  "phoenix":["lander-deck","robotic-arm","solar-array","landing-legs"],
  "insight":["lander-deck",null,"solar-array","robotic-arm"],
- "curiosity":["rover-body","mast","wheels","robotic-arm"]
+ "curiosity":["rover-body","mast","wheels","robotic-arm"],
+ "insight":["lander-deck","science-payload","solar-array","robotic-arm"],
+ "pioneer-plaque":["hydrogen-diagram","pulsar-map","human-figures","solar-system-map"]
 };
 function makeStudioEnvironment(T){
  const faces=[];
@@ -43,6 +46,25 @@ function makeStudioEnvironment(T){
  }
  const environment=new T.CubeTexture(faces);environment.mapping=T.CubeReflectionMapping;environment.colorSpace=T.SRGBColorSpace;environment.needsUpdate=true;
  return environment;
+}
+function makePlaqueTexture(T){
+ const canvas=document.createElement("canvas");canvas.width=1200;canvas.height=720;
+ const c=canvas.getContext("2d");c.fillStyle="#c5a05e";c.fillRect(0,0,1200,720);
+ const g=c.createLinearGradient(0,0,1200,720);g.addColorStop(0,"rgba(255,235,175,.2)");g.addColorStop(.5,"rgba(93,61,25,.08)");g.addColorStop(1,"rgba(255,229,165,.18)");c.fillStyle=g;c.fillRect(0,0,1200,720);
+ c.strokeStyle="#5d4528";c.lineWidth=5;c.strokeRect(20,20,1160,680);c.lineWidth=2;
+ const line=(x1,y1,x2,y2)=>{c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();};
+ c.strokeStyle="rgba(67,49,27,.88)";
+ c.beginPath();c.arc(155,155,55,0,Math.PI*2);c.stroke();c.beginPath();c.arc(155,155,22,0,Math.PI*2);c.stroke();line(155,80,155,25);line(155,230,155,285);
+ c.beginPath();c.arc(445,360,17,0,Math.PI*2);c.stroke();
+ const rays=[[-150,-210],[-65,-245],[48,-230],[160,-180],[230,-90],[245,35],[175,145],[60,235],[-70,245],[-190,155],[-245,40],[-225,-80]];
+ rays.forEach(([dx,dy],i)=>{line(445,360,445+dx,360+dy);c.beginPath();c.arc(445+dx,360+dy,5+(i%3),0,Math.PI*2);c.stroke();});
+ c.strokeRect(800,255,110,165);
+ [835,875].forEach(x=>{c.beginPath();c.arc(x,285,17,0,Math.PI*2);c.stroke();line(x,303,x,375);line(x,325,x-20,350);line(x,325,x+20,350);line(x,375,x-17,414);line(x,375,x+17,414);});
+ const radii=[24,8,10,10,18,14,12,11,9];let x=120;
+ radii.forEach((r,i)=>{c.beginPath();c.arc(x,610,r,0,Math.PI*2);c.stroke();x+=i===0?65:i===4?85:58;});
+ line(95,540,1000,540);line(1000,540,970,525);line(1000,540,970,555);
+ c.fillStyle="rgba(57,43,25,.75)";c.font="bold 20px sans-serif";c.fillText("PIONEER MESSAGE · SCHEMATIC RECONSTRUCTION",34,675);
+ const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;return texture;
 }
 function makeScene(T,id,root){
  const scene=new T.Scene();scene.background=null;scene.environment=makeStudioEnvironment(T);
@@ -201,6 +223,25 @@ function makeScene(T,id,root){
    box(deckInstruments,[.42,.26,.36],dark,[-.45,.12,-.35]);
   }
  }
+ else if(id==="pioneer-plaque"){
+  const plaque=group("body"),panel=part(plaque,"plaque-panel");
+  const gold=new T.MeshStandardMaterial({color:0xc4a05d,metalness:.82,roughness:.34});
+  box(panel,[5.8,.16,3.55],gold,[0,0,0]);
+  mesh(panel,new T.PlaneGeometry(5.64,3.38),new T.MeshStandardMaterial({map:makePlaqueTexture(T),metalness:.56,roughness:.52,side:T.DoubleSide}),[0,.083,0],[-Math.PI/2,0,0]);
+  const engraving=new T.MeshStandardMaterial({color:0x49351f,metalness:.35,roughness:.7});
+  const hydrogen=part(plaque,"hydrogen-diagram");
+  mesh(hydrogen,new T.TorusGeometry(.25,.025,8,32),engraving,[-2.05,.105,-1.12],[Math.PI/2,0,0]);
+  mesh(hydrogen,new T.TorusGeometry(.12,.018,8,28),engraving,[-2.05,.11,-1.12],[Math.PI/2,0,0]);
+  mesh(hydrogen,new T.SphereGeometry(.055,12,10),engraving,[-1.78,.13,-1.12]);box(hydrogen,[.04,.02,.72],engraving,[-2.05,.11,-1.12]);
+  const pulsar=part(plaque,"pulsar-map");mesh(pulsar,new T.SphereGeometry(.1,14,12),engraving,[-.55,.12,.05]);
+  const rayEnds=[[-1.8,-1.2],[-1.35,-1.55],[-.65,-1.45],[.15,-1.05],[.48,-.35],[.52,.5],[.15,1.2],[-.6,1.42],[-1.45,1.1],[-1.85,.4]];
+  rayEnds.forEach(([x,z])=>{const dx=x+.55,dz=z-.05,len=Math.hypot(dx,dz),bar=box(pulsar,[len,.018,.025],engraving,[-.55+dx/2,.12,.05+dz/2]);bar.rotation.y=-Math.atan2(dz,dx);mesh(pulsar,new T.SphereGeometry(.045,10,8),engraving,[x,.13,z]);});
+  const figures=part(plaque,"human-figures");
+  [-.25,.48].forEach(x=>{mesh(figures,new T.SphereGeometry(.13,16,12),engraving,[x,.14,-.12]);cyl(figures,.085,.12,.55,engraving,[x,.14,-.48],12);cyl(figures,.045,.045,.42,engraving,[x-.17,.14,-.43],10,[0,0,-.25]);cyl(figures,.045,.045,.42,engraving,[x+.17,.14,-.43],10,[0,0,.25]);cyl(figures,.055,.055,.43,engraving,[x-.07,.14,-.92],10);cyl(figures,.055,.055,.43,engraving,[x+.07,.14,-.92],10);});
+  const solarMap=part(plaque,"solar-system-map"),planetX=[-2.1,-1.55,-1.02,-.46,.12,.68,1.25,1.82,2.28],planetR=[.12,.035,.05,.05,.09,.075,.07,.06,.05];
+  planetX.forEach((x,i)=>mesh(solarMap,new T.SphereGeometry(planetR[i],12,10),engraving,[x,.14,1.12]));
+  box(solarMap,[4.65,.018,.022],engraving,[.02,.12,1.12]);
+ }
  else if(id==="voyager"||id==="pioneer-10-11"){
   const craft=group("body");cyl(craft,.5,.5,.9,foil,[0,0,0]);mesh(craft,new T.SphereGeometry(.82,24,18),metal,[0,.1,0]);cyl(craft,.95,.95,.08,foil,[0,.05,0],48).rotation.x=Math.PI/2;box(craft,[.12,3,.12],foil,[0,0,0]);for(let x of [-1.5,1.5])box(craft,[1.5,.06,.8],solar,[x,0,0]);cyl(craft,.08,.08,2.5,foil,[0,-.1,0]);const dish=mesh(craft,new T.SphereGeometry(.95,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,.5,1.3]);dish.rotation.x=Math.PI;
  }else{
@@ -302,7 +343,7 @@ function mount(root,item){
  if(!root||root.dataset.viewerMounted==="true")return;root.dataset.viewerMounted="true";
  const canvas=root.querySelector("canvas"),loading=root.querySelector(".artifact-3d-loading"),panel=root.querySelector(".artifact-3d-callout");
  const info=copy[item.id]||[["Mission hardware","Explore the shape and role of this mission system."]];
- const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");const buttons=[...root.querySelectorAll("[data-part]")];let renderer,world,raf=0,resumeFrame=null,active=!document.hidden,observer,drag=false,lastX=0,lastY=0,rotX=-.12,rotY=.45,targetX=rotX,targetY=rotY,zoom=1,pinch=0,exploded=false,autoRotate=!reducedMotion.matches;
+ const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");const buttons=[...root.querySelectorAll("[data-part]")];let renderer,world,raf=0,resumeFrame=null,active=!document.hidden,observer,drag=false,lastX=0,lastY=0,rotX=-.12,rotY=.45,targetX=rotX,targetY=rotY,zoom=1,pinch=0,exploded=false,autoRotate=!reducedMotion.matches,raycaster=null,pointer=null,pointerMoved=false,pointerDownX=0,pointerDownY=0;
  const rotateButton=root.querySelector("[data-view-rotate]");
  if(rotateButton)rotateButton.addEventListener("click",()=>{const officialViewer=root.querySelector(".artifact-model-viewer");if(officialViewer){const on=!officialViewer.hasAttribute("auto-rotate");if(on)officialViewer.setAttribute("auto-rotate","");else officialViewer.removeAttribute("auto-rotate");rotateButton.setAttribute("aria-pressed",String(on));rotateButton.textContent=on?"Pause rotation":"Auto rotate";return;}autoRotate=!autoRotate;rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";});
  const highlighted=[];
@@ -342,7 +383,7 @@ function mount(root,item){
   panel.hidden=!show;panel.classList.toggle("is-visible",!!show);
   buttons.forEach((b,n)=>{b.setAttribute("aria-pressed",String(n===i&&show));if(info[n])b.textContent=info[n][0];});
  }
- mountOfficialModel(root,item,loading,canvas).then(official=>{if(official)return;return engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;const modelBounds=new T.Box3().setFromObject(world.rootObj);const modelSphere=modelBounds.getBoundingSphere(new T.Sphere());const modelCenter=modelSphere.center.clone();const fitRadius=Math.max(modelSphere.radius,2.4);const baseDistance=fitRadius/Math.sin(T.MathUtils.degToRad(world.camera.fov/2))*1.12;renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.setClearColor(0x000000,0);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
+ mountOfficialModel(root,item,loading,canvas).then(official=>{if(official)return;return engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);raycaster=new T.Raycaster();pointer=new T.Vector2();canvas.title="Tap a visible component to open its field note. Drag to rotate.";if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;const modelBounds=new T.Box3().setFromObject(world.rootObj);const modelSphere=modelBounds.getBoundingSphere(new T.Sphere());const modelCenter=modelSphere.center.clone();const fitRadius=Math.max(modelSphere.radius,2.4);const baseDistance=fitRadius/Math.sin(T.MathUtils.degToRad(world.camera.fov/2))*1.12;renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.setClearColor(0x000000,0);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
  loading.hidden=true;
  function frame(now=performance.now()){if(!active||!renderer)return;raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(autoRotate&&!reducedMotion.matches&&!drag)targetY+=.0012*delta;const easing=reducedMotion.matches?1:1-Math.pow(.92,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;world.rootObj.rotation.set(rotX,rotY,0);if(world.ambientStars&&!reducedMotion.matches)world.ambientStars.rotation.y+=.000035*delta;const liveTarget=modelCenter.clone().applyEuler(world.rootObj.rotation);world.camera.position.set(liveTarget.x+baseDistance*.48*zoom,liveTarget.y+baseDistance*.34*zoom,liveTarget.z+baseDistance*.88*zoom);world.camera.lookAt(liveTarget);renderer.render(world.scene,world.camera);}resumeFrame=()=>frame();frame();
  });}).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
@@ -354,8 +395,9 @@ function mount(root,item){
  root.querySelector("[data-view-zoom-out]").addEventListener("click",()=>{zoom=Math.min(1.72,zoom+.12);});
  root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;autoRotate=!reducedMotion.matches;if(rotateButton){rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";}setInfo(0,false);});
  root.querySelector("[data-view-explode]").addEventListener("click",()=>{if(!world)return;exploded=!exploded;const g=world.groups.upper;if(g){g.position.y=exploded?2.1:0;}const b=root.querySelector("[data-view-explode]");b.setAttribute("aria-pressed",String(exploded));b.textContent=exploded?"Reassemble":"Separate components";});
- canvas.addEventListener("pointerdown",e=>{drag=true;autoRotate=false;if(rotateButton){rotateButton.setAttribute("aria-pressed","false");rotateButton.textContent="Auto rotate";}lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
- canvas.addEventListener("pointermove",e=>{if(!drag)return;targetY+=(e.clientX-lastX)*.008;targetX=Math.max(-.65,Math.min(.65,targetX+(e.clientY-lastY)*.006));lastX=e.clientX;lastY=e.clientY;});
+ canvas.addEventListener("pointerdown",e=>{pointerMoved=false;pointerDownX=e.clientX;pointerDownY=e.clientY;drag=true;autoRotate=false;if(rotateButton){rotateButton.setAttribute("aria-pressed","false");rotateButton.textContent="Auto rotate";}lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
+ canvas.addEventListener("pointermove",e=>{if(!drag)return;if(Math.hypot(e.clientX-pointerDownX,e.clientY-pointerDownY)>7)pointerMoved=true;targetY+=(e.clientX-lastX)*.008;targetX=Math.max(-.65,Math.min(.65,targetX+(e.clientY-lastY)*.006));lastX=e.clientX;lastY=e.clientY;});
+ canvas.addEventListener("click",e=>{if(pointerMoved){pointerMoved=false;return;}if(!raycaster||!world)return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;pointer.set(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);raycaster.setFromCamera(pointer,world.camera);const hits=raycaster.intersectObject(world.rootObj,true),names=componentMap[item.id]||[];for(const hit of hits){let node=hit.object;while(node&&node!==world.rootObj){const index=names.indexOf(node.name);if(index>=0){setInfo(index,true);return;}node=node.parent;}}});
  ["pointerup","pointercancel"].forEach(ev=>canvas.addEventListener(ev,()=>drag=false));
  canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.62,Math.min(1.72,zoom+e.deltaY*.001));},{passive:false});
  canvas.tabIndex=0;
