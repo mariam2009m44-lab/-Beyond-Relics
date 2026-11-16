@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050a16">
-<meta name="description" content="A guided cinematic journey from Earth to the Moon, exploring the Apollo 12 lunar science station and its archived evidence.">
-<title>Moon: The Signal That Stayed — Beyond Relics</title>
+<meta name="description" content="Explore the Sun, all eight planets, selected moons and the missions that connected them in an interactive 3D space archive.">
+<title>Explore the Solar System — Beyond Relics</title>
 <link rel="icon" href="assets/logos/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,77 +13,42 @@
 <link rel="stylesheet" href="css/visual-system.css">
 <link rel="stylesheet" href="css/cosmic-environment.css">
 <link rel="stylesheet" href="css/layout-consistency.css">
+<link rel="stylesheet" href="css/mission-universe.css">
 <link rel="stylesheet" href="css/lunar-journey.css">
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js";
-window.THREE=THREE;
-await import("./js/lunar-journey.js");
-</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js"}}</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="lunar-journey-page">
 <header class="lj-topbar">
 <a href="index.html" class="lj-brand">BEYOND <b>RELICS</b></a>
 <nav aria-label="Main navigation"><a href="artifacts.html">Archive</a><a href="data.html">NASA Data Lab</a><a href="comic.html">Comics</a></nav>
-<a class="lj-exit" href="artifacts.html?openWorld=moon#br-universe-launcher">Return to the Moon ↗</a>
+<a class="lj-exit" href="artifacts.html">Back to the archive ↗</a>
 </header>
-<main class="lj-main">
-<section class="lj-stage" id="lj-stage" aria-label="Interactive 3D journey from Earth to the Moon">
-<canvas id="lj-canvas" aria-label="Interactive Moon and Earth scene. Drag to rotate and use plus or minus to zoom." tabindex="0"></canvas>
-<div class="lj-vignette" aria-hidden="true"></div>
-<div class="lj-intro" id="lj-intro">
-<p class="lj-eyebrow">A BEYOND RELICS FIELD JOURNEY</p>
-<h1>The Moon<br><em>kept the signal.</em></h1>
-<p>Travel from Earth to an Apollo science station left on the lunar surface. Follow the hardware, then investigate the evidence it left behind.</p>
-<button class="lj-primary" id="lj-begin" type="button">Begin the journey <span>↗</span></button>
-<small>4 connected scenes · Interactive 3D · Sound is off by default</small>
+<main class="lj-explorer">
+<section class="lj-explorer-hero">
+<div class="lj-hero-copy">
+<p class="lj-eyebrow">BEYOND RELICS · SOLAR FRONTIERS</p>
+<h1>اختاري وجهتكِ.<br><em>واكتشفي قصتها.</em></h1>
+<p>رحلة تفاعلية داخل النظام الشمسي. اختاري كوكبًا أو قمرًا، اقتربي منه، اكتشفي خصائصه، ثم افتحي سجلات المهمات والمعدات والقصص المرتبطة به.</p>
+<button id="br-universe-launcher" class="lj-primary" type="button" aria-haspopup="dialog" aria-controls="br-universe">ابدئي استكشاف الفضاء <span>↗</span></button>
+<small>الشمس · الكواكب الثمانية · أقمار مختارة · سجلات المهمات</small>
 </div>
-<div class="lj-scene-copy" id="lj-copy" aria-live="polite" hidden>
-<p class="lj-eyebrow" id="lj-kicker">01 / DEPARTURE</p>
-<h2 id="lj-title">A distant world</h2>
-<p id="lj-description"></p>
-<div class="lj-fact" id="lj-fact"></div>
-</div>
-<div class="lj-object-card" id="lj-object-card" hidden>
-<span>MISSION HARDWARE · ARTISTIC RECONSTRUCTION</span>
-<strong>Apollo Lunar Surface Experiments Package</strong>
-<p>A family of instruments deployed at Apollo landing sites to measure the lunar environment, including seismic activity.</p>
-<a href="artifact-details.html?id=apollo-12-alsep">Open the ALSEP archive record ↗</a>
-</div>
-<div class="lj-bottom">
-<div class="lj-progress" aria-label="Journey progress"><span id="lj-progress-fill"></span></div>
-<div class="lj-controls">
-<button id="lj-prev" type="button" disabled aria-label="Previous scene">← <span>BACK</span></button>
-<div class="lj-step" id="lj-step">READY · 4 SCENES</div>
-<button id="lj-next" type="button" disabled>NEXT <span>→</span></button>
-</div>
-</div>
-<div class="lj-motion-controls">
-<button id="lj-motion" type="button" aria-pressed="false">Ⅱ Pause motion</button>
-<button id="lj-reset" type="button">↺ Reset view</button>
-</div>
-<div class="lj-help" id="lj-help">Drag to look around · Scroll or pinch to zoom</div>
-<div class="lj-fallback" id="lj-fallback" hidden>
-<h2>Your journey is still available</h2>
-<p>This device could not start the 3D scene. Continue with the mission story and original evidence.</p>
-<a href="data.html#waveform-title">Open the Apollo data investigation ↗</a>
+<div class="lj-orbit-art" aria-hidden="true">
+<span class="lj-orbit-ring lj-ring-one"></span><span class="lj-orbit-ring lj-ring-two"></span><span class="lj-orbit-ring lj-ring-three"></span>
+<span class="lj-star lj-star-one"></span><span class="lj-star lj-star-two"></span><span class="lj-star lj-star-three"></span>
+<span class="lj-sun"></span><span class="lj-planet lj-mercury"></span><span class="lj-planet lj-earth"></span><span class="lj-planet lj-mars"></span><span class="lj-planet lj-jupiter"></span><span class="lj-planet lj-saturn"></span><span class="lj-planet lj-neptune"></span>
 </div>
 </section>
-<section class="lj-storyline" aria-label="Journey overview">
-<div class="lj-storyline-heading"><span>THE ROUTE</span><p>Four scenes. One continuous investigation.</p></div>
-<ol>
-<li data-scene="0"><span>01</span><b>Departure</b><small>Earth to Moon</small></li>
-<li data-scene="1"><span>02</span><b>Approach</b><small>The Moon comes closer</small></li>
-<li data-scene="2"><span>03</span><b>What stayed</b><small>A science station on the surface</small></li>
-<li data-scene="3"><span>04</span><b>The signal</b><small>From instrument to archive</small></li>
-</ol>
+<section class="lj-explorer-guide">
+<p class="lj-eyebrow">HOW TO EXPLORE</p>
+<div><span>01</span><b>اختاري عالمًا</b><small>اضغطي على كوكب في المشهد أو اختاريه من شريط الوجهات</small></div>
+<div><span>02</span><b>اقتربي واكتشفي</b><small>لفّي المشهد، كبّري، واختاري القمر أو الموقع الذي تريدين معرفته</small></div>
+<div><span>03</span><b>اتبعي أثر المهمة</b><small>افتحي سجل المعدّة ثم انتقلي إلى قصتها المصوّرة عندما تكون متاحة</small></div>
 </section>
-<section class="lj-source-note">
-<p>SCIENCE NOTE</p>
-<h2>What is real, and what is visualized?</h2>
-<p>The mission dates, instrument purpose, and ALSEP operating history are based on the linked NASA and archive records. The planets, lunar surface, station model, camera journey, and signal motif are original artistic visualizations—not NASA imagery, a to-scale simulation, or a raw seismic waveform.</p>
-<a href="credits.html">Sources, asset credits &amp; methodology ↗</a>
-</section>
+<p class="lj-science-note">ملاحظة علمية: أحجام ومسافات الأجسام في المشهد مبسّطة لتسهيل الاستكشاف، وليست بمقياس رسم. تُعرض حقائق كل عالم وسجلات المهمات بصورة منفصلة عن التصورات الفنية.</p>
 </main>
 <footer class="lj-footer"><span>BEYOND RELICS · REAL MISSIONS. LASTING LEGACIES.</span><a href="challenge.html">Challenge brief ↗</a></footer>
+<button id="br-universe-launcher-fallback" type="button" hidden>Open explorer</button>
+<script src="js/mission-universe.js" defer></script>
 </body>
 </html>
