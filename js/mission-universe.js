@@ -81,6 +81,21 @@ function texture(kind){
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 const worldTextureSources={
+ saturn:{
+  url:"https://cloud.solarsystemscope.com/textures/download/2k_saturn.jpg",
+  label:"Solar System Scope · equirectangular Saturn atmosphere · based on NASA imagery; colour-adjusted",
+  source:"https://cloud.solarsystemscope.com/textures/"
+ },
+ uranus:{
+  url:"https://cloud.solarsystemscope.com/textures/download/2k_uranus.jpg",
+  label:"Solar System Scope · equirectangular Uranus appearance · based on NASA/Hubble imagery; low visible detail",
+  source:"https://cloud.solarsystemscope.com/textures/"
+ },
+ neptune:{
+  url:"https://cloud.solarsystemscope.com/textures/download/2k_neptune.jpg",
+  label:"Solar System Scope · equirectangular Neptune atmosphere · based on NASA imagery; gaps and colour adjusted",
+  source:"https://cloud.solarsystemscope.com/textures/"
+ },
  jupiter:{
   url:"https://space.jpl.nasa.gov/tmaps/pix/jup0vss1.jpg",
   label:"NASA/JPL Voyager · global atmospheric map · 720×360 · enhanced/low resolution",
