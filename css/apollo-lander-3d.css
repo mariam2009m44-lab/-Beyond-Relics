@@ -35,3 +35,6 @@
  .apollo-3d-foot{font-size:.52rem;line-height:1.5}
 }
 @media(prefers-reduced-motion:reduce){.apollo-3d-toolbar button{transition:none}}
+
+/* The artifact page now hosts its 3D exhibit inline; avoid a redundant floating 3D launcher. */
+body:has(#detail.has-apollo-3d) #br-universe-launcher{display:none!important}
