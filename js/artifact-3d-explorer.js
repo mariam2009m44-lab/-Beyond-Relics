@@ -60,8 +60,8 @@ function makeScene(T,id,root){
  const box=(p,s,m,pos,rot)=>mesh(p,new T.BoxGeometry(...s),m,pos,rot);
  const cyl=(p,a,b,h,m,pos,segments=12,rot=[0,0,0])=>mesh(p,new T.CylinderGeometry(a,b,h,segments),m,pos,rot);
  const wheel=(p,x,z,r=.38)=>{const w=mesh(p,new T.CylinderGeometry(r,r,.22,16),black,[x,-1.65,z],[0,0,Math.PI/2]);mesh(p,new T.TorusGeometry(r*.72,.045,8,20),foil,[x,-1.65,z],[0,Math.PI/2,0]);return w;};
- function rover(curiosity=false){
-  const body=group("body");box(body,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
+ function rover(curiosity=false,name="body"){
+  const body=group(name);box(body,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
   box(body,[.8,.48,.7],foil,[0,.22,0]);box(body,[.25,.12,.25],dark,[0,.55,0]);
   const mast=new T.Group();mast.position.set(0,.45,0);body.add(mast);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
   if(curiosity){const arm=new T.Group();arm.position.set(.9,-.35,.1);body.add(arm);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
@@ -69,8 +69,8 @@ function makeScene(T,id,root){
   const panel=box(body,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
   return body;
  }
- function lander(){
-  const base=group("body");cyl(base,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(base,.75,.8,.7,foil,[0,.05,0],8);cyl(base,.42,.48,.45,dark,[0,.58,0],8);
+ function lander(name="body"){
+  const base=group(name);cyl(base,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(base,.75,.8,.7,foil,[0,.05,0],8);cyl(base,.42,.48,.45,dark,[0,.58,0],8);
   for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;base.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
   return base;
  }
@@ -80,7 +80,11 @@ function makeScene(T,id,root){
   const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
  }else if(id==="apollo-12-alsep"){
   const station=group("body");box(station,[1.1,.65,.85],metal,[0,-.55,0]);cyl(station,.13,.13,1.25,foil,[0,.3,0]);for(let i=0;i<3;i++){const a=i*2.094;box(station,[.9,.06,.6],solar,[Math.cos(a)*1.25,-.48,Math.sin(a)*1.25],[0,-a,0]);}cyl(station,.28,.28,.15,foil,[0,.85,0]);
- }else if(["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
+ }else if(id==="pathfinder-sojourner"){
+  const pathfinder=lander("lander");pathfinder.position.x=-2.05;
+  for(let i=0;i<4;i++){const a=i*Math.PI/2;box(pathfinder,[.95,.07,.42],solar,[Math.cos(a)*1.18,.18,Math.sin(a)*1.18],[0,-a,0]);}
+  const sojourner=rover(false,"rover");sojourner.position.x=2.05;sojourner.scale.set(.72,.72,.72);
+ }else if(["spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
  else if(["phoenix","insight"].includes(id)){lander();const p=groups.body;box(p,[1.4,.12,.9],solar,[0,.3,0]);if(id==="insight"){const arm=new T.Group();arm.position.set(.8,.1,0);p.add(arm);cyl(arm,.06,.06,1,foil,[.25,-.1,0],12,[0,0,.65]);}else{const arm=new T.Group();arm.position.set(.7,.1,0);p.add(arm);cyl(arm,.055,.055,1.15,foil,[.2,-.25,0],12,[0,0,.6]);}}
  else if(id==="voyager"||id==="pioneer-10-11"){
   const craft=group("body");cyl(craft,.5,.5,.9,foil,[0,0,0]);mesh(craft,new T.SphereGeometry(.82,24,18),metal,[0,.1,0]);cyl(craft,.95,.95,.08,foil,[0,.05,0],48).rotation.x=Math.PI/2;box(craft,[.12,3,.12],foil,[0,0,0]);for(let x of [-1.5,1.5])box(craft,[1.5,.06,.8],solar,[x,0,0]);cyl(craft,.08,.08,2.5,foil,[0,-.1,0]);const dish=mesh(craft,new T.SphereGeometry(.95,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,.5,1.3]);dish.rotation.x=Math.PI;
@@ -141,7 +145,7 @@ async function mountOfficialModel(root,item,loading,canvas){
  badge.textContent=model.label+" · SOURCE: "+model.source;
  root.appendChild(badge);
  loading.hidden=false;loading.textContent="Loading official NASA 3D model…";
- const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent="OFFICIAL NASA 3D MODEL · NOT A PHYSICAL SCAN";
+ const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent=model.label+" · NOT A PHYSICAL SCAN";
  const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Drag to orbit · Pinch or scroll to zoom";
  const parts=root.querySelector(".artifact-3d-parts");if(parts)parts.setAttribute("aria-label","Voyager component guide");
  const explode=root.querySelector("[data-view-explode]");if(explode)explode.hidden=true;
