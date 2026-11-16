@@ -62,3 +62,39 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 - Navigate the explorer using Tab, Shift+Tab, Escape, arrow keys, +, -, and 0.
 - Verify that closing the modal returns focus to its launch button.
 - Check at least one official NASA model and one artistic reconstruction; fidelity labels must remain distinct.
+
+
+## 8. PBR artifact exhibit lighting
+
+- Procedural exhibit materials use a metallic/roughness workflow rather than unlit color-only surfaces.
+- A small generated studio cube environment provides reflection cues for metallic foil and painted surfaces; it is a neutral rendering aid, not a photograph or NASA asset.
+- Use a restrained key/fill/rim lighting rig and ACES tone mapping; avoid excessive bloom or post-processing on mobile.
+- Official GLB models keep their original geometry and receive only the viewer's neutral studio environment, exposure, and shadow presentation.
+- Add fine photovoltaic cell segmentation only to the project's artistic rover reconstructions; do not imply it is a measured engineering drawing.
+- Keep the lighting environment generated at runtime and dispose it with the scene.
+
+### PBR exhibit verification
+
+- Compare a rover, lander, and spacecraft exhibit under the generated studio reflections; metal and foil should show controlled highlights without clipping into white.
+- Confirm that the generated cube environment is not presented as a real photograph or mission asset.
+- Check the official GLB exhibits retain their original downloaded model geometry and only receive viewer-side lighting/exposure settings.
+- Check the solar-cell grid remains subtle and is visible only on the artistic rover reconstructions.
+- Test the same exhibits at a narrow mobile width and verify the model remains unobstructed by the top source badge and bottom controls.
+- Compare reduced-motion mode; the new material and lighting treatment must not introduce additional motion.
+
+
+## 9. Mission-surface composition and deterministic scenes
+
+- Lunar and Mars surface exhibits may use a procedural terrain stage; deep-space spacecraft and orbital observatories must remain in a space-only environment without an invented planetary ground.
+- Align each lander/rover reconstruction to its exhibit surface so wheels and feet do not visibly float.
+- Use a subtle generated contact-shadow texture to anchor surface reconstructions; it is a rendering aid, not a measured shadow or mission photograph.
+- Seed procedural stars and rocks so the exhibit composition is stable between reloads and screenshot reviews.
+- Reduce terrain tessellation and rock count on compact/low-core devices; keep the object itself as the visual priority.
+
+
+## 10. Motion preference and interaction finish
+
+- Official GLB viewers must respect `prefers-reduced-motion` and begin without auto-rotation when the visitor requests reduced motion.
+- Rotation controls must reflect the actual viewer state (`aria-pressed` and action label).
+- Provide visible keyboard instructions for the procedural 3D canvas and a clear focus indicator.
+- Interactive controls layered over the 3D canvas must remain clickable without blocking drag gestures elsewhere.

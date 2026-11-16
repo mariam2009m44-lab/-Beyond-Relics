@@ -69,3 +69,38 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 .artifact-3d-toolbar button:hover,.artifact-3d-toolbar button[aria-pressed=true]{border-color:#91d6e2;background:#18364a}
 .artifact-3d-foot{color:#9aafbd}
 @media(max-width:760px){.artifact-3d-callout{left:10px;bottom:10px;max-width:calc(100% - 20px)}}
+
+
+/* Cinematic PBR exhibit treatment — the scene remains the visual focus. */
+.artifact-3d-stage{
+ background:
+  radial-gradient(ellipse at 50% 34%,rgba(104,161,190,.22),transparent 43%),
+  radial-gradient(ellipse at 50% 100%,rgba(31,91,119,.18),transparent 48%),
+  radial-gradient(circle at 14% 18%,rgba(202,225,238,.3) 0 1px,transparent 1.7px),
+  radial-gradient(circle at 82% 23%,rgba(202,225,238,.24) 0 1px,transparent 1.7px),
+  radial-gradient(ellipse at 50% 40%,#263d50 0%,#101c2b 48%,#050a14 100%);
+ background-size:auto,auto,120px 120px,170px 170px,auto;
+}
+.artifact-3d-canvas-wrap::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,rgba(3,8,16,.16),transparent 20%,transparent 72%,rgba(3,8,16,.26)),
+ radial-gradient(ellipse at center,transparent 48%,rgba(2,7,14,.28) 100%);
+}
+.artifact-model-viewer{
+ --poster-color:transparent;
+ --progress-bar-height:3px;
+ --progress-bar-color:#8edce8;
+}
+.artifact-model-viewer::part(default-progress-bar){background:#8edce8;box-shadow:0 0 14px rgba(142,220,232,.65)}
+@media(prefers-reduced-motion:reduce){
+ .artifact-3d-stage{scroll-behavior:auto}
+}
+
+
+/* Final interaction polish: keep 3D controls tactile and keyboard-visible. */
+.artifact-3d-canvas:focus-visible{outline:3px solid #9be6ff;outline-offset:-5px;border-radius:12px}
+.artifact-3d-toolbar button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.artifact-3d-toolbar button:active{transform:translateY(1px);background:#1a3b50}
+.artifact-3d-callout-close{pointer-events:auto}
+.artifact-3d-callout:focus-within{border-color:rgba(145,214,226,.62)}
+@media(prefers-reduced-motion:reduce){.artifact-3d-toolbar button{transition:none;transform:none}.artifact-3d-toolbar button:active{transform:none}}
