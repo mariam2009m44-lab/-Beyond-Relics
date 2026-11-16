@@ -1,0 +1,86 @@
+/* Beyond Relics — living nebula atmosphere
+   Decorative canvas stays behind content; all existing page layouts remain intact. */
+:root{
+ --cosmic-cyan:#78dcff;
+ --cosmic-purple:#a18bff;
+ --cosmic-gold:#ffc27a;
+ --br-nebula-blue:#1559e8;
+}
+body{isolation:isolate}
+#br-cosmic-canvas{
+ position:fixed;inset:0;z-index:-1;width:100%;height:100%;
+ display:block;pointer-events:none;opacity:.88;
+}
+body:not(.reader-page){
+ background:
+  radial-gradient(ellipse at 8% 16%,rgba(24,75,180,.17),transparent 38rem),
+  radial-gradient(ellipse at 92% 12%,rgba(112,66,185,.16),transparent 42rem),
+  radial-gradient(ellipse at 72% 84%,rgba(183,87,55,.075),transparent 36rem),
+  linear-gradient(180deg,#040713 0%,#080d1c 55%,#050916 100%);
+}
+body:not(.reader-page)::before{
+ opacity:.34;
+ background-image:
+  radial-gradient(ellipse at 14% 22%,rgba(34,88,220,.22),transparent 34%),
+  radial-gradient(ellipse at 82% 18%,rgba(125,67,210,.19),transparent 38%),
+  radial-gradient(ellipse at 72% 78%,rgba(211,105,64,.09),transparent 30%),
+  radial-gradient(1px 1px at 8% 18%,#d9edf8 99%,transparent),
+  radial-gradient(1px 1px at 73% 13%,#d9edf8 99%,transparent),
+  radial-gradient(1.5px 1.5px at 41% 64%,#d9edf8 99%,transparent);
+ background-size:100% 100%,100% 100%,100% 100%,390px 310px,510px 420px,620px 490px;
+ animation:br-nebula-background-drift 70s ease-in-out infinite alternate;
+}
+@keyframes br-nebula-background-drift{
+ from{background-position:0 0,0 0,0 0,0 0,0 0,0 0}
+ to{background-position:3% -2%,-3% 3%,2% 2%,390px 310px,-510px 420px,620px -490px}
+}
+.hero::before{
+ opacity:.8;
+ background:
+  radial-gradient(ellipse at 24% 34%,rgba(31,84,213,.22),transparent 36%),
+  radial-gradient(ellipse at 78% 24%,rgba(129,69,211,.2),transparent 38%),
+  radial-gradient(ellipse at 62% 72%,rgba(214,115,68,.1),transparent 31%),
+  linear-gradient(180deg,rgba(4,7,19,.02),rgba(4,7,19,.38));
+ animation:br-nebula-hero-drift 38s ease-in-out infinite alternate;
+}
+@keyframes br-nebula-hero-drift{
+ from{background-position:0 0,0 0,0 0,0 0}
+ to{background-position:6% -4%,-5% 4%,3% 3%,0 0}
+}
+body.reader-page #br-cosmic-canvas{opacity:.24}
+.br-cosmic-dock{
+ position:fixed;z-index:1000;right:max(14px,env(safe-area-inset-right));
+ bottom:max(14px,env(safe-area-inset-bottom));
+ display:flex;align-items:center;gap:8px;padding:7px;
+ border:1px solid rgba(135,190,230,.24);border-radius:999px;
+ background:rgba(4,10,24,.78);box-shadow:0 10px 34px rgba(0,0,0,.32),0 0 24px rgba(65,116,230,.08);
+ backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.br-cosmic-dock button,.br-cosmic-dock a{
+ min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+ padding:0 13px;border:1px solid transparent;border-radius:999px;
+ color:#e8f3ff;background:rgba(27,51,91,.58);
+ font:700 .68rem/1 "DM Sans","Segoe UI",sans-serif;letter-spacing:.035em;
+ text-decoration:none;cursor:pointer;white-space:nowrap;
+ transition:background .2s,border-color .2s,transform .2s;
+}
+.br-cosmic-dock button:hover,.br-cosmic-dock a:hover{
+ border-color:rgba(120,220,255,.55);background:rgba(44,78,135,.72);transform:translateY(-1px)
+}
+.br-cosmic-dock button[aria-pressed=true]{color:#9deaff;border-color:rgba(120,220,255,.3)}
+.br-cosmic-dock .br-cosmic-dot{
+ width:7px;height:7px;border-radius:50%;background:#8fe7ff;
+ box-shadow:0 0 10px #68cfff,0 0 18px rgba(95,150,255,.55)
+}
+.br-cosmic-dock a{background:linear-gradient(110deg,rgba(48,91,196,.8),rgba(104,73,173,.78));border-color:rgba(151,142,255,.3)}
+.br-cosmic-dock a span{color:#ffe0a9}
+body.reader-page .br-cosmic-dock{display:none}
+@media(max-width:520px){
+ .br-cosmic-dock{right:10px;bottom:max(10px,env(safe-area-inset-bottom));gap:5px;padding:5px}
+ .br-cosmic-dock button,.br-cosmic-dock a{min-height:38px;padding:0 10px;font-size:.61rem}
+}
+@media(prefers-reduced-motion:reduce){
+ body:not(.reader-page)::before,.hero::before{animation:none!important}
+ #br-cosmic-canvas{opacity:.48}
+ .br-cosmic-dock button,.br-cosmic-dock a{transition:none}
+}
