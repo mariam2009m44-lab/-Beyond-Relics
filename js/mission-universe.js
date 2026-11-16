@@ -8,7 +8,7 @@ launcher.setAttribute("aria-haspopup","dialog");launcher.setAttribute("aria-cont
 const overlay=document.createElement("section");overlay.id="br-universe";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","3D Mission Universe");
 overlay.innerHTML='<div class="br-universe-loader" id="br-universe-loader">Preparing mission universe…</div><div class="br-universe-top"><div class="br-universe-brand">BEYOND RELICS <span>MISSION UNIVERSE · INTERACTIVE 3D</span></div><button id="br-universe-close" type="button" aria-label="Close universe">×</button></div><div class="br-universe-intro"><small>CHOOSE A DESTINATION</small><h2>Enter the<br>unknown.</h2><p>Travel between the Moon, Mars and deep space. Select a world or a mission object to uncover the story behind the hardware.</p></div><div class="br-universe-vignette"></div><div class="br-universe-info" id="br-universe-info" aria-live="polite"><small id="br-universe-kicker">MISSION DESTINATION</small><h3 id="br-universe-title">Explore a world</h3><p id="br-universe-copy">Choose a destination to discover the missions and objects connected to it.</p><div class="br-universe-records" id="br-universe-records"></div><p class="br-universe-foot">Illustrative 3D environment. Mission facts and object records are presented separately with source links.</p></div><div class="br-universe-hud"><div class="br-universe-stops"><button class="br-universe-stop" data-world="moon" aria-pressed="false">THE MOON</button><button class="br-universe-stop" data-world="mars" aria-pressed="false">MARS</button><button class="br-universe-stop" data-world="deep" aria-pressed="false">DEEP SPACE</button></div><div class="br-universe-hint">Drag to look around · Tap a world or mission marker to explore · Select a record to open its archive</div></div>';
 document.body.append(launcher,overlay);
-let THREE=null,renderer=null,scene=null,camera=null,raf=0,resizeObserver=null,raycaster=null,pointer=null,worldObjects=[],data=[],active=false,dragging=false,lastX=0,lastY=0,downX=0,downY=0,rotX=0,rotY=0,targetRotX=0,targetRotY=0,selected=null;
+let THREE=null,renderer=null,scene=null,camera=null,raf=0,resizeObserver=null,raycaster=null,pointer=null,worldObjects=[],data=[],active=false,dragging=false,lastX=0,lastY=0,downX=0,downY=0,rotX=0,rotY=0,targetRotX=0,targetRotY=0,selected=null,lookTarget=null;
 const $=id=>document.getElementById(id);
 function showWorld(key){
  const cfg={
@@ -27,7 +27,7 @@ function showWorld(key){
   const arrow=document.createElement("span");arrow.textContent="OPEN ↗";a.append(title,arrow);root.append(a);
  });
  $("br-universe-info").classList.add("is-visible");
- if(scene&&camera){const target=worldObjects.find(o=>o.userData.world===key);if(target){const p=target.position;camera.userData.goal=new THREE.Vector3(p.x*1.55,p.y+3.2,p.z+9);}}
+ if(scene&&camera){const target=worldObjects.find(o=>o.userData.world===key);if(target){const p=target.position;camera.userData.goal=new THREE.Vector3(p.x*1.55,p.y+3.2,p.z+9);lookTarget=new THREE.Vector3(p.x,p.y,p.z);}}
 }
 function makeTexture(kind){
  const canvas=document.createElement("canvas");canvas.width=512;canvas.height=256;const c=canvas.getContext("2d");
@@ -80,7 +80,7 @@ function buildScene(){
  renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setSize(overlay.clientWidth,overlay.clientHeight);
  renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
  scene=new THREE.Scene();scene.background=new THREE.Color(0x020611);scene.fog=new THREE.FogExp2(0x020611,.008);
- camera=new THREE.PerspectiveCamera(48,overlay.clientWidth/overlay.clientHeight,.1,500);camera.position.set(0,7,31);camera.lookAt(0,0,0);camera.userData.goal=new THREE.Vector3(0,7,31);
+ camera=new THREE.PerspectiveCamera(48,overlay.clientWidth/overlay.clientHeight,.1,500);camera.position.set(0,7,31);lookTarget=new THREE.Vector3(0,0,0);camera.lookAt(lookTarget);camera.userData.goal=new THREE.Vector3(0,7,31);
  scene.add(new THREE.HemisphereLight(0x9bc9f5,0x171426,1.1));
  const sun=new THREE.PointLight(0xffd3a0,240,130);sun.position.set(-18,12,18);scene.add(sun);
  const key=new THREE.DirectionalLight(0x91cfff,1.2);key.position.set(12,8,8);scene.add(key);
@@ -98,7 +98,7 @@ function buildScene(){
  el.addEventListener("pointercancel",()=>dragging=false);
  resizeObserver=new ResizeObserver(()=>{if(!renderer||!camera)return;const w=overlay.clientWidth,h=overlay.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);});
  resizeObserver.observe(overlay);
- function animate(){if(!active)return;raf=requestAnimationFrame(animate);rotX+=(targetRotX-rotX)*.045;rotY+=(targetRotY-rotY)*.045;scene.rotation.x=rotX;scene.rotation.y=rotY;worldObjects.forEach(o=>{if(o.userData.kind==="planet")o.rotation.y+=.0009;});const goal=camera.userData.goal;camera.position.lerp(goal,.025);camera.lookAt(0,0,0);renderer.render(scene,camera);}
+ function animate(){if(!active)return;raf=requestAnimationFrame(animate);rotX+=(targetRotX-rotX)*.045;rotY+=(targetRotY-rotY)*.045;scene.rotation.x=rotX;scene.rotation.y=rotY;worldObjects.forEach(o=>{if(o.userData.kind==="planet")o.rotation.y+=.0009;});const goal=camera.userData.goal;camera.position.lerp(goal,.025);const aim=worldObjects.find(o=>o.userData.world===selected);if(lookTarget&&selected){const p=aim?aim.position:new THREE.Vector3();lookTarget.lerp(p,.035);}else if(lookTarget)lookTarget.lerp(new THREE.Vector3(0,0,0),.02);camera.lookAt(lookTarget||new THREE.Vector3());renderer.render(scene,camera);}
  animate();$("br-universe-loader").hidden=true;
 }
 function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";script.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));script.onerror=reject;document.head.appendChild(script);});}
