@@ -103,6 +103,21 @@ body{color:var(--br-text);font-kerning:normal}
 .artifact-3d-toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .artifact-3d-toolbar button{min-height:44px;min-width:44px;border-radius:9px}
 .br-cosmic-dock{max-width:calc(100vw - 20px)}
+/* Shared navigation: keep every destination reachable on compact screens. */
+.nav{flex-wrap:wrap}
+.nav>nav{
+ order:3;flex:1 1 100%;width:100%;min-width:0;max-width:100%;
+ overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+ scrollbar-width:none;-webkit-overflow-scrolling:touch;
+ padding:2px 2px 5px;
+}
+.nav>nav::-webkit-scrollbar{display:none}
+.nav .links{width:max-content;min-width:100%;margin:0;gap:clamp(.85rem,2.4vw,1.8rem)}
+.nav .links li{flex:0 0 auto}
+.nav .links a{white-space:nowrap}
+.nav .tools{margin-left:auto}
+.nav>nav:focus-within{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){.nav>nav:focus-within{scroll-behavior:auto}}
 @media(max-width:900px){
  .nav{align-items:center}
  .nav>nav{min-width:0}
