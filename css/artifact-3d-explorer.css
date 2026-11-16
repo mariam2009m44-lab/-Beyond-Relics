@@ -1,0 +1,45 @@
+/* Shared 3D exhibit for all artifact records */
+#detail.has-artifact-3d{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.5rem,3vw,2.5rem)}
+.artifact-3d-stage{position:relative;display:block;min-height:clamp(470px,58vw,700px);overflow:hidden;border:1px solid rgba(129,194,225,.28);border-radius:20px;background:radial-gradient(ellipse at 50% 42%,#1b2d40 0%,#0a1423 48%,#050a14 100%);box-shadow:0 28px 80px #0008}
+.artifact-3d-topline{position:absolute;z-index:3;top:0;left:0;right:0;display:flex;justify-content:space-between;gap:12px;padding:18px 22px;color:#a9c9dc;font:700 .62rem/1.3 system-ui,sans-serif;letter-spacing:.16em}
+.artifact-3d-canvas-wrap{position:absolute;inset:42px 0 94px}
+.artifact-3d-canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.artifact-3d-canvas:active{cursor:grabbing}
+.artifact-3d-loading{position:absolute;inset:0;display:grid;place-items:center;padding:24px;color:#c7e6f4;font:600 .78rem system-ui,sans-serif;letter-spacing:.1em;text-align:center;background:#07111ddd}
+.artifact-3d-loading[hidden]{display:none}
+.artifact-3d-loading.is-error{line-height:1.6}
+.artifact-3d-callout{position:absolute;left:clamp(14px,3vw,30px);bottom:18px;width:min(340px,calc(100% - 28px));padding:15px 17px;border:1px solid #9bd6ed35;border-radius:13px;background:rgba(5,14,27,.84);backdrop-filter:blur(12px);pointer-events:none}
+.artifact-3d-callout small{display:block;color:#85d7ef;font:800 .58rem system-ui,sans-serif;letter-spacing:.16em}
+.artifact-3d-callout strong{display:block;margin:5px 0;color:#f0f7fb;font:700 1rem system-ui,sans-serif}
+.artifact-3d-callout p{margin:0;color:#b7c9d5;font:400 .72rem/1.55 system-ui,sans-serif}
+.artifact-3d-toolbar{position:absolute;z-index:3;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 18px;border-top:1px solid #a5cce21d;background:rgba(3,9,18,.9);backdrop-filter:blur(14px)}
+.artifact-3d-parts,.artifact-3d-actions{display:flex;gap:7px;flex-wrap:wrap}
+.artifact-3d-toolbar button{min-height:40px;padding:0 12px;border:1px solid #8bb6cc3b;border-radius:999px;background:#101f30;color:#cce2ed;font:650 .68rem system-ui,sans-serif;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.artifact-3d-toolbar button:hover,.artifact-3d-toolbar button[aria-pressed=true]{border-color:#7dd5ed;background:#18364a;color:#fff}
+.artifact-3d-actions button{background:transparent}
+.artifact-3d-toolbar button:focus-visible{outline:3px solid #9be6ff;outline-offset:3px}
+.artifact-3d-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:0 4px;color:#8197a8;font:600 .58rem system-ui,sans-serif;letter-spacing:.08em}
+.apollo-content{display:block;max-width:1080px;margin-inline:auto;width:100%}
+.apollo-content .page-title{max-width:20ch}
+.apollo-content .body{max-width:78ch}
+.apollo-content .insight-grid{margin-top:2rem}
+.apollo-content .facts{max-width:850px}
+@media(max-width:760px){
+ .artifact-3d-stage{min-height:560px;border-radius:14px}
+ .artifact-3d-canvas-wrap{inset:40px 0 164px}
+ .artifact-3d-callout{bottom:12px}
+ .artifact-3d-toolbar{align-items:stretch;flex-direction:column;padding:10px}
+ .artifact-3d-parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .artifact-3d-actions{display:grid;grid-template-columns:1fr 1fr}
+ .artifact-3d-toolbar button{min-height:44px;padding:0 8px;font-size:.65rem}
+ .artifact-3d-topline{padding:13px;font-size:.53rem}
+ .artifact-3d-foot{font-size:.52rem;line-height:1.5}
+}
+@media(prefers-reduced-motion:reduce){.artifact-3d-toolbar button{transition:none}}
+body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
+
+/* NASA GLB models use the native model-viewer interaction surface. */
+.artifact-model-viewer{position:absolute;inset:42px 0 94px;width:100%;height:calc(100% - 136px);display:block;background:radial-gradient(ellipse at 50% 40%,#24384b 0%,#0a1423 62%,#050a14 100%);--poster-color:transparent;--progress-bar-color:#7deaff;--progress-mask:transparent}
+.artifact-model-credit{position:absolute;z-index:4;top:54px;right:16px;max-width:calc(100% - 32px);padding:8px 11px;border:1px solid #9bd6ed55;border-radius:999px;background:#061322d9;color:#bcefff;font:700 .56rem/1.35 system-ui,sans-serif;letter-spacing:.08em;text-decoration:none;backdrop-filter:blur(12px)}
+.artifact-model-credit:focus-visible{outline:3px solid #9be6ff;outline-offset:3px}
+@media(max-width:760px){.artifact-model-viewer{inset:40px 0 164px;height:calc(100% - 204px)}.artifact-model-credit{top:48px;left:10px;right:10px;width:max-content;max-width:calc(100% - 20px);font-size:.5rem}}

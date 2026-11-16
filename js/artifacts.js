@@ -108,8 +108,9 @@
     var id=new URLSearchParams(location.search).get("id"),index=DATA.findIndex(function(x){return x.id===id;});
     if(index<0){root.textContent="Artifact not found. Return to the archive and choose a record.";return;}
     var item=DATA[index];document.title=item.title+" — Beyond Relics";
-    var visual=el("div","dart");visual.dataset.tone=item.tone;visual.appendChild(fallbackIllustration(item));visual.append(el("span","artifact-stamp",item.region+" · "+item.years));
-    var content=el("div","artifact-content");
+    var visual=el("section","artifact-3d-stage");visual.dataset.artifactId=item.id;visual.setAttribute("aria-label","Interactive 3D artistic visualization of "+item.title);
+    visual.innerHTML='<div class="artifact-3d-topline"><span>MISSION OBJECT · '+item.region.toUpperCase()+'</span><span>INTERACTIVE EXPLORER</span></div><div class="artifact-3d-canvas-wrap"><canvas class="artifact-3d-canvas" aria-label="Drag to rotate the 3D reconstruction"></canvas><div class="artifact-3d-loading">Preparing the 3D exhibit…</div><div class="artifact-3d-callout" aria-live="polite"><small>COMPONENT 01</small><strong>Explore this mission object</strong><p>Select a component to understand its role.</p></div></div><div class="artifact-3d-toolbar"><div class="artifact-3d-parts" role="group" aria-label="Mission object components"><button type="button" data-part="0" aria-pressed="true">Main structure</button><button type="button" data-part="1" aria-pressed="false">Science system</button><button type="button" data-part="2" aria-pressed="false">Power system</button><button type="button" data-part="3" aria-pressed="false">Communications</button></div><div class="artifact-3d-actions"><button type="button" data-view-explode aria-pressed="false">Separate components</button><button type="button" data-view-reset>Reset view</button></div></div><div class="artifact-3d-foot"><span>ARTISTIC VISUALIZATION · NOT AN OFFICIAL NASA MODEL</span><span>Drag to rotate · Pinch or scroll to zoom</span></div>';
+    var content=el("div","artifact-content apollo-content");
     content.append(el("p","eyebrow",item.type+" · "+item.classification),el("h1","page-title",item.title),el("p","body",item.body));
     var state=el("div","mission-state");state.append(el("span","state-label","Mission status"),el("strong","",item.status));content.appendChild(state);
     var blocks=[["The mission goal",item.mission_goal],["What stayed behind",item.what_stayed],["What science gained",item.science_legacy],["Why it still matters",item.why_it_matters]];
@@ -120,8 +121,7 @@
     var gallery=el("section","artifact-gallery");gallery.append(el("div","gallery-heading"),el("div","nasa-artifact-images"));gallery.querySelector(".gallery-heading").append(el("p","eyebrow","NASA visual evidence"),el("h2","","See the mission"));gallery.querySelector(".nasa-artifact-images").append(el("p","gallery-loading","Loading NASA archive images…"));content.appendChild(gallery);
     var sources=el("section","source-list");sources.append(el("h2","","Primary mission sources"),el("p","","Use these NASA records to verify the mission history and science described here."));var ul=el("ul","");item.sources.forEach(function(s){var li=el("li","");li.appendChild(link(s.url,s.label+" ↗"));ul.appendChild(li);});sources.appendChild(ul);content.appendChild(sources);
     var actions=el("div","actions");var storyLink=el("a","btn","Enter the story →");storyLink.href="comic.html?chapter="+encodeURIComponent(item.id);var archiveLink=el("a","btn ghost","Back to archive");archiveLink.href="artifacts.html";actions.append(storyLink,archiveLink);content.appendChild(actions);
-    root.replaceChildren(visual,content);
-    loadArchiveImage(item,visual);
+    root.classList.add("has-artifact-3d");root.replaceChildren(visual,content);if(window.BeyondRelicsArtifact3D)window.BeyondRelicsArtifact3D.mount(visual,item);
     var prev=DATA[(index+DATA.length-1)%DATA.length],next=DATA[(index+1)%DATA.length],pn=$("pn");
     if(pn){pn.replaceChildren();var p=el("a","","← "+prev.title);p.href="artifact-details.html?id="+prev.id;var n=el("a","",next.title+" →");n.href="artifact-details.html?id="+next.id;pn.append(p,n);}
     loadNASAImages(item,gallery.querySelector(".nasa-artifact-images"));

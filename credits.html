@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080f1c">
+<meta name="description" content="Sources, asset credits, scientific methodology, and visual fidelity notes for Beyond Relics.">
+<title>Credits &amp; Methodology — Beyond Relics</title>
+<link rel="icon" href="assets/logos/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/polish.css">
+<link rel="stylesheet" href="css/device-responsive.css">
+<link rel="stylesheet" href="css/motion-system.css">
+<script src="js/motion-system.js" defer></script>
+</head>
+<body>
+<div id="stars" class="bg-stars" aria-hidden="true"></div>
+<header class="nav">
+<a class="brand" href="index.html" aria-label="Beyond Relics home">Beyond<br><b>Relics</b></a>
+<nav aria-label="Main"><ul class="links">
+<li><a href="index.html">Home</a></li><li><a href="data.html">NASA Data Lab</a></li><li><a href="challenge.html">Challenge Brief</a></li><li><a href="artifacts.html">Artifacts</a></li><li><a href="timeline.html">Timeline</a></li><li><a href="comic.html">The Story</a></li><li><a href="about.html">About</a></li>
+</ul></nav>
+</header>
+<main class="page">
+<p class="eyebrow">Transparency · Sources · Provenance</p>
+<h1 class="page-title">Credits &amp; <em>methodology.</em></h1>
+<p class="lead">Beyond Relics is an independent educational project. This page explains where mission information and visual material come from, and how the project distinguishes historical evidence from interpretation.</p>
+<section class="panel">
+<h2>Visual fidelity labels</h2>
+<ul class="steps">
+<li><b>Official / Scan</b> — an original official scan or source asset, linked to its source record.</li>
+<li><b>Official model, simplified</b> — an official model adapted for performance, with the source identified.</li>
+<li><b>Our reconstruction</b> — a project-built reconstruction whose reference sources are listed.</li>
+<li><b>Artistic visualization</b> — an interpretive visual, not a scale-accurate model or official engineering representation.</li>
+</ul>
+<p>Most artifact previews currently use procedural geometry and are labeled <b>Artistic visualization</b>. Voyager 1 now uses the official NASA Voyager Probe (B) GLB model, credited to NASA / Michael D. Carbajal. It is an official 3D model, not a physical scan or proof of exact flight-unit condition.</p><p><a href="https://science.nasa.gov/3d-resources/voyager-probe-b/" target="_blank" rel="noopener noreferrer">View the official NASA Voyager 3D model and source record ↗</a></p>
+</section>
+<section class="panel">
+<h2>Scientific sources</h2>
+<p>Each artifact record links to primary mission sources in its detail page. The collection data is maintained in <a href="data/artifacts.json">the artifact records</a>. NASA image search results link to individual NASA archive records; verify the source and credit for each selected image.</p>
+<p>Measurements and plotted values must be tied to the exact dataset, instrument, units, and processing method. A diagram or reconstructed visualization must never be described as raw mission telemetry.</p>
+</section>
+<section class="panel">
+<h2>Software and design dependencies</h2>
+<ul class="steps">
+<li><a href="https://threejs.org/" target="_blank" rel="noopener noreferrer">Three.js</a> — interactive 3D rendering library (MIT License).</li>
+<li><a href="https://modelviewer.dev/" target="_blank" rel="noopener noreferrer">Google model-viewer</a> — browser-based GLB model display (Apache-2.0).</li>
+<li><a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer">Google Fonts</a> — Barlow Condensed, Cormorant Garamond, and DM Sans (SIL Open Font License).</li>
+<li><a href="https://images.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA Image and Video Library</a> — dynamically retrieved imagery; check each individual record for creator credits and restrictions.</li>
+</ul>
+</section>
+<section class="panel">
+<h2>Asset register and open checks</h2>
+<p>The complete working register lists visual assets, dependencies, and unresolved provenance items. Some local story-panel authorship and reuse permissions still require confirmation; those entries are explicitly marked unverified rather than assigned an assumed license.</p>
+<a class="btn" href="ASSETS.html">Read the asset register ↗</a>
+</section>
+<section class="panel">
+<h2>AI and reconstruction disclosure</h2>
+<p>Procedural 3D scenes are educational reconstructions. Do not interpret them as official NASA scans or engineering CAD. Any AI-generated visual content must be identified and handled according to the relevant challenge rules; NASA logos, flags, and mission identifiers must not be invented or generated as if official.</p>
+</section>
+</main>
+<footer class="footer"><a class="brand" href="index.html">Beyond<br><b>Relics</b></a><p>Real missions. Lasting legacies.</p><span>© <span data-year></span> Beyond Relics · Independent educational project</span></footer>
+<script src="js/main.js"></script>
+<script src="js/immersive-motion.js"></script>
+<script src="js/cinematic-motion.js"></script>
+<script src="js/cinematic-upgrade.js" defer></script>
+<script src="js/cinematic-atmosphere.js" defer></script>
+</body>
+</html>
