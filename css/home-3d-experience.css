@@ -204,3 +204,18 @@
  .home-3d-choice{min-height:36px;padding:0 12px;font-size:.57rem}
 }
 @media(prefers-reduced-motion:reduce){.home-3d-choice{transition:none}}
+
+
+/* Compact, always-available world exploration and page navigation. */
+.home-world-launcher,.home-quick-menu{position:absolute;z-index:24;top:16px;pointer-events:auto}
+.home-world-launcher{left:clamp(12px,2.4vw,28px);display:grid;place-items:center;width:44px;height:44px;border:1px solid rgba(132,205,235,.28);border-radius:50%;background:rgba(4,13,26,.64);color:#dff5ff;font-size:25px;line-height:1;backdrop-filter:blur(14px);box-shadow:0 8px 28px #0005;cursor:pointer;transition:background .25s,border-color .25s,transform .25s}
+.home-world-launcher:hover{background:rgba(19,59,83,.86);border-color:rgba(133,224,255,.72);transform:translateY(-2px)}
+.home-world-launcher:focus-visible,.home-quick-menu summary:focus-visible{outline:3px solid #b8ecff;outline-offset:3px}
+.home-quick-menu{right:clamp(12px,2.4vw,28px)}
+.home-quick-menu summary{display:grid;place-items:center;list-style:none;width:44px;height:44px;border:1px solid rgba(132,205,235,.28);border-radius:50%;background:rgba(4,13,26,.64);color:#dff5ff;font-size:19px;cursor:pointer;backdrop-filter:blur(14px);box-shadow:0 8px 28px #0005}
+.home-quick-menu summary::-webkit-details-marker{display:none}
+.home-quick-menu-panel{position:absolute;top:52px;right:0;display:grid;gap:4px;width:min(240px,82vw);padding:9px;border:1px solid rgba(132,205,235,.25);border-radius:15px;background:rgba(4,12,25,.94);backdrop-filter:blur(18px);box-shadow:0 18px 54px #0009}
+.home-quick-menu-panel a{display:flex;align-items:center;min-height:42px;padding:0 12px;border-radius:9px;color:#d8eafa;font:650 .76rem/1.2 system-ui,sans-serif;text-decoration:none}
+.home-quick-menu-panel a:hover,.home-quick-menu-panel a:focus-visible{background:rgba(54,127,163,.22);color:#fff;outline:none}
+@media(max-width:760px){.home-world-launcher,.home-quick-menu{top:10px}.home-world-launcher{left:10px}.home-quick-menu{right:10px}}
+@media(prefers-reduced-motion:reduce){.home-world-launcher{transition:none}}
