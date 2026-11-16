@@ -27,6 +27,7 @@ const artifactsScript = read("js/artifacts.js");
 const artifact3dCss = read("css/artifact-3d-explorer.css");
 const cosmicScript = read("js/cosmic-environment.js");
 const cosmicCss = read("css/cosmic-environment.css");
+const visualSystem = read("css/visual-system.css");
 
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
