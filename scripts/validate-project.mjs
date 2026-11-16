@@ -60,7 +60,7 @@ check(artifact3d.includes("contactShadow") && artifact3d.includes("CanvasTexture
 check(artifact3d.includes("compactRender?44:84") && artifact3d.includes("compactRender?30:72"), "Terrain and rock detail adapt to lower-power and mobile devices");
 check(artifact3d.includes("starRand") && !artifact3d.includes("Math.random()"), "Procedural star fields are deterministic between visits");
 check(artifact3d.includes('matchMedia("(prefers-reduced-motion: reduce)")') && artifact3d.includes('const rotating=viewer.hasAttribute("auto-rotate")'), "Official NASA model rotation respects reduced-motion preferences and reports the correct control state");
-check(artifactsScript.includes("Arrow keys to explore") && artifactsScript.includes("+/- to zoom"), "Procedural 3D exhibits display keyboard interaction instructions");
+check(artifact3d.includes('canvas.addEventListener("keydown"') && artifactsScript.includes("Tap a component for its field note") && artifactsScript.includes("Pinch or +/- to zoom"), "Procedural 3D exhibits support keyboard orbiting and direct component discovery instructions");
 check(artifact3dCss.includes(".artifact-3d-canvas:focus-visible") && artifact3dCss.includes(".artifact-3d-callout-close{pointer-events:auto}"), "3D canvas focus and component-guide close control remain accessible");
 check(artifact3d.includes("webglcontextlost") && artifact3d.includes("webglcontextrestored") && universe3d.includes("webglcontextlost") && universe3d.includes("webglcontextrestored"), "Both 3D experiences handle WebGL context loss and restoration");
 check(artifact3d.includes("resumeFrame=()=>frame()"), "Artifact viewer can resume its render loop after a restored WebGL context");
