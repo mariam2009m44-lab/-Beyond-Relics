@@ -2,7 +2,7 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const img=$("reader-image"),stage=$("reader-stage"),wrap=$("reader-image-wrap");
-let item=null,pages=[],page=0,playing=false,paused=false,timer=0,scale=1,tx=0,ty=0,dragging=false,moved=false,suppressClick=false,startX=0,startY=0,originX=0,originY=0,touchX=0,touchY=0,textMode=false;
+let item=null,pages=[],page=0,playing=false,paused=false,timer=0,scale=1,tx=0,ty=0,dragging=false,moved=false,suppressClick=false,startX=0,startY=0,originX=0,originY=0,touchX=0,touchY=0;
 let audioContext=null,audioMaster=null,audioNodes=[],musicOn=false;
 const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SCENE_MS=4700, CAMERA_MS=1050, TRANSITION_MS=620;
@@ -46,29 +46,12 @@ function animateEntry(){
 function render(animate){
  const p=pages[page];if(!p)return;
  const oldError=stage.querySelector(".reader-image-error");if(oldError)oldError.remove();
- const textOnly=textMode||!p.file;
- if(textOnly){
-  img.hidden=true;img.removeAttribute("src");wrap.classList.add("is-text-story");
-  let card=wrap.querySelector(".reader-story-beat");
-  if(!card){card=document.createElement("article");card.className="reader-story-beat";card.setAttribute("aria-live","polite");wrap.append(card);}
-  card.dataset.tone=item.tone||"space";card.replaceChildren();
-  const top=document.createElement("div");top.className="reader-story-kicker";top.textContent="MISSION JOURNAL · "+String(page+1).padStart(2,"0")+" / "+String(pages.length).padStart(2,"0");
-  const rule=document.createElement("span");rule.className="reader-story-rule";rule.setAttribute("aria-hidden","true");
-  const heading=document.createElement("h2");heading.textContent=p.caption||"Mission record";
-  const hook=document.createElement("p");hook.className="reader-story-hook";hook.textContent=page===0&&item.story_hook?item.story_hook:"FIELD NOTE · "+(item.region||"MISSION")+" · "+(item.years||"");
-  card.append(top,rule,heading,hook);
-  if(p.fact&&p.fact.length===2){const fact=document.createElement("div");fact.className="reader-story-fact";const label=document.createElement("small");label.textContent=p.fact[0];const value=document.createElement("strong");value.textContent=p.fact[1];fact.append(label,value);card.append(fact);}
-  const progress=document.createElement("div");progress.className="reader-story-progress";progress.setAttribute("aria-hidden","true");progress.style.setProperty("--story-progress",((page+1)/pages.length*100)+"%");card.append(progress);
-  $caption.hidden=true;
- }else{
-  const card=wrap.querySelector(".reader-story-beat");if(card)card.remove();
-  wrap.classList.remove("is-text-story");img.hidden=false;img.src=p.file;img.alt=p.caption||item.title+" — page "+(page+1);
-  $caption.textContent=p.caption||"";$caption.hidden=!p.caption;
- }
+ img.hidden=false;img.src=p.file;img.alt=p.caption||item.title+" — page "+(page+1);
+ $caption.textContent=p.caption||"";$caption.hidden=!p.caption;
  $("reader-title").textContent=item.title;$("reader-subtitle").textContent=(item.region||"")+" · "+(item.years||"");
  $("reader-counter").innerHTML="<strong>"+(page+1)+"</strong> / "+pages.length;
  $("reader-prev").disabled=page===0;$("reader-next").disabled=page===pages.length-1;
- document.title=item.title+" — "+(textOnly?"Mission Story":"Page "+(page+1))+" · Beyond Relics";
+ document.title=item.title+" — Page "+(page+1)+" · Beyond Relics";
  document.querySelectorAll(".reader-thumb").forEach((b,i)=>b.setAttribute("aria-current",String(i===page)));
  const active=$("reader-thumbs").children[page];if(active)active.scrollIntoView({block:"nearest",inline:"center",behavior:reduce?"auto":"smooth"});
  const exhibit=$("reader-exhibit-link");if(exhibit)exhibit.href="artifact-details.html?id="+encodeURIComponent(item.id);
@@ -86,14 +69,12 @@ function changePage(next,keepPlayback){
 function buildThumbs(){
  const root=$("reader-thumbs");root.replaceChildren();
  pages.forEach((p,i)=>{
-  const b=document.createElement("button");b.className="reader-thumb";b.type="button";b.setAttribute("aria-label","Open story step "+(i+1));
-  if(p.file){const t=document.createElement("img");t.src=p.file;t.alt="";t.loading=i<5?"eager":"lazy";b.append(t);}
-  else{const n=document.createElement("span");n.className="reader-thumb-number";n.textContent=String(i+1).padStart(2,"0");b.append(n);}
+  const b=document.createElement("button");b.className="reader-thumb";b.type="button";b.setAttribute("aria-label","Open original comic panel "+(i+1));
+  const t=document.createElement("img");t.src=p.file;t.alt="";t.loading=i<5?"eager":"lazy";b.append(t);
   b.addEventListener("click",()=>changePage(i,playing&&!paused));root.append(b);
  });
 }
 function applyCamera(){
- if(textMode){const card=wrap.querySelector(".reader-story-beat");if(card){card.classList.remove("story-beat-enter");void card.offsetWidth;card.classList.add("story-beat-enter");}return;}
  clearCameraSequence();
  const move=moveFor(page);
  img.classList.remove("is-action-cut","is-zoomed");
@@ -167,25 +148,20 @@ function toggleMusic(){
  $("cinema-sound").setAttribute("aria-label",musicOn?"Turn sound off":"Turn sound on");
  $("cinema-sound").setAttribute("aria-pressed",String(musicOn));
 }
-function activateTextStory(){
- if(!item||!Array.isArray(item.story_beats)||!item.story_beats.length)return false;
- textMode=true;pages=item.story_beats.map((caption,i)=>({caption:caption,fact:(item.facts||[])[i]||null}));page=0;buildThumbs();render(false);if(!reduce)startFilm();else{playing=false;paused=false;updateControls();}return true;
-}
-function showImageError(){if(!textMode&&activateTextStory())return;let note=stage.querySelector(".reader-image-error");if(!note){note=document.createElement("div");note.className="reader-image-error";note.setAttribute("role","status");stage.append(note);}note.textContent="This comic frame could not be loaded. You can still move to another page or return to the collection.";clearTimeout(timer);clearCameraSequence();playing=false;paused=false;updateControls();}
+function showImageError(){let note=stage.querySelector(".reader-image-error");if(!note){note=document.createElement("div");note.className="reader-image-error";note.setAttribute("role","status");stage.append(note);}note.textContent="This comic frame could not be loaded. You can still move to another page or return to the collection.";clearTimeout(timer);clearCameraSequence();playing=false;paused=false;updateControls();}
 img.addEventListener("error",showImageError);
 function showError(){stage.innerHTML='<div class="reader-error">This story could not be opened. Please return to the mission collection and select a chapter.<br><a href="index.html">Return to Beyond Relics</a></div>';}
 fetch("data/artifacts.json").then(r=>{if(!r.ok)throw Error("Archive unavailable");return r.json();}).then(rows=>{
  const id=new URLSearchParams(location.search).get("chapter");item=rows.find(x=>x.id===id);
  if(!item){showError();return;}
- const artwork=Array.isArray(item.story_artwork)&&item.story_artwork.length;
- if(artwork){textMode=false;pages=item.story_artwork;}
- else if(Array.isArray(item.story_beats)&&item.story_beats.length){textMode=true;pages=item.story_beats.map((caption,i)=>({caption:caption,fact:(item.facts||[])[i]||null}));}
- else{
+ const artwork=Array.isArray(item.story_artwork)&&item.story_artwork.length>0;
+ if(!artwork){
   window.location.replace("artifact-details.html?id="+encodeURIComponent(item.id));
   return;
  }
+ pages=item.story_artwork;
  buildThumbs();render(false);
- const first=textMode?Promise.resolve():(img.complete&&img.naturalWidth?Promise.resolve():new Promise((resolve,reject)=>{img.addEventListener("load",resolve,{once:true});img.addEventListener("error",reject,{once:true});}));
+ const first=img.complete&&img.naturalWidth?Promise.resolve():new Promise((resolve,reject)=>{img.addEventListener("load",resolve,{once:true});img.addEventListener("error",reject,{once:true});});
  first.then(()=>{if(!reduce)startFilm();else{playing=false;updateControls();}}).catch(showImageError);
 }).catch(showError);
 $("reader-prev").addEventListener("click",previousScene);$("reader-next").addEventListener("click",nextScene);

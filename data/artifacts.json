@@ -18,12 +18,6 @@
     "why_it_matters": "It shows that a spacecraft can be designed as a system whose parts have different jobs—and different endings.",
     "design_life": "A short crewed surface expedition",
     "actual_life": "The descent stage has remained at the landing site since July 1969.",
-    "story_beats": [
-      "In July 1969, Eagle carried two astronauts from lunar orbit toward an unknown plain.",
-      "Its descent engine slowed the craft until four legs touched the lunar surface.",
-      "The crew later left in the upper ascent stage. The lower stage stayed where it landed.",
-      "The landing site became a real place in human history—and a record of engineering left on another world."
-    ],
     "image_query": "Apollo 11 Lunar Module descent stage Tranquility Base NASA",
     "facts": [
       [
@@ -73,12 +67,6 @@
     "why_it_matters": "It is an early example of a distributed science network operating on another world.",
     "design_life": "Apollo 12 ALSEP was designed for a one-year mission; later packages had differing design lives.",
     "actual_life": "The ALSEP network operated until NASA shut it down on 30 September 1977.",
-    "story_beats": [
-      "After the Apollo 12 crew landed, they unpacked more than cameras and tools.",
-      "They set up a small robotic science station: instruments that could keep working after the astronauts left.",
-      "The station sent measurements back to Earth for years, helping scientists listen to the Moon and study its environment.",
-      "NASA switched off the network in 1977. The instruments stayed, while their data continued to teach us."
-    ],
     "image_query": "Apollo 12 ALSEP lunar surface experiments package NASA",
     "facts": [
       [
@@ -144,27 +132,6 @@
     "why_it_matters": "It helped establish the approach that made later generations of Mars rovers possible.",
     "design_life": "A technology demonstration planned for a short surface mission.",
     "actual_life": "The mission operated from July to September 1997.",
-    "story_beats": [
-      "The journey begins: Pathfinder launches from Earth on 4 December 1996, carrying Sojourner toward Mars.",
-      "After a seven-month voyage, Pathfinder lands on Mars on 4 July 1997. The lander is later named the Carl Sagan Memorial Station.",
-      "On 5 July 1997, Sojourner rolls down the ramp and begins exploring another world.",
-      "Meet Sojourner: a compact, six-wheeled rover designed to examine the Martian surface.",
-      "The rover is named after Sojourner Truth, the 19th-century abolitionist and civil-rights advocate.",
-      "The lander and rover work as a team: the lander relays the rover's observations to Earth.",
-      "Commands travel from mission operators on Earth through Pathfinder to the rover.",
-      "Six wheels and a rocker-bogie suspension help Sojourner cross uneven Martian ground.",
-      "Solar cells provide electrical power for the rover's instruments and operations.",
-      "The Alpha Proton X-ray Spectrometer, or APXS, helps investigate the elemental composition of rocks and soil.",
-      "By examining rocks, APXS gives scientists clues about the geology of the landing site.",
-      "The rover's cameras, wheels and soil experiments help scientists study the terrain around the lander.",
-      "Sojourner travels across the rock-strewn plain, testing how a small rover can explore another planet.",
-      "The mission delivers engineering lessons and scientific measurements far beyond its original plan.",
-      "On 27 September 1997, Pathfinder sends its final data transmission to Earth.",
-      "The mission's communication ends, but the technology has already changed how we explore Mars.",
-      "The story is remembered through exhibits and the discoveries that followed.",
-      "Sojourner's legacy lives on in the later generations of Mars rovers.",
-      "A small rover proves a big idea: robotic exploration can open an entire planet to discovery."
-    ],
     "image_query": "NASA Mars Pathfinder Sojourner rover on Mars 1997",
     "facts": [
       [
@@ -361,12 +328,6 @@
     "why_it_matters": "It demonstrates how mission teams adapt when a machine can no longer travel but can still do useful science.",
     "design_life": "90 Martian days (sols).",
     "actual_life": "6 years, 2 months, and 19 days of operations.",
-    "story_beats": [
-      "Spirit landed on Mars with a simple plan: explore for about 90 Martian days.",
-      "The rover kept going through dust, cold, and difficult terrain—years longer than expected.",
-      "In 2009, its wheels became trapped in soft soil. The team tried many ways to free it.",
-      "Spirit stopped communicating, but its evidence of ancient water became part of Mars exploration history."
-    ],
     "image_query": "NASA Mars Spirit rover stuck Home Plate Mars",
     "facts": [
       [
@@ -420,12 +381,6 @@
     "why_it_matters": "It shows how durable engineering, careful operations, and scientific curiosity can multiply a mission’s value.",
     "design_life": "90 Martian days (sols) and a planned drive of about 1 kilometre.",
     "actual_life": "Almost 15 years; 45.16 kilometres traveled.",
-    "story_beats": [
-      "Opportunity arrived on Mars in 2004 with a mission designed to last just 90 sols.",
-      "It kept moving, examining rocks and finding clues that liquid water once changed the landscape.",
-      "In 2018, a huge dust storm covered the rover’s region and blocked sunlight from its solar panels.",
-      "After nearly 15 years, the mission ended. Its tracks and discoveries remain on Mars and in NASA’s archives."
-    ],
     "image_query": "NASA Opportunity rover Mars Perseverance Valley final resting place",
     "facts": [
       [
@@ -479,12 +434,6 @@
     "why_it_matters": "It showed how a stationary lander can use a robotic arm as a laboratory on another world.",
     "design_life": "A planned three-month primary mission.",
     "actual_life": "The lander worked for about five months before communications ended.",
-    "story_beats": [
-      "Phoenix landed in the far north of Mars, where scientists suspected water ice might hide below the soil.",
-      "Its robotic arm scooped and delivered samples to tiny onboard laboratories.",
-      "The instruments confirmed water ice and revealed surprising chemistry in the soil.",
-      "As winter darkness arrived, the solar-powered lander fell silent. Its discoveries remained."
-    ],
     "image_query": "NASA Phoenix Mars lander robotic arm ice trench Mars",
     "facts": [
       [
@@ -538,12 +487,6 @@
     "why_it_matters": "It proves exploration is not only about moving farther; sometimes the most important instrument stays still and listens.",
     "design_life": "Two Earth years (one Mars year) for the primary mission.",
     "actual_life": "More than four Earth years of science operations.",
-    "story_beats": [
-      "InSight arrived on Mars in 2018 with a different kind of mission: stay still and listen.",
-      "A robotic arm placed a seismometer on the ground to detect tiny vibrations called marsquakes.",
-      "The measurements helped scientists investigate the planet’s deep interior.",
-      "Dust eventually reduced the lander’s power. NASA ended the mission, but the seismic record continues to be studied."
-    ],
     "image_query": "NASA InSight Mars lander seismometer on surface",
     "facts": [
       [
@@ -597,12 +540,6 @@
     "why_it_matters": "A clear active/retired distinction prevents the archive from treating every surface machine as abandoned.",
     "design_life": "One Martian year (about 687 Earth days) for the primary mission.",
     "actual_life": "Still operating as of the 2026 project research update.",
-    "story_beats": [
-      "Curiosity landed in Gale Crater in August 2012.",
-      "Its cameras and instruments study rocks, soil, and the Martian environment.",
-      "Unlike the retired rovers in this archive, Curiosity is still operating.",
-      "It is our comparison case: the story of a machine that has not finished its work."
-    ],
     "image_query": "NASA Curiosity rover Gale Crater Mars selfie",
     "facts": [
       [
@@ -652,12 +589,6 @@
     "why_it_matters": "It expands the archive beyond surface relics and demonstrates that mission status can change over time.",
     "design_life": "A planetary flyby mission designed around the 1970s outer-planet alignment.",
     "actual_life": "Both spacecraft remain in extended operations decades after launch.",
-    "story_beats": [
-      "Voyager 1 and Voyager 2 launched in 1977, carrying instruments and a message from Earth.",
-      "They flew past the giant planets and sent home close-up views that changed planetary science.",
-      "Both spacecraft later crossed the heliosphere into interstellar space.",
-      "They are still communicating: not abandoned, but becoming humanity’s farthest-running explorers."
-    ],
     "image_query": "NASA Voyager spacecraft Golden Record deep space",
     "facts": [
       [
@@ -707,12 +638,6 @@
     "why_it_matters": "It demonstrates that the scientific life of a mission can continue long after the hardware is decommissioned.",
     "design_life": "A planned 2.5-year primary mission.",
     "actual_life": "More than 16 years of science operations.",
-    "story_beats": [
-      "Spitzer launched in 2003 with a special way of seeing: infrared light.",
-      "It revealed cool objects, dusty regions, distant galaxies, and planets beyond our solar system.",
-      "NASA ended the mission in 2020 after more than 16 years of observations.",
-      "The telescope stopped working, but researchers can still explore its archived data."
-    ],
     "image_query": "NASA Spitzer Space Telescope infrared observatory illustration",
     "facts": [
       [
@@ -762,28 +687,6 @@
     "why_it_matters": "Their plaques turned spacecraft into time capsules: engineering, science and a greeting from Earth traveling together.",
     "design_life": "Designed for the Jupiter flyby missions, with Pioneer 11 later extended to Saturn.",
     "actual_life": "Pioneer 10's last signal was received in January 2003; Pioneer 11's final contact was in September 1995.",
-    "story_beats": [
-      "The birth of a Pioneer: meet the spacecraft built to explore the outer Solar System.",
-      "The Pioneer plaque: a carefully designed greeting from Earth.",
-      "The plaque travels with Pioneer 10 into deep space.",
-      "The people and ideas behind the message carried beyond our planet.",
-      "2 March 1972: Pioneer 10 launches from Cape Kennedy.",
-      "Pioneer 10 crosses the asteroid belt and continues toward the outer planets.",
-      "Beyond Jupiter: Pioneer 10 travels into the outer Solar System.",
-      "A second encounter with Jupiter reveals more about the giant planet.",
-      "Jupiter's immense atmosphere becomes a scientific destination.",
-      "Pioneer 11 joins the story, following a different route through the Solar System.",
-      "Pioneer 11 begins its own journey from Earth.",
-      "In 1979, Pioneer 11 becomes the first spacecraft to fly past Saturn.",
-      "A close path through Saturn's rings offers a rare view of the ringed giant.",
-      "Both spacecraft keep working long after their original mission plans.",
-      "Pioneer 11 falls silent after its final contact in 1995.",
-      "Pioneer 10 continues sending signals until 2003.",
-      "Where will their paths take them? Outward, beyond the giant planets.",
-      "The message was created to share a little about Earth with the unknown.",
-      "The circle closes: the spacecraft cannot reply, but the message remains.",
-      "Two spacecraft leave a blue world behind. Their journey becomes part of our story."
-    ],
     "story_artwork": [
       {
         "file": "IMG-20261114-WA0644.jpg",
@@ -928,12 +831,6 @@
     "why_it_matters": "It connects engineering with culture: a spacecraft carried not only instruments, but also a deliberately designed message about Earth.",
     "design_life": "Designed to remain attached to the spacecraft during their long outbound journeys.",
     "actual_life": "The plaques remain aboard Pioneer 10 and Pioneer 11 as the spacecraft continue travelling outward.",
-    "story_beats": [
-      "In the early 1970s, NASA prepared two Pioneer spacecraft to explore the outer Solar System. Their journeys would carry a message as well as scientific instruments.",
-      "The plaque used a hydrogen-atom transition as a scientific reference, helping define a unit of time and distance without relying on Earth languages.",
-      "A map of nearby pulsars and a diagram of the Solar System were designed to show where the spacecraft came from. Simplified human figures were included beside a spacecraft outline for scale.",
-      "Pioneer 10 and Pioneer 11 carried the plaques away from Earth. Their radio missions ended, but the small engraved messages continue travelling with the spacecraft."
-    ],
     "image_query": "NASA Pioneer Plaque gold anodized aluminum plaque",
     "facts": [
       [
