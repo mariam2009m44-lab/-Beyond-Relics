@@ -27,6 +27,7 @@ const artifactsScript = read("js/artifacts.js");
 const artifact3dCss = read("css/artifact-3d-explorer.css");
 const cosmicScript = read("js/cosmic-environment.js");
 const cosmicCss = read("css/cosmic-environment.css");
+const visualSystem = read("css/visual-system.css");
 
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
@@ -161,6 +162,13 @@ check(lunarJourney.includes("Apollo 12's ALSEP station was deployed on 19 Novemb
 check(lunarJourney.includes("not a NASA waveform") && lunarJourneyPage.includes("artistic visualizations"), "Lunar journey distinguishes illustrative 3D and signal art from NASA data");
 check(lunarJourney.includes('matchMedia("(prefers-reduced-motion: reduce)")') && lunarJourney.includes("pagehide"), "Lunar journey respects reduced motion and disposes WebGL resources");
 check(index.includes('href="lunar-journey.html"') && archivePage.includes('href="lunar-journey.html"'), "Homepage and archive provide a clear guided-journey entry");
+check(artifact3d.includes("Curiosity uses an RTG, not a solar array") && artifact3d.includes("if(!curiosity)"), "Curiosity reconstruction uses an RTG while MER rover reconstructions retain solar arrays");
+check(artifact3d.includes("RTG package, antenna and instrument packages") && !artifact3d.slice(artifact3d.indexOf('const station=group("body")'),artifact3d.indexOf('}else if(id==="pathfinder-sojourner")')).includes("solar,"), "ALSEP reconstruction shows RTG power and instrument packages without invented solar panels");
+check(artifact3d.includes('lander("body",3)') && artifact3d.includes("InSight's two deployed solar wings") && artifact3d.includes("Phoenix's two solar wings"), "Phoenix and InSight reconstructions include three-leg landers and mission-specific solar wings");
+check(universe3d.includes("function addSatellite") && (universe3d.match(/addSatellite\("/g)||[]).length===8, "Solar System explorer includes eight orbiting natural satellite visualizations");
+check(universe3d.includes("orbitingMoons.forEach") && universe3d.includes("motionPaused"), "Natural satellite orbits respect the explorer pause control");
+check(artifact3dCss.includes("min-height:44px") && artifact3dCss.includes("prefers-reduced-motion"), "3D exhibit controls retain touch target and reduced-motion styling");
+check(visualSystem.includes(".acard") && visualSystem.includes("prefers-reduced-motion:reduce"), "Archive card polish remains reduced-motion aware");
 
 console.log("Beyond Relics quality audit");
 console.log("---------------------------");

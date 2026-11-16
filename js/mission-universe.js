@@ -39,6 +39,7 @@ function texture(kind){
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 const planetGroups={};
+const orbitingMoons=[];
 function addPlanet(key,kind,pos,radius){
  const group=new THREE.Group();group.position.set(pos[0],pos[1],pos[2]);group.userData.world=key;scene.add(group);
  const mesh=new THREE.Mesh(new THREE.SphereGeometry(radius,72,56),new THREE.MeshStandardMaterial({map:texture(kind),roughness:.94,metalness:.01}));mesh.userData.world=key;group.add(mesh);
@@ -50,6 +51,17 @@ function addPlanet(key,kind,pos,radius){
 function orbit(x,z,rx,rz){
  const curve=new THREE.EllipseCurve(x,0,rx,rz,0,Math.PI*2,false,0);const pts=curve.getPoints(180).map(p=>new THREE.Vector3(p.x,0,p.y+z));
  const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x8aa9c4,transparent:true,opacity:.17}));scene.add(line);
+}
+function addSatellite(parentKey,radius,distance,speed,color,phase=0){
+ const parent=planetGroups[parentKey];if(!parent)return;
+ const center=parent.position.clone();
+ const orbitCurve=new THREE.EllipseCurve(center.x,center.z,distance,distance*.82,0,Math.PI*2,false,0);
+ const orbitPoints=orbitCurve.getPoints(96).map(p=>new THREE.Vector3(p.x,center.y+.02,p.y));
+ const orbitLine=new THREE.Line(new THREE.BufferGeometry().setFromPoints(orbitPoints),new THREE.LineBasicMaterial({color:0x9bb8d0,transparent:true,opacity:.16}));
+ scene.add(orbitLine);
+ const moon=new THREE.Mesh(new THREE.SphereGeometry(radius,20,14),new THREE.MeshStandardMaterial({color,roughness:.98,metalness:0}));
+ moon.userData.world=parentKey;scene.add(moon);
+ orbitingMoons.push({mesh:moon,center,distance,speed,phase});
 }
 function buildScene(){
  const canvas=overlay.querySelector(".br-universe-canvas");
@@ -66,6 +78,9 @@ function buildScene(){
  const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,48,32),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);scene.add(sun);
  const glow=new THREE.Mesh(new THREE.SphereGeometry(4.2,40,28),new THREE.MeshBasicMaterial({color:0xffb66f,transparent:true,opacity:.09,side:THREE.BackSide}));glow.position.copy(sun.position);scene.add(glow);
  addPlanet("earth","earth",[-11,0,-1],1.35);addPlanet("moon","moon",[-8.2,.35,-2.2],.48);orbit(-11,-1,2.8,2.8);addPlanet("mars","mars",[-1,0,-5],1.05);addPlanet("jupiter","jupiter",[7,0,-8],2.55);addPlanet("saturn","saturn",[16,0,-12],2.05);
+ addSatellite("mars",.12,1.55,.012,0xb98b75,.4);addSatellite("mars",.08,2.05,.008,0x9a8c82,2.1);
+ addSatellite("jupiter",.19,3.35,.004,0xd6c3a0,.2);addSatellite("jupiter",.15,3.9,.0032,0x9da8aa,1.8);addSatellite("jupiter",.23,4.55,.0025,0xb8a38a,3.2);addSatellite("jupiter",.13,5.15,.002,0xc5bca8,4.7);
+ addSatellite("saturn",.18,2.85,.003,0xd9c7a2,.7);addSatellite("saturn",.11,3.55,.0022,0xb9b7ad,2.6);
  const probe=new THREE.Group();probe.position.set(22,0,-16);probe.userData.world="deep";
  const probeMetal=new THREE.MeshStandardMaterial({color:0xb9c4cc,metalness:.72,roughness:.34});
  const probeGold=new THREE.MeshStandardMaterial({color:0xd1b47e,metalness:.65,roughness:.42});
@@ -103,7 +118,7 @@ function showWorld(key){
  const p=planetGroups[key].position;focusTarget=new THREE.Vector3(p.x,p.y,p.z);cameraGoal=new THREE.Vector3(p.x+cfg.position[0]*.2,p.y+9,p.z+cfg.position[2]*.2+15);targetZoom=cfg.zoom;
 }
 function resetView(){motionPaused=false;syncMotionButton();selected=null;focusTarget=null;cameraGoal=new THREE.Vector3(0,18,52);targetZoom=1;targetX=-.08;targetY=0;$("br-universe-info").hidden=true;$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
-function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||new THREE.Vector3(0,18,52);const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);camera.position.lerp(desired,1-Math.pow(.975,delta));const aim=focusTarget||new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
+function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.mesh.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||new THREE.Vector3(0,18,52);const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);camera.position.lerp(desired,1-Math.pow(.975,delta));const aim=focusTarget||new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
 function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";s.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));s.onerror=reject;document.head.appendChild(s);});}
 async function openUniverse(event){
  returnFocus=event.currentTarget;overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;$("br-universe-close").focus();$("br-universe-loader").hidden=false;

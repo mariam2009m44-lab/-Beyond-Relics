@@ -113,3 +113,13 @@ body:not(.reader-page) .nav{background:linear-gradient(100deg,rgba(6,13,26,.94),
 .reader-thumb[aria-current=true]{border-color:#8edce8}
 .reader-help{background:rgba(5,15,28,.92);border-color:rgba(142,190,211,.2);color:#b9cbd6}
 .reader-error{color:#b9cbd6}.reader-error a{color:#8edce8}
+
+
+/* Editorial archive refinement — cinematic, but keeps the original content hierarchy. */
+:where(.archive-hero,.artifacts-hero,.archive-intro){position:relative}
+:where(.archive-hero,.artifacts-hero,.archive-intro)::after{content:"";position:absolute;inset:auto 0 -1px;height:1px;background:linear-gradient(90deg,transparent,rgba(142,220,232,.34),rgba(226,194,141,.28),transparent);pointer-events:none}
+:where(.artifact-card,.acard,.mission-card){border:1px solid rgba(142,190,218,.15);background:linear-gradient(150deg,rgba(17,34,53,.78),rgba(6,13,27,.94));box-shadow:0 16px 46px rgba(0,0,0,.16);transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+:where(.artifact-card,.acard,.mission-card):hover{transform:translateY(-4px);border-color:rgba(142,220,232,.4);box-shadow:0 22px 56px rgba(0,0,0,.28),0 0 30px rgba(83,175,207,.07)}
+:where(.artifact-card,.acard,.mission-card) :where(h2,h3){text-wrap:balance}
+:where(.archive-grid,.artifacts-grid,.artifact-grid){align-items:stretch}
+@media(prefers-reduced-motion:reduce){:where(.artifact-card,.acard,.mission-card){transition:none}:where(.artifact-card,.acard,.mission-card):hover{transform:none}}
