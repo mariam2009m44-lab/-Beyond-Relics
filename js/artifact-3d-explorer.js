@@ -80,20 +80,32 @@ function makeScene(T,id,root){
  const roverSurface=["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id);
  const terrainY=lunar?-2.25:(roverSurface?-1.98:-1.78);
  if(lunar||mars){
- const terrainSegments=compactRender?44:84;
+ const terrainSegments=compactRender?56:112;
+ const craters=lunar
+  ?[[-7,-5,2.5,.48],[-1,8,1.5,.3],[8,3,3.2,.55],[5,-9,1.7,.34],[-11,10,1.2,.25],[12,-13,1.4,.28]]
+  :[[-7,-5,2.5,.34],[-1,8,1.5,.22],[8,3,3.2,.4],[5,-9,1.7,.25],[-11,10,1.2,.18]];
+ const terrainHeight=(x,z)=>{
+  let h=(Math.sin(x*.31)*Math.cos(z*.27)+Math.sin((x+z)*.18)*.6)*.11;
+  if(mars)h+=Math.sin(x*.13+z*.21)*.22+Math.sin(z*.42)*.06;
+  craters.forEach(([cx,cz,r,depth])=>{const d=Math.hypot(x-cx,z-cz);h-=Math.exp(-Math.pow(d/(r*.72),2))*depth;h+=Math.exp(-Math.pow((d-r)/(r*.16),2))*depth*.25;});
+  return h;
+ };
  const terrainGeo=new T.PlaneGeometry(54,54,terrainSegments,terrainSegments);
- const pos=terrainGeo.attributes.position;
- const craters=[[-7,-5,2.5],[-1,8,1.5],[8,3,3.2],[5,-9,1.7],[-11,10,1.2]];
+ const pos=terrainGeo.attributes.position,terrainColors=[];
+ const dark=new T.Color(lunar?0x30343b:0x39231f),light=new T.Color(lunar?0x85868a:0xa9684d),ridge=new T.Color(lunar?0xb4b1a9:0xc88966);
  for(let i=0;i<pos.count;i++){
-  const x=pos.getX(i),y=pos.getY(i);
-  let h=(Math.sin(x*.31)*Math.cos(y*.27)+Math.sin((x+y)*.18)*.6)*.11;
-  if(mars)h+=Math.sin(x*.13+y*.21)*.22+Math.sin(y*.42)*.06;
-  if(lunar)craters.forEach(([cx,cy,r])=>{const d=Math.hypot(x-cx,y-cy);h-=Math.exp(-Math.pow(d/(r*.72),2))*.48;h+=Math.exp(-Math.pow((d-r)/(r*.16),2))*.12;});
+  const x=pos.getX(i),z=pos.getY(i),h=terrainHeight(x,z);
   pos.setZ(i,h);
+  const grain=(Math.sin(x*.71+z*.37)+Math.cos(z*.53-x*.29))*.035;
+  const shade=T.MathUtils.clamp(.43+h*.62+grain,0,1);
+  const color=dark.clone().lerp(light,shade);
+  if(h>.2)color.lerp(ridge,T.MathUtils.clamp((h-.2)*.65,0,.32));
+  terrainColors.push(color.r,color.g,color.b);
  }
+ terrainGeo.setAttribute("color",new T.Float32BufferAttribute(terrainColors,3));
  terrainGeo.computeVertexNormals();
- const terrain=new T.Mesh(terrainGeo,new T.MeshStandardMaterial({color:lunar?0x555962:mars?0x794435:0x283441,roughness:.98,metalness:0}));
- terrain.rotation.x=-Math.PI/2;terrain.position.y=terrainY;scene.add(terrain);
+ const terrain=new T.Mesh(terrainGeo,new T.MeshStandardMaterial({vertexColors:true,roughness:.98,metalness:0}));
+ terrain.rotation.x=-Math.PI/2;terrain.position.y=terrainY;terrain.name=lunar?"lunar-exhibit-regolith":"martian-exhibit-regolith";scene.add(terrain);
  const shadowCanvas=document.createElement("canvas");shadowCanvas.width=256;shadowCanvas.height=256;
  const shadowContext=shadowCanvas.getContext("2d");const shadowGradient=shadowContext.createRadialGradient(128,128,8,128,128,122);
  shadowGradient.addColorStop(0,"rgba(0,0,0,.48)");shadowGradient.addColorStop(.48,"rgba(0,0,0,.22)");shadowGradient.addColorStop(1,"rgba(0,0,0,0)");
@@ -101,16 +113,22 @@ function makeScene(T,id,root){
  const shadowTexture=new T.CanvasTexture(shadowCanvas);shadowTexture.colorSpace=T.SRGBColorSpace;
  const contactShadow=new T.Mesh(new T.PlaneGeometry(7,5),new T.MeshBasicMaterial({map:shadowTexture,transparent:true,opacity:.48,depthWrite:false}));
  contactShadow.rotation.x=-Math.PI/2;contactShadow.position.set(0,terrainY+.035,0);scene.add(contactShadow);
- const rockMat=new T.MeshStandardMaterial({color:lunar?0x777b80:0x9b5d45,roughness:1});
+ const rockGeometry=new T.DodecahedronGeometry(.2,0),rockMaterial=new T.MeshStandardMaterial({color:0xffffff,roughness:1});
  let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
- const rockCount=compactRender?30:72;
- for(let i=0;i<rockCount;i++){
+ const rockCount=compactRender?30:72,rocks=new T.InstancedMesh(rockGeometry,rockMaterial,rockCount);
+ const rockDummy=new T.Object3D(),rockTint=new T.Color();
+ for(let i=0;i<rocks.count;i++){
   const x=(rand()-.5)*34,z=(rand()-.5)*34;
-  if(Math.abs(x)<2.4&&Math.abs(z)<2.4)continue;
-  const size=.08+rand()*.28;
-  const rock=new T.Mesh(new T.DodecahedronGeometry(size,0),rockMat);
-  rock.position.set(x,terrainY+.06+rand()*.05,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.7;scene.add(rock);
+  if(Math.abs(x)<2.4&&Math.abs(z)<2.4){i--;continue;}
+  const size=.45+rand()*.95;
+  rockDummy.position.set(x,terrainY+terrainHeight(x,z)-.025,z);
+  rockDummy.rotation.set(rand()*.8,rand()*Math.PI,rand()*.8);
+  rockDummy.scale.set(size,size*(.45+rand()*.7),size*(.65+rand()*.65));
+  rockDummy.updateMatrix();rocks.setMatrixAt(i,rockDummy.matrix);
+  rockTint.set(lunar?(rand()>.5?0x999a9c:0x555b62):(rand()>.5?0xb47557:0x704438));rocks.setColorAt(i,rockTint);
  }
+ rocks.instanceMatrix.needsUpdate=true;if(rocks.instanceColor)rocks.instanceColor.needsUpdate=true;
+ rocks.name=lunar?"lunar-exhibit-rock-instances":"martian-exhibit-rock-instances";scene.add(rocks);
  }
  if(lunar){
   const horizon=new T.Mesh(new T.SphereGeometry(42,32,20),new T.MeshBasicMaterial({color:0x070b12,side:T.BackSide}));horizon.position.y=-2.5;scene.add(horizon);
