@@ -187,13 +187,19 @@ body:has(#detail.has-artifact-3d) #br-universe-launcher{display:none!important}
 
 /* The model-viewer is a child of the already-positioned canvas wrapper.
    Fill that wrapper instead of applying the stage-level top/bottom offsets twice. */
-.artifact-3d-canvas-wrap>.artifact-model-viewer{
+.artifact-3d-canvas-wrap{
  position:absolute!important;
- inset:0!important;
- width:100%!important;
- height:100%!important;
- max-width:none;
- max-height:none;
- display:block;
- z-index:1;
+ inset:42px 0 94px!important;
+ width:100%;height:auto!important;min-height:0;overflow:hidden;
+}
+.artifact-3d-canvas-wrap>.artifact-3d-canvas,
+.artifact-3d-canvas-wrap>.artifact-model-viewer,
+.artifact-3d-canvas-wrap>.artifact-nasa-embed{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ max-width:none;max-height:none;display:block;
+}
+.artifact-3d-canvas-wrap>.artifact-model-viewer{z-index:1;min-width:0;min-height:0}
+@media(max-width:760px){
+ .artifact-3d-canvas-wrap{inset:40px 0 94px!important}
+ .artifact-3d-stage:has(.artifact-nasa-embed) .artifact-3d-canvas-wrap{inset:40px 0 44px!important}
 }
