@@ -81,6 +81,11 @@ function texture(kind){
  const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 const worldTextureSources={
+ earth:{
+  url:"https://svs.gsfc.nasa.gov/vis/a000000/a002900/a002915/bluemarble-2048.png",
+  label:"NASA Terra/MODIS Blue Marble · true-colour global mosaic",
+  source:"https://svs.gsfc.nasa.gov/2915/"
+ },
  mars:{
   url:"https://marsoweb.nas.nasa.gov/globalData/images/fullscale/MOLA_cylin.jpg",
   label:"NASA MOLA · global elevation · false colour",
