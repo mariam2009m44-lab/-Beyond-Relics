@@ -5,10 +5,10 @@
 if(document.getElementById("br-universe"))return;
 const launcher=document.getElementById("br-universe-launcher");
 if(!launcher)return;
-let THREE=null,renderer=null,scene=null,camera=null,raf=0,observer=null,raycaster=null,pointer=null;
+let THREE=null,renderer=null,scene=null,camera=null,raf=0,observer=null,raycaster=null,pointer=null,gltfLoaderPromise=null;
 let active=false,dragging=false,moved=false,lastX=0,lastY=0,downX=0,downY=0;
 let rotX=-.08,rotY=0,targetX=rotX,targetY=rotY,zoom=1,targetZoom=1,selected=null,data=[];
-let focusTarget=null,cameraGoal=null,motionPaused=false,moonAngle=0;
+let focusTarget=null,cameraGoal=null,motionPaused=false,moonAngle=0,surfaceRoot=null,surfaceGroups={},surfaceMode=false,surfaceWorldKey=null,surfaceLookAt=null,surfaceHotspots=[];
 const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
 const $=id=>document.getElementById(id);
 const worlds={
@@ -27,9 +27,20 @@ worlds.ganymede={title:"Ganymede",kicker:"JUPITER MOON · LARGEST NATURAL SATELL
 worlds.callisto={title:"Callisto",kicker:"JUPITER MOON · ANCIENT CRATERED WORLD",copy:"Callisto is an ancient, heavily cratered moon with a surface that preserves a long record of impacts.",ids:["voyager","pioneer-10-11"],position:[7,0,-8],zoom:1.25,tag:"JOVIAN MOON"};
 worlds.titan={title:"Titan",kicker:"SATURN MOON · DENSE ATMOSPHERE",copy:"Titan has a thick atmosphere and lakes and seas of liquid hydrocarbons at its surface. The scene here is a simplified artistic visualization.",ids:["voyager","pioneer-10-11"],position:[16,0,-12],zoom:1.2,tag:"SATURNIAN MOON"};
 worlds.enceladus={title:"Enceladus",kicker:"SATURN MOON · ICY OCEAN WORLD",copy:"Enceladus is an icy moon known for plumes that eject water-rich material from its south polar region.",ids:["voyager","pioneer-10-11"],position:[16,0,-12],zoom:1.2,tag:"SATURNIAN MOON"};
+const surfacePoints={
+ moon:[
+  {id:"lunar-module",title:"Apollo 11 · Eagle descent stage",label:"EAGLE LANDING SITE",copy:"The lower stage of Eagle remained at Tranquility Base after the ascent stage carried the astronauts back to lunar orbit."},
+  {id:"apollo-12-alsep",title:"Apollo 12 · ALSEP science station",label:"LUNAR SCIENCE NETWORK",copy:"A set of instruments kept measuring the lunar environment after the crew returned to Earth. NASA ended ALSEP operations in 1977."}
+ ],
+ mars:[
+  {id:"pathfinder-sojourner",title:"Pathfinder & Sojourner",label:"THE FIRST ROVER",copy:"Pathfinder delivered Sojourner to Ares Vallis in 1997, demonstrating a new way to explore the Martian surface."},
+  {id:"opportunity",title:"Opportunity rover",label:"MER-B · MERIDIANI PLANUM",copy:"Opportunity explored Martian rocks and soil for many years, far beyond its original planned mission."},
+  {id:"insight",title:"InSight lander",label:"LISTENING TO MARS",copy:"InSight studied the planet's interior using a seismometer and other geophysical instruments."}
+ ]
+};
 const overlay=document.createElement("section");
 overlay.id="br-universe";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-hidden","true");overlay.setAttribute("aria-label","Interactive 3D solar system explorer");
-overlay.innerHTML='<canvas class="br-universe-canvas" aria-label="Interactive artistic 3D visualization of the Solar System. Drag to rotate and select a planet."></canvas><div class="br-universe-vignette" aria-hidden="true"></div><header class="br-universe-top"><a class="br-universe-brand" href="artifacts.html">BEYOND RELICS <span>THE SOLAR FRONTIERS EXPLORER</span></a><div class="br-universe-top-actions"><span class="br-universe-live">3D EXPLORATION</span><button id="br-universe-motion" type="button" aria-pressed="false">Pause orbits</button><button id="br-universe-reset" type="button">Reset view</button><button id="br-universe-close" type="button" aria-label="Close 3D explorer">×</button></div></header><div class="br-universe-intro" id="br-universe-intro"><small>AN INTERACTIVE JOURNEY THROUGH OUR COSMIC NEIGHBOURHOOD</small><h2>Choose your<br><em>destination.</em></h2><p>Select a planet in the scene or use the destination navigator below. Then discover the missions connected to that world.</p><span class="br-universe-scroll-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span></div><aside class="br-universe-info" id="br-universe-info" aria-live="polite" hidden><div class="br-universe-info-main"><small id="br-universe-kicker"></small><h2 id="br-universe-title"></h2><p id="br-universe-copy"></p></div><div class="br-universe-archive"><div class="br-universe-record-heading"><span>MISSION ARCHIVE</span><span id="br-universe-count"></span><button id="br-universe-record-toggle" type="button" aria-expanded="false" aria-controls="br-universe-records">Explore missions</button></div><div class="br-universe-records" id="br-universe-records" hidden></div><a class="br-universe-enter" id="br-universe-enter" href="lunar-journey.html?from=moon" hidden>ENTER THE LUNAR SURFACE JOURNEY <span aria-hidden="true">↗</span></a></div><button id="br-universe-info-close" type="button" aria-label="Close destination information">×</button><p class="br-universe-fidelity">Celestial scene: artistic visualization · Not to scale.</p></aside><nav class="br-universe-nav" aria-label="Choose a destination"><div class="br-universe-nav-heading"><span>EXPLORE THE SOLAR SYSTEM</span><span>SELECT A WORLD</span></div><div class="br-universe-stops"><button type="button" class="br-universe-stop" data-world="earth"><i class="br-dot earth-dot"></i><span>Earth</span></button><button type="button" data-world="moon"><i class="br-dot moon-dot"></i><span>Moon</span></button><button type="button" data-world="mars"><i class="br-dot mars-dot"></i><span>Mars</span></button><button type="button" data-world="jupiter"><i class="br-dot jupiter-dot"></i><span>Jupiter</span></button><button type="button" data-world="saturn"><i class="br-dot saturn-dot"></i><span>Saturn</span></button><button type="button" data-world="deep"><i class="br-dot deep-dot"></i><span>Deep Space</span></button></div></nav><div class="br-universe-loader" id="br-universe-loader"><span></span>Preparing the 3D universe…</div><section class="br-universe-fallback" id="br-universe-fallback" hidden><h2>Explore the mission archive</h2><p>The 3D view is unavailable on this device or browser. You can still open every mission record below.</p><div id="br-universe-fallback-links"></div></section>';
+overlay.innerHTML='<canvas class="br-universe-canvas" aria-label="Interactive artistic 3D visualization of the Solar System. Drag to rotate and select a planet."></canvas><div class="br-universe-vignette" aria-hidden="true"></div><header class="br-universe-top"><a class="br-universe-brand" href="artifacts.html">BEYOND RELICS <span>THE SOLAR FRONTIERS EXPLORER</span></a><div class="br-universe-top-actions"><span class="br-universe-live">3D EXPLORATION</span><button id="br-universe-motion" type="button" aria-pressed="false">Pause orbits</button><button id="br-universe-reset" type="button">Reset view</button><button id="br-universe-close" type="button" aria-label="Close 3D explorer">×</button></div></header><div class="br-universe-intro" id="br-universe-intro"><small>AN INTERACTIVE JOURNEY THROUGH OUR COSMIC NEIGHBOURHOOD</small><h2>Choose your<br><em>destination.</em></h2><p>Select a planet in the scene or use the destination navigator below. Then discover the missions connected to that world.</p><span class="br-universe-scroll-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span></div><aside class="br-universe-info" id="br-universe-info" aria-live="polite" hidden><div class="br-universe-info-main"><small id="br-universe-kicker"></small><h2 id="br-universe-title"></h2><p id="br-universe-copy"></p><button id="br-universe-land" class="br-universe-land" type="button" hidden>ENTER THE SURFACE <span aria-hidden="true">↗</span></button></div><div class="br-universe-archive><div class="br-universe-record-heading"><span>MISSION ARCHIVE</span><span id="br-universe-count"></span><button id="br-universe-record-toggle" type="button" aria-expanded="false" aria-controls="br-universe-records">Explore missions</button></div><div class="br-universe-records" id="br-universe-records" hidden></div><a class="br-universe-enter" id="br-universe-enter" href="lunar-journey.html?from=moon" hidden>ENTER THE LUNAR SURFACE JOURNEY <span aria-hidden="true">↗</span></a></div><button id="br-universe-info-close" type="button" aria-label="Close destination information">×</button><p class="br-universe-fidelity">Celestial scene: artistic visualization · Not to scale.</p></aside><nav class="br-universe-nav" aria-label="Choose a destination"><div class="br-universe-nav-heading"><span>EXPLORE THE SOLAR SYSTEM</span><span>SELECT A WORLD</span></div><div class="br-universe-stops"><button type="button" class="br-universe-stop" data-world="earth"><i class="br-dot earth-dot"></i><span>Earth</span></button><button type="button" data-world="moon"><i class="br-dot moon-dot"></i><span>Moon</span></button><button type="button" data-world="mars"><i class="br-dot mars-dot"></i><span>Mars</span></button><button type="button" data-world="jupiter"><i class="br-dot jupiter-dot"></i><span>Jupiter</span></button><button type="button" data-world="saturn"><i class="br-dot saturn-dot"></i><span>Saturn</span></button><button type="button" data-world="deep"><i class="br-dot deep-dot"></i><span>Deep Space</span></button></div></nav><section class="br-universe-surface-panel" id="br-universe-surface-panel" aria-label="Surface exploration" hidden><header><div><small id="br-universe-surface-kicker">SURFACE EXPEDITION</small><h2 id="br-universe-surface-title"></h2><p id="br-universe-surface-subtitle"></p></div><button id="br-universe-surface-exit" type="button">← BACK TO ORBIT</button></header><div class="br-universe-surface-content"><nav id="br-universe-surface-points" aria-label="Explore mission sites"></nav><article id="br-universe-surface-note" aria-live="polite"><small id="br-universe-surface-label"></small><h3 id="br-universe-surface-point-title"></h3><p id="br-universe-surface-point-copy"></p><a id="br-universe-surface-link" href="artifacts.html">OPEN THE 3D EXHIBIT ↗</a></article></div><p class="br-universe-surface-status" id="br-universe-surface-status">Preparing the surface scene…</p></section><div class="br-universe-loader" id="br-universe-loader"><span></span>Preparing the 3D universe…</div><section class="br-universe-fallback" id="br-universe-fallback" hidden><h2>Explore the mission archive</h2><p>The 3D view is unavailable on this device or browser. You can still open every mission record below.</p><div id="br-universe-fallback-links"></div></section>';
 document.body.appendChild(overlay);
 let returnFocus=launcher;
 function texture(kind){
@@ -108,7 +119,7 @@ function buildScene(){
  const sunLight=new THREE.PointLight(0xffd5a0,360,180);sunLight.position.set(-20,7,0);scene.add(sunLight);
  const fill=new THREE.DirectionalLight(0x9dc6e4,1.1);fill.position.set(10,12,20);scene.add(fill);
  const starPos=[];for(let i=0;i<3200;i++)starPos.push((Math.random()-.5)*240,(Math.random()-.5)*130,(Math.random()-.5)*180);
- const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.Float32BufferAttribute(starPos,3));scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xddeaff,size:.13,transparent:true,opacity:.8})));
+ const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.Float32BufferAttribute(starPos,3));scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xddeaff,size:.13,transparent:true,opacity:.8})));surfaceRoot=new THREE.Group();surfaceRoot.visible=false;scene.add(surfaceRoot);
  const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,48,32),new THREE.MeshBasicMaterial({color:0xffd49a}));sun.position.set(-20,0,0);scene.add(sun);
  const glow=new THREE.Mesh(new THREE.SphereGeometry(4.2,40,28),new THREE.MeshBasicMaterial({color:0xffb66f,transparent:true,opacity:.09,side:THREE.BackSide}));glow.position.copy(sun.position);scene.add(glow);
  addPlanet("earth","earth",[-11,0,-1],1.35);addPlanet("moon","moon",[-8.2,.35,-2.2],.48);orbit(-11,-1,2.8,2.8);addPlanet("mars","mars",[-1,0,-5],1.05);addPlanet("jupiter","jupiter",[7,0,-8],2.55);addPlanet("saturn","saturn",[16,0,-12],2.05);
@@ -128,7 +139,7 @@ function buildScene(){
  raycaster=new THREE.Raycaster();pointer=new THREE.Vector2();
  canvas.addEventListener("pointerdown",e=>{dragging=true;moved=false;downX=lastX=e.clientX;downY=lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
  canvas.addEventListener("pointermove",e=>{if(!dragging)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;if(Math.abs(e.clientX-downX)+Math.abs(e.clientY-downY)>5)moved=true;targetY+=dx*.003;targetX=Math.max(-.5,Math.min(.5,targetX+dy*.002));});
- canvas.addEventListener("pointerup",e=>{dragging=false;if(moved)return;const r=canvas.getBoundingClientRect();pointer.x=((e.clientX-r.left)/r.width)*2-1;pointer.y=-((e.clientY-r.top)/r.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(scene.children,true);for(const hit of hits){let o=hit.object;while(o&&!o.userData.world)o=o.parent;if(o&&o.userData.world){showWorld(o.userData.world);break;}}});
+ canvas.addEventListener("pointerup",e=>{dragging=false;if(moved)return;const r=canvas.getBoundingClientRect();pointer.x=((e.clientX-r.left)/r.width)*2-1;pointer.y=-((e.clientY-r.top)/r.height)*2+1;raycaster.setFromCamera(pointer,camera);if(surfaceMode&&surfaceRoot){const hits=raycaster.intersectObjects(surfaceRoot.children,true);for(const hit of hits){let o=hit.object;while(o&&!o.userData.surfacePoint)o=o.parent;if(o&&o.userData.surfacePoint){showSurfacePoint(o.userData.surfacePoint);return;}}return;}const hits=raycaster.intersectObjects(scene.children,true);for(const hit of hits){let o=hit.object;while(o&&!o.userData.world)o=o.parent;if(o&&o.userData.world){showWorld(o.userData.world);break;}}});
  canvas.addEventListener("pointercancel",()=>dragging=false);
  canvas.tabIndex=0;
  canvas.addEventListener("keydown",event=>{if(event.key==="ArrowLeft"){targetY-=.14;event.preventDefault();}else if(event.key==="ArrowRight"){targetY+=.14;event.preventDefault();}else if(event.key==="ArrowUp"){targetX=Math.max(-.5,targetX-.1);event.preventDefault();}else if(event.key==="ArrowDown"){targetX=Math.min(.5,targetX+.1);event.preventDefault();}else if(event.key==="+"||event.key==="="){targetZoom=Math.max(.72,targetZoom-.08);event.preventDefault();}else if(event.key==="-"){targetZoom=Math.min(1.75,targetZoom+.08);event.preventDefault();}else if(event.key==="0"){resetView();event.preventDefault();}});
@@ -147,6 +158,82 @@ function transitionCameraTo(position,duration=1.65){
   window.gsap.to(cameraGoal,{x:target.x,y:target.y,z:target.z,duration,ease:"power3.inOut",overwrite:true});
  }else cameraGoal=target;
 }
+function getSurfaceLoader(){
+ if(window.__brSurfaceGLTFLoader)return window.__brSurfaceGLTFLoader;
+ window.__brSurfaceGLTFLoader=import("https://cdn.jsdelivr.net/npm/three@0.188.0/examples/jsm/loaders/GLTFLoader.js").then(module=>{gltfLoaderPromise=new module.GLTFLoader();return gltfLoaderPromise;});
+ return window.__brSurfaceGLTFLoader;
+}
+function addSurfaceMarker(group,point,position,index){
+ const marker=new THREE.Group();marker.position.set(position[0],position[1],position[2]);marker.userData.surfacePoint=point.id;marker.userData.phase=index*.8;
+ const core=new THREE.Mesh(new THREE.SphereGeometry(.16,20,16),new THREE.MeshBasicMaterial({color:0x8edce8,transparent:true,opacity:.96}));
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(.34,.025,8,36),new THREE.MeshBasicMaterial({color:0xe2c28d,transparent:true,opacity:.9}));ring.rotation.x=Math.PI/2;ring.position.y=-.08;
+ const stem=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,.72,8),new THREE.MeshBasicMaterial({color:0x8edce8,transparent:true,opacity:.45}));stem.position.y=-.42;
+ marker.add(core,ring,stem);group.add(marker);surfaceHotspots.push(marker);return marker;
+}
+function addSurfaceTerrain(group,key){
+ const moon=key==="moon",segments=72,geo=new THREE.PlaneGeometry(68,68,segments,segments),pos=geo.attributes.position;
+ for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getY(i);let h=moon?(Math.sin(x*.23)*Math.cos(z*.2)*.22):Math.sin(x*.14+z*.18)*.34+Math.sin(z*.39)*.08;if(moon){[[ -7,-4,3.2],[4,7,2.1],[10,-8,2.6],[-12,11,1.8]].forEach(([cx,cz,r])=>{const d=Math.hypot(x-cx,z-cz);h-=Math.exp(-Math.pow(d/(r*.72),2))*.62;h+=Math.exp(-Math.pow((d-r)/(r*.15),2))*.16;});}pos.setZ(i,h);}
+ geo.computeVertexNormals();const terrain=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:moon?0x777b80:0x80503e,roughness:.98,metalness:0}));terrain.rotation.x=-Math.PI/2;terrain.position.y=-.22;group.add(terrain);
+ const rockMat=new THREE.MeshStandardMaterial({color:moon?0x96989b:0xa56b50,roughness:1});let seed=key==="moon"?31:67;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ for(let i=0;i<90;i++){const x=(rand()-.5)*48,z=(rand()-.5)*48;if(Math.abs(x)<3&&Math.abs(z)<3)continue;const size=.1+rand()*.32;const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(size,0),rockMat);rock.position.set(x,-.16+rand()*.08,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.8;group.add(rock);}
+ const horizon=new THREE.Mesh(new THREE.SphereGeometry(110,32,24),new THREE.MeshBasicMaterial({color:moon?0x080d16:0x1a1014,side:THREE.BackSide}));horizon.position.y=-5;group.add(horizon);
+}
+async function loadSurfaceModel(group,url,id,position,targetSize){
+ try{
+  const loader=await getSurfaceLoader(),gltf=await loader.loadAsync(url),model=new THREE.Group();model.add(gltf.scene);
+  const bounds=new THREE.Box3().setFromObject(model),size=bounds.getSize(new THREE.Vector3()),max=Math.max(size.x,size.y,size.z)||1;
+  model.scale.setScalar(targetSize/max);const scaled=new THREE.Box3().setFromObject(model);
+  model.position.set(position[0],-scaled.min.y-.2,position[2]);model.userData.surfacePoint=id;group.add(model);return true;
+ }catch(error){return false;}
+}
+async function ensureSurface(key){
+ if(surfaceGroups[key])return;
+ const group=new THREE.Group();group.name=key+"-surface-environment";surfaceGroups[key]=group;surfaceRoot.add(group);surfaceHotspots=[];addSurfaceTerrain(group,key);
+ const records=surfacePoints[key]||[];
+ const positions=key==="moon"?[[-3,.45,0],[3,.45,-1]]:[[-4,.45,1],[0,.45,-2],[4,.45,1]];
+ records.forEach((point,i)=>addSurfaceMarker(group,point,positions[i]||[i*2,.45,0],i));
+ if(key==="moon"){
+  const ok=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb","lunar-module",[-3,0,0],4.2);
+  if(!ok)$("br-universe-surface-status").textContent="NASA's 3D lander model could not be loaded right now. The interactive landing-site markers are still available.";
+  else $("br-universe-surface-status").textContent="NASA 3D model loaded · Apollo Lunar Module · Select a glowing field marker to inspect the mission.";
+  addSurfaceMarker(group,{id:"apollo-12-alsep"},[3,.45,-1],1);
+ }else{
+  const ok=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-exploration-rover---opportunity-%28mer-b%29/Mars%20Exploration%20Rover%20-%20Opportunity%20%28MER-B%29.glb","opportunity",[0,0,-2],3.6);
+  const insight=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/insight-cruise-lander/InSight%20Cruise%20Lander%20%28arm%20deployed%29.glb","insight",[4,0,1],3.1);
+  $("br-universe-surface-status").textContent=ok&&insight?"NASA 3D models loaded · Opportunity and InSight · Select a glowing field marker to inspect the mission.":"NASA model service is unavailable for one or more objects. The mission markers remain interactive.";
+ }
+}
+function showSurfacePoint(id){
+ const point=(surfacePoints[surfaceWorldKey]||[]).find(p=>p.id===id);if(!point)return;
+ const record=data.find(item=>item.id===id);$("br-universe-surface-label").textContent=point.label;
+ $("br-universe-surface-point-title").textContent=point.title;
+ $("br-universe-surface-point-copy").textContent=record?(record.short||point.copy):point.copy;
+ $("br-universe-surface-link").href="artifact-details.html?id="+encodeURIComponent(id)+"&from=universe&world="+encodeURIComponent(surfaceWorldKey);
+ $("br-universe-surface-note").classList.add("is-active");
+ const marker=surfaceHotspots.find(h=>h.userData.surfacePoint===id);
+ if(marker){const p=marker.position;surfaceLookAt.set(p.x,p.y,p.z);transitionCameraTo({x:p.x,y:p.y+5.5,z:p.z+9},1.1);}
+ document.querySelectorAll(".br-universe-surface-point").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.point===id)));
+}
+async function enterSurface(key){
+ if(!surfacePoints[key]||!surfaceRoot)return;
+ surfaceMode=true;surfaceWorldKey=key;surfaceHotspots=[];surfaceRoot.visible=true;
+ scene.children.forEach(object=>{if(object!==surfaceRoot&&!object.isLight&&!object.isPoints)object.visible=false;});
+ Object.values(surfaceGroups).forEach(group=>group.visible=false);
+ $("br-universe-surface-panel").hidden=false;overlay.classList.add("br-universe-surface-active");
+ $("br-universe-surface-title").textContent=key==="moon"?"The lunar surface":"The Martian surface";
+ $("br-universe-surface-kicker").textContent=key==="moon"?"LUNAR FIELD EXPEDITION · APOLLO":"MARS FIELD EXPEDITION · ROBOTIC EXPLORATION";
+ $("br-universe-surface-subtitle").textContent=key==="moon"?"Explore the landing site and the instruments left behind.":"Explore rover and lander sites through real NASA 3D models and mission records.";
+ $("br-universe-surface-status").textContent="Building the surface environment and loading NASA 3D models…";
+ const list=$("br-universe-surface-points");list.replaceChildren();
+ (surfacePoints[key]||[]).forEach(point=>{const button=document.createElement("button");button.type="button";button.className="br-universe-surface-point";button.dataset.point=point.id;button.textContent=point.title;button.addEventListener("click",()=>showSurfacePoint(point.id));list.append(button);});
+ rotX=-.08;rotY=0;targetX=rotX;targetY=rotY;focusTarget=null;surfaceLookAt=new THREE.Vector3(0,0,0);transitionCameraTo({x:0,y:6,z:15},1.5);targetZoom=1;
+ const group=surfaceGroups[key];if(group)group.visible=true;else await ensureSurface(key);
+ if(!surfacePoints[key].some(p=>p.id==="lunar-module"&&key==="moon"))showSurfacePoint(surfacePoints[key][0].id);else showSurfacePoint("lunar-module");
+}
+function exitSurface(){
+ if(!surfaceMode)return;const key=surfaceWorldKey;surfaceMode=false;surfaceWorldKey=null;surfaceRoot.visible=false;scene.children.forEach(object=>{if(object!==surfaceRoot)object.visible=true;});
+ overlay.classList.remove("br-universe-surface-active");$("br-universe-surface-panel").hidden=true;surfaceLookAt=null;resetView();if(key)showWorld(key);
+}
 function showWorld(key){
  const cfg=worlds[key],group=planetGroups[key];if(!cfg||!group)return;selected=key;
  $("br-universe-intro").classList.add("is-away");
@@ -160,11 +247,11 @@ function showWorld(key){
  if(!records.length){const p=document.createElement("p");p.className="br-universe-empty";p.textContent="No equipment records are currently catalogued for this destination. Browse the complete archive.";list.append(p);}
  toggle.hidden=!records.length;toggle.textContent=records.length?"Explore "+records.length+" missions":"No mission records";toggle.setAttribute("aria-expanded","false");
  document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.world===key)));
- const enter=$("br-universe-enter");enter.hidden=!cfg.journey;if(cfg.journey)enter.href=cfg.journey;
+ const enter=$("br-universe-enter");enter.hidden=!cfg.journey;if(cfg.journey)enter.href=cfg.journey;const land=$("br-universe-land");land.hidden=!surfacePoints[key];
  const p=group.position,radius=worldRadii[key]||1,distance=Math.max(3.2,Math.min(17,radius*5.8));
  focusTarget=p.clone();transitionCameraTo({x:p.x,y:p.y+distance*.34,z:p.z+distance});targetZoom=1;
-}function resetView(){motionPaused=false;syncMotionButton();selected=null;focusTarget=null;transitionCameraTo({x:0,y:18,z:52},1.25);targetZoom=1;targetX=-.08;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
-function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||new THREE.Vector3(0,18,52);const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
+}function resetView(){if(surfaceMode){exitSurface();return;}motionPaused=false;syncMotionButton();selected=null;focusTarget=null;transitionCameraTo({x:0,y:18,z:52},1.25);targetZoom=1;targetX=-.08;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
+function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(surfaceMode&&surfaceRoot){const ease=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*ease;rotY+=(targetY-rotY)*ease;surfaceRoot.rotation.set(rotX,rotY,0);const base=cameraGoal||new THREE.Vector3(0,5,14);const desired=base.clone().multiplyScalar(targetZoom);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.94,delta));const aim=(surfaceLookAt||new THREE.Vector3()).clone().applyEuler(surfaceRoot.rotation);camera.lookAt(aim);surfaceHotspots.forEach(h=>{if(h.children[0]){const pulse=1+Math.sin(now*.003+h.userData.phase)*.08;h.children[0].scale.setScalar(pulse);}});renderer.render(scene,camera);return;}if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||new THREE.Vector3(0,18,52);const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
 function loadThree(){if(window.THREE)return Promise.resolve(window.THREE);if(window.__brThreePromise)return window.__brThreePromise;window.__brThreePromise=import("https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js").then(T=>{window.THREE=T;return T;}).catch(error=>{window.__brThreePromise=null;throw error;});return window.__brThreePromise;}
 async function openUniverse(event){
  returnFocus=event&&event.currentTarget?event.currentTarget:launcher;overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;$("br-universe-close").focus();$("br-universe-loader").hidden=false;
@@ -178,7 +265,7 @@ const motionButton=$("br-universe-motion");
 function syncMotionButton(){motionButton.textContent=motionPaused?"Resume orbits":"Pause orbits";motionButton.setAttribute("aria-pressed",String(motionPaused));}
 motionButton.addEventListener("click",()=>{motionPaused=!motionPaused;syncMotionButton();});
 if(reduced.matches){motionButton.disabled=true;motionButton.textContent="Motion reduced";motionButton.title="Your device requests reduced motion.";}
-document.querySelectorAll("[data-world]").forEach(b=>b.addEventListener("click",()=>showWorld(b.dataset.world)));
+document.querySelectorAll("[data-world]").forEach(b=>b.addEventListener("click",()=>showWorld(b.dataset.world)));$("br-universe-land").addEventListener("click",()=>enterSurface(selected));$("br-universe-surface-exit").addEventListener("click",exitSurface);
 $("br-universe-close").addEventListener("click",closeUniverse);$("br-universe-reset").addEventListener("click",resetView);$("br-universe-info-close").addEventListener("click",resetView);$("br-universe-record-toggle").addEventListener("click",()=>{const list=$("br-universe-records"),button=$("br-universe-record-toggle"),expanded=button.getAttribute("aria-expanded")==="true";list.hidden=expanded;button.setAttribute("aria-expanded",String(!expanded));button.textContent=expanded?"Explore "+$("br-universe-count").textContent.split(" ")[0]+" missions":"Hide mission records";$("br-universe-info").classList.toggle("has-records",!expanded);});
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeUniverse();});
 document.addEventListener("keydown",e=>{if(!overlay.classList.contains("is-open"))return;if(e.key==="Escape"){closeUniverse();return;}if(e.key==="Tab"){const items=[...overlay.querySelectorAll("button:not([disabled]),a[href],canvas[tabindex]")].filter(x=>!x.hidden);if(!items.length)return;const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
