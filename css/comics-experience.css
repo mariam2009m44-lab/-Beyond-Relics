@@ -56,3 +56,5 @@
  .reader-caption{bottom:57px;font-size:.65rem}
 }
 @media(prefers-reduced-motion:reduce){.reader-image-wrap.cinema-enter{animation:none}}
+
+.footer-credits{color:#a7b3c2;font-size:.72rem;text-decoration:none;letter-spacing:.04em}.footer-credits:hover,.footer-credits:focus-visible{color:#d7b98e}.footer-credits:focus-visible{outline:2px solid currentColor;outline-offset:4px}
