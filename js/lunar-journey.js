@@ -70,7 +70,7 @@ function updateUI(){
  const s=scenes[sceneIndex];$("lj-kicker").textContent=s.kicker;$("lj-title").textContent=s.title;$("lj-description").textContent=s.description;$("lj-fact").textContent=s.fact;
  $("lj-step").textContent=String(sceneIndex+1).padStart(2,"0")+" / 04";
  $("lj-progress-fill").style.width=((sceneIndex+1)/4*100)+"%";
- $("lj-prev").disabled=sceneIndex===0;$("lj-next").disabled=sceneIndex===3;
+ $("lj-prev").disabled=sceneIndex===0;$("lj-next").disabled=false;
  $("lj-next").innerHTML=sceneIndex===3?'OPEN DATA LAB <span>↗</span>':'NEXT <span>→</span>';
  document.querySelectorAll("[data-scene]").forEach((n,i)=>n.classList.toggle("is-active",i===sceneIndex));
  $("lj-object-card").hidden=sceneIndex!==2;
@@ -119,7 +119,7 @@ $("lj-prev").addEventListener("click",()=>{if(sceneIndex>0)transitionTo(sceneInd
 $("lj-next").addEventListener("click",()=>{if(sceneIndex<3)transitionTo(sceneIndex+1);else location.href="data.html#waveform-title";});
 $("lj-motion").addEventListener("click",()=>{if(reduced)return;paused=!paused;$("lj-motion").textContent=paused?"▶ Resume motion":"Ⅱ Pause motion";$("lj-motion").setAttribute("aria-pressed",String(paused));});
 $("lj-reset").addEventListener("click",()=>{rotX=rotY=0;zoom=1;transitionTo(sceneIndex);});
-document.querySelectorAll("[data-scene]").forEach(n=>n.addEventListener("click",()=>transitionTo(Number(n.dataset.scene))));
+document.querySelectorAll("[data-scene]").forEach(n=>n.addEventListener("click",()=>{if(!started)start();transitionTo(Number(n.dataset.scene));}));
 canvas.addEventListener("pointerdown",e=>{drag=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
 canvas.addEventListener("pointermove",e=>{if(!drag||!started)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;rotY+=dx*.004;rotX=Math.max(-.6,Math.min(.6,rotX+dy*.003));lastX=e.clientX;lastY=e.clientY;camera.position.x=Math.sin(rotY)*10*zoom;camera.position.y=2+rotX*4;camera.lookAt(0,0,sceneIndex<2?-17:-2);renderOnce();});
 canvas.addEventListener("pointerup",()=>drag=false);canvas.addEventListener("pointercancel",()=>drag=false);
