@@ -130,35 +130,35 @@
 }
 
 /* Compact, editorial archive cards — let the mission image carry the story. */
-.archive-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:clamp(14px,2vw,22px)}
-.archive-grid .acard{transform:none;border:1px solid rgba(142,190,211,.22);border-radius:15px;background:linear-gradient(155deg,rgba(15,29,47,.94),rgba(5,12,23,.98));box-shadow:0 15px 38px rgba(0,0,0,.27);transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .35s,box-shadow .35s}
-.archive-grid .acard:nth-child(n){--r:0deg}
-.archive-grid .acard:hover,.archive-grid .acard:focus-visible{transform:translateY(-5px);border-color:rgba(142,220,232,.58);box-shadow:0 22px 48px rgba(0,0,0,.38),0 0 26px rgba(76,173,201,.08)}
-.archive-grid .aart{position:relative;aspect-ratio:16/10;min-height:0;padding:12px;align-items:flex-end;border-bottom:1px solid rgba(142,190,211,.16)}
-.archive-grid .aart:after{content:"";position:absolute;inset:38% 0 0;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(3,9,17,.78))}
-.archive-grid .aart .artifact-stamp,.archive-grid .aart .status-stamp,.archive-grid .aart .three-d-stamp{z-index:2;position:absolute;top:12px;left:12px;margin:0;padding:5px 7px;border:1px solid rgba(220,235,244,.16);border-radius:5px;background:rgba(4,12,22,.72);color:#dceaf1;font-size:.48rem;letter-spacing:.1em}
-.archive-grid .aart .status-stamp{left:auto;right:12px;max-width:48%;text-align:right}
-.archive-grid .aart .three-d-stamp{top:auto;bottom:10px;left:12px;color:#8edce8}
-.archive-grid .abody{display:grid;gap:7px;min-height:120px;padding:15px 16px 16px}
-.archive-grid .abody .eyebrow{margin:0;color:#8edce8;font-size:.53rem;letter-spacing:.15em;font-style:normal}
-.archive-grid .abody h3{margin:0;color:#f0f5f8;font:700 1.15rem/1.16 "DM Sans",system-ui,sans-serif;letter-spacing:-.025em;text-transform:none}
-.archive-grid .abody>p:not(.eyebrow){display:none}
-.archive-grid .abody .more{display:inline-flex;align-items:center;gap:8px;width:max-content;margin-top:2px;color:#e2c28d;font:800 .57rem/1.3 "DM Sans",system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase}
-.archive-grid .abody .more:after{content:"↗";transition:transform .25s}
-.archive-grid .acard:hover .abody .more:after,.archive-grid .acard:focus-visible .abody .more:after{transform:translate(3px,-3px)}
-.archive-grid .aart .archive-photo{transition:transform .7s cubic-bezier(.16,1,.3,1),filter .5s}
-.archive-grid .acard:hover .archive-photo{transform:scale(1.045);filter:saturate(1.08)}
-.archive-grid .aart .archive-image-state{z-index:2;max-width:80%;font-size:.52rem;letter-spacing:.05em}
+.page .archive-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:clamp(14px,2vw,22px)}
+.page .archive-grid .acard{transform:none;border:1px solid rgba(142,190,211,.22);border-radius:15px;background:linear-gradient(155deg,rgba(15,29,47,.94),rgba(5,12,23,.98));box-shadow:0 15px 38px rgba(0,0,0,.27);transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .35s,box-shadow .35s}
+.page .archive-grid .acard:nth-child(n){--r:0deg}
+.page .archive-grid .acard:hover,.page .archive-grid .acard:focus-visible{transform:translateY(-5px);border-color:rgba(142,220,232,.58);box-shadow:0 22px 48px rgba(0,0,0,.38),0 0 26px rgba(76,173,201,.08)}
+.page .archive-grid .aart{position:relative;aspect-ratio:16/10;min-height:0;padding:12px;align-items:flex-end;border-bottom:1px solid rgba(142,190,211,.16)}
+.page .archive-grid .aart:after{content:"";position:absolute;inset:38% 0 0;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(3,9,17,.78))}
+.page .archive-grid .aart .artifact-stamp,.page .archive-grid .aart .status-stamp,.page .archive-grid .aart .three-d-stamp{z-index:2;position:absolute;top:12px;left:12px;margin:0;padding:5px 7px;border:1px solid rgba(220,235,244,.16);border-radius:5px;background:rgba(4,12,22,.72);color:#dceaf1;font-size:.48rem;letter-spacing:.1em}
+.page .archive-grid .aart .status-stamp{left:auto;right:12px;max-width:48%;text-align:right}
+.page .archive-grid .aart .three-d-stamp{top:auto;bottom:10px;left:12px;color:#8edce8}
+.page .archive-grid .abody{display:grid;gap:7px;min-height:120px;padding:15px 16px 16px}
+.page .archive-grid .abody .eyebrow{margin:0;color:#8edce8;font-size:.53rem;letter-spacing:.15em;font-style:normal}
+.page .archive-grid .abody h3{margin:0;color:#f0f5f8;font:700 1.15rem/1.16 "DM Sans",system-ui,sans-serif;letter-spacing:-.025em;text-transform:none}
+.page .archive-grid .abody>p:not(.eyebrow){display:none}
+.page .archive-grid .abody .more{display:inline-flex;align-items:center;gap:8px;width:max-content;margin-top:2px;color:#e2c28d;font:800 .57rem/1.3 "DM Sans",system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.page .archive-grid .abody .more:after{content:"↗";transition:transform .25s}
+.page .archive-grid .acard:hover .abody .more:after,.page .archive-grid .acard:focus-visible .abody .more:after{transform:translate(3px,-3px)}
+.page .archive-grid .aart .archive-photo{transition:transform .7s cubic-bezier(.16,1,.3,1),filter .5s}
+.page .archive-grid .acard:hover .archive-photo{transform:scale(1.045);filter:saturate(1.08)}
+.page .archive-grid .aart .archive-image-state{z-index:2;max-width:80%;font-size:.52rem;letter-spacing:.05em}
 @media(max-width:650px){
- .archive-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
- .archive-grid .aart{aspect-ratio:1/1;min-height:0;padding:8px}
- .archive-grid .aart .artifact-stamp,.archive-grid .aart .status-stamp{top:8px;left:8px;font-size:.41rem;padding:4px 5px}
- .archive-grid .aart .status-stamp{left:auto;right:8px}
- .archive-grid .aart .three-d-stamp{left:8px;bottom:8px;font-size:.43rem}
- .archive-grid .abody{min-height:116px;padding:11px 10px}
- .archive-grid .abody h3{font-size:.94rem;line-height:1.2}
- .archive-grid .abody .eyebrow{font-size:.46rem}
- .archive-grid .abody .more{font-size:.49rem}
+ .page .archive-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+ .page .archive-grid .aart{aspect-ratio:1/1;min-height:0;padding:8px}
+ .page .archive-grid .aart .artifact-stamp,.page .archive-grid .aart .status-stamp{top:8px;left:8px;font-size:.41rem;padding:4px 5px}
+ .page .archive-grid .aart .status-stamp{left:auto;right:8px}
+ .page .archive-grid .aart .three-d-stamp{left:8px;bottom:8px;font-size:.43rem}
+ .page .archive-grid .abody{min-height:116px;padding:11px 10px}
+ .page .archive-grid .abody h3{font-size:.94rem;line-height:1.2}
+ .page .archive-grid .abody .eyebrow{font-size:.46rem}
+ .page .archive-grid .abody .more{font-size:.49rem}
 }
-@media(max-width:390px){.archive-grid{grid-template-columns:1fr}.archive-grid .aart{aspect-ratio:16/9}.archive-grid .abody{min-height:0}}
-@media(prefers-reduced-motion:reduce){.archive-grid .acard,.archive-grid .aart .archive-photo,.archive-grid .abody .more:after{transition:none}}
+@media(max-width:390px){.page .archive-grid{grid-template-columns:1fr}.page .archive-grid .aart{aspect-ratio:16/9}.page .archive-grid .abody{min-height:0}}
+@media(prefers-reduced-motion:reduce){.page .archive-grid .acard,.page .archive-grid .aart .archive-photo,.page .archive-grid .abody .more:after{transition:none}}
