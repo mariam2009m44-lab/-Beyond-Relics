@@ -225,3 +225,7 @@ if (failures.length) {
 check(universe3d.includes("selected-destination-reticle") && universe3d.includes("selectionHalo.position.copy(group.position)") && universe3d.includes("selectionHalo.visible=false") && universe3d.includes("Math.sin(now*.002)*.012"), "Selected planets and moons receive a subtle animated orbital reticle that follows their position and clears on reset");
 
 check(universe3d.includes("surfaceAim=null") && universe3d.includes("surfaceAim.lerp(targetAim") && universe3d.includes("camera.lookAt(surfaceAim)") && universe3d.includes("surfaceAim=surfaceLookAt.clone()"), "Surface camera focus eases its look target smoothly between landing-site markers and resets cleanly on exit");
+
+check(universe3d.includes("surfaceBuildPromises[key]") && universe3d.includes("await ensureSurface(key)") && universe3d.includes("if(!surfaceMode||surfaceWorldKey!==key)return;") && universe3d.includes("surfaceMode&&surfaceWorldKey===key"), "Surface model loading is shared per destination and stale async completions cannot take over a different or exited surface");
+
+check(universe3d.includes("group.userData.modelLoadResults=[ok]") && universe3d.includes("group.userData.modelLoadResults=[ok,insight]") && universe3d.includes("const modelResults=surfaceGroups[key].userData.modelLoadResults||[]"), "Cached lunar and Martian surface scenes restore accurate NASA model availability status when revisited");
