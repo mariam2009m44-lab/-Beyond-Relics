@@ -138,6 +138,15 @@ function buildScene(){
  observer=new ResizeObserver(()=>{if(!renderer||!camera)return;const w=overlay.clientWidth,h=overlay.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);});observer.observe(overlay);
  $("br-universe-loader").hidden=true;startLoop();
 }
+function transitionCameraTo(position,duration=1.65){
+ const target=new THREE.Vector3(position.x,position.y,position.z);
+ if(reduced.matches){cameraGoal=target;return;}
+ if(window.gsap){
+  if(!cameraGoal)cameraGoal=target.clone();
+  window.gsap.killTweensOf(cameraGoal);
+  window.gsap.to(cameraGoal,{x:target.x,y:target.y,z:target.z,duration,ease:"power3.inOut",overwrite:true});
+ }else cameraGoal=target;
+}
 function showWorld(key){
  const cfg=worlds[key],group=planetGroups[key];if(!cfg||!group)return;selected=key;
  $("br-universe-intro").classList.add("is-away");
@@ -153,8 +162,8 @@ function showWorld(key){
  document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.world===key)));
  const enter=$("br-universe-enter");enter.hidden=!cfg.journey;if(cfg.journey)enter.href=cfg.journey;
  const p=group.position,radius=worldRadii[key]||1,distance=Math.max(3.2,Math.min(17,radius*5.8));
- focusTarget=p.clone();cameraGoal=new THREE.Vector3(p.x,p.y+distance*.34,p.z+distance);targetZoom=1;
-}function resetView(){motionPaused=false;syncMotionButton();selected=null;focusTarget=null;cameraGoal=new THREE.Vector3(0,18,52);targetZoom=1;targetX=-.08;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
+ focusTarget=p.clone();transitionCameraTo({x:p.x,y:p.y+distance*.34,z:p.z+distance});targetZoom=1;
+}function resetView(){motionPaused=false;syncMotionButton();selected=null;focusTarget=null;transitionCameraTo({x:0,y:18,z:52},1.25);targetZoom=1;targetX=-.08;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
 function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||new THREE.Vector3(0,18,52);const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
 function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";s.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));s.onerror=reject;document.head.appendChild(s);});}
 async function openUniverse(event){
