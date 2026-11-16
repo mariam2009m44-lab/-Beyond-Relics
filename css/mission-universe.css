@@ -90,3 +90,53 @@
  .br-universe-record-heading>span:first-child{letter-spacing:.08em}
 }
 @media(prefers-reduced-motion:reduce){.br-universe-info{animation:none}}
+
+/* Planetary surface expedition: full-scene field exploration with selectable sites. */
+.br-universe-land{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:11px 16px;border:1px solid rgba(142,220,232,.48);border-radius:8px;background:linear-gradient(120deg,rgba(31,79,98,.96),rgba(35,48,79,.96));color:#f3fbff;font:800 .62rem/1.2 "DM Sans",system-ui,sans-serif;letter-spacing:.12em;cursor:pointer}
+.br-universe-land:hover{border-color:#e2c28d;background:linear-gradient(120deg,#245b70,#3b426c)}
+.br-universe-land[hidden]{display:none!important}
+.br-universe-surface-panel{position:absolute;z-index:8;left:clamp(14px,3vw,38px);right:clamp(14px,3vw,38px);bottom:clamp(14px,3vh,28px);padding:clamp(16px,2vw,24px);border:1px solid rgba(142,220,232,.3);border-radius:18px;background:linear-gradient(145deg,rgba(5,16,29,.94),rgba(7,13,27,.92));box-shadow:0 24px 70px rgba(0,0,0,.48);backdrop-filter:blur(18px)}
+.br-universe-surface-panel[hidden]{display:none!important}
+.br-universe-surface-panel header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+.br-universe-surface-panel header small{color:#8edce8;font:800 .58rem/1.4 "DM Sans",system-ui,sans-serif;letter-spacing:.18em}
+.br-universe-surface-panel header h2{margin:5px 0;color:#f2f6fa;font:700 clamp(1.25rem,2.4vw,2rem)/1.15 "DM Sans",system-ui,sans-serif}
+.br-universe-surface-panel header p{margin:0;color:#b5c6d4;font:400 .78rem/1.5 "DM Sans",system-ui,sans-serif}
+.br-universe-surface-panel header>button{flex:none;min-height:40px;padding:0 13px;border:1px solid rgba(142,220,232,.32);border-radius:8px;background:rgba(12,30,48,.9);color:#e5f4fa;font:800 .58rem "DM Sans",system-ui,sans-serif;letter-spacing:.08em}
+.br-universe-surface-content{display:grid;grid-template-columns:minmax(230px,.8fr) minmax(0,1.2fr);gap:12px}
+#br-universe-surface-points{display:grid;gap:7px;align-content:start}
+.br-universe-surface-point{min-height:40px;padding:9px 12px;text-align:left;border:1px solid rgba(142,190,211,.2);border-radius:8px;background:rgba(12,27,44,.82);color:#cad9e5;font:650 .69rem/1.4 "DM Sans",system-ui,sans-serif;cursor:pointer}
+.br-universe-surface-point[aria-pressed=true],.br-universe-surface-point:hover{border-color:#8edce8;background:rgba(28,65,82,.9);color:#fff}
+#br-universe-surface-note{min-width:0;padding:13px 16px;border-left:2px solid #8edce8;background:rgba(3,10,20,.48)}
+#br-universe-surface-label{color:#d8bd8b;font:800 .55rem "DM Sans",system-ui,sans-serif;letter-spacing:.14em}
+#br-universe-surface-point-title{margin:6px 0;color:#f3f7fa;font:700 1rem/1.3 "DM Sans",system-ui,sans-serif}
+#br-universe-surface-point-copy{margin:0 0 10px;color:#bdcbd6;font:400 .73rem/1.65 "DM Sans",system-ui,sans-serif}
+#br-universe-surface-link{color:#8edce8;font:800 .57rem "DM Sans",system-ui,sans-serif;letter-spacing:.1em}
+.br-universe-surface-status{margin:12px 0 0;color:#8199aa;font:500 .58rem/1.4 "DM Sans",system-ui,sans-serif}
+.br-universe-surface-active .br-universe-info,.br-universe-surface-active .br-universe-nav,.br-universe-surface-active .br-universe-intro{display:none!important}
+.br-universe-surface-active .br-universe-top{background:linear-gradient(180deg,rgba(3,8,16,.8),transparent)}
+.br-universe-surface-active .br-universe-canvas{cursor:grab}
+@media(max-width:760px){
+ .br-universe-surface-panel{left:9px;right:9px;bottom:9px;padding:13px;border-radius:13px}
+ .br-universe-surface-panel header{gap:8px;margin-bottom:9px}
+ .br-universe-surface-panel header>button{min-height:36px;padding:0 9px;font-size:.5rem}
+ .br-universe-surface-panel header h2{font-size:1.18rem}
+ .br-universe-surface-panel header p{font-size:.66rem;max-width:30ch}
+ .br-universe-surface-content{grid-template-columns:1fr;gap:8px}
+ #br-universe-surface-points{display:flex;overflow-x:auto;gap:6px;padding-bottom:3px}
+ .br-universe-surface-point{flex:none;max-width:68vw;font-size:.61rem}
+ #br-universe-surface-note{padding:9px 11px}
+ #br-universe-surface-point-title{font-size:.85rem}
+ #br-universe-surface-point-copy{font-size:.65rem;line-height:1.45}
+ .br-universe-surface-status{font-size:.52rem;margin-top:8px}
+}
+@media(orientation:landscape) and (max-height:560px){
+ .br-universe-surface-panel{padding:10px;bottom:8px}
+ .br-universe-surface-panel header{margin-bottom:6px}
+ .br-universe-surface-panel header h2{font-size:1rem}
+ .br-universe-surface-panel header p{font-size:.6rem}
+ .br-universe-surface-content{grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr)}
+ #br-universe-surface-note{padding:8px 11px}
+ #br-universe-surface-point-copy{font-size:.61rem}
+ .br-universe-surface-status{margin-top:5px}
+}
+@media(prefers-reduced-motion:reduce){.br-universe-land,.br-universe-surface-point{transition:none}}
