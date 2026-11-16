@@ -52,7 +52,7 @@
  .hero{min-height:max(900px,130svh);min-height:max(900px,130dvh);display:block}
  .hero .nav{position:relative;z-index:20}
  .hero .earth{width:90vw;right:-40vw;top:15vh;opacity:.18}
- .hero .copy{position:relative;width:auto;max-width:560px;margin:0 auto;padding:0 1rem 7.2rem;text-align:center;top:0}
+ .hero .copy{position:relative;width:auto;max-width:560px;margin:clamp(405px,52svh,490px) auto 0;padding:0 1rem 7.2rem;text-align:center;top:0}
  .hero .copy h1{font-size:clamp(2.7rem,12vw,4.2rem)}
  .hero .copy .kicker{font-size:.57rem;letter-spacing:.1em}
  .hero .copy .sub{max-width:38ch;margin: .8rem auto 0;font-size:.92rem}
