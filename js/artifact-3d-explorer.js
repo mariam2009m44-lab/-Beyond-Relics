@@ -319,8 +319,9 @@ async function mountOfficialModel(root,item,loading,canvas,onFailure){
  viewer.setAttribute("ar","");viewer.setAttribute("loading","eager");
  viewer.className="artifact-model-viewer";
  viewer.addEventListener("progress",event=>{const pct=Math.round((event.detail.totalProgress||0)*100);loading.hidden=false;loading.textContent="Loading official NASA 3D model · "+pct+"%";});
- viewer.addEventListener("load",()=>{loading.hidden=true;},{once:true});
- viewer.addEventListener("error",()=>{loading.hidden=false;loading.textContent="The NASA model could not load. Open its official source page below.";},{once:true});
+ let modelLoaded=false;const modelLoadTimer=setTimeout(()=>{if(!modelLoaded&&onFailure){loading.hidden=false;loading.textContent="NASA model is taking too long. Preparing the local 3D reconstruction…";loading.classList.add("is-error");onFailure();}},22000);
+ viewer.addEventListener("load",()=>{modelLoaded=true;clearTimeout(modelLoadTimer);loading.hidden=true;},{once:true});
+ viewer.addEventListener("error",()=>{clearTimeout(modelLoadTimer);loading.hidden=false;loading.textContent="NASA model unavailable. Preparing the local 3D reconstruction…";loading.classList.add("is-error");if(onFailure)onFailure();},{once:true});
  canvas.replaceWith(viewer);
  const badge=document.createElement("a");
  badge.className="artifact-model-credit";
