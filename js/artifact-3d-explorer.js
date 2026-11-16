@@ -116,7 +116,7 @@ function loadModelViewer(){
 }
 async function mountOfficialModel(root,item,loading,canvas){
  const model=OFFICIAL_MODELS[item.id];if(!model)return false;
- await loadModelViewer();
+ try{await loadModelViewer();}catch(error){return false;}
  if(!canvas.isConnected)return true;
  const viewer=document.createElement("model-viewer");
  viewer.setAttribute("src",model.src);
