@@ -125,3 +125,12 @@ Mission records and source URLs are maintained in `data/artifacts.json`. The NAS
 | Asset | Creator / source | License / fidelity |
 |---|---|---|
 | Optional Moon, Mars, and deep-space comic environments | Procedural Three.js geometry and generated deterministic star field in `js/comic-world-3d.js`; interface styles in `css/comic-world-3d.css`. | Original artistic reconstructions, not NASA scans, scale models, or mission photographs. Original comic panels remain unchanged. |
+
+
+## Guided lunar journey
+
+| Asset | Creator / source | License / fidelity |
+|---|---|---|
+| Procedural Moon and Earth textures, stars, lunar surface, and ALSEP station scene | Original deterministic canvas textures and Three.js geometry in `js/lunar-journey.js`. | Artistic visualizations; not NASA imagery, exact terrain, engineering CAD, or a to-scale simulation. |
+| Guided journey UI and motion | Original HTML/CSS/JavaScript in `lunar-journey.html`, `css/lunar-journey.css`, and `js/lunar-journey.js`. | Original project code. No external visual assets. |
+| Three.js 0.159.0 | Three.js contributors; https://threejs.org/ | MIT License; loaded from jsDelivr CDN. |
