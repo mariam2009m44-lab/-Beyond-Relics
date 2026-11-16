@@ -102,7 +102,7 @@ function buildScene(){
  startRenderLoop();$("br-universe-loader").hidden=true;
 }
 function startRenderLoop(){if(raf)return;const tick=()=>{if(!active){raf=0;return;}raf=requestAnimationFrame(tick);rotX+=(targetRotX-rotX)*.045;rotY+=(targetRotY-rotY)*.045;scene.rotation.x=rotX;scene.rotation.y=rotY;worldObjects.forEach(o=>{if(o.userData.kind==="planet")o.rotation.y+=.0009;});const goal=camera.userData.goal;camera.position.lerp(goal,.025);const aim=worldObjects.find(o=>o.userData.world===selected);if(lookTarget&&selected){const p=aim?aim.position:new THREE.Vector3();lookTarget.lerp(p,.035);}else if(lookTarget)lookTarget.lerp(new THREE.Vector3(0,0,0),.02);camera.lookAt(lookTarget||new THREE.Vector3());renderer.render(scene,camera);};tick();}
-function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";script.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));script.onerror=reject;document.head.appendChild(script);});}
+function loadThree(){return new Promise((resolve,reject)=>{if(window.THREE){resolve(window.THREE);return;}const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";script.onload=()=>window.THREE?resolve(window.THREE):reject(new Error("Three.js unavailable"));script.onerror=reject;document.head.appendChild(script);});}
 async function openUniverse(){
  overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;
  $("br-universe-close").focus();
