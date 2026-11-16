@@ -151,6 +151,17 @@ check(artifact3d.includes("scene.background=null") && artifact3d.includes("new T
 check(artifact3d.includes("ambientStars.rotation.y") && artifact3d.includes("compactRender?260:620"), "Artifact exhibits add subtle parallax star depth without changing model geometry");
 check(artifact3dCss.includes("br-artifact-nebula-drift") && artifact3dCss.includes("br-artifact-stars-drift") && artifact3dCss.includes("background:transparent!important"), "Both official and reconstructed artifact models sit inside an animated, reduced-motion-aware nebula chamber");
 
+const lunarJourney = read("js/lunar-journey.js");
+const lunarJourneyCss = read("css/lunar-journey.css");
+const lunarJourneyPage = read("lunar-journey.html");
+const archivePage = read("artifacts.html");
+check(exists("lunar-journey.html") && exists("js/lunar-journey.js") && exists("css/lunar-journey.css"), "Guided lunar journey page, renderer, and styles exist");
+check(lunarJourney.includes('title:"The Moon comes closer"') && lunarJourney.includes('camera:[0,1,-2]'), "Lunar journey includes an animated Moon approach scene");
+check(lunarJourney.includes("Apollo 12's ALSEP station was deployed on 19 November 1969") && lunarJourney.includes("30 September 1977"), "Lunar journey includes grounded ALSEP deployment and shutdown dates");
+check(lunarJourney.includes("not a NASA waveform") && lunarJourneyPage.includes("artistic visualizations"), "Lunar journey distinguishes illustrative 3D and signal art from NASA data");
+check(lunarJourney.includes('matchMedia("(prefers-reduced-motion: reduce)")') && lunarJourney.includes("pagehide"), "Lunar journey respects reduced motion and disposes WebGL resources");
+check(index.includes('href="lunar-journey.html"') && archivePage.includes('href="lunar-journey.html"'), "Homepage and archive provide a clear guided-journey entry");
+
 console.log("Beyond Relics quality audit");
 console.log("---------------------------");
 console.log("HTML pages checked: " + htmlFiles.length);
