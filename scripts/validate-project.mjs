@@ -236,3 +236,6 @@ check(artifact3d.includes("terrainSegments=compactRender?56:112") && artifact3d.
 check(artifact3d.includes("new T.InstancedMesh(rockGeometry,rockMaterial,rockCount)") && artifact3d.includes("terrainHeight(x,z)") && artifact3d.includes("rocks.instanceMatrix.needsUpdate=true"), "Artifact exhibit rocks are instanced, deterministic, and aligned to generated terrain elevation");
 
 check(universe3d.includes("const planetaryMetrics=") && universe3d.includes("br-universe-metrics") && universe3d.includes("metricsRoot.hidden=!metricsRoot.children.length"), "Planet and Sun destination panels expose structured scientific metrics with responsive data cards");
+
+check(universe3d.includes('id="br-universe-nav"') && universe3d.includes('destinationButtons[next].focus()') && universe3d.includes('button.tabIndex=index===0?0:-1'), "Solar System destination navigation supports roving keyboard focus and arrow/Home/End navigation");
+check(universe3d.includes('["الجاذبية عند مستوى السحب المرجعي","24.79 م/ث²"]') && universe3d.includes('["الجاذبية عند مستوى السحب المرجعي","10.44 م/ث²"]') && universe3d.includes('["الجاذبية عند مستوى السحب المرجعي","11.15 م/ث²"]') && !universe3d.includes('["متوسط البعد عن الشمس","30.1 وحدة فلكية"]'), "Planetary metric cards use consistent Arabic scientific labels and replace duplicated Neptune distance with surface-gravity reference");
