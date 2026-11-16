@@ -11,6 +11,9 @@ This register distinguishes confirmed technical dependencies from assets whose o
 | Procedural artifact geometry in `js/artifact-3d-explorer.js` | Project implementation; contributors must be credited in the project README | Original project code; confirm team authorship before external reuse | Procedural educational geometry. All models are **Artistic visualization**, not NASA scans, engineering CAD, or scale-accurate replicas. |
 | Three.js 0.159.0 runtime | Three.js project — https://threejs.org/ | MIT — https://github.com/mrdoob/three.js/blob/dev/LICENSE | Loaded from jsDelivr CDN; no local modifications. |
 
+| Official Voyager 1 3D model (GLB) | NASA / Michael D. Carbajal — https://science.nasa.gov/3d-resources/voyager-probe-b/ | NASA 3D Resources usage guidance — https://www.nasa.gov/nasa-brand-center/images-and-media/ | Original NASA-provided GLB loaded at runtime; displayed as an official NASA 3D model, not a physical scan. |
+| Model viewer runtime | Google model-viewer — https://modelviewer.dev/ | Apache-2.0 — https://github.com/google/model-viewer/blob/master/LICENSE | Loaded as a browser module from Google CDN; no local modifications. |
+
 ## NASA mission imagery
 
 | Asset group | Source | License / usage | Modifications |
