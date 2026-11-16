@@ -105,6 +105,8 @@ async function mountOfficialModel(root,item,loading,canvas){
  const fidelity=root.querySelector(".artifact-3d-foot span:first-child");if(fidelity)fidelity.textContent="OFFICIAL NASA 3D MODEL · NOT A PHYSICAL SCAN";
  const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Drag to orbit · Pinch or scroll to zoom";
  const parts=root.querySelector(".artifact-3d-parts");if(parts)parts.setAttribute("aria-label","Voyager component guide");
+ const explode=root.querySelector("[data-view-explode]");if(explode)explode.hidden=true;
+ const reset=root.querySelector("[data-view-reset]");if(reset)reset.addEventListener("click",()=>{viewer.cameraOrbit="0deg 75deg auto";viewer.cameraTarget="auto";viewer.fieldOfView="auto";viewer.jumpCameraToGoal();});
  return true;
 }
 function mount(root,item){
