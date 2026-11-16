@@ -47,40 +47,8 @@ body:not(.reader-page)::before{
  from{background-position:0 0,0 0,0 0,0 0}
  to{background-position:6% -4%,-5% 4%,3% 3%,0 0}
 }
-body.reader-page #br-cosmic-canvas{opacity:.24}
-.br-cosmic-dock{
- position:fixed;z-index:1000;right:max(14px,env(safe-area-inset-right));
- bottom:max(14px,env(safe-area-inset-bottom));
- display:flex;align-items:center;gap:8px;padding:7px;
- border:1px solid rgba(135,190,230,.24);border-radius:999px;
- background:rgba(4,10,24,.78);box-shadow:0 10px 34px rgba(0,0,0,.32),0 0 24px rgba(65,116,230,.08);
- backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-}
-.br-cosmic-dock button,.br-cosmic-dock a{
- min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
- padding:0 13px;border:1px solid transparent;border-radius:999px;
- color:#e8f3ff;background:rgba(27,51,91,.58);
- font:700 .68rem/1 "DM Sans","Segoe UI",sans-serif;letter-spacing:.035em;
- text-decoration:none;cursor:pointer;white-space:nowrap;
- transition:background .2s,border-color .2s,transform .2s;
-}
-.br-cosmic-dock button:hover,.br-cosmic-dock a:hover{
- border-color:rgba(120,220,255,.55);background:rgba(44,78,135,.72);transform:translateY(-1px)
-}
-.br-cosmic-dock button[aria-pressed=true]{color:#9deaff;border-color:rgba(120,220,255,.3)}
-.br-cosmic-dock .br-cosmic-dot{
- width:7px;height:7px;border-radius:50%;background:#8fe7ff;
- box-shadow:0 0 10px #68cfff,0 0 18px rgba(95,150,255,.55)
-}
-.br-cosmic-dock a{background:linear-gradient(110deg,rgba(48,91,196,.8),rgba(104,73,173,.78));border-color:rgba(151,142,255,.3)}
-.br-cosmic-dock a span{color:#ffe0a9}
-body.reader-page .br-cosmic-dock{display:none}
-@media(max-width:520px){
- .br-cosmic-dock{right:10px;bottom:max(10px,env(safe-area-inset-bottom));gap:5px;padding:5px}
- .br-cosmic-dock button,.br-cosmic-dock a{min-height:38px;padding:0 10px;font-size:.61rem}
-}
+body.reader-page #br-cosmic-canvas{opacity:.42}
 @media(prefers-reduced-motion:reduce){
  body:not(.reader-page)::before,.hero::before{animation:none!important}
  #br-cosmic-canvas{opacity:.48}
- .br-cosmic-dock button,.br-cosmic-dock a{transition:none}
 }

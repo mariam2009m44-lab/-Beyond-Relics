@@ -1,11 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-
 const root = process.cwd();
 const failures = [];
 const checks = [];
-
 function check(condition, message) {
   if (condition) checks.push(message);
   else failures.push(message);
@@ -16,11 +14,11 @@ function read(relativePath) {
 function exists(relativePath) {
   return fs.existsSync(path.join(root, relativePath));
 }
-
 const records = JSON.parse(read("data/artifacts.json"));
 const index = read("index.html");
 const comicPage = read("comic.html");
 const comicScript = read("js/comic-reader.js");
+const comicCss = read("css/comics-experience.css");
 const dataPage = read("data.html");
 const artifact3d = read("js/artifact-3d-explorer.js");
 const artifactsScript = read("js/artifacts.js");
@@ -30,7 +28,6 @@ const cosmicCss = read("css/cosmic-environment.css");
 const visualSystem = read("css/visual-system.css");
 const provenanceData = JSON.parse(read("data/data-provenance.json"));
 const provenanceScript = read("js/data-provenance.js");
-
 const layoutConsistency = read("css/layout-consistency.css");
 const artifactFinish = read("css/artifact-exhibit-finish.css");
 const layoutPages = ["index.html","artifacts.html","timeline.html","challenge.html","data.html","about.html","comic.html","artifact-details.html","404.html","credits.html","lunar-journey.html"];
@@ -41,8 +38,6 @@ check(layoutConsistency.includes("@media(max-width:650px)") && layoutConsistency
 check(layoutConsistency.includes("min-height:44px") && layoutConsistency.includes(":focus-visible"), "Final layout layer preserves touch targets and visible keyboard focus");
 check(layoutConsistency.includes("prefers-reduced-motion:reduce"), "Final layout layer respects reduced-motion preferences");
 check(layoutConsistency.includes(".reader-image") && layoutConsistency.includes(".cinema-controls") && layoutConsistency.includes(".artifact-3d-toolbar"), "Final layout layer explicitly covers comic and 3D exhibit controls");
-
-
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
 check(artifact3d.includes("function makeStudioEnvironment(T)") && artifact3d.includes("scene.environment=makeStudioEnvironment(T)"), "Artifact reconstructions use a generated studio reflection environment");
@@ -61,26 +56,25 @@ check(artifact3d.includes("starRand") && !artifact3d.includes("Math.random()"), 
 check(artifact3d.includes('matchMedia("(prefers-reduced-motion: reduce)")') && artifact3d.includes('const rotating=viewer.hasAttribute("auto-rotate")'), "Official NASA model rotation respects reduced-motion preferences and reports the correct control state");
 check(artifactsScript.includes("Arrow keys to explore") && artifactsScript.includes("+/- to zoom"), "Procedural 3D exhibits display keyboard interaction instructions");
 check(artifact3dCss.includes(".artifact-3d-canvas:focus-visible") && artifact3dCss.includes(".artifact-3d-callout-close{pointer-events:auto}"), "3D canvas focus and component-guide close control remain accessible");
-
-
 check(artifact3d.includes("webglcontextlost") && artifact3d.includes("webglcontextrestored") && universe3d.includes("webglcontextlost") && universe3d.includes("webglcontextrestored"), "Both 3D experiences handle WebGL context loss and restoration");
 check(artifact3d.includes("resumeFrame=()=>frame()"), "Artifact viewer can resume its render loop after a restored WebGL context");
 check(artifact3d.includes("if(document.hidden){active=false;cancelAnimationFrame(raf);raf=0;}else{active=true;if(renderer&&resumeFrame)resumeFrame();}"), "Artifact viewer correctly pauses and resumes after tab visibility changes");
 check(universe3d.includes('canvas.addEventListener("keydown"') && universe3d.includes('canvas[tabindex]'), "Solar explorer supports keyboard camera controls and includes its canvas in the modal focus loop");
 check(universe3d.includes("orbit(-11,-1,2.8,2.8)") && universe3d.includes("moonAngle+=.00105*delta"), "The Moon follows a visible, animated orbit around Earth in the Solar System explorer");
-check(universe3d.includes("br-universe-motion") && universe3d.includes("Pause orbits") && universe3d.includes("Motion reduced"), "Visitors can pause orbital motion and reduced-motion settings remain enforced");
-
+check(universe3d.includes("worlds.phobos") && universe3d.includes("worlds.enceladus") && universe3d.includes('addSatellite("jupiter","ganymede"') && universe3d.includes('class="br-universe-stop" data-world='), "Major planetary moons and destination navigation are individually selectable");
 check(artifact3d.includes("geometries.forEach(geometry=>geometry.dispose())") && universe3d.includes("geometries.forEach(geometry=>geometry.dispose())"), "3D scene geometry and material resources are explicitly disposed on page exit");
 check(artifact3d.includes("const componentMap=") && artifact3d.includes("world.componentNodes[targetName]") && artifact3d.includes("clone.emissiveIntensity"), "Component guide highlights only explicitly mapped procedural 3D assemblies");
 check(artifact3d.includes("This model does not expose a separately identifiable mesh") && artifact3d.includes("EXPLANATORY NOTE"), "Unsupported component meshes are disclosed as explanatory-only rather than falsely highlighted");
 check(["landing-gear","descent-engine","central-station","science-instruments","rtg-power","rover-body","lander-deck","wheels","solar-array","robotic-arm"].every((name) => artifact3d.includes('"'+name+'"')), "Procedural exhibits expose named component groups for real assembly-level highlighting");
 check(exists("docs/3D-ENGINEERING-STANDARDS.md"), "3D engineering standards and review checklist are documented");
-
-
 check(Array.isArray(records) && records.length > 0, "Artifact catalogue is valid JSON and non-empty");
 check(index.includes('id="home"') && index.includes('id="mission-stories"'), "Homepage presents the original mission-archive experience");
 check(index.includes('href="data.html"') && index.includes('href="artifacts.html"'), "Homepage links directly to the NASA Data Lab and artifact archive");
 check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
+check(universe3d.includes('const enter=$("br-universe-enter")') && universe3d.includes("openWorld") && universe3d.includes("&from=universe&world="), "Planet selection, lunar journey, artifact exhibits, and return navigation preserve destination context");
+check(universe3d.includes("worldRadii[key]") && universe3d.includes("radius*5.8") && universe3d.includes("applyEuler(scene.rotation)"), "Destination selection performs a radius-aware cinematic camera approach");
+check(comicPage.includes('class="reader-film-controls"') && !comicPage.includes('class="cinema-controls"'), "Comic film controls live in the lower control bar rather than over the artwork");
+check(comicCss.includes(".reader-film-controls{display:flex") && comicCss.includes("--accent:#d8bd8b"), "Comic reader uses the shared space palette and responsive non-overlay controls");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js') && !comicPage.includes("three.min.js") && !comicPage.includes("comic-world-3d"), "Comic reader is a lightweight 2D-only experience with the original page reader");
 check(comicScript.includes("showImageError") && comicScript.includes('img.addEventListener("error"'), "Comic reader reports failed frame loads without leaving playback stuck");
@@ -92,14 +86,11 @@ const comicRecords = records.filter((item) => Array.isArray(item.story_artwork) 
 check(comicRecords.length > 0 && comicRecords.every((item) => item.story_artwork.every((frame) => typeof frame.file === "string")), "Comic collection is built only from assigned team artwork");
 check(dataPage.includes("Read the Moon through its data"), "Waveform lab wording describes a plotted data experience, not audio playback");
 check(dataPage.indexOf("js/geocsv-parser.js") >= 0 && dataPage.indexOf("js/geocsv-parser.js") < dataPage.indexOf("js/apollo-waveform-lab.js"), "GeoCSV parser loads before the waveform explorer");
-
-
 const cosmicPages = ["index.html","artifacts.html","timeline.html","challenge.html","data.html","about.html","comic.html","artifact-details.html","credits.html","404.html"];
 check(exists("js/cosmic-environment.js") && exists("css/cosmic-environment.css"), "Shared procedural cosmic atmosphere files exist");
-check(cosmicScript.includes("br-cosmic-canvas") && cosmicScript.includes("galaxies.forEach") && cosmicScript.includes("br-cosmic-dock"), "Cosmic atmosphere renders nebula galaxies, stars, and visitor controls");
+check(cosmicScript.includes("br-cosmic-canvas") && cosmicScript.includes("galaxies.forEach") && !cosmicScript.includes("br-cosmic-dock"), "Cosmic atmosphere renders an animated nebula without a redundant floating control dock");
 check(cosmicScript.includes("prefers-reduced-motion") && cosmicScript.includes("visibilitychange") && cosmicScript.includes("cancelAnimationFrame"), "Cosmic animation respects reduced motion and pauses when the page is hidden");
-check(cosmicScript.includes("artifacts.html#br-universe-launcher"), "Cosmic controls link to the existing interactive Solar System explorer");
-check(cosmicCss.includes("body.reader-page .br-cosmic-dock{display:none}") && cosmicCss.includes("body.reader-page #br-cosmic-canvas{opacity:.24}"), "Comic reader keeps its dedicated reading controls and subdued backdrop");
+check(!cosmicCss.includes(".br-cosmic-dock") && cosmicCss.includes("body.reader-page #br-cosmic-canvas{opacity:.42}"), "Cosmic backdrop has no floating pause dock and remains visible behind the comic reader");
 for (const page of cosmicPages) {
   const source = read(page);
   check(source.includes("css/cosmic-environment.css") && source.includes("js/cosmic-environment.js"), "Shared cosmic atmosphere is included on " + page);
@@ -122,7 +113,6 @@ for (const item of records) {
 }
 const pioneer = records.find((item) => item.id === "pioneer-10-11");
 check(Boolean(pioneer && pioneer.region === "Deep Space" && pioneer.status_group === "retired"), "Pioneer is explicitly classified as a retired deep-space comparison");
-
 const htmlFiles = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
 let localReferenceCount = 0;
 for (const htmlFile of htmlFiles) {
@@ -141,7 +131,6 @@ for (const htmlFile of htmlFiles) {
 }
 check(exists("assets/logos/favicon.svg"), "Primary SVG favicon exists");
 check(!exists("css/comic-world-3d.css") && !exists("js/comic-world-3d.js"), "Comic reader has no unused 3D runtime or stylesheet; its story remains 2D-only");
-
 function collectFiles(directory, extension, output = []) {
   for (const entry of fs.readdirSync(path.join(root, directory), { withFileTypes: true })) {
     if (entry.name === ".git" || entry.name === "node_modules") continue;
@@ -161,12 +150,9 @@ for (const file of jsonFiles) {
   try { JSON.parse(read(file)); check(true, "JSON is valid: " + file); }
   catch (error) { check(false, "JSON is valid: " + file + " — " + error.message); }
 }
-
-
 check(artifact3d.includes("scene.background=null") && artifact3d.includes("new T.WebGLRenderer({canvas,antialias:true,alpha:true") && artifact3d.includes("setClearColor(0x000000,0)"), "Artifact 3D canvases remain transparent so the cinematic nebula chamber is visible behind models");
 check(artifact3d.includes("ambientStars.rotation.y") && artifact3d.includes("compactRender?260:620"), "Artifact exhibits add subtle parallax star depth without changing model geometry");
 check(artifact3dCss.includes("br-artifact-nebula-drift") && artifact3dCss.includes("br-artifact-stars-drift") && artifact3dCss.includes("background:transparent!important"), "Both official and reconstructed artifact models sit inside an animated, reduced-motion-aware nebula chamber");
-
 const lunarJourney = read("js/lunar-journey.js");
 const lunarJourneyCss = read("css/lunar-journey.css");
 const lunarJourneyPage = read("lunar-journey.html");
@@ -189,7 +175,6 @@ check(Array.isArray(provenanceData.entries) && provenanceData.entries.length >= 
 check(provenanceData.entries.every((entry) => entry.source && entry.source.startsWith("https://") && entry.processing && entry.limitations && entry.units && entry.period), "Every provenance record documents source, units, period, processing, and limitations");
 check(provenanceScript.includes("aria-expanded") && provenanceScript.includes("noopener noreferrer") && provenanceScript.includes("data-provenance-register"), "Provenance disclosure controls are accessible and external sources are safely linked");
 check(read("data.html").includes("css/data-provenance.css") && read("data.html").includes("js/data-provenance.js") && read("data.html").includes("data-provenance-register"), "NASA Data Lab loads and displays the scientific provenance register");
-
 console.log("Beyond Relics quality audit");
 console.log("---------------------------");
 console.log("HTML pages checked: " + htmlFiles.length);
