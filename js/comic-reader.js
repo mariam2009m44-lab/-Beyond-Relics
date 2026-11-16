@@ -3,7 +3,7 @@
 const $=id=>document.getElementById(id);
 let item=null,pages=[],page=0,scale=1,tx=0,ty=0,dragging=false,moved=false,suppressClick=false,startX=0,startY=0,originX=0,originY=0,touchX=0,touchY=0;
 let playbackTimer=null,playing=false,paused=false,autoplayStarted=false,musicContext=null,musicOn=false;
-const img=$("reader-image"),stage=$("reader-stage");
+const img=$("reader-image"),stage=$("reader-stage"),wrap=$("reader-image-wrap");
 const moves=[
  {id:"pan-right",label:"Slow Pan Right",origin:"78% 50%",transform:"translate3d(-5%,0,0) scale(1.24)",duration:3200},
  {id:"zoom-in",label:"Slow Face Push-In",origin:"54% 34%",transform:"translate3d(0,2%,0) scale(1.58)",duration:3400},
@@ -170,7 +170,7 @@ document.addEventListener("keydown",event=>{
  if(event.key==="+"||event.key==="=")setZoom(scale+.5);
  if(event.key==="-")setZoom(scale-.5);
 });
-$("cinema-toggle").addEventListener("click",toggleFilm);
+$("cinema-toggle").addEventListener("click",()=>{toggleFilm();if(!musicOn)toggleMusic();});
 $("cinema-next").addEventListener("click",nextFilmPage);
 $("cinema-sound").addEventListener("click",toggleMusic);
 setPlaybackState();
