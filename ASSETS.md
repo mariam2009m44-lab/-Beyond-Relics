@@ -109,3 +109,10 @@ Mission records and source URLs are maintained in `data/artifacts.json`. The NAS
 - Record the exact NASA image record URL, image title, creator/credit, and usage restrictions for each image selected at runtime.
 - Confirm the 3D code authorship and preserve the fidelity labels in the interface.
 - Update this file whenever any image, model, texture, font, sound, or external library is added, removed, or changed.
+
+
+## Procedural cosmic atmosphere
+
+| Asset | Source / implementation | License / status |
+|---|---|---|
+| Animated nebula clouds, spiral-galaxy forms, star field, and small ambient planet silhouettes | Original procedural Canvas 2D artwork generated at runtime by `js/cosmic-environment.js`; styling and visitor controls in `css/cosmic-environment.css`. No external image, NASA texture, or downloaded media is used. | Generated in-browser from project code. Treat as an artistic atmosphere only; not astronomical imagery, to-scale planetary positions, or scientific data. |
