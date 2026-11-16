@@ -72,3 +72,12 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 - Official GLB models keep their original geometry and receive only the viewer's neutral studio environment, exposure, and shadow presentation.
 - Add fine photovoltaic cell segmentation only to the project's artistic rover reconstructions; do not imply it is a measured engineering drawing.
 - Keep the lighting environment generated at runtime and dispose it with the scene.
+
+### PBR exhibit verification
+
+- Compare a rover, lander, and spacecraft exhibit under the generated studio reflections; metal and foil should show controlled highlights without clipping into white.
+- Confirm that the generated cube environment is not presented as a real photograph or mission asset.
+- Check the official GLB exhibits retain their original downloaded model geometry and only receive viewer-side lighting/exposure settings.
+- Check the solar-cell grid remains subtle and is visible only on the artistic rover reconstructions.
+- Test the same exhibits at a narrow mobile width and verify the model remains unobstructed by the top source badge and bottom controls.
+- Compare reduced-motion mode; the new material and lighting treatment must not introduce additional motion.
