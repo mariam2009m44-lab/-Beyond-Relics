@@ -21,6 +21,7 @@ const comicScript = read("js/comic-reader.js");
 const comicCss = read("css/comics-experience.css");
 const dataPage = read("data.html");
 const artifact3d = read("js/artifact-3d-explorer.js");
+const assetsRegister = read("ASSETS.md");
 const artifactsScript = read("js/artifacts.js");
 const artifact3dCss = read("css/artifact-3d-explorer.css");
 const cosmicScript = read("js/cosmic-environment.js");
@@ -48,6 +49,9 @@ check(read("artifacts.html").includes("css/artifact-exhibit-finish.css") && read
 check(artifact3d.includes("toneMappingExposure=1.08") && artifact3d.includes("envMapIntensity"), "Artifact PBR materials use a calibrated tone-mapping and reflection workflow");
 check(artifact3d.includes("cellGrid") && artifact3d.includes("gridMat"), "Artistic rover reconstructions include segmented solar-array surface details");
 check(artifact3d.includes('setAttribute("environment-image","neutral")'), "Official GLB exhibits use a neutral environment without modifying source geometry");
+check(artifact3d.includes('"spirit":{embed:"https://mars.nasa.gov/gltf_embed/24883/?fs=true"') && artifact3d.includes('"curiosity":{embed:"https://mars.nasa.gov/gltf_embed/24584/?fs=true"'), "Spirit-family and Curiosity exhibits use official NASA/JPL interactive model viewers");
+check(artifact3d.includes('frame.className="artifact-nasa-embed"') && artifact3d.includes('frame.allowFullscreen=true') && artifact3d.includes('toolbar.hidden=true'), "NASA-hosted interactive viewers are responsive, keyboard-safe embeds without unsupported procedural-model controls");
+check(assetsRegister.includes("Spirit & Opportunity Mars Exploration Rover interactive model") && assetsRegister.includes("Curiosity Rover interactive model"), "Official NASA/JPL interactive rover sources are recorded in the asset register");
 check(artifact3d.includes("world.scene.environment.dispose()"), "Generated studio environment is disposed with the artifact scene");
 check(artifact3d.includes("if(lunar||mars)") && artifact3d.includes("terrainY"), "Only lunar and Mars exhibits receive a mission-surface environment with per-model ground alignment");
 check(artifact3d.includes('const roverSurface=["pathfinder-sojourner","spirit","opportunity","curiosity"].includes(id)'), "Rover reconstructions align their wheels with the Mars surface stage");
