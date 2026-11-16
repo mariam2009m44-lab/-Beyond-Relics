@@ -117,7 +117,7 @@ function start(){if(started)return;started=true;$("lj-intro").hidden=true;$("lj-
 $("lj-begin").addEventListener("click",start);
 $("lj-prev").addEventListener("click",()=>{if(sceneIndex>0)transitionTo(sceneIndex-1);});
 $("lj-next").addEventListener("click",()=>{if(sceneIndex<3)transitionTo(sceneIndex+1);else location.href="data.html#waveform-title";});
-$("lj-motion").addEventListener("click",()=>{paused=!paused;$("lj-motion").textContent=paused?"▶ Resume motion":"Ⅱ Pause motion";$("lj-motion").setAttribute("aria-pressed",String(paused));});
+$("lj-motion").addEventListener("click",()=>{if(reduced)return;paused=!paused;$("lj-motion").textContent=paused?"▶ Resume motion":"Ⅱ Pause motion";$("lj-motion").setAttribute("aria-pressed",String(paused));});
 $("lj-reset").addEventListener("click",()=>{rotX=rotY=0;zoom=1;transitionTo(sceneIndex);});
 document.querySelectorAll("[data-scene]").forEach(n=>n.addEventListener("click",()=>transitionTo(Number(n.dataset.scene))));
 canvas.addEventListener("pointerdown",e=>{drag=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
@@ -126,6 +126,7 @@ canvas.addEventListener("pointerup",()=>drag=false);canvas.addEventListener("poi
 canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.65,Math.min(1.8,zoom+e.deltaY*.001));camera.position.z+=e.deltaY*.012;renderOnce();},{passive:false});
 canvas.addEventListener("keydown",e=>{if(e.key==="ArrowRight")transitionTo(Math.min(3,sceneIndex+1));else if(e.key==="ArrowLeft")transitionTo(Math.max(0,sceneIndex-1));else if(e.key==="+"||e.key==="="){zoom=Math.max(.65,zoom-.08);camera.position.z-=.7;}else if(e.key==="-"){zoom=Math.min(1.8,zoom+.08);camera.position.z+=.7;}else return;e.preventDefault();renderOnce();});
 document.addEventListener("visibilitychange",()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else if(started&&!raf){last=performance.now();raf=requestAnimationFrame(tick);}});
+if(reduced){$("lj-motion").textContent="Motion reduced";$("lj-motion").disabled=true;}
 try{renderer=new THREE.WebGLRenderer({canvas,alpha:false,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;build();observer=new ResizeObserver(resize);observer.observe(stage);resize();}catch(e){canvas.hidden=true;fallback.hidden=false;}
 window.addEventListener("pagehide",()=>{cancelAnimationFrame(raf);if(observer)observer.disconnect();if(scene)scene.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){const a=Array.isArray(o.material)?o.material:[o.material];a.forEach(m=>{if(m.map)m.map.dispose();m.dispose();});}});if(renderer)renderer.dispose();},{once:true});
 })();
