@@ -25,6 +25,12 @@ const dataPage = read("data.html");
 const artifact3d = read("js/artifact-3d-explorer.js");
 const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
+check(artifact3d.includes("function makeStudioEnvironment(T)") && artifact3d.includes("scene.environment=makeStudioEnvironment(T)"), "Artifact reconstructions use a generated studio reflection environment");
+check(artifact3d.includes("toneMappingExposure=1.08") && artifact3d.includes("envMapIntensity"), "Artifact PBR materials use a calibrated tone-mapping and reflection workflow");
+check(artifact3d.includes("cellGrid") && artifact3d.includes("gridMat"), "Artistic rover reconstructions include segmented solar-array surface details");
+check(artifact3d.includes('setAttribute("environment-image","neutral")'), "Official GLB exhibits use a neutral environment without modifying source geometry");
+check(artifact3d.includes("world.scene.environment.dispose()"), "Generated studio environment is disposed with the artifact scene");
+
 check(artifact3d.includes("webglcontextlost") && artifact3d.includes("webglcontextrestored") && universe3d.includes("webglcontextlost") && universe3d.includes("webglcontextrestored"), "Both 3D experiences handle WebGL context loss and restoration");
 check(artifact3d.includes("resumeFrame=()=>frame()"), "Artifact viewer can resume its render loop after a restored WebGL context");
 check(artifact3d.includes("if(document.hidden){active=false;cancelAnimationFrame(raf);raf=0;}else{active=true;if(renderer&&resumeFrame)resumeFrame();}"), "Artifact viewer correctly pauses and resumes after tab visibility changes");
