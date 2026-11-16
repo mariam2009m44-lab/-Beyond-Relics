@@ -36,7 +36,6 @@ function updateControls(){
  $("cinema-toggle").textContent=paused||!playing?"▶":"Ⅱ";
  $("cinema-toggle").setAttribute("aria-label",paused||!playing?"Play film":"Pause film");
  $("cinema-toggle").setAttribute("aria-pressed",String(paused||!playing));
- $("cinema-next").disabled=page>=pages.length-1;
 }
 function animateEntry(){
  if(reduce)return;
@@ -143,7 +142,8 @@ function toggleMusic(){
  if(audioContext.state==="suspended")audioContext.resume();
  musicOn=!musicOn;
  const now=audioContext.currentTime;audioMaster.gain.cancelScheduledValues(now);audioMaster.gain.setTargetAtTime(musicOn?.13:0,now,.7);
- $("cinema-sound").textContent=musicOn?"♫ SOUND ON":"♫ SOUND";
+ $("cinema-sound").innerHTML=musicOn?"♫ <span>SOUND ON</span>":"♫ <span>SOUND OFF</span>";
+ $("cinema-sound").setAttribute("aria-label",musicOn?"Turn sound off":"Turn sound on");
  $("cinema-sound").setAttribute("aria-pressed",String(musicOn));
 }
 function showImageError(){let note=stage.querySelector(".reader-image-error");if(!note){note=document.createElement("div");note.className="reader-image-error";note.setAttribute("role","status");stage.append(note);}note.textContent="This comic frame could not be loaded. You can still move to another page or return to the collection.";clearTimeout(timer);clearCameraSequence();playing=false;paused=false;updateControls();}
@@ -157,7 +157,7 @@ fetch("data/artifacts.json").then(r=>{if(!r.ok)throw Error("Archive unavailable"
 }).catch(showError);
 $("reader-prev").addEventListener("click",previousScene);$("reader-next").addEventListener("click",nextScene);
 $("cinema-toggle").addEventListener("click",toggleFilm);
-$("cinema-next").addEventListener("click",nextScene);$("cinema-sound").addEventListener("click",toggleMusic);
+$("cinema-sound").addEventListener("click",toggleMusic);
 document.querySelectorAll("[data-action]").forEach(b=>b.addEventListener("click",()=>{
  const action=b.dataset.action;
  if(action==="zoom-in")setZoom(scale+.5);if(action==="zoom-out")setZoom(scale-.5);if(action==="reset")resetZoom();
