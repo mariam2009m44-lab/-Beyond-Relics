@@ -18,6 +18,16 @@ const copy={
  "space-telescope":[["Primary mirror","The telescope's primary mirror collects incoming light."],["Instrument section","Scientific instruments analyze collected light."],["Solar arrays","Solar arrays provide electrical power."],["Antenna","Communications hardware links the observatory with mission operations."]],
  "pioneer-10-11":[["High-gain antenna","The dish antenna maintained communication across immense distances."],["Instrument section","Scientific instruments studied the interplanetary and outer-planet environment."],["RTG power","Radioisotope thermoelectric generators supplied electrical power."],["Booms","Instrument booms helped position sensors away from spacecraft interference."]]
 };
+const componentMap={
+ "lunar-module":["body","upper","landing-gear","descent-engine"],
+ "apollo-12-alsep":["central-station","science-instruments","antenna","rtg-power"],
+ "pathfinder-sojourner":["lander","rover-body","wheels","solar-array"],
+ "spirit":["rover-body",null,"wheels","solar-array"],
+ "opportunity":["rover-body","mast","wheels","solar-array"],
+ "phoenix":["lander-deck","robotic-arm","solar-array","landing-legs"],
+ "insight":["lander-deck",null,"solar-array","robotic-arm"],
+ "curiosity":["rover-body","mast","wheels","robotic-arm"]
+};
 function makeStudioEnvironment(T){
  const faces=[];
  for(let face=0;face<6;face++){
@@ -87,30 +97,34 @@ function makeScene(T,id,root){
  const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<(compactRender?260:620);i++)stars.push((starRand()-.5)*48,starRand()*24-2,(starRand()-.5)*42);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));const ambientStars=new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:compactRender?.035:.045,transparent:true,opacity:.82,depthWrite:false}));scene.add(ambientStars);
  const rootObj=new T.Group();scene.add(rootObj);
  const metal=new T.MeshStandardMaterial({color:0xb9a17b,metalness:.78,roughness:.27,envMapIntensity:1.25}),foil=new T.MeshStandardMaterial({color:0xb9c5c8,metalness:.82,roughness:.24,envMapIntensity:1.3}),dark=new T.MeshStandardMaterial({color:0x343e48,metalness:.55,roughness:.36,envMapIntensity:1.05}),black=new T.MeshStandardMaterial({color:0x101a26,metalness:.38,roughness:.3,envMapIntensity:.9}),blue=new T.MeshStandardMaterial({color:0x254c70,metalness:.58,roughness:.24,envMapIntensity:1.15}),solar=new T.MeshStandardMaterial({color:0x173d65,metalness:.62,roughness:.3,emissive:0x07182c,envMapIntensity:1.05});
- const groups={};
- const group=(name)=>{const g=new T.Group();groups[name]=g;rootObj.add(g);return g;};
+ const groups={},componentNodes={};
+ const group=(name)=>{const g=new T.Group();g.name=name;groups[name]=g;componentNodes[name]=g;rootObj.add(g);return g;};
+ const part=(parent,name)=>{const g=new T.Group();g.name=name;componentNodes[name]=g;parent.add(g);return g;};
  const mesh=(parent,geo,mat,pos=[0,0,0],rot=[0,0,0])=>{const m=new T.Mesh(geo,mat);m.position.set(...pos);m.rotation.set(...rot);parent.add(m);return m;};
  const box=(p,s,m,pos,rot)=>mesh(p,new T.BoxGeometry(...s),m,pos,rot);
  const cyl=(p,a,b,h,m,pos,segments=12,rot=[0,0,0])=>mesh(p,new T.CylinderGeometry(a,b,h,segments),m,pos,rot);
  const wheel=(p,x,z,r=.38)=>{const w=mesh(p,new T.CylinderGeometry(r,r,.22,16),black,[x,-1.65,z],[0,0,Math.PI/2]);mesh(p,new T.TorusGeometry(r*.72,.045,8,20),foil,[x,-1.65,z],[0,Math.PI/2,0]);return w;};
  function rover(curiosity=false,name="body"){
-  const body=group(name);box(body,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
-  box(body,[.8,.48,.7],foil,[0,.22,0]);box(body,[.25,.12,.25],dark,[0,.55,0]);
-  const mast=new T.Group();mast.position.set(0,.45,0);body.add(mast);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
-  if(curiosity){const arm=new T.Group();arm.position.set(.9,-.35,.1);body.add(arm);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
-  for(let z of [-.7,.7])for(let x of [-.85,0,.85])wheel(body,x,z,.35);
+  const body=group(name);const chassis=part(body,"rover-body");box(chassis,curiosity?[2.1,.85,1.55]:[1.75,.68,1.25],metal,[0,-.42,0]);
+  box(chassis,[.8,.48,.7],foil,[0,.22,0]);box(chassis,[.25,.12,.25],dark,[0,.55,0]);
+  const mast=part(body,"mast");mast.position.set(0,.45,0);cyl(mast,.07,.07,.85,foil,[0,.42,0]);mesh(mast,new T.SphereGeometry(.27,16,12),blue,[0,.9,0]);for(let x of [-.12,.12])box(mast,[.12,.09,.08],dark,[x,.9,.2]);
+  if(curiosity){const arm=part(body,"robotic-arm");arm.position.set(.9,-.35,.1);cyl(arm,.07,.07,.8,foil,[.2,-.2,.2],12,[0,0,.7]);}
+  const wheelAssembly=part(body,"wheels");
+  for(let z of [-.7,.7])for(let x of [-.85,0,.85])wheel(wheelAssembly,x,z,.35);
   if(!curiosity){
-   const panel=box(body,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
-   const cellGrid=new T.Group();cellGrid.position.copy(panel.position);cellGrid.rotation.copy(panel.rotation);body.add(cellGrid);
+   const solarArray=part(body,"solar-array");
+   const panel=box(solarArray,[2,.07,1.05],solar,[0,.15,-.95]);panel.rotation.x=-.12;
+   const cellGrid=new T.Group();cellGrid.position.copy(panel.position);cellGrid.rotation.copy(panel.rotation);solarArray.add(cellGrid);
    const gridMat=new T.MeshStandardMaterial({color:0x8caebe,metalness:.52,roughness:.38,envMapIntensity:.8});
    for(let x=-.8;x<=.81;x+=.4)box(cellGrid,[.014,.012,.98],gridMat,[x,.041,0]);
    for(let z=-.36;z<=.37;z+=.36)box(cellGrid,[1.94,.012,.014],gridMat,[0,.041,z]);
-   for(const side of [-1,1])box(body,[2.05,.12,.13],foil,[0,-.88,side*.68],[0,0,side*.05]);
+   for(const side of [-1,1])box(solarArray,[2.05,.12,.13],foil,[0,-.88,side*.68],[0,0,side*.05]);
   }else{
    // Curiosity uses an RTG, not a solar array; this is an artistic reconstruction.
-   cyl(body,.31,.31,.82,foil,[0,.48,-.86],24,[Math.PI/2,0,0]);
-   cyl(body,.36,.36,.1,dark,[0,.48,-1.28],24,[Math.PI/2,0,0]);
-   box(body,[.62,.12,.18],metal,[0,.84,-.62]);
+   const rtg=part(body,"rtg-power");
+   cyl(rtg,.31,.31,.82,foil,[0,.48,-.86],24,[Math.PI/2,0,0]);
+   cyl(rtg,.36,.36,.1,dark,[0,.48,-1.28],24,[Math.PI/2,0,0]);
+   box(rtg,[.62,.12,.18],metal,[0,.84,-.62]);
    const turret=new T.Group();turret.position.set(0,1.28,.02);body.add(turret);
    cyl(turret,.16,.16,.22,foil,[0,0,0],20);
    for(let x of [-.18,.18])mesh(turret,new T.SphereGeometry(.09,12,10),blue,[x,.04,.12]);
@@ -119,25 +133,32 @@ function makeScene(T,id,root){
   return body;
  }
  function lander(name="body",legCount=4){
-  const base=group(name);cyl(base,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(base,.75,.8,.7,foil,[0,.05,0],8);cyl(base,.42,.48,.45,dark,[0,.58,0],8);
-  for(let i=0;i<legCount;i++){const a=(Math.PI*2/legCount)*i+Math.PI/4,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;base.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
+  const base=group(name);const deck=part(base,"lander-deck");cyl(deck,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(deck,.75,.8,.7,foil,[0,.05,0],8);cyl(deck,.42,.48,.45,dark,[0,.58,0],8);
+  const landingLegs=part(base,"landing-legs");
+  for(let i=0;i<legCount;i++){const a=(Math.PI*2/legCount)*i+Math.PI/4,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;landingLegs.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
   return base;
  }
  if(id==="lunar-module"){
-  const lower=group("body");cyl(lower,1.5,1.65,.42,metal,[0,-.55,0],8);cyl(lower,1.2,1.25,.7,foil,[0,-1.1,0],8);cyl(lower,.42,.5,.55,dark,[0,-1.68,0]);
-  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a),leg=new T.Group();leg.position.set(x*1,-.9,z*1);leg.rotation.z=-x*.4;leg.rotation.x=z*.4;lower.add(leg);cyl(leg,.055,.075,1.45,foil,[0,-.62,0]);box(leg,[.58,.08,.38],metal,[x*.18,-1.35,z*.18]);}
+  const lower=group("body");cyl(lower,1.5,1.65,.42,metal,[0,-.55,0],8);cyl(lower,1.2,1.25,.7,foil,[0,-1.1,0],8);
+  const descentEngine=part(lower,"descent-engine");cyl(descentEngine,.42,.5,.55,dark,[0,-1.68,0]);
+  const landingGear=part(lower,"landing-gear");
+  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a),leg=new T.Group();leg.position.set(x*1,-.9,z*1);leg.rotation.z=-x*.4;leg.rotation.x=z*.4;landingGear.add(leg);cyl(leg,.055,.075,1.45,foil,[0,-.62,0]);box(leg,[.58,.08,.38],metal,[x*.18,-1.35,z*.18]);}
   const upper=group("upper");cyl(upper,.78,.9,1.05,metal,[0,.2,0],6);cyl(upper,.32,.32,.45,dark,[0,.9,0]);for(let i=0;i<3;i++){const a=i*2.094;box(upper,[.38,.3,.06],blue,[Math.cos(a)*.72,.25,Math.sin(a)*.72]);}
  }else if(id==="apollo-12-alsep"){
   const station=group("body");station.position.y=-1.55;
-  box(station,[1.05,.58,.82],metal,[0,-.55,0]);box(station,[.72,.08,.58],foil,[0,-.22,0]);
+  const centralStation=part(station,"central-station");
+  box(centralStation,[1.05,.58,.82],metal,[0,-.55,0]);box(centralStation,[.72,.08,.58],foil,[0,-.22,0]);
   // RTG package, antenna and instrument packages: educational artistic reconstruction.
-  cyl(station,.22,.22,.82,foil,[-.72,-.48,0],24,[0,0,Math.PI/2]);
-  for(let k=0;k<7;k++)box(station,[.025,.34,.38],dark,[-.72,-.48,-.3+k*.1]);
-  cyl(station,.1,.1,1.2,foil,[0,.55,0],16);
-  const dish=mesh(station,new T.SphereGeometry(.34,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,1.2,0]);dish.rotation.x=Math.PI;
-  cyl(station,.035,.035,.8,metal,[0,1.52,0],10);
+  const power=part(station,"rtg-power");
+  cyl(power,.22,.22,.82,foil,[-.72,-.48,0],24,[0,0,Math.PI/2]);
+  for(let k=0;k<7;k++)box(power,[.025,.34,.38],dark,[-.72,-.48,-.3+k*.1]);
+  const antenna=part(station,"antenna");
+  cyl(antenna,.1,.1,1.2,foil,[0,.55,0],16);
+  const dish=mesh(antenna,new T.SphereGeometry(.34,24,16,0,Math.PI*2,0,Math.PI/2),foil,[0,1.2,0]);dish.rotation.x=Math.PI;
+  cyl(antenna,.035,.035,.8,metal,[0,1.52,0],10);
+  const instrumentsGroup=part(station,"science-instruments");
   const instruments=[[-1.35,-.82,-.35],[1.25,-.82,-.35],[1.35,-.82,.55],[-1.25,-.82,.62]];
-  instruments.forEach((p,i)=>box(station,[.34,.22,.3],i%2?dark:foil,p));
+  instruments.forEach((p,i)=>box(instrumentsGroup,[.34,.22,.3],i%2?dark:foil,p));
   cyl(station,.11,.11,.18,foil,[.45,-.17,.12],16);
  }else if(id==="pathfinder-sojourner"){
   const pathfinder=lander("lander");pathfinder.position.set(-2.05,-.2,0);
@@ -148,23 +169,27 @@ function makeScene(T,id,root){
   lander("body",3);const p=groups.body;
   if(id==="insight"){
    // InSight's two deployed solar wings and instrument-placement arm.
+   const solarArray=part(p,"solar-array");
    for(const side of [-1,1]){
-    box(p,[1.35,.055,1.05],solar,[side*1.48,.18,0]);
-    for(let x=-.45;x<=.46;x+=.3)box(p,[.018,.012,.98],blue,[side*1.48+x,.22,0]);
-    for(let z=-.35;z<=.36;z+=.35)box(p,[1.3,.012,.018],blue,[side*1.48,.22,z]);
+    box(solarArray,[1.35,.055,1.05],solar,[side*1.48,.18,0]);
+    for(let x=-.45;x<=.46;x+=.3)box(solarArray,[.018,.012,.98],blue,[side*1.48+x,.22,0]);
+    for(let z=-.35;z<=.36;z+=.35)box(solarArray,[1.3,.012,.018],blue,[side*1.48,.22,z]);
    }
-   const arm=new T.Group();arm.position.set(.8,.1,0);p.add(arm);
+   const arm=part(p,"robotic-arm");arm.position.set(.8,.1,0);
    cyl(arm,.065,.065,1,foil,[.25,-.1,0],12,[0,0,.65]);cyl(arm,.045,.045,.65,metal,[.7,-.48,0],12,[0,0,-.7]);
-   box(p,[.42,.22,.38],foil,[-.72,-.28,.5]);cyl(p,.12,.12,.18,dark,[-.72,-.12,.5],20);
+   const sciencePayload=part(p,"science-payload");
+   box(sciencePayload,[.42,.22,.38],foil,[-.72,-.28,.5]);cyl(sciencePayload,.12,.12,.18,dark,[-.72,-.12,.5],20);
   }else{
    // Phoenix's two solar wings, deck instruments and sample-delivery arm.
+   const solarArray=part(p,"solar-array");
    for(const side of [-1,1]){
-    box(p,[1.15,.055,.82],solar,[side*1.45,.25,0]);
-    for(let x=-.38;x<=.39;x+=.25)box(p,[.018,.012,.76],blue,[side*1.45+x,.29,0]);
+    box(solarArray,[1.15,.055,.82],solar,[side*1.45,.25,0]);
+    for(let x=-.38;x<=.39;x+=.25)box(solarArray,[.018,.012,.76],blue,[side*1.45+x,.29,0]);
    }
-   const arm=new T.Group();arm.position.set(.7,.2,.2);p.add(arm);
+   const arm=part(p,"robotic-arm");arm.position.set(.7,.2,.2);
    cyl(arm,.06,.06,.9,foil,[.18,-.25,0],12,[0,0,.55]);cyl(arm,.045,.045,.72,metal,[.58,-.56,.06],12,[0,0,-.5]);
-   box(p,[.42,.26,.36],dark,[-.45,.12,-.35]);
+   const deckInstruments=part(p,"deck-instruments");
+   box(deckInstruments,[.42,.26,.36],dark,[-.45,.12,-.35]);
   }
  }
  else if(id==="voyager"||id==="pioneer-10-11"){
@@ -172,7 +197,7 @@ function makeScene(T,id,root){
  }else{
   const telescope=group("body");cyl(telescope,.95,1.05,2.6,foil,[0,0,0],16);cyl(telescope,.7,.8,.22,dark,[0,1.4,0],16);mesh(telescope,new T.CylinderGeometry(.7,.7,.05,32),blue,[0,1.53,0]);for(let x of [-1.55,1.55])box(telescope,[1.2,.06,2.2],solar,[x,0,0]);
  }
- return {scene,camera,rootObj,groups,ambientStars};
+ return {scene,camera,rootObj,groups,componentNodes,ambientStars};
 }
 const OFFICIAL_MODELS={
  "voyager":{src:"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/voyager-probe-%28b%29/Voyager%20Probe%20%28B%29.glb",source:"NASA / Michael D. Carbajal",page:"https://science.nasa.gov/3d-resources/voyager-probe-b/",label:"OFFICIAL NASA 3D MODEL"},
@@ -245,7 +270,43 @@ function mount(root,item){
  const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");const buttons=[...root.querySelectorAll("[data-part]")];let renderer,world,raf=0,resumeFrame=null,active=!document.hidden,observer,drag=false,lastX=0,lastY=0,rotX=-.12,rotY=.45,targetX=rotX,targetY=rotY,zoom=1,pinch=0,exploded=false,autoRotate=!reducedMotion.matches;
  const rotateButton=root.querySelector("[data-view-rotate]");
  if(rotateButton)rotateButton.addEventListener("click",()=>{const officialViewer=root.querySelector(".artifact-model-viewer");if(officialViewer){const on=!officialViewer.hasAttribute("auto-rotate");if(on)officialViewer.setAttribute("auto-rotate","");else officialViewer.removeAttribute("auto-rotate");rotateButton.setAttribute("aria-pressed",String(on));rotateButton.textContent=on?"Pause rotation":"Auto rotate";return;}autoRotate=!autoRotate;rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";});
- function setInfo(i,show){const d=info[i]||info[0];panel.querySelector("small").textContent="COMPONENT GUIDE · "+String(i+1).padStart(2,"0");panel.querySelector("strong").textContent=d[0];panel.querySelector("p").textContent=d[1];panel.hidden=!show;panel.classList.toggle("is-visible",!!show);buttons.forEach((b,n)=>{b.setAttribute("aria-pressed",String(n===i));if(info[n])b.textContent=info[n][0];});}
+ const highlighted=[];
+ function clearHighlight(){
+  highlighted.forEach(([object,original,emphasis])=>{
+   object.material=original;
+   (Array.isArray(emphasis)?emphasis:[emphasis]).forEach(material=>material.dispose());
+  });
+  highlighted.length=0;
+ }
+ function highlightComponent(index){
+  clearHighlight();
+  const targetName=(componentMap[item.id]||[])[index];
+  const target=world&&targetName&&world.componentNodes[targetName];
+  if(!target||!window.THREE)return false;
+  target.traverse(object=>{
+   if(!object.isMesh||!object.material)return;
+   const original=object.material;
+   const emphasize=material=>{
+    const clone=material.clone();
+    if(clone.emissive){clone.emissive.set(0x48cbe8);clone.emissiveIntensity=Math.max(clone.emissiveIntensity||0,.42);}
+    else if(clone.color)clone.color.lerp(new window.THREE.Color(0x8edce8),.28);
+    return clone;
+   };
+   const emphasis=Array.isArray(original)?original.map(emphasize):emphasize(original);
+   object.material=emphasis;
+   highlighted.push([object,original,emphasis]);
+  });
+  return highlighted.length>0;
+ }
+ function setInfo(i,show){
+  const d=info[i]||info[0],emphasized=show&&highlightComponent(i);
+  if(!show)clearHighlight();
+  panel.querySelector("small").textContent="COMPONENT GUIDE · "+String(i+1).padStart(2,"0")+(emphasized?" · 3D PART HIGHLIGHTED":" · EXPLANATORY NOTE");
+  panel.querySelector("strong").textContent=d[0];
+  panel.querySelector("p").textContent=d[1]+(emphasized?" The matching modeled assembly is highlighted in the exhibit.":" This model does not expose a separately identifiable mesh for this component, so this is an explanatory note rather than a claimed 3D highlight.");
+  panel.hidden=!show;panel.classList.toggle("is-visible",!!show);
+  buttons.forEach((b,n)=>{b.setAttribute("aria-pressed",String(n===i&&show));if(info[n])b.textContent=info[n][0];});
+ }
  mountOfficialModel(root,item,loading,canvas).then(official=>{if(official)return;return engine().then(T=>{if(!canvas.isConnected)return;world=makeScene(T,item.id,root);if(!world.groups.upper)root.querySelector("[data-view-explode]").hidden=true;const modelBounds=new T.Box3().setFromObject(world.rootObj);const modelSphere=modelBounds.getBoundingSphere(new T.Sphere());const modelCenter=modelSphere.center.clone();const fitRadius=Math.max(modelSphere.radius,2.4);const baseDistance=fitRadius/Math.sin(T.MathUtils.degToRad(world.camera.fov/2))*1.12;renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.setClearColor(0x000000,0);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);observer=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(w,h,false);world.camera.aspect=w/h;world.camera.updateProjectionMatrix();});observer.observe(canvas);
  loading.hidden=true;
  function frame(now=performance.now()){if(!active||!renderer)return;raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(autoRotate&&!reducedMotion.matches&&!drag)targetY+=.0012*delta;const easing=reducedMotion.matches?1:1-Math.pow(.92,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;world.rootObj.rotation.set(rotX,rotY,0);if(world.ambientStars&&!reducedMotion.matches)world.ambientStars.rotation.y+=.000035*delta;const liveTarget=modelCenter.clone().applyEuler(world.rootObj.rotation);world.camera.position.set(liveTarget.x+baseDistance*.48*zoom,liveTarget.y+baseDistance*.34*zoom,liveTarget.z+baseDistance*.88*zoom);world.camera.lookAt(liveTarget);renderer.render(world.scene,world.camera);}resumeFrame=()=>frame();frame();
@@ -253,7 +314,7 @@ function mount(root,item){
  buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i,true)));
  canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();active=false;cancelAnimationFrame(raf);raf=0;loading.hidden=false;loading.textContent="The 3D graphics context was interrupted. If it does not recover, reload this exhibit.";loading.classList.add("is-error");});
  canvas.addEventListener("webglcontextrestored",()=>{if(renderer)renderer.resetState();loading.hidden=true;loading.classList.remove("is-error");active=!document.hidden;if(active&&resumeFrame)resumeFrame();});
- const closeInfo=panel.querySelector(".artifact-3d-callout-close");if(closeInfo)closeInfo.addEventListener("click",()=>{panel.hidden=true;panel.classList.remove("is-visible");});
+ const closeInfo=panel.querySelector(".artifact-3d-callout-close");if(closeInfo)closeInfo.addEventListener("click",()=>setInfo(0,false));
  root.querySelector("[data-view-zoom-in]").addEventListener("click",()=>{zoom=Math.max(.62,zoom-.12);});
  root.querySelector("[data-view-zoom-out]").addEventListener("click",()=>{zoom=Math.min(1.72,zoom+.12);});
  root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;autoRotate=!reducedMotion.matches;if(rotateButton){rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";}setInfo(0,false);});
@@ -277,7 +338,7 @@ function mount(root,item){
  canvas.addEventListener("touchmove",e=>{if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinch){zoom=Math.max(.62,Math.min(1.72,zoom+(pinch-d)*.003));}pinch=d;}},{passive:true});
  canvas.addEventListener("touchend",()=>pinch=0,{passive:true});
  document.addEventListener("visibilitychange",()=>{if(document.hidden){active=false;cancelAnimationFrame(raf);raf=0;}else{active=true;if(renderer&&resumeFrame)resumeFrame();}});
- window.addEventListener("pagehide",()=>{active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(world){const geometries=new Set(),materials=new Set(),textures=new Set();world.scene.traverse(object=>{if(object.geometry)geometries.add(object.geometry);if(object.material){for(const material of (Array.isArray(object.material)?object.material:[object.material])){materials.add(material);for(const value of Object.values(material)){if(value&&value.isTexture)textures.add(value);}}}});textures.forEach(texture=>texture.dispose());if(world.scene.environment)world.scene.environment.dispose();geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());}if(renderer)renderer.dispose();},{once:true});
+ window.addEventListener("pagehide",()=>{clearHighlight();active=false;cancelAnimationFrame(raf);if(observer)observer.disconnect();if(world){const geometries=new Set(),materials=new Set(),textures=new Set();world.scene.traverse(object=>{if(object.geometry)geometries.add(object.geometry);if(object.material){for(const material of (Array.isArray(object.material)?object.material:[object.material])){materials.add(material);for(const value of Object.values(material)){if(value&&value.isTexture)textures.add(value);}}}});textures.forEach(texture=>texture.dispose());if(world.scene.environment)world.scene.environment.dispose();geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());}if(renderer)renderer.dispose();},{once:true});
  setInfo(0);
 }
 window.BeyondRelicsArtifact3D={mount};

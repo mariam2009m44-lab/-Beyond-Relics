@@ -71,6 +71,9 @@ check(universe3d.includes("orbit(-11,-1,2.8,2.8)") && universe3d.includes("moonA
 check(universe3d.includes("br-universe-motion") && universe3d.includes("Pause orbits") && universe3d.includes("Motion reduced"), "Visitors can pause orbital motion and reduced-motion settings remain enforced");
 
 check(artifact3d.includes("geometries.forEach(geometry=>geometry.dispose())") && universe3d.includes("geometries.forEach(geometry=>geometry.dispose())"), "3D scene geometry and material resources are explicitly disposed on page exit");
+check(artifact3d.includes("const componentMap=") && artifact3d.includes("world.componentNodes[targetName]") && artifact3d.includes("clone.emissiveIntensity"), "Component guide highlights only explicitly mapped procedural 3D assemblies");
+check(artifact3d.includes("This model does not expose a separately identifiable mesh") && artifact3d.includes("EXPLANATORY NOTE"), "Unsupported component meshes are disclosed as explanatory-only rather than falsely highlighted");
+check(["landing-gear","descent-engine","central-station","science-instruments","rtg-power","rover-body","lander-deck","wheels","solar-array","robotic-arm"].every((name) => artifact3d.includes('"'+name+'"')), "Procedural exhibits expose named component groups for real assembly-level highlighting");
 check(exists("docs/3D-ENGINEERING-STANDARDS.md"), "3D engineering standards and review checklist are documented");
 
 
@@ -79,12 +82,7 @@ check(index.includes('id="home"') && index.includes('id="mission-stories"'), "Ho
 check(index.includes('href="data.html"') && index.includes('href="artifacts.html"'), "Homepage links directly to the NASA Data Lab and artifact archive");
 check(index.includes('href="challenge.html"') && index.includes('href="timeline.html"'), "Homepage retains the challenge brief and mission timeline navigation");
 check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
-check(comicPage.includes("three.min.js") && comicPage.includes("js/comic-world-3d.js"), "Comic reader preserves original 2D frames and offers an optional interactive 3D world");
-const comicWorld = read("js/comic-world-3d.js");
-const comicWorldCss = read("css/comic-world-3d.css");
-check(comicWorld.includes('const mars=chapter==="pathfinder-sojourner",lunar=chapter==="lunar-module"') && comicWorld.includes("buildLunarModule()"), "Comic 3D mode provides chapter-specific Moon, Mars, and deep-space environments");
-check(comicWorld.includes("starRandom") && comicWorld.includes('!stage.classList.contains("is-world-mode")'), "Comic 3D mode uses deterministic stars and pauses rendering outside the active view");
-check(comicWorldCss.includes(".reader-stage.is-world-mode .reader-image-wrap") && comicWorldCss.includes("prefers-reduced-motion"), "Optional comic 3D mode keeps the original story recoverable and respects reduced motion");
+check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js') && !comicPage.includes("three.min.js") && !comicPage.includes("comic-world-3d"), "Comic reader is a lightweight 2D-only experience with the original page reader");
 check(comicScript.includes("showImageError") && comicScript.includes('img.addEventListener("error"'), "Comic reader reports failed frame loads without leaving playback stuck");
 check(comicScript.includes('addEventListener("click",toggleFilm)'), "Film playback does not enable audio without a separate sound action");
 const creditsPage = read("credits.html");
@@ -142,7 +140,7 @@ for (const htmlFile of htmlFiles) {
   }
 }
 check(exists("assets/logos/favicon.svg"), "Primary SVG favicon exists");
-check(exists("css/comic-world-3d.css"), "Optional comic 3D mode stylesheet exists");
+check(!exists("css/comic-world-3d.css") && !exists("js/comic-world-3d.js"), "Comic reader has no unused 3D runtime or stylesheet; its story remains 2D-only");
 
 function collectFiles(directory, extension, output = []) {
   for (const entry of fs.readdirSync(path.join(root, directory), { withFileTypes: true })) {
