@@ -81,3 +81,12 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 - Check the solar-cell grid remains subtle and is visible only on the artistic rover reconstructions.
 - Test the same exhibits at a narrow mobile width and verify the model remains unobstructed by the top source badge and bottom controls.
 - Compare reduced-motion mode; the new material and lighting treatment must not introduce additional motion.
+
+
+## 9. Mission-surface composition and deterministic scenes
+
+- Lunar and Mars surface exhibits may use a procedural terrain stage; deep-space spacecraft and orbital observatories must remain in a space-only environment without an invented planetary ground.
+- Align each lander/rover reconstruction to its exhibit surface so wheels and feet do not visibly float.
+- Use a subtle generated contact-shadow texture to anchor surface reconstructions; it is a rendering aid, not a measured shadow or mission photograph.
+- Seed procedural stars and rocks so the exhibit composition is stable between reloads and screenshot reviews.
+- Reduce terrain tessellation and rock count on compact/low-core devices; keep the object itself as the visual priority.
