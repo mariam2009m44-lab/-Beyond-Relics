@@ -315,7 +315,7 @@ async function openUniverse(event){
 }
 function closeUniverse(){active=false;cancelAnimationFrame(raf);raf=0;overlay.classList.remove("is-open");overlay.setAttribute("aria-hidden","true");document.body.style.overflow="";if(returnFocus&&returnFocus.isConnected)returnFocus.focus();}
 launcher.addEventListener("click",openUniverse);
-if(new URLSearchParams(location.search).has("openWorld"))openUniverse({currentTarget:launcher});
+if(new URLSearchParams(location.search).has("openExplorer")||new URLSearchParams(location.search).has("openWorld"))openUniverse({currentTarget:launcher});
 const motionButton=$("br-universe-motion");
 function syncMotionButton(){motionButton.textContent=motionPaused?"Resume orbits":"Pause orbits";motionButton.setAttribute("aria-pressed",String(motionPaused));}
 motionButton.addEventListener("click",()=>{motionPaused=!motionPaused;syncMotionButton();});
