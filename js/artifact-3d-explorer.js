@@ -313,7 +313,7 @@ function mount(root,item){
  buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i,true)));
  canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();active=false;cancelAnimationFrame(raf);raf=0;loading.hidden=false;loading.textContent="The 3D graphics context was interrupted. If it does not recover, reload this exhibit.";loading.classList.add("is-error");});
  canvas.addEventListener("webglcontextrestored",()=>{if(renderer)renderer.resetState();loading.hidden=true;loading.classList.remove("is-error");active=!document.hidden;if(active&&resumeFrame)resumeFrame();});
- const closeInfo=panel.querySelector(".artifact-3d-callout-close");if(closeInfo)closeInfo.addEventListener("click",()=>{panel.hidden=true;panel.classList.remove("is-visible");});
+ const closeInfo=panel.querySelector(".artifact-3d-callout-close");if(closeInfo)closeInfo.addEventListener("click",()=>setInfo(0,false));
  root.querySelector("[data-view-zoom-in]").addEventListener("click",()=>{zoom=Math.max(.62,zoom-.12);});
  root.querySelector("[data-view-zoom-out]").addEventListener("click",()=>{zoom=Math.min(1.72,zoom+.12);});
  root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;autoRotate=!reducedMotion.matches;if(rotateButton){rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";}setInfo(0,false);});
