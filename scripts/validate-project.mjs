@@ -19,15 +19,16 @@ function exists(relativePath) {
 
 const records = JSON.parse(read("data/artifacts.json"));
 const index = read("index.html");
-const quiz = read("js/mission-quiz.js");
+const comicPage = read("comic.html");
+const comicScript = read("js/comic-reader.js");
 const dataPage = read("data.html");
 
 check(Array.isArray(records) && records.length > 0, "Artifact catalogue is valid JSON and non-empty");
-check(index.includes("<strong>" + records.length + "</strong>"), "Homepage mission count matches the catalogue");
-check(index.includes('data-mission-quiz') && index.includes('js/mission-quiz.js'), "Homepage includes the working Mission Investigator");
-const quizCount = (quiz.match(/question:\s*"/g) || []).length;
-check(quizCount === 4, "Mission Investigator contains four evidence questions");
-check(index.includes('aria-valuemax="4"'), "Quiz progress accessibility maximum matches four questions");
+check(index.includes('id="comic-grid"') && index.includes('js/comics-experience.js'), "Homepage is centered on the original comic collection");
+check(comicPage.includes('id="reader-image"') && comicPage.includes('js/comic-reader.js'), "Comic reader page loads the dedicated page viewer");
+check(comicScript.includes("requestFullscreen") && comicScript.includes("ArrowRight") && comicScript.includes("ArrowLeft"), "Comic reader supports full-screen and keyboard page navigation");
+const comicRecords = records.filter((item) => Array.isArray(item.story_artwork) && item.story_artwork.length);
+check(comicRecords.length > 0 && comicRecords.every((item) => item.story_artwork.every((frame) => typeof frame.file === "string")), "Comic collection is built only from assigned team artwork");
 check(dataPage.includes("Read the Moon through its data"), "Waveform lab wording describes a plotted data experience, not audio playback");
 check(dataPage.indexOf("js/geocsv-parser.js") >= 0 && dataPage.indexOf("js/geocsv-parser.js") < dataPage.indexOf("js/apollo-waveform-lab.js"), "GeoCSV parser loads before the waveform explorer");
 
