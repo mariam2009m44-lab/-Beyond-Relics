@@ -7,7 +7,7 @@ const launcher=document.getElementById("br-universe-launcher");
 if(!launcher)return;
 let THREE=null,renderer=null,scene=null,camera=null,raf=0,observer=null,raycaster=null,pointer=null,gltfLoaderPromise=null;
 let active=false,dragging=false,moved=false,lastX=0,lastY=0,downX=0,downY=0;
-let rotX=-.08,rotY=0,targetX=rotX,targetY=rotY,zoom=1,targetZoom=1,selected=null,data=[];
+let rotX=0,rotY=0,targetX=rotX,targetY=rotY,zoom=1,targetZoom=1,selected=null,data=[];
 let focusTarget=null,cameraGoal=null,motionPaused=false,moonAngle=0,surfaceRoot=null,surfaceGroups={},surfaceMode=false,surfaceWorldKey=null,surfaceLookAt=null,surfaceHotspots=[];
 const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
 const $=id=>document.getElementById(id);
@@ -42,8 +42,8 @@ worlds.miranda={title:"Miranda",kicker:"URANUS MOON · PATCHWORK TERRAIN",copy:"
 worlds.titania={title:"Titania",kicker:"URANUS MOON · LARGEST URANIAN SATELLITE",copy:"Titania is the largest moon of Uranus, with a surface marked by large canyons and impact craters.",ids:["voyager"],position:[22,0,-12],zoom:1.2,tag:"URANIAN MOON",facts:["Largest moon of Uranus","Water ice and rocky material","Voyager 2 flyby imagery"]};
 worlds.oberon={title:"Oberon",kicker:"URANUS MOON · OUTER MAJOR SATELLITE",copy:"Oberon is an ancient, heavily cratered moon orbiting farthest among Uranus’s five major satellites.",ids:["voyager"],position:[22,0,-12],zoom:1.2,tag:"URANIAN MOON",facts:["Heavily cratered surface","One of Uranus’s five major moons","Voyager 2 flyby imagery"]};
 worlds.triton={title:"Triton",kicker:"NEPTUNE MOON · RETROGRADE ORBIT",copy:"Triton is Neptune’s largest moon and travels in a retrograde orbit, suggesting it was captured by Neptune’s gravity.",ids:["voyager"],position:[32,0,-14],zoom:1.2,tag:"NEPTUNIAN MOON",facts:["Retrograde orbit","Very cold icy surface","Voyager 2 flyby in 1989"]};
-worlds.phobos={title:"Phobos",kicker:"MARS MOON · INNER SATELLITE",copy:"Phobos is the larger and closer of Mars's two small moons. Its irregular shape and heavily marked surface make it a very different world from Earth's Moon.",ids:["pathfinder-sojourner","spirit","opportunity","phoenix","insight","curiosity"],position:[-1,0,-5],zoom:1.45,tag:"MARTIAN MOON"};
-worlds.deimos={title:"Deimos",kicker:"MARS MOON · OUTER SATELLITE",copy:"Deimos is the smaller, more distant moon of Mars. This compact visualization is an artistic representation, not a surveyed shape model.",ids:["pathfinder-sojourner","spirit","opportunity","phoenix","insight","curiosity"],position:[-1,0,-5],zoom:1.45,tag:"MARTIAN MOON"};
+worlds.phobos={...worlds.phobos,ids:[],facts:["Mean radius: about 11 km","Orbits Mars in about 7.7 hours","Larger and closer to Mars than Deimos"]};
+worlds.deimos={...worlds.deimos,ids:[],facts:["Mean radius: about 6 km","Orbits Mars in about 30.3 hours","Smaller and farther from Mars than Phobos"]};
 worlds.io={title:"Io",kicker:"JUPITER MOON · VOLCANIC WORLD",copy:"Io is a volcanically active moon shaped by strong tidal interactions with Jupiter and neighbouring moons.",ids:["voyager","pioneer-10-11"],position:[7,0,-8],zoom:1.25,tag:"JOVIAN MOON"};
 worlds.europa={title:"Europa",kicker:"JUPITER MOON · ICE-COVERED WORLD",copy:"Europa's icy surface and evidence for a subsurface ocean make it a major target in the search for habitable environments.",ids:["voyager","pioneer-10-11"],position:[7,0,-8],zoom:1.25,tag:"JOVIAN MOON"};
 worlds.ganymede={title:"Ganymede",kicker:"JUPITER MOON · LARGEST NATURAL SATELLITE",copy:"Ganymede is the largest moon in the Solar System and has its own magnetic field.",ids:["voyager","pioneer-10-11"],position:[7,0,-8],zoom:1.25,tag:"JOVIAN MOON"};
@@ -131,13 +131,14 @@ function addSatellite(parentKey,key,radius,distance,speed,color,phase=0){
  planetGroups[key]=group;worldRadii[key]=radius;
  orbitingMoons.push({group,center,distance,speed,phase});
 }
+function overviewCameraPosition(){const aspect=Math.max(.42,overlay.clientWidth/Math.max(1,overlay.clientHeight));const halfFov=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));const distance=62/(2*halfFov*aspect)*1.08;return new THREE.Vector3(0,Math.max(82,distance),-7);}
 function buildScene(){
  const canvas=overlay.querySelector(".br-universe-canvas");
  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"low-power"});
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(overlay.clientWidth,overlay.clientHeight);
  renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
  scene=new THREE.Scene();scene.background=new THREE.Color(0x050b15);scene.fog=new THREE.FogExp2(0x050b15,.0022);
- camera=new THREE.PerspectiveCamera(44,overlay.clientWidth/overlay.clientHeight,.1,600);camera.position.set(0,22,68);camera.lookAt(0,0,-7);
+ camera=new THREE.PerspectiveCamera(44,overlay.clientWidth/overlay.clientHeight,.1,900);camera.up.set(0,0,-1);camera.position.copy(overviewCameraPosition());camera.lookAt(0,0,-7);
  scene.add(new THREE.HemisphereLight(0x9dbbd5,0x171a26,1.05));
  const sunLight=new THREE.PointLight(0xffd5a0,360,180);sunLight.position.set(-20,7,0);scene.add(sunLight);
  const fill=new THREE.DirectionalLight(0x9dc6e4,1.1);fill.position.set(10,12,20);scene.add(fill);
@@ -169,7 +170,7 @@ function buildScene(){
  canvas.addEventListener("wheel",e=>{e.preventDefault();targetZoom=Math.max(.72,Math.min(1.75,targetZoom+(e.deltaY>0?.06:-.06)));},{passive:false});
  canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();active=false;cancelAnimationFrame(raf);raf=0;$("br-universe-loader").hidden=false;$("br-universe-loader").textContent="Graphics paused. The destination list and mission archive remain available.";});
  canvas.addEventListener("webglcontextrestored",()=>{if(renderer)renderer.resetState();$("br-universe-loader").hidden=true;active=!document.hidden;if(active)startLoop();});
- observer=new ResizeObserver(()=>{if(!renderer||!camera)return;const w=overlay.clientWidth,h=overlay.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);});observer.observe(overlay);
+ observer=new ResizeObserver(()=>{if(!renderer||!camera)return;const w=overlay.clientWidth,h=overlay.clientHeight;if(!w||!h)return;renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);if(!selected&&!surfaceMode){cameraGoal=overviewCameraPosition();camera.position.copy(cameraGoal);camera.lookAt(0,0,-7);}});observer.observe(overlay);
  $("br-universe-loader").hidden=true;startLoop();
 }
 function transitionCameraTo(position,duration=1.65){
@@ -180,6 +181,30 @@ function transitionCameraTo(position,duration=1.65){
   window.gsap.killTweensOf(cameraGoal);
   window.gsap.to(cameraGoal,{x:target.x,y:target.y,z:target.z,duration,ease:"power3.inOut",overwrite:true});
  }else cameraGoal=target;
+}
+const authenticWorldModelURLs={moon:"https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014959/moon_small.glb"};
+const authenticWorldModelPromises={};
+async function loadAuthenticWorldModel(key){
+ const url=authenticWorldModelURLs[key],group=planetGroups[key];
+ if(!url||!group)return false;
+ if(group.userData.authenticModel)return true;
+ if(authenticWorldModelPromises[key])return authenticWorldModelPromises[key];
+ authenticWorldModelPromises[key]=(async()=>{
+  try{
+   const loader=await getSurfaceLoader(),gltf=await loader.loadAsync(url),model=new THREE.Group();
+   model.add(gltf.scene);
+   const bounds=new THREE.Box3().setFromObject(model),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
+   const max=Math.max(size.x,size.y,size.z)||1,scale=(worldRadii[key]*2)/max;
+   model.scale.setScalar(scale);model.position.set(-center.x*scale,-center.y*scale,-center.z*scale);
+   model.userData.world=key;
+   const placeholder=group.children.find(child=>child.isMesh&&child.geometry&&child.geometry.type==="SphereGeometry");
+   if(placeholder){group.remove(placeholder);placeholder.geometry.dispose();const materials=Array.isArray(placeholder.material)?placeholder.material:[placeholder.material];materials.forEach(material=>{if(material.map)material.map.dispose();material.dispose();});}
+   group.add(model);group.userData.authenticModel=model;
+   const chip=document.createElement("span");chip.textContent="NASA LRO 3D MODEL";chip.dataset.modelSource=key;$("br-universe-facts").append(chip);
+   return true;
+  }catch(error){delete authenticWorldModelPromises[key];return false;}
+ })();
+ return authenticWorldModelPromises[key];
 }
 function getSurfaceLoader(){
  if(window.__brSurfaceGLTFLoader)return window.__brSurfaceGLTFLoader;
@@ -248,14 +273,14 @@ async function enterSurface(key){
  $("br-universe-surface-status").textContent="Building the surface environment and loading NASA 3D models…";
  const list=$("br-universe-surface-points");list.replaceChildren();
  (surfacePoints[key]||[]).forEach(point=>{const button=document.createElement("button");button.type="button";button.className="br-universe-surface-point";button.dataset.point=point.id;button.textContent=point.title;button.addEventListener("click",()=>showSurfacePoint(point.id));list.append(button);});
- rotX=-.08;rotY=0;targetX=rotX;targetY=rotY;focusTarget=null;surfaceLookAt=new THREE.Vector3(0,0,0);transitionCameraTo({x:0,y:6,z:15},1.5);targetZoom=1;
+ camera.up.set(0,1,0);rotX=0;rotY=0;targetX=rotX;targetY=rotY;focusTarget=null;surfaceLookAt=new THREE.Vector3(0,0,0);transitionCameraTo({x:0,y:6,z:15},1.5);targetZoom=1;
  const group=surfaceGroups[key];if(group)group.visible=true;else await ensureSurface(key);
  surfaceHotspots=[];surfaceGroups[key].traverse(object=>{if(object.userData&&object.userData.surfacePoint)surfaceHotspots.push(object);});
  scene.rotation.set(0,0,0);
- if(key==="moon")showSurfacePoint("lunar-module");else showSurfacePoint(surfacePoints[key][0].id);
+ if(key==="moon")showSurfacePoint("lunar-module");else showSurfacePoint("opportunity");
 }
 function exitSurface(){
- if(!surfaceMode)return;const key=surfaceWorldKey;surfaceMode=false;surfaceWorldKey=null;surfaceRoot.visible=false;scene.children.forEach(object=>{if(object!==surfaceRoot)object.visible=true;});
+ if(!surfaceMode)return;const key=surfaceWorldKey;surfaceMode=false;surfaceWorldKey=null;camera.up.set(0,0,-1);surfaceRoot.visible=false;scene.children.forEach(object=>{if(object!==surfaceRoot)object.visible=true;});
  overlay.classList.remove("br-universe-surface-active");$("br-universe-surface-panel").hidden=true;surfaceLookAt=null;resetView();if(key)showWorld(key);
 }
 function showWorld(key){
@@ -264,7 +289,7 @@ function showWorld(key){
  const panel=$("br-universe-info"),toggle=$("br-universe-record-toggle"),list=$("br-universe-records");
  panel.hidden=false;panel.classList.remove("has-records");
  $("br-universe-kicker").textContent=cfg.kicker;$("br-universe-title").textContent=cfg.title;$("br-universe-copy").textContent=cfg.copy;
- const facts=$("br-universe-facts");facts.replaceChildren();(cfg.facts||[]).forEach(value=>{const chip=document.createElement("span");chip.textContent=value;facts.append(chip);});
+ const facts=$("br-universe-facts");facts.replaceChildren();(cfg.facts||[]).forEach(value=>{const chip=document.createElement("span");chip.textContent=value;facts.append(chip);});if(authenticWorldModelURLs[key]){if(planetGroups[key].userData.authenticModel){const chip=document.createElement("span");chip.textContent="NASA LRO 3D MODEL";facts.append(chip);}else{const chip=document.createElement("span");chip.textContent="Loading NASA LRO model…";facts.append(chip);loadAuthenticWorldModel(key).then(ok=>{if(selected!==key||!chip.isConnected)return;if(ok)chip.textContent="NASA LRO 3D MODEL";else chip.textContent="NASA model unavailable · visual fallback active";});}}
  const moonNav=$("br-universe-moon-nav"),moonButtons=$("br-universe-moon-buttons");moonButtons.replaceChildren();(cfg.moons||[]).forEach(key=>{const b=document.createElement("button");b.type="button";b.textContent=worlds[key].title;b.addEventListener("click",()=>showWorld(key));moonButtons.append(b);});moonNav.hidden=!(cfg.moons&&cfg.moons.length);
  list.replaceChildren();list.hidden=true;
  const records=data.filter(item=>cfg.ids.includes(item.id));
@@ -276,8 +301,8 @@ function showWorld(key){
  const enter=$("br-universe-enter");enter.hidden=!cfg.journey;if(cfg.journey)enter.href=cfg.journey;const land=$("br-universe-land");land.hidden=!surfacePoints[key];
  const p=group.position,radius=worldRadii[key]||1,distance=Math.max(3.2,Math.min(17,radius*5.8));
  focusTarget=p.clone();transitionCameraTo({x:p.x,y:p.y+distance*.34,z:p.z+distance});targetZoom=1;
-}function resetView(){if(surfaceMode){exitSurface();return;}motionPaused=false;syncMotionButton();selected=null;focusTarget=null;transitionCameraTo({x:0,y:22,z:68},1.25);targetZoom=1;targetX=-.08;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
-function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(surfaceMode&&surfaceRoot){const ease=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*ease;rotY+=(targetY-rotY)*ease;surfaceRoot.rotation.set(rotX,rotY,0);const base=cameraGoal||new THREE.Vector3(0,5,14);const desired=base.clone().multiplyScalar(targetZoom);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.94,delta));const aim=(surfaceLookAt||new THREE.Vector3()).clone().applyEuler(surfaceRoot.rotation);camera.lookAt(aim);surfaceHotspots.forEach(h=>{if(h.children[0]){const pulse=1+Math.sin(now*.003+h.userData.phase)*.08;h.children[0].scale.setScalar(pulse);}});renderer.render(scene,camera);return;}if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||new THREE.Vector3(0,18,52);const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
+}function resetView(){if(surfaceMode){exitSurface();return;}motionPaused=false;syncMotionButton();selected=null;focusTarget=null;transitionCameraTo(overviewCameraPosition(),1.25);targetZoom=1;targetX=0;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
+function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(surfaceMode&&surfaceRoot){const ease=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*ease;rotY+=(targetY-rotY)*ease;surfaceRoot.rotation.set(rotX,rotY,0);const base=cameraGoal||new THREE.Vector3(0,5,14);const desired=base.clone().multiplyScalar(targetZoom);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.94,delta));const aim=(surfaceLookAt||new THREE.Vector3()).clone().applyEuler(surfaceRoot.rotation);camera.lookAt(aim);surfaceHotspots.forEach(h=>{if(h.children[0]){const pulse=1+Math.sin(now*.003+h.userData.phase)*.08;h.children[0].scale.setScalar(pulse);}});renderer.render(scene,camera);return;}if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{const rotating=g.userData.authenticModel||g.children[0];if(rotating)rotating.rotation.y+=.00055*delta;});const base=cameraGoal||overviewCameraPosition();const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
 function loadThree(){if(window.THREE)return Promise.resolve(window.THREE);if(window.__brThreePromise)return window.__brThreePromise;window.__brThreePromise=import("https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js").then(T=>{window.THREE=T;return T;}).catch(error=>{window.__brThreePromise=null;throw error;});return window.__brThreePromise;}
 async function openUniverse(event){
  returnFocus=event&&event.currentTarget?event.currentTarget:launcher;overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;$("br-universe-close").focus();$("br-universe-loader").hidden=false;
