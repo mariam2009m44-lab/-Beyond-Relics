@@ -24,7 +24,33 @@ function makeScene(T,id,root){
  scene.add(new T.HemisphereLight(0xc4e2ff,0x3b2b25,2));
  const key=new T.DirectionalLight(0xffd9a6,3);key.position.set(-6,9,8);scene.add(key);
  const rim=new T.DirectionalLight(0x68c9ee,2.3);rim.position.set(7,4,-8);scene.add(rim);
- const ground=new T.Mesh(new T.CircleGeometry(7,64),new T.MeshStandardMaterial({color:id==="lunar-module"||id==="apollo-12-alsep"?0x343943:0x44302b,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-2.8;scene.add(ground);
+ const lunar=id==="lunar-module"||id==="apollo-12-alsep";
+ const mars=["pathfinder-sojourner","spirit","opportunity","phoenix","insight","curiosity"].includes(id);
+ const terrainGeo=new T.PlaneGeometry(54,54,120,120);
+ const pos=terrainGeo.attributes.position;
+ const craters=[[-7,-5,2.5],[-1,8,1.5],[8,3,3.2],[5,-9,1.7],[-11,10,1.2]];
+ for(let i=0;i<pos.count;i++){
+  const x=pos.getX(i),y=pos.getY(i);
+  let h=(Math.sin(x*.31)*Math.cos(y*.27)+Math.sin((x+y)*.18)*.6)*.11;
+  if(mars)h+=Math.sin(x*.13+y*.21)*.22+Math.sin(y*.42)*.06;
+  if(lunar)craters.forEach(([cx,cy,r])=>{const d=Math.hypot(x-cx,y-cy);h-=Math.exp(-Math.pow(d/(r*.72),2))*.48;h+=Math.exp(-Math.pow((d-r)/(r*.16),2))*.12;});
+  pos.setZ(i,h);
+ }
+ terrainGeo.computeVertexNormals();
+ const terrain=new T.Mesh(terrainGeo,new T.MeshStandardMaterial({color:lunar?0x555962:mars?0x794435:0x283441,roughness:.98,metalness:0}));
+ terrain.rotation.x=-Math.PI/2;terrain.position.y=-2.8;scene.add(terrain);
+ const rockMat=new T.MeshStandardMaterial({color:lunar?0x777b80:mars?0x9b5d45:0x4d5863,roughness:1});
+ let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ for(let i=0;i<95;i++){
+  const x=(rand()-.5)*34,z=(rand()-.5)*34;
+  if(Math.abs(x)<2.4&&Math.abs(z)<2.4)continue;
+  const size=.08+rand()*.28;
+  const rock=new T.Mesh(new T.DodecahedronGeometry(size,0),rockMat);
+  rock.position.set(x,-2.68+rand()*.08,z);rock.rotation.set(rand(),rand()*Math.PI,rand());rock.scale.y=.45+rand()*.7;scene.add(rock);
+ }
+ if(lunar){
+  const horizon=new T.Mesh(new T.SphereGeometry(42,32,20),new T.MeshBasicMaterial({color:0x070b12,side:T.BackSide}));horizon.position.y=-2.5;scene.add(horizon);
+ }
  const starGeo=new T.BufferGeometry(),stars=[];for(let i=0;i<450;i++)stars.push((Math.random()-.5)*40,Math.random()*20-1,(Math.random()-.5)*35);starGeo.setAttribute("position",new T.Float32BufferAttribute(stars,3));scene.add(new T.Points(starGeo,new T.PointsMaterial({color:0xcce6ff,size:.045})));
  const rootObj=new T.Group();scene.add(rootObj);
  const metal=new T.MeshStandardMaterial({color:0xb9a17b,metalness:.65,roughness:.38}),foil=new T.MeshStandardMaterial({color:0xb9c5c8,metalness:.72,roughness:.3}),dark=new T.MeshStandardMaterial({color:0x343e48,metalness:.45,roughness:.48}),black=new T.MeshStandardMaterial({color:0x101a26,metalness:.3,roughness:.35}),blue=new T.MeshStandardMaterial({color:0x254c70,metalness:.5,roughness:.22}),solar=new T.MeshStandardMaterial({color:0x173d65,metalness:.5,roughness:.28,emissive:0x07182c});
