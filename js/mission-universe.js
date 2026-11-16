@@ -182,6 +182,30 @@ function transitionCameraTo(position,duration=1.65){
   window.gsap.to(cameraGoal,{x:target.x,y:target.y,z:target.z,duration,ease:"power3.inOut",overwrite:true});
  }else cameraGoal=target;
 }
+const authenticWorldModelURLs={moon:"https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014959/moon_small.glb"};
+const authenticWorldModelPromises={};
+async function loadAuthenticWorldModel(key){
+ const url=authenticWorldModelURLs[key],group=planetGroups[key];
+ if(!url||!group)return false;
+ if(group.userData.authenticModel)return true;
+ if(authenticWorldModelPromises[key])return authenticWorldModelPromises[key];
+ authenticWorldModelPromises[key]=(async()=>{
+  try{
+   const loader=await getSurfaceLoader(),gltf=await loader.loadAsync(url),model=new THREE.Group();
+   model.add(gltf.scene);
+   const bounds=new THREE.Box3().setFromObject(model),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
+   const max=Math.max(size.x,size.y,size.z)||1,scale=(worldRadii[key]*2)/max;
+   model.scale.setScalar(scale);model.position.set(-center.x*scale,-center.y*scale,-center.z*scale);
+   model.userData.world=key;
+   const placeholder=group.children.find(child=>child.isMesh&&child.geometry&&child.geometry.type==="SphereGeometry");
+   if(placeholder){group.remove(placeholder);placeholder.geometry.dispose();const materials=Array.isArray(placeholder.material)?placeholder.material:[placeholder.material];materials.forEach(material=>{if(material.map)material.map.dispose();material.dispose();});}
+   group.add(model);group.userData.authenticModel=model;
+   const chip=document.createElement("span");chip.textContent="NASA LRO 3D MODEL";chip.dataset.modelSource=key;$("br-universe-facts").append(chip);
+   return true;
+  }catch(error){delete authenticWorldModelPromises[key];return false;}
+ })();
+ return authenticWorldModelPromises[key];
+}
 function getSurfaceLoader(){
  if(window.__brSurfaceGLTFLoader)return window.__brSurfaceGLTFLoader;
  window.__brSurfaceGLTFLoader=import("https://cdn.jsdelivr.net/npm/three@0.188.0/examples/jsm/loaders/GLTFLoader.js").then(module=>{gltfLoaderPromise=new module.GLTFLoader();return gltfLoaderPromise;});
@@ -249,14 +273,14 @@ async function enterSurface(key){
  $("br-universe-surface-status").textContent="Building the surface environment and loading NASA 3D models…";
  const list=$("br-universe-surface-points");list.replaceChildren();
  (surfacePoints[key]||[]).forEach(point=>{const button=document.createElement("button");button.type="button";button.className="br-universe-surface-point";button.dataset.point=point.id;button.textContent=point.title;button.addEventListener("click",()=>showSurfacePoint(point.id));list.append(button);});
- rotX=0;rotY=0;targetX=rotX;targetY=rotY;focusTarget=null;surfaceLookAt=new THREE.Vector3(0,0,0);transitionCameraTo({x:0,y:6,z:15},1.5);targetZoom=1;
+ camera.up.set(0,1,0);rotX=0;rotY=0;targetX=rotX;targetY=rotY;focusTarget=null;surfaceLookAt=new THREE.Vector3(0,0,0);transitionCameraTo({x:0,y:6,z:15},1.5);targetZoom=1;
  const group=surfaceGroups[key];if(group)group.visible=true;else await ensureSurface(key);
  surfaceHotspots=[];surfaceGroups[key].traverse(object=>{if(object.userData&&object.userData.surfacePoint)surfaceHotspots.push(object);});
  scene.rotation.set(0,0,0);
  if(key==="moon")showSurfacePoint("lunar-module");else showSurfacePoint("opportunity");
 }
 function exitSurface(){
- if(!surfaceMode)return;const key=surfaceWorldKey;surfaceMode=false;surfaceWorldKey=null;surfaceRoot.visible=false;scene.children.forEach(object=>{if(object!==surfaceRoot)object.visible=true;});
+ if(!surfaceMode)return;const key=surfaceWorldKey;surfaceMode=false;surfaceWorldKey=null;camera.up.set(0,0,-1);surfaceRoot.visible=false;scene.children.forEach(object=>{if(object!==surfaceRoot)object.visible=true;});
  overlay.classList.remove("br-universe-surface-active");$("br-universe-surface-panel").hidden=true;surfaceLookAt=null;resetView();if(key)showWorld(key);
 }
 function showWorld(key){
@@ -265,7 +289,7 @@ function showWorld(key){
  const panel=$("br-universe-info"),toggle=$("br-universe-record-toggle"),list=$("br-universe-records");
  panel.hidden=false;panel.classList.remove("has-records");
  $("br-universe-kicker").textContent=cfg.kicker;$("br-universe-title").textContent=cfg.title;$("br-universe-copy").textContent=cfg.copy;
- const facts=$("br-universe-facts");facts.replaceChildren();(cfg.facts||[]).forEach(value=>{const chip=document.createElement("span");chip.textContent=value;facts.append(chip);});
+ const facts=$("br-universe-facts");facts.replaceChildren();(cfg.facts||[]).forEach(value=>{const chip=document.createElement("span");chip.textContent=value;facts.append(chip);});if(authenticWorldModelURLs[key]&&!planetGroups[key].userData.authenticModel){const chip=document.createElement("span");chip.textContent="Loading NASA LRO model…";facts.append(chip);loadAuthenticWorldModel(key).then(ok=>{if(!chip.isConnected)return;if(ok)chip.remove();else chip.textContent="NASA model unavailable · visual fallback active";});}
  const moonNav=$("br-universe-moon-nav"),moonButtons=$("br-universe-moon-buttons");moonButtons.replaceChildren();(cfg.moons||[]).forEach(key=>{const b=document.createElement("button");b.type="button";b.textContent=worlds[key].title;b.addEventListener("click",()=>showWorld(key));moonButtons.append(b);});moonNav.hidden=!(cfg.moons&&cfg.moons.length);
  list.replaceChildren();list.hidden=true;
  const records=data.filter(item=>cfg.ids.includes(item.id));
@@ -278,7 +302,7 @@ function showWorld(key){
  const p=group.position,radius=worldRadii[key]||1,distance=Math.max(3.2,Math.min(17,radius*5.8));
  focusTarget=p.clone();transitionCameraTo({x:p.x,y:p.y+distance*.34,z:p.z+distance});targetZoom=1;
 }function resetView(){if(surfaceMode){exitSurface();return;}motionPaused=false;syncMotionButton();selected=null;focusTarget=null;transitionCameraTo(overviewCameraPosition(),1.25);targetZoom=1;targetX=0;targetY=0;$("br-universe-info").hidden=true;$("br-universe-info").classList.remove("has-records");$("br-universe-records").hidden=true;$("br-universe-record-toggle").setAttribute("aria-expanded","false");$("br-universe-intro").classList.remove("is-away");document.querySelectorAll(".br-universe-stop").forEach(b=>b.setAttribute("aria-pressed","false"));}
-function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(surfaceMode&&surfaceRoot){const ease=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*ease;rotY+=(targetY-rotY)*ease;surfaceRoot.rotation.set(rotX,rotY,0);const base=cameraGoal||new THREE.Vector3(0,5,14);const desired=base.clone().multiplyScalar(targetZoom);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.94,delta));const aim=(surfaceLookAt||new THREE.Vector3()).clone().applyEuler(surfaceRoot.rotation);camera.lookAt(aim);surfaceHotspots.forEach(h=>{if(h.children[0]){const pulse=1+Math.sin(now*.003+h.userData.phase)*.08;h.children[0].scale.setScalar(pulse);}});renderer.render(scene,camera);return;}if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{if(g.children[0])g.children[0].rotation.y+=.00055*delta;});const base=cameraGoal||overviewCameraPosition();const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
+function startLoop(){if(raf)return;const frame=(now=0)=>{if(!active){raf=0;return;}raf=requestAnimationFrame(frame);const delta=frame.lastTime?Math.min((now-frame.lastTime)/16.667,2):1;frame.lastTime=now;if(surfaceMode&&surfaceRoot){const ease=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*ease;rotY+=(targetY-rotY)*ease;surfaceRoot.rotation.set(rotX,rotY,0);const base=cameraGoal||new THREE.Vector3(0,5,14);const desired=base.clone().multiplyScalar(targetZoom);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.94,delta));const aim=(surfaceLookAt||new THREE.Vector3()).clone().applyEuler(surfaceRoot.rotation);camera.lookAt(aim);surfaceHotspots.forEach(h=>{if(h.children[0]){const pulse=1+Math.sin(now*.003+h.userData.phase)*.08;h.children[0].scale.setScalar(pulse);}});renderer.render(scene,camera);return;}if(!reduced.matches&&!motionPaused&&!dragging){targetY+=.00022*delta;moonAngle+=.00105*delta;planetGroups.moon.position.set(-11+Math.cos(moonAngle)*2.8,.35,-1+Math.sin(moonAngle)*2.8);}if(!reduced.matches&&!motionPaused&&!dragging){orbitingMoons.forEach(m=>{const a=now*.001*m.speed*60+m.phase;m.group.position.set(m.center.x+Math.cos(a)*m.distance,m.center.y+.04,m.center.z+Math.sin(a)*m.distance*.82);});}if(focusTarget&&selected&&planetGroups[selected])focusTarget.copy(planetGroups[selected].position);const easing=1-Math.pow(.955,delta);rotX+=(targetX-rotX)*easing;rotY+=(targetY-rotY)*easing;scene.rotation.set(rotX,rotY,0);Object.values(planetGroups).forEach(g=>{const rotating=g.userData.authenticModel||g.children[0];if(rotating)rotating.rotation.y+=.00055*delta;});const base=cameraGoal||overviewCameraPosition();const desired=new THREE.Vector3(base.x*targetZoom,base.y*targetZoom,base.z*targetZoom);if(focusTarget)desired.applyEuler(scene.rotation);camera.position.lerp(desired,reduced.matches?1:1-Math.pow(.965,delta));const aim=focusTarget?focusTarget.clone().applyEuler(scene.rotation):new THREE.Vector3(0,0,-5);camera.lookAt(aim);renderer.render(scene,camera);};frame();}
 function loadThree(){if(window.THREE)return Promise.resolve(window.THREE);if(window.__brThreePromise)return window.__brThreePromise;window.__brThreePromise=import("https://cdn.jsdelivr.net/npm/three@0.188.0/build/three.module.js").then(T=>{window.THREE=T;return T;}).catch(error=>{window.__brThreePromise=null;throw error;});return window.__brThreePromise;}
 async function openUniverse(event){
  returnFocus=event&&event.currentTarget?event.currentTarget:launcher;overlay.classList.add("is-open");overlay.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";active=true;$("br-universe-close").focus();$("br-universe-loader").hidden=false;
