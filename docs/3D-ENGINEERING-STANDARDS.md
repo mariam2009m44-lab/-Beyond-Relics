@@ -62,3 +62,13 @@ This document records the implementation patterns used by the Solar Frontiers Ex
 - Navigate the explorer using Tab, Shift+Tab, Escape, arrow keys, +, -, and 0.
 - Verify that closing the modal returns focus to its launch button.
 - Check at least one official NASA model and one artistic reconstruction; fidelity labels must remain distinct.
+
+
+## 8. PBR artifact exhibit lighting
+
+- Procedural exhibit materials use a metallic/roughness workflow rather than unlit color-only surfaces.
+- A small generated studio cube environment provides reflection cues for metallic foil and painted surfaces; it is a neutral rendering aid, not a photograph or NASA asset.
+- Use a restrained key/fill/rim lighting rig and ACES tone mapping; avoid excessive bloom or post-processing on mobile.
+- Official GLB models keep their original geometry and receive only the viewer's neutral studio environment, exposure, and shadow presentation.
+- Add fine photovoltaic cell segmentation only to the project's artistic rover reconstructions; do not imply it is a measured engineering drawing.
+- Keep the lighting environment generated at runtime and dispose it with the scene.
