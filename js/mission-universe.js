@@ -364,6 +364,7 @@ function ensureSurface(key){
  records.forEach((point,i)=>addSurfaceMarker(group,point,positions[i]||[i*2,.45,0],i));
  if(key==="moon"){
   const ok=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb","lunar-module",[-3,0,0],4.2);
+  group.userData.modelLoadResults=[ok];
   if(surfaceMode&&surfaceWorldKey===key){
    if(!ok)$("br-universe-surface-status").textContent="NASA's 3D lander model could not be loaded right now. The interactive landing-site markers are still available.";
    else $("br-universe-surface-status").textContent="NASA 3D model loaded · Apollo Lunar Module · Select a glowing field marker to inspect the mission.";
@@ -371,6 +372,7 @@ function ensureSurface(key){
  }else{
   const ok=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-exploration-rover---opportunity-%28mer-b%29/Mars%20Exploration%20Rover%20-%20Opportunity%20%28MER-B%29.glb","opportunity",[0,0,-2],3.6);
   const insight=await loadSurfaceModel(group,"https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/insight-cruise-lander/InSight%20Cruise%20Lander%20%28arm%20deployed%29.glb","insight",[4,0,1],3.1);
+  group.userData.modelLoadResults=[ok,insight];
   if(surfaceMode&&surfaceWorldKey===key)$("br-universe-surface-status").textContent=ok&&insight?"NASA 3D models loaded · Opportunity and InSight · Select a glowing field marker to inspect the mission.":"NASA model service is unavailable for one or more objects. The mission markers remain interactive.";
  }
  })();
@@ -409,6 +411,9 @@ async function enterSurface(key){
  try{await ensureSurface(key);}catch(error){if(surfaceMode&&surfaceWorldKey===key)$("br-universe-surface-status").textContent="The surface scene could not finish loading. Return to the planet and try again.";return;}
  if(!surfaceMode||surfaceWorldKey!==key)return;
  Object.values(surfaceGroups).forEach(group=>group.visible=false);surfaceGroups[key].visible=true;
+ const modelResults=surfaceGroups[key].userData.modelLoadResults||[];
+ if(key==="moon")$("br-universe-surface-status").textContent=modelResults[0]?"NASA 3D model loaded · Apollo Lunar Module · Select a glowing field marker to inspect the mission.":"NASA 3D lander model unavailable · Interactive landing-site markers remain available.";
+ else $("br-universe-surface-status").textContent=modelResults.length===2&&modelResults.every(Boolean)?"NASA 3D models loaded · Opportunity and InSight · Select a glowing field marker to inspect the mission.":"One or more NASA models are unavailable · Interactive mission markers remain available.";
  surfaceHotspots=[];surfaceGroups[key].traverse(object=>{if(object.userData&&object.userData.surfacePoint)surfaceHotspots.push(object);});
  scene.rotation.set(0,0,0);
  if(key==="moon")showSurfacePoint("lunar-module");else showSurfacePoint("opportunity");
