@@ -81,3 +81,10 @@
  .comic-world-detail{right:8px;bottom:8px;max-width:46%;font-size:.58rem}
 }
 @media(prefers-reduced-motion:reduce){.comic-world-canvas{cursor:default}}
+
+.comic-world-detail{display:flex;flex-direction:column;gap:7px;pointer-events:auto}
+.comic-world-detail strong{color:#f0f7fb;font:750 .75rem/1.35 system-ui,sans-serif}
+.comic-world-detail span{color:#d8b985;font:750 .48rem/1.4 system-ui,sans-serif;letter-spacing:.08em}
+.comic-world-detail a{align-self:flex-start;display:inline-flex;align-items:center;min-height:38px;padding:0 11px;border:1px solid #75d8f0;border-radius:7px;background:#12354a;color:#e7faff;text-decoration:none;font:800 .56rem/1 system-ui,sans-serif;letter-spacing:.05em}
+.comic-world-detail a:hover{background:#1b4b62}
+.comic-world-detail a:focus-visible{outline:3px solid #b7eeff;outline-offset:3px}
