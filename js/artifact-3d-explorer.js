@@ -149,8 +149,11 @@ async function mountOfficialModel(root,item,loading,canvas){
  const instructions=root.querySelector(".artifact-3d-foot span:last-child");if(instructions)instructions.textContent="Drag to orbit · Pinch or scroll to zoom";
  const parts=root.querySelector(".artifact-3d-parts");if(parts)parts.setAttribute("aria-label","Voyager component guide");
  const explode=root.querySelector("[data-view-explode]");if(explode)explode.hidden=true;
- const reset=root.querySelector("[data-view-reset]");if(reset)reset.addEventListener("click",()=>{viewer.cameraOrbit="0deg 75deg auto";viewer.cameraTarget="auto";viewer.fieldOfView="auto";viewer.jumpCameraToGoal();});
+ const reset=root.querySelector("[data-view-reset]");if(reset)reset.addEventListener("click",()=>{viewer.cameraOrbit="0deg 75deg auto";viewer.cameraTarget="auto";viewer.fieldOfView="auto";modelFov=45;viewer.jumpCameraToGoal();});
  const rotate=root.querySelector("[data-view-rotate]");if(rotate)rotate.addEventListener("click",()=>{const on=!viewer.hasAttribute("auto-rotate");if(on)viewer.setAttribute("auto-rotate","");else viewer.removeAttribute("auto-rotate");rotate.setAttribute("aria-pressed",String(on));rotate.textContent=on?"Pause rotation":"Auto rotate";});
+ const zoomIn=root.querySelector("[data-view-zoom-in]"),zoomOut=root.querySelector("[data-view-zoom-out]");let modelFov=45;
+ if(zoomIn)zoomIn.addEventListener("click",()=>{modelFov=Math.max(20,modelFov-5);viewer.fieldOfView=modelFov+"deg";});
+ if(zoomOut)zoomOut.addEventListener("click",()=>{modelFov=Math.min(65,modelFov+5);viewer.fieldOfView=modelFov+"deg";});
  return true;
 }
 function mount(root,item){
@@ -166,6 +169,8 @@ function mount(root,item){
  function frame(){if(!active||!renderer)return;raf=requestAnimationFrame(frame);if(autoRotate&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&!drag)targetY+=.0012;rotX+=(targetX-rotX)*(window.matchMedia("(prefers-reduced-motion: reduce)").matches?1:.08);rotY+=(targetY-rotY)*(window.matchMedia("(prefers-reduced-motion: reduce)").matches?1:.08);world.rootObj.rotation.set(rotX,rotY,0);world.camera.position.set(7*zoom,5*zoom,13*zoom);world.camera.lookAt(0,-.1,0);renderer.render(world.scene,world.camera);}frame();
  });}).catch(()=>{loading.textContent="3D preview is unavailable here. The verified mission record and source links remain below.";loading.classList.add("is-error");});
  buttons.forEach((b,i)=>b.addEventListener("click",()=>setInfo(i)));
+ root.querySelector("[data-view-zoom-in]").addEventListener("click",()=>{zoom=Math.max(.7,zoom-.12);});
+ root.querySelector("[data-view-zoom-out]").addEventListener("click",()=>{zoom=Math.min(1.6,zoom+.12);});
  root.querySelector("[data-view-reset]").addEventListener("click",()=>{targetX=-.12;targetY=.45;zoom=1;autoRotate=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(rotateButton){rotateButton.setAttribute("aria-pressed",String(autoRotate));rotateButton.textContent=autoRotate?"Pause rotation":"Auto rotate";}setInfo(0);});
  root.querySelector("[data-view-explode]").addEventListener("click",()=>{if(!world)return;exploded=!exploded;const g=world.groups.upper;if(g){g.position.y=exploded?2.1:0;}const b=root.querySelector("[data-view-explode]");b.setAttribute("aria-pressed",String(exploded));b.textContent=exploded?"Reassemble":"Separate components";});
  canvas.addEventListener("pointerdown",e=>{drag=true;autoRotate=false;if(rotateButton){rotateButton.setAttribute("aria-pressed","false");rotateButton.textContent="Auto rotate";}lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
