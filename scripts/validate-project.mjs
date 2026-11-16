@@ -27,6 +27,7 @@ const universe3d = read("js/mission-universe.js");
 check(artifact3d.includes("frame.lastTime") && universe3d.includes("frame.lastTime"), "3D camera and object motion use frame-rate independent delta time");
 check(artifact3d.includes("webglcontextlost") && artifact3d.includes("webglcontextrestored") && universe3d.includes("webglcontextlost") && universe3d.includes("webglcontextrestored"), "Both 3D experiences handle WebGL context loss and restoration");
 check(artifact3d.includes("resumeFrame=()=>frame()"), "Artifact viewer can resume its render loop after a restored WebGL context");
+check(artifact3d.includes("if(document.hidden){active=false;cancelAnimationFrame(raf);raf=0;}else{active=true;if(renderer&&resumeFrame)resumeFrame();}"), "Artifact viewer correctly pauses and resumes after tab visibility changes");
 check(universe3d.includes('canvas.addEventListener("keydown"') && universe3d.includes('canvas[tabindex]'), "Solar explorer supports keyboard camera controls and includes its canvas in the modal focus loop");
 check(artifact3d.includes("geometries.forEach(geometry=>geometry.dispose())") && universe3d.includes("geometries.forEach(geometry=>geometry.dispose())"), "3D scene geometry and material resources are explicitly disposed on page exit");
 check(exists("docs/3D-ENGINEERING-STANDARDS.md"), "3D engineering standards and review checklist are documented");
