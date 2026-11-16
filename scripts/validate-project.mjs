@@ -36,6 +36,7 @@ const layoutPages = ["index.html","artifacts.html","timeline.html","challenge.ht
 for (const page of layoutPages) {
   check(read(page).includes("css/layout-consistency.css"), "Final responsive layout layer is included on " + page);
 }
+check(layoutConsistency.includes(".nav>nav{") && layoutConsistency.includes("overflow-x:auto") && layoutConsistency.includes("scrollbar-width:none") && layoutConsistency.includes("@media(prefers-reduced-motion:reduce)"), "Shared navigation remains horizontally reachable, touch-scrollable, and reduced-motion aware on compact screens");
 check(layoutConsistency.includes("@media(max-width:650px)") && layoutConsistency.includes("@media(max-width:390px)"), "Final layout layer includes compact phone and narrow-device breakpoints");
 check(layoutConsistency.includes("min-height:44px") && layoutConsistency.includes(":focus-visible"), "Final layout layer preserves touch targets and visible keyboard focus");
 check(layoutConsistency.includes("prefers-reduced-motion:reduce"), "Final layout layer respects reduced-motion preferences");
