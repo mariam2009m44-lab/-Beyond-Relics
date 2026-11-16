@@ -118,9 +118,9 @@ function makeScene(T,id,root){
   }
   return body;
  }
- function lander(name="body"){
+ function lander(name="body",legCount=4){
   const base=group(name);cyl(base,1.15,1.2,.38,metal,[0,-.45,0],8);cyl(base,.75,.8,.7,foil,[0,.05,0],8);cyl(base,.42,.48,.45,dark,[0,.58,0],8);
-  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;base.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
+  for(let i=0;i<legCount;i++){const a=(Math.PI*2/legCount)*i+Math.PI/4,x=Math.cos(a),z=Math.sin(a);const leg=new T.Group();leg.position.set(x*.8,-.55,z*.8);leg.rotation.z=-x*.45;leg.rotation.x=z*.45;base.add(leg);cyl(leg,.045,.065,1.25,foil,[0,-.55,0]);box(leg,[.48,.07,.3],metal,[x*.2,-1.12,z*.2]);}
   return base;
  }
  if(id==="lunar-module"){
@@ -138,7 +138,6 @@ function makeScene(T,id,root){
   cyl(station,.035,.035,.8,metal,[0,1.52,0],10);
   const instruments=[[-1.35,-.82,-.35],[1.25,-.82,-.35],[1.35,-.82,.55],[-1.25,-.82,.62]];
   instruments.forEach((p,i)=>box(station,[.34,.22,.3],i%2?dark:foil,p));
-  for(let i=0;i<3;i++){const a=i*2.094;box(station,[.78,.055,.52],solar,[Math.cos(a)*1.42,-.62,Math.sin(a)*1.42],[0,-a,0]);}
   cyl(station,.11,.11,.18,foil,[.45,-.17,.12],16);
  }else if(id==="pathfinder-sojourner"){
   const pathfinder=lander("lander");pathfinder.position.set(-2.05,-.2,0);
@@ -146,7 +145,7 @@ function makeScene(T,id,root){
   const sojourner=rover(false,"rover");sojourner.position.x=2.05;sojourner.scale.set(.72,.72,.72);
  }else if(["spirit","opportunity","curiosity"].includes(id)){rover(id==="curiosity");}
  else if(["phoenix","insight"].includes(id)){
-  lander();const p=groups.body;
+  lander("body",3);const p=groups.body;
   if(id==="insight"){
    // InSight's two deployed solar wings and instrument-placement arm.
    for(const side of [-1,1]){
