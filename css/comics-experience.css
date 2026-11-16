@@ -88,3 +88,20 @@
 .comic-world-detail a{align-self:flex-start;display:inline-flex;align-items:center;min-height:38px;padding:0 11px;border:1px solid #75d8f0;border-radius:7px;background:#12354a;color:#e7faff;text-decoration:none;font:800 .56rem/1 system-ui,sans-serif;letter-spacing:.05em}
 .comic-world-detail a:hover{background:#1b4b62}
 .comic-world-detail a:focus-visible{outline:3px solid #b7eeff;outline-offset:3px}
+
+/* Full-stage 3D exploration mode: the comic artwork remains intact and can be restored. */
+.comic-world-toggle{min-height:38px;padding:0 12px;border:1px solid #8bdcf0;border-radius:999px;background:#123448;color:#e8faff;font:800 .58rem/1 system-ui,sans-serif;letter-spacing:.08em;cursor:pointer}
+.comic-world-toggle:hover,.comic-world-toggle[aria-pressed=true]{background:#1c526a;border-color:#b9f2ff}
+.comic-world-toggle:focus-visible{outline:3px solid #b9f2ff;outline-offset:3px}
+.reader-stage.is-world-mode{background:#030914;cursor:grab}
+.reader-stage.is-world-mode .reader-image-wrap{opacity:0;pointer-events:none;transform:scale(.96);transition:opacity .45s ease,transform .45s ease}
+.reader-stage.is-world-mode .reader-caption,.reader-stage.is-world-mode .reader-arrow{opacity:0;pointer-events:none}
+.reader-stage.is-world-mode .comic-world-canvas{z-index:1;pointer-events:auto}
+.reader-stage.is-world-mode .comic-world-hud{z-index:6}
+.reader-stage.is-world-mode .comic-world-detail{z-index:8}
+.reader-stage.is-world-mode .cinema-controls{z-index:9}
+@media(max-width:700px){
+ .comic-world-toggle{min-height:42px;padding:0 10px;font-size:.54rem}
+ .comic-world-hud{max-width:55%}
+}
+@media(prefers-reduced-motion:reduce){.reader-stage.is-world-mode .reader-image-wrap{transition:none}}
