@@ -35,7 +35,6 @@
     opacity var(--br-motion-duration) var(--br-motion-ease),
     transform var(--br-motion-duration) var(--br-motion-ease);
   transition-delay: var(--br-motion-delay, 0ms);
-  will-change: opacity, transform;
 }
 .motion-ready [data-motion-reveal].is-motion-visible {
   opacity: 1;
@@ -46,6 +45,16 @@
 .motion-ready [data-motion-reveal][data-motion-direction="left"].is-motion-visible,
 .motion-ready [data-motion-reveal][data-motion-direction="right"].is-motion-visible {
   transform: translate3d(0,0,0);
+}
+
+/* Draw the real Apollo waveform only after its chart enters the viewport. */
+.motion-ready [data-wave-chart] .br-wave-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.35s var(--br-motion-ease);
+}
+.motion-ready [data-wave-chart].is-wave-drawn .br-wave-line {
+  stroke-dashoffset: 0;
 }
 
 /* Responsive, tactile feedback without changing component dimensions. */
