@@ -1,0 +1,41 @@
+/* Beyond Relics — scroll-linked mission timeline progression. */
+.tl.br-timeline-motion-ready::before{
+ background:var(--line);
+}
+.tl.br-timeline-motion-ready::after{
+ content:"";
+ position:absolute;
+ top:0;
+ bottom:0;
+ left:50%;
+ width:2px;
+ z-index:1;
+ pointer-events:none;
+ background:linear-gradient(180deg,var(--rust),var(--rust));
+ box-shadow:0 0 12px rgba(99,213,229,.2);
+ transform:translateX(-50%) scaleY(var(--br-timeline-progress,0));
+ transform-origin:top center;
+}
+.tl.br-timeline-motion-ready .tl-item{
+ z-index:2;
+ transition:opacity .7s,translate .7s,border-color .32s ease,box-shadow .32s ease;
+}
+.tl.br-timeline-motion-ready .tl-item.is-timeline-active{
+ border-color:rgba(99,213,229,.52);
+ box-shadow:0 16px 40px rgba(0,0,0,.24),0 0 0 1px rgba(99,213,229,.1);
+}
+.tl.br-timeline-motion-ready .tl-item.is-timeline-active::after{
+ box-shadow:0 0 0 4px rgba(99,213,229,.1),0 0 16px rgba(99,213,229,.38);
+}
+@media(max-width:900px){
+ .tl.br-timeline-motion-ready::after{left:.5rem}
+}
+@media(prefers-reduced-motion:reduce){
+ .tl.br-timeline-motion-ready::after{display:none}
+ .tl.br-timeline-motion-ready .tl-item,
+ .tl.br-timeline-motion-ready .tl-item.is-timeline-active{
+  transition:none;
+  box-shadow:none;
+  border-color:var(--line);
+ }
+}
